@@ -263,13 +263,22 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
                           {t('Summary')}
                         </NavLink>
                         <NavLink
-                          to="/stock/details"
+                          to="/stock/detailsLot"
                           className={({ isActive }) => `
                     block rounded-md px-2 py-1.5 text-sm transition-colors
                     ${isActive ? 'bg-primary-50 text-primary font-medium' : 'text-gray-600 hover:bg-gray-100'}
                   `}
                         >
-                          {t('Details')}
+                          {t('Details by Lot')}
+                        </NavLink>
+                        <NavLink
+                          to="/stock/detailsLotBatch"
+                          className={({ isActive }) => `
+                    block rounded-md px-2 py-1.5 text-sm transition-colors
+                    ${isActive ? 'bg-primary-50 text-primary font-medium' : 'text-gray-600 hover:bg-gray-100'}
+                  `}
+                        >
+                          {t('Details by Lot Batch')}
                         </NavLink>
                       </div>
                     </motion.div>

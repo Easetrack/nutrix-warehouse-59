@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,8 +5,11 @@ import { Download, Search, Filter, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from '@/hooks/use-toast';
-import { FilterSearch, FilterValues } from "@/components/ui/custom/FilterSearch";
+import { useToast } from "@/hooks/use-toast";
+import {
+  FilterSearch,
+  FilterValues,
+} from "@/components/ui/custom/FilterSearch";
 import { Loading } from "@/components/ui/custom/loading";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
@@ -25,16 +27,17 @@ const SummaryStockUpdate = () => {
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
-  const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
-    searchTerm: searchTerm,
-    warehouse: selectedWarehouse,
-    zone: selectedZone,
-    area: selectedArea,
-    category: selectedCategory,
-    uom: "All UoMs",
-  });
+  const [advancedFilterValues, setAdvancedFilterValues] =
+    useState<FilterValues>({
+      searchTerm: searchTerm,
+      warehouse: selectedWarehouse,
+      zone: selectedZone,
+      area: selectedArea,
+      category: selectedCategory,
+      uom: "All UoMs",
+    });
 
-  const { 
+  const {
     stockItems,
     filteredItems,
     isLoading,
@@ -55,7 +58,7 @@ const SummaryStockUpdate = () => {
     setSelectedWarehouse: setStockSelectedWarehouse,
     setSelectedZone: setStockSelectedZone,
     setSelectedArea: setStockSelectedArea,
-    setSelectedCategory: setStockSelectedCategory
+    setSelectedCategory: setStockSelectedCategory,
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
@@ -166,8 +169,8 @@ const SummaryStockUpdate = () => {
             <Download size={16} />
             <span>Export</span>
           </Button>
-          
-          <FilterSearch 
+
+          <FilterSearch
             onSearch={handleAdvancedSearch}
             onClear={handleAdvancedClear}
             initialValues={advancedFilterValues}
@@ -182,49 +185,44 @@ const SummaryStockUpdate = () => {
 
       {showFilters && (
         <motion.div variants={itemVariants}>
-          <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-                <div className="lg:col-span-4">
-                  <div className="flex w-full items-center space-x-2">
-                    <Input
-                      type="text"
-                      placeholder="Search by product name, barcode, or ID"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full"
-                    />
-                  </div>
+          <div className="mb-6 rounded-lg border border-gray-200 bg-white shadow">
+            <div className="p-6">
+              <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+                <div className="relative flex-grow">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
                 </div>
-
-                <div className="flex space-x-2 lg:col-span-1">
-                  <Button
-                    variant="default"
+                <div className="flex space-x-2">
+                  <button
                     onClick={handleSearch}
-                    className="flex-1 space-x-1 bg-primary"
+                    className="flex items-center justify-center space-x-1 rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                   >
                     <Search size={16} />
                     <span>Search</span>
-                  </Button>
-                  <Button
-                    variant="outline"
+                  </button>
+                  <button
                     onClick={handleClear}
-                    className="flex-1 space-x-1"
+                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                   >
                     <RefreshCcw size={16} />
                     <span>Clear</span>
-                  </Button>
+                  </button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </motion.div>
       )}
 
       <motion.div variants={itemVariants}>
         <Card>
-          <CardContent className="p-6">
-            <StockItemsTable 
+          <CardContent className="p-2">
+            <StockItemsTable
               filteredItems={filteredItems}
               sortColumn={sortColumn}
               sortDirection={sortDirection}
@@ -263,10 +261,10 @@ const SummaryStockUpdate = () => {
         </Card>
       </motion.div>
 
-      <StockItemDetailsDialog 
-        isOpen={isDetailOpen} 
-        setIsOpen={setIsDetailOpen} 
-        selectedItem={selectedItem} 
+      <StockItemDetailsDialog
+        isOpen={isDetailOpen}
+        setIsOpen={setIsDetailOpen}
+        selectedItem={selectedItem}
       />
     </motion.div>
   );

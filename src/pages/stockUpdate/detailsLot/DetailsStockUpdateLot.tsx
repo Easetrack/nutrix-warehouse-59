@@ -44,11 +44,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
+import {
+  FilterSearch,
+  FilterValues,
+} from "@/components/ui/custom/FilterSearch";
 
 import { Loading } from "@/components/ui/custom/loading";
+import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItem, StockResponse } from "@/types/stock";
 import { authenticatedFetch } from "@/utils/auth";
+import { useStockData } from "./hooks/useStockData";
 
 // Mock data for additional filters
 const warehouses = [
@@ -86,19 +92,44 @@ const StockUpdate = () => {
   const [selectedZone, setSelectedZone] = useState("All Zones");
   const [selectedArea, setSelectedArea] = useState("All Areas");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [stockItems, setStockItems] = useState<StockItem[]>([]);
-  const [filteredItems, setFilteredItems] = useState<StockItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
+  const [advancedFilterValues, setAdvancedFilterValues] =
+    useState<FilterValues>({
+      searchTerm: searchTerm,
+      warehouse: selectedWarehouse,
+      zone: selectedZone,
+      area: selectedArea,
+      category: selectedCategory,
+      uom: "All UoMs",
+    });
+
+  const {
+    stockItems,
+    filteredItems,
+    isLoading,
+    error,
+    currentPage,
+    totalPages,
+    totalCount,
+    sortColumn,
+    sortDirection,
+    fetchStockData,
+    handleSort,
+    handleNextPage,
+    handlePreviousPage,
+    setCurrentPage,
+    setSortColumn,
+    setSortDirection,
+    setSearchTerm: setStockSearchTerm,
+    setSelectedWarehouse: setStockSelectedWarehouse,
+    setSelectedZone: setStockSelectedZone,
+    setSelectedArea: setStockSelectedArea,
+    setSelectedCategory: setStockSelectedCategory,
+  } = useStockData();
+
   const [perPage, setPerPage] = useState(10);
-  const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
 
   useEffect(() => {
@@ -119,7 +150,7 @@ const StockUpdate = () => {
           setLocationId(parsedWarehouse.id);
         }
       } catch (error) {
-        console.error('Error parsing stored warehouse:', error);
+        console.error("Error parsing stored warehouse:", error);
       }
     }
 
@@ -134,75 +165,34 @@ const StockUpdate = () => {
 
     // Add search filters if set
     if (searchTerm) {
-      queryParams.append('searchByProductName', searchTerm);
-      queryParams.append('searchByBarcode', searchTerm);
-      queryParams.append('searchByProductId', searchTerm);
+      queryParams.append("searchByProductName", searchTerm);
+      queryParams.append("searchByBarcode", searchTerm);
+      queryParams.append("searchByProductId", searchTerm);
     }
 
     // Add category filter if not "All Categories"
     if (selectedCategory !== "All Categories") {
-      queryParams.append('searchByCategory', selectedCategory);
+      queryParams.append("searchByCategory", selectedCategory);
     }
 
     // Add zone filter if not "All Zones"
     if (selectedZone !== "All Zones") {
-      queryParams.append('zoneId', selectedZone.replace('Zone ', ''));
+      queryParams.append("zoneId", selectedZone.replace("Zone ", ""));
     }
 
     // Add area filter if not "All Areas"
     if (selectedArea !== "All Areas") {
-      queryParams.append('areaId', selectedArea);
+      queryParams.append("areaId", selectedArea);
     }
 
     // Add sorting parameters if set
     if (sortColumn) {
-      const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
+      const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)
+        }`;
       queryParams.append(sortParam, sortDirection);
     }
 
     return queryParams;
-  };
-
-  const fetchStockData = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const queryParams = buildQueryParams();
-
-      const response = await authenticatedFetch(
-        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`,
-        {
-          headers: {
-            'x-location': locationId,
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch stock data: ${response.status}`);
-      }
-
-      const data: StockResponse = await response.json();
-
-      // Handle null items from API response
-      const items = data.items || [];
-      setStockItems(items);
-      setFilteredItems(items);
-      setTotalPages(data.totalPages || 1);
-      setTotalCount(data.totalCount || 0);
-      setPerPage(data.perPage || 10);
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      setError("Failed to load stock data. Please try again.");
-      toast({
-        title: "Error",
-        description: "Failed to load stock data. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   useEffect(() => {
@@ -228,15 +218,6 @@ const StockUpdate = () => {
     } else {
       setSelectedItems([...selectedItems, id]);
     }
-  };
-
-  const handleSort = (column: string) => {
-    const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortColumn(column);
-    setSortDirection(newDirection);
-    // Re-fetch data with new sort parameters
-    setCurrentPage(1); // Reset to first page when sorting changes
-    fetchStockData();
   };
 
   const handleViewDetail = (item: StockItem) => {
@@ -269,20 +250,27 @@ const StockUpdate = () => {
     });
   };
 
+  const handleAdvancedSearch = (filters: FilterValues) => {
+    setSearchTerm(filters.searchTerm);
+    setStockSearchTerm(filters.searchTerm);
+    setSelectedWarehouse(filters.warehouse);
+    setStockSelectedWarehouse(filters.warehouse);
+    setSelectedZone(filters.zone);
+    setStockSelectedZone(filters.zone);
+    setSelectedArea(filters.area);
+    setStockSelectedArea(filters.area);
+    setSelectedCategory(filters.category);
+    setStockSelectedCategory(filters.category);
+    setCurrentPage(1); // Reset to first page on new search
+    fetchStockData();
+  };
+
+  const handleAdvancedClear = () => {
+    handleClear();
+  };
+
   const toggleFilters = () => {
     setShowFilters(!showFilters);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
   };
 
   const renderSortIndicator = (column: string) => {
@@ -352,359 +340,65 @@ const StockUpdate = () => {
             <Download size={16} />
             <span>Export</span>
           </Button>
-          <Button
-            variant="outline"
-            onClick={handleExport}
-            className="flex-1 space-x-1"
-          >
-            <Filter className="h-4 w-4" />
-          </Button>
-          {/* <Label htmlFor="showFilters" className="text-sm">
-            Show Filters
-          </Label>
-          <Switch
-            id="showFilters"
-            checked={showFilters}
-            onCheckedChange={toggleFilters}
-          /> */}
+          <FilterSearch
+            onSearch={handleAdvancedSearch}
+            onClear={handleAdvancedClear}
+            initialValues={advancedFilterValues}
+            trigger={
+              <Button variant="outline" className="space-x-1">
+                <Filter className="h-4 w-4" />
+              </Button>
+            }
+          />
         </div>
       </motion.div>
-
-      {/* {showFilters && (
-        <motion.div variants={itemVariants}>
-          <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-                <div className="lg:col-span-2">
-                  <div className="flex w-full items-center space-x-2">
-                    <Input
-                      type="text"
-                      placeholder="Search by product name, barcode, or ID"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Select
-                    value={selectedWarehouse}
-                    onValueChange={setSelectedWarehouse}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Warehouse" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {warehouses.map((warehouse) => (
-                        <SelectItem key={warehouse} value={warehouse}>
-                          {warehouse}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Select value={selectedZone} onValueChange={setSelectedZone}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Zone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {zones.map((zone) => (
-                        <SelectItem key={zone} value={zone}>
-                          {zone}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Select value={selectedArea} onValueChange={setSelectedArea}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Area" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {areas.map((area) => (
-                        <SelectItem key={area} value={area}>
-                          {area}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="lg:col-span-2">
-                  <Select
-                    value={selectedCategory}
-                    onValueChange={setSelectedCategory}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex space-x-2 lg:col-span-3">
-                  <Button
-                    variant="default"
-                    onClick={handleSearch}
-                    className="flex-1 space-x-1 bg-primary"
-                  >
-                    <Search size={16} />
-                    <span>Search</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleClear}
-                    className="flex-1 space-x-1"
-                  >
-                    <RefreshCcw size={16} />
-                    <span>Clear</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleExport}
-                    className="flex-1 space-x-1"
-                  >
-                    <Download size={16} />
-                    <span>Export</span>
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )} */}
-
       {showFilters && (
         <motion.div variants={itemVariants}>
-          <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-                <div className="lg:col-span-4">
-                  <div className="flex w-full items-center space-x-2">
-                    <Input
-                      type="text"
-                      placeholder="Search by product name, barcode, or ID"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full"
-                    />
-                  </div>
+          <div className="mb-6 rounded-lg border border-gray-200 bg-white shadow">
+            <div className="p-6">
+              <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+                <div className="relative flex-grow">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  />
                 </div>
-
-                <div className="flex space-x-2 lg:col-span-1">
-                  <Button
-                    variant="default"
+                <div className="flex space-x-2">
+                  <button
                     onClick={handleSearch}
-                    className="flex-1 space-x-1 bg-primary"
+                    className="flex items-center justify-center space-x-1 rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                   >
                     <Search size={16} />
                     <span>Search</span>
-                  </Button>
-                  <Button
-                    variant="outline"
+                  </button>
+                  <button
                     onClick={handleClear}
-                    className="flex-1 space-x-1"
+                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                   >
                     <RefreshCcw size={16} />
                     <span>Clear</span>
-                  </Button>
-                  {/* <Button
-                    variant="outline"
-                    onClick={handleExport}
-                    className="flex-1 space-x-1"
-                  >
-                    <Download size={16} />
-                    <span>Export</span>
-                  </Button> */}
+                  </button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </motion.div>
       )}
 
       <motion.div variants={itemVariants}>
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-2">
             <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {/* <TableHead className="w-12">
-                      <Checkbox
-                        checked={
-                          filteredItems.length > 0 &&
-                          selectedItems.length === filteredItems.length
-                        }
-                        onCheckedChange={handleSelectAll}
-                      />
-                    </TableHead> */}
-                    <TableHead className="w-12">No.</TableHead>
-                    <TableHead className="w-16">Image</TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("productId")}
-                    >
-                      <div className="flex w-40 items-center">
-                        Item ID
-                        {renderSortIndicator("productId")}
-                      </div>
-                    </TableHead>
-
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("productName")}
-                    >
-                      <div className="flex items-center">
-                        Item Name
-                        {renderSortIndicator("productName")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("lotNumber")}
-                    >
-                      <div className="flex items-center">
-                        Lot
-                        {renderSortIndicator("lotNumber")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("barcode")}
-                    >
-                      <div className="flex items-center">
-                        Barcode
-                        {renderSortIndicator("barcode")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("categories")}
-                    >
-                      <div className="flex items-center w-28">
-                      Categories
-                        {renderSortIndicator("categories")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("Group")}
-                    >
-                      <div className="flex items-center">
-                      Group
-                        {renderSortIndicator("Group")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("SubGroup")}
-                    >
-                      <div className="flex items-center w-30">
-                      Sub Group
-                        {renderSortIndicator("SubGroup")}
-                      </div>
-                    </TableHead>
-                    {/* <TableHead
-                      className="cursor-pointer"
-                      onClick={() => handleSort("typeName")}
-                    >
-                      <div className="flex items-center">
-                        Type
-                        {renderSortIndicator("typeName")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer text-right"
-                      onClick={() => handleSort("qty")}
-                    >
-                      <div className="flex items-center justify-end">
-                        Quantity
-                        {renderSortIndicator("qty")}
-                      </div>
-                    </TableHead>
-                    <TableHead>Unit</TableHead>
-                    <TableHead
-                      className="cursor-pointer text-right"
-                      onClick={() => handleSort("tags")}
-                    >
-                      <div className="flex items-center justify-end">
-                        Tags
-                        {renderSortIndicator("tags")}
-                      </div>
-                    </TableHead>
-                    <TableHead
-                      className="cursor-pointer text-right"
-                      onClick={() => handleSort("nonTags")}
-                    >
-                      <div className="flex items-center justify-end">
-                        Non-Tags
-                        {renderSortIndicator("nonTags")}
-                      </div>
-                    </TableHead> */}
-                    {/* <TableHead>Action</TableHead> */}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredItems.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={12} className="h-24 text-center">
-                        No items found.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    filteredItems.map((item, index) => (
-                      <TableRow key={`${item.productId}-${item.barcode}-${item.unitId}`}>
-                        {/* <TableCell>
-                          <Checkbox
-                            checked={selectedItems.includes(item.productId)}
-                            onCheckedChange={() => handleSelectItem(item.productId)}
-                          />
-                        </TableCell> */}
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>
-                          <img
-                            src={item.image || "/placeholder.svg"}
-                            alt={item.productName}
-                            className="h-12 w-12 rounded-md object-cover"
-                            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
-                          />
-                        </TableCell>
-                        <TableCell>{item.productId}</TableCell>
-                        <TableCell>{item.productName}</TableCell>
-                        <TableCell>
-                          {item.lotNumber}
-                        </TableCell>
-                        <TableCell>{item.barcode}</TableCell>
-                        <TableCell>
-                          {item.categoryName}
-                        </TableCell>
-                        <TableCell>
-                          {item.typeName}
-                        </TableCell>
-                        <TableCell>
-                          {item.subTypeName}
-                        </TableCell>
-                        {/* <TableCell>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleViewDetail(item)}
-                          >
-                            <Eye size={16} />
-                          </Button>
-                        </TableCell> */}
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+              <StockItemsTable
+                filteredItems={filteredItems}
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                handleSort={handleSort}
+                handleViewDetail={handleViewDetail}
+              />
             </div>
 
             {/* Pagination */}
@@ -751,7 +445,9 @@ const StockUpdate = () => {
                   src={selectedItem.image || "/placeholder.svg"}
                   alt={selectedItem.productName}
                   className="h-48 w-48 rounded-lg object-cover"
-                  onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/placeholder.svg";
+                  }}
                 />
               </div>
 
@@ -774,11 +470,15 @@ const StockUpdate = () => {
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs text-gray-500">Type</p>
-                    <p className="text-sm font-medium">{selectedItem.typeName}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.typeName}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs text-gray-500">Barcode</p>
-                    <p className="text-sm font-medium">{selectedItem.barcode}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.barcode}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs text-gray-500">Quantity</p>
@@ -797,15 +497,21 @@ const StockUpdate = () => {
                   </div>
                   <div className="flex justify-between">
                     <p className="text-xs text-gray-500">Style No</p>
-                    <p className="text-sm font-medium">{selectedItem.styleNo || "N/A"}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.styleNo || "N/A"}
+                    </p>
                   </div>
                   <div className="flex justify-between">
                     <p className="text-xs text-gray-500">Color</p>
-                    <p className="text-sm font-medium">{selectedItem.color || "N/A"}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.color || "N/A"}
+                    </p>
                   </div>
                   <div className="flex justify-between">
                     <p className="text-xs text-gray-500">Size</p>
-                    <p className="text-sm font-medium">{selectedItem.size || "N/A"}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.size || "N/A"}
+                    </p>
                   </div>
                 </div>
 
@@ -816,14 +522,18 @@ const StockUpdate = () => {
                   </div>
                   <div className="flex justify-between">
                     <p className="text-xs text-gray-500">Non-Tags</p>
-                    <p className="text-sm font-medium">{selectedItem.nonTags}</p>
+                    <p className="text-sm font-medium">
+                      {selectedItem.nonTags}
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="md:col-span-2">
                 <div className="space-y-2 rounded-lg bg-background p-4">
-                  <h4 className="font-medium text-gray-900">Stock Information</h4>
+                  <h4 className="font-medium text-gray-900">
+                    Stock Information
+                  </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span>Category</span>

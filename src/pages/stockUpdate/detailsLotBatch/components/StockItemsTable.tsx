@@ -43,17 +43,18 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16 whitespace-nowrap">No.</TableHead>
-              <TableHead className="w-20 whitespace-nowrap">Image</TableHead>
+              <TableHead className="w-10">No.</TableHead>
+              <TableHead className="w-16">Image</TableHead>
               <TableHead
-                className="w-25 cursor-pointer whitespace-nowrap"
+                className="cursor-pointer"
                 onClick={() => handleSort("productId")}
               >
-                <div className="flex items-center">
+                <div className="flex w-25 items-center">
                   Item ID
                   {renderSortIndicator("productId")}
                 </div>
               </TableHead>
+
               <TableHead
                 className="w-50 cursor-pointer"
                 onClick={() => handleSort("productName")}
@@ -64,7 +65,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 </div>
               </TableHead>
               <TableHead
-                className="w-24 cursor-pointer whitespace-nowrap"
+                className="w-30 cursor-pointer whitespace-nowrap"
                 onClick={() => handleSort("lotNumber")}
               >
                 <div className="flex items-center">
@@ -73,39 +74,39 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 </div>
               </TableHead>
               <TableHead
-                className="w-28 cursor-pointer whitespace-nowrap"
-                onClick={() => handleSort("qty")}
+                className="w-30 cursor-pointer whitespace-nowrap"
+                onClick={() => handleSort("LotBatch")}
               >
                 <div className="flex items-center">
-                  Total Qty
-                  {renderSortIndicator("qty")}
+                  Lot Batch
+                  {renderSortIndicator("LotBatch")}
                 </div>
               </TableHead>
               <TableHead
-                className="w-24 cursor-pointer whitespace-nowrap"
-                onClick={() => handleSort("unitName")}
+                className="cursor-pointer"
+                onClick={() => handleSort("Barcode")}
               >
-                <div className="flex items-center">
-                  UoM
-                  {renderSortIndicator("unitName")}
+                <div className="flex items-center w-30">
+                  barcode
+                  {renderSortIndicator("Barcode")}
                 </div>
               </TableHead>
               <TableHead
-                className="w-32 cursor-pointer whitespace-nowrap"
-                onClick={() => handleSort("categoryName")}
+                className="cursor-pointer"
+                onClick={() => handleSort("categories")}
               >
-                <div className="flex items-center">
-                  Category
-                  {renderSortIndicator("categoryName")}
+                <div className="flex items-center w-28">
+                  Categories
+                  {renderSortIndicator("categories")}
                 </div>
               </TableHead>
               <TableHead
-                className="w-32 cursor-pointer whitespace-nowrap text-right"
-                onClick={() => handleSort("locations")}
+                className="cursor-pointer"
+                onClick={() => handleSort("Group")}
               >
-                <div className="flex items-center justify-end">
-                  Location
-                  {renderSortIndicator("locations")}
+                <div className="flex items-center">
+                  Group
+                  {renderSortIndicator("Group")}
                 </div>
               </TableHead>
             </TableRow>
@@ -124,28 +125,32 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                   className="hover:bg-gray-50 cursor-pointer"
                   onClick={() => handleViewDetail && handleViewDetail(item)}
                 >
-                  <TableCell className="text-center">{index + 1}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>
                     <img
                       src={item.image || "/placeholder.svg"}
                       alt={item.productName}
                       className="h-12 w-12 rounded-md object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          "/placeholder.svg";
+                      }}
                     />
                   </TableCell>
-                  <TableCell className="font-medium">{item.productId}</TableCell>
-                  <TableCell className="max-w-md">{item.productName}</TableCell>
+                  <TableCell>{item.productId}</TableCell>
+                  <TableCell>{item.productName}</TableCell>
                   <TableCell>{item.lotNumber}</TableCell>
-                  <TableCell className="text-right">{item.qty.toLocaleString()}</TableCell>
-                  <TableCell>{item.unitName}</TableCell>
+                  <TableCell>{item.lotNumber}</TableCell>
+                  <TableCell>{item.barcode}</TableCell>
                   <TableCell>{item.categoryName}</TableCell>
-                  <TableCell className="text-right">{item.locations}</TableCell>
+                  <TableCell>{item.typeName}</TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
       </div>
+
     </div>
   );
 };

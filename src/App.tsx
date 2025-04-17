@@ -43,9 +43,29 @@ import PermissionsPage from "./pages/settings/permission/permission/PermissionsP
 // Role routes import
 import RoleRoutes from "./pages/settings/permission/role/components/RoleRoutes";
 
+import { useEffect } from "react";
+import { useCompany } from "@/contexts/CompanyContext";
+
 const queryClient = new QueryClient();
 
 function App() {
+  const { companyData } = useCompany();
+
+  useEffect(() => {
+    if (companyData?.logo) {
+      let favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement | null;
+
+      if (!favicon) {
+        favicon = document.createElement("link") as HTMLLinkElement;
+        document.head.appendChild(favicon);
+      }
+
+      favicon.rel = "icon";
+      favicon.type = "image/png";
+      favicon.href = companyData.logo;
+    }
+  }, [companyData?.logo]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

@@ -48,13 +48,15 @@ import { useToast } from "@/hooks/use-toast";
 import {
   FilterSearch,
   FilterValues,
-} from "@/components/ui/custom/FilterSearch";
+} from "@/components/ui/custom/FilterSearchTime";
 
 import { Loading } from "@/components/ui/custom/loading";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItem, StockResponse } from "@/types/stock";
 import { authenticatedFetch } from "@/utils/auth";
 import { useStockData } from "./hooks/useStockData";
+import TimePicker from "@/components/ui/time-picker"
+import { DatePicker } from "@/components/ui/date-picker"
 
 // Mock data for additional filters
 const warehouses = [
@@ -88,6 +90,8 @@ const StockUpdate = () => {
   const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTime, setSearchTime] = useState("");
+  const [searchDate, setSearchDate] = useState(null);
   const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
   const [selectedZone, setSelectedZone] = useState("All Zones");
   const [selectedArea, setSelectedArea] = useState("All Areas");
@@ -98,6 +102,8 @@ const StockUpdate = () => {
   const [advancedFilterValues, setAdvancedFilterValues] =
     useState<FilterValues>({
       searchTerm: searchTerm,
+      time: searchTime,
+      date:  searchDate,
       warehouse: selectedWarehouse,
       zone: selectedZone,
       area: selectedArea,
@@ -123,6 +129,7 @@ const StockUpdate = () => {
     setSortColumn,
     setSortDirection,
     setSearchTerm: setStockSearchTerm,
+    setSearchTime: setStockSearchTime,
     setSelectedWarehouse: setStockSelectedWarehouse,
     setSelectedZone: setStockSelectedZone,
     setSelectedArea: setStockSelectedArea,
@@ -252,6 +259,7 @@ const StockUpdate = () => {
 
   const handleAdvancedSearch = (filters: FilterValues) => {
     setSearchTerm(filters.searchTerm);
+    setStockSearchTime(filters.time);
     setStockSearchTerm(filters.searchTerm);
     setSelectedWarehouse(filters.warehouse);
     setStockSelectedWarehouse(filters.warehouse);
@@ -354,8 +362,8 @@ const StockUpdate = () => {
       </motion.div>
       {showFilters && (
         <motion.div variants={itemVariants}>
-          <div className="mb-6 rounded-lg border border-gray-200 bg-white shadow">
-            <div className="p-6">
+          <div className="mb-6 rounded-lg border border-bg bg-card shadow">
+            <div className="p-3">
               <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <div className="relative flex-grow">
                   <input
@@ -363,7 +371,7 @@ const StockUpdate = () => {
                     placeholder="Search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    className="w-full rounded-md border bg-secondary px-4 py-2 focus:border-green-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
                 <div className="flex space-x-2">
@@ -376,7 +384,7 @@ const StockUpdate = () => {
                   </button>
                   <button
                     onClick={handleClear}
-                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   >
                     <RefreshCcw size={16} />
                     <span>Clear</span>

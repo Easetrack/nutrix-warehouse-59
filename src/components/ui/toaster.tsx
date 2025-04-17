@@ -14,6 +14,7 @@ import imageTop from "@/assets/Group 3.png";
 import imageBop from "@/assets/Group 6.png";
 import imageBg from "@/assets/Dog print.png";
 import srpIcon from "@/assets/Group.png"
+import srpIcon2 from "@/assets/warehouse-svgrepo-com(3) 1.png"
 
 export function Toaster() {
   const { toasts } = useToast();
@@ -51,7 +52,7 @@ export function Toaster() {
                 )}
                 {isAltTheme && (
                   <img
-                    src={srpIcon}
+                    src={srpIcon2}
                     alt="Top decoration"
                     className="w-6 h-6"
                   />
@@ -84,7 +85,7 @@ export function Toaster() {
                 )}
                 {isAltTheme && (
                   <img
-                    src={srpIcon}
+                    src={srpIcon2}
                     alt="Top decoration"
                     className="w-6 h-6"
                   />

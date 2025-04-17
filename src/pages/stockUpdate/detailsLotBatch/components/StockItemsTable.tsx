@@ -122,7 +122,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
               filteredItems.map((item, index) => (
                 <TableRow
                   key={`${item.productId}-${item.barcode}-${item.unitId}`}
-                  className="hover:bg-gray-50 cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => handleViewDetail && handleViewDetail(item)}
                 >
                   <TableCell>{index + 1}</TableCell>

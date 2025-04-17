@@ -30,13 +30,14 @@ export function DatePicker({
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-full justify-between py-2 px-3 text-left font-normal",
             !selected && "text-muted-foreground",
             className
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {selected ? format(selected, "PPP") : <span>{placeholder}</span>}
+          
+          {selected ? format(selected, "dd/mm/yyyy") : <span>{placeholder}</span>}
+          <CalendarIcon className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

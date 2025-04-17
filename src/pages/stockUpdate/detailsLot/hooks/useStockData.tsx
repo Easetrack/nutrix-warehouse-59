@@ -9,6 +9,7 @@ export const useStockData = () => {
   const { toast } = useToast();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTime, setSearchTime] = useState("");
   const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
   const [selectedZone, setSelectedZone] = useState("All Zones");
   const [selectedArea, setSelectedArea] = useState("All Areas");
@@ -188,6 +189,7 @@ export const useStockData = () => {
     sortDirection,
     selectedItems,
     searchTerm,
+    searchTime,
     selectedWarehouse,
     selectedZone,
     selectedArea,
@@ -202,6 +204,7 @@ export const useStockData = () => {
     setSortColumn,
     setSortDirection,
     setSearchTerm,
+    setSearchTime,
     setSelectedWarehouse,
     setSelectedZone,
     setSelectedArea,

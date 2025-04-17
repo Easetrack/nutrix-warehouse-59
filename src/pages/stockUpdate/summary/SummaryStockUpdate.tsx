@@ -158,7 +158,7 @@ const SummaryStockUpdate = () => {
         className="mb-6 flex justify-between items-center"
       >
         <div>
-          <h1 className="text-2xl font-bold">Stock Update Summary</h1>
+          <h1 className="text-2xl font-bold">Stock Update: Summary</h1>
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -185,7 +185,7 @@ const SummaryStockUpdate = () => {
 
       {showFilters && (
         <motion.div variants={itemVariants}>
-          <div className="mb-6 rounded-lg border border-gray-200 bg-white shadow">
+          <div className="mb-6 rounded-lg border border-bg bg-card shadow">
             <div className="p-6">
               <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <div className="relative flex-grow">
@@ -194,7 +194,7 @@ const SummaryStockUpdate = () => {
                     placeholder="Search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    className="w-full rounded-md border bg-secondary px-4 py-2 focus:border-green-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
                 <div className="flex space-x-2">
@@ -207,7 +207,7 @@ const SummaryStockUpdate = () => {
                   </button>
                   <button
                     onClick={handleClear}
-                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   >
                     <RefreshCcw size={16} />
                     <span>Clear</span>
@@ -220,7 +220,7 @@ const SummaryStockUpdate = () => {
       )}
 
       <motion.div variants={itemVariants}>
-        <Card>
+        <Card className="bg-card">
           <CardContent className="p-2">
             <StockItemsTable
               filteredItems={filteredItems}

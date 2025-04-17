@@ -45,6 +45,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from '@/hooks/use-toast';
+import { FilterSearch, FilterValues } from "@/components/ui/custom/FilterSearch";
 
 import { Loading } from "@/components/ui/custom/loading";
 import { StockItem, StockResponse } from "@/types/stock";
@@ -100,6 +101,14 @@ const StockUpdate = () => {
   const [perPage, setPerPage] = useState(10);
   const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
+  const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
+    searchTerm: searchTerm,
+    warehouse: selectedWarehouse,
+    zone: selectedZone,
+    area: selectedArea,
+    category: selectedCategory,
+    uom: "All UoMs",
+  });
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -296,6 +305,20 @@ const StockUpdate = () => {
     );
   };
 
+  const handleAdvancedSearch = (filters: FilterValues) => {
+    setSearchTerm(filters.searchTerm);
+    setSelectedWarehouse(filters.warehouse);
+    setSelectedZone(filters.zone);
+    setSelectedArea(filters.area);
+    setSelectedCategory(filters.category);
+    setCurrentPage(1); // Reset to first page on new search
+    fetchStockData();
+  };
+
+  const handleAdvancedClear = () => {
+    handleClear();
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -341,149 +364,29 @@ const StockUpdate = () => {
       >
         <div>
           <h1 className="text-2xl font-bold">Stock Update Summary</h1>
-          {/* <p className="text-gray-600">Manage and view your inventory items</p> */}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             onClick={handleExport}
-            className="flex-1 space-x-1"
+            className="space-x-1"
           >
             <Download size={16} />
             <span>Export</span>
           </Button>
-          <Button
-            variant="outline"
-            onClick={handleExport}
-            className="flex-1 space-x-1"
-          >
-            <Filter className="h-4 w-4" />
-          </Button>
-          {/* <Label htmlFor="showFilters" className="text-sm">
-            Show Filters
-          </Label>
-          <Switch
-            id="showFilters"
-            checked={showFilters}
-            onCheckedChange={toggleFilters}
-          /> */}
+          
+          <FilterSearch 
+            onSearch={handleAdvancedSearch}
+            onClear={handleAdvancedClear}
+            initialValues={advancedFilterValues}
+            trigger={
+              <Button variant="outline" className="space-x-1">
+                <Filter className="h-4 w-4" />
+              </Button>
+            }
+          />
         </div>
       </motion.div>
-
-      {/* {showFilters && (
-        <motion.div variants={itemVariants}>
-          <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-                <div className="lg:col-span-2">
-                  <div className="flex w-full items-center space-x-2">
-                    <Input
-                      type="text"
-                      placeholder="Search by product name, barcode, or ID"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Select
-                    value={selectedWarehouse}
-                    onValueChange={setSelectedWarehouse}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Warehouse" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {warehouses.map((warehouse) => (
-                        <SelectItem key={warehouse} value={warehouse}>
-                          {warehouse}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Select value={selectedZone} onValueChange={setSelectedZone}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Zone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {zones.map((zone) => (
-                        <SelectItem key={zone} value={zone}>
-                          {zone}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Select value={selectedArea} onValueChange={setSelectedArea}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Area" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {areas.map((area) => (
-                        <SelectItem key={area} value={area}>
-                          {area}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="lg:col-span-2">
-                  <Select
-                    value={selectedCategory}
-                    onValueChange={setSelectedCategory}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="flex space-x-2 lg:col-span-3">
-                  <Button
-                    variant="default"
-                    onClick={handleSearch}
-                    className="flex-1 space-x-1 bg-primary"
-                  >
-                    <Search size={16} />
-                    <span>Search</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleClear}
-                    className="flex-1 space-x-1"
-                  >
-                    <RefreshCcw size={16} />
-                    <span>Clear</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleExport}
-                    className="flex-1 space-x-1"
-                  >
-                    <Download size={16} />
-                    <span>Export</span>
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )} */}
 
       {showFilters && (
         <motion.div variants={itemVariants}>
@@ -519,14 +422,6 @@ const StockUpdate = () => {
                     <RefreshCcw size={16} />
                     <span>Clear</span>
                   </Button>
-                  {/* <Button
-                    variant="outline"
-                    onClick={handleExport}
-                    className="flex-1 space-x-1"
-                  >
-                    <Download size={16} />
-                    <span>Export</span>
-                  </Button> */}
                 </div>
               </div>
             </CardContent>

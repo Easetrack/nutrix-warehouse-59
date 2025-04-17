@@ -23,7 +23,7 @@ const UserHeader: React.FC = () => {
           {t('settings.usersDescription')}
         </p>
       </div>
-      <Button onClick={handleAddUser} className="bg-red-600 hover:bg-red-700 text-white">
+      <Button onClick={handleAddUser} className="bg-primary text-white">
         <Plus className="mr-2 h-4 w-4" /> {t('permission.addUser')}
       </Button>
     </div>

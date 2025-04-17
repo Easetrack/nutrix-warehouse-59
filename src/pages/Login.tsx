@@ -111,7 +111,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background from-gray-50 to-gray-100 px-4">
       <div className="absolute left-4 top-4">
         <Button
           variant="outline"
@@ -147,7 +147,7 @@ const Login = () => {
           </motion.div>
         </div>
 
-        <div className="px-6 pb-8 pt-20">
+        <div className="px-6 pb-8 pt-20 bg-card">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -265,7 +265,7 @@ const Login = () => {
           </motion.div>
         </div>
         {!isAltTheme && (
-          <div className="bottom-0 right-0 w-full flex justify-end">
+          <div className="bottom-0 right-0 w-full flex justify-end bg-card">
             <img src={imageBop} alt="Bottom decoration" className="w-10 h-10" />
           </div>
         )}

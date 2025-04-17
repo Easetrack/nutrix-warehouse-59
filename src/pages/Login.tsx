@@ -66,13 +66,16 @@ const Login = () => {
 
       const authData: AuthResponse = await response.json();
 
-      // Store tokens and expiration in localStorage
+      // ตั้งค่าทั้งสองระบบให้สอดคล้องกัน
       localStorage.setItem("accessToken", authData.access_token);
       localStorage.setItem("refreshToken", authData.refresh_token);
       localStorage.setItem("tokenExpiry", authData.expires_at);
       localStorage.setItem("isAuthenticated", "true");
 
-      // Extract user data from token (JWT payload)
+      // ตั้งค่าเริ่มต้น warehouse ชั่วคราว
+      localStorage.setItem("selectedWarehouse", "001"); // หรือค่าที่เหมาะสม
+
+      // ดึงข้อมูลผู้ใช้จาก token
       const tokenPayload = JSON.parse(
         atob(authData.access_token.split(".")[1])
       );
@@ -81,7 +84,8 @@ const Login = () => {
         JSON.stringify({
           id: tokenPayload.nameid,
           name: tokenPayload.name,
-          // Other user data as needed
+          username: tokenPayload.username,
+          companyId: tokenPayload.companyId,
         })
       );
 
@@ -90,11 +94,12 @@ const Login = () => {
         description: `Welcome back, ${tokenPayload.name}!`,
       });
 
+      // Redirect ไปหน้าเลือก warehouse
       navigate("/select-warehouse");
     } catch (err) {
       console.error("Login error:", err);
       setError(
-        "Failed to authenticate. Please check your credentials and try again."
+        err instanceof Error ? err.message : "Authentication failed"
       );
       toast({
         title: "Login failed",

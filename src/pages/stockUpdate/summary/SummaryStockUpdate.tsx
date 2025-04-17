@@ -186,7 +186,7 @@ const SummaryStockUpdate = () => {
       {showFilters && (
         <motion.div variants={itemVariants}>
           <div className="mb-6 rounded-lg border border-bg bg-card shadow">
-            <div className="p-6">
+            <div className="p-3">
               <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <div className="relative flex-grow">
                   <input

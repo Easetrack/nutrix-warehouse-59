@@ -1,37 +1,48 @@
+import axios from "axios";
+import { refreshAccessToken, logout } from "@/utils/auth";
 
-import axios from 'axios';
-
-// Create a base axios instance for reuse across the application
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://api.example.com',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: "https://webapiorg.easetrackwms.com/api/v1",
 });
 
-// Request interceptor - can be used for adding auth tokens
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  const warehouse = localStorage.getItem("selectedWarehouse");
 
-// Response interceptor - can be used for handling common errors
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+    config.headers["x-location"] = warehouse || "001";
+  }
+  return config;
+});
+
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    const { response } = error;
-    // Handle common errors (401, 403, etc.)
-    if (response && response.status === 401) {
-      // Redirect to login or refresh token
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+
+    // หากเกิด error 401 และยังไม่เคย retry
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const success = await refreshAccessToken();
+        if (success) {
+          const newToken = localStorage.getItem("accessToken");
+          if (newToken) {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            return apiClient(originalRequest);
+          }
+        }
+      } catch (refreshError) {
+        console.error("Refresh token failed:", refreshError);
+      }
+
+      // หาก refresh ไม่สำเร็จ
+      logout();
+      window.location.href = "/login";
     }
+
     return Promise.reject(error);
   }
 );

@@ -61,28 +61,21 @@ export const CompanyProvider: React.FC<CompanyProviderProps> = ({ children }) =>
     // Update the document title based on the company theme
     if (companyData) {
       document.title = companyData.companyName;
+      const existingFavicon = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+
+      if (existingFavicon) {
+        existingFavicon.href = companyData.logo; // เปลี่ยน path ของ favicon
+      } else {
+        const newFavicon = document.createElement("link");
+        newFavicon.rel = "icon";
+        newFavicon.href = companyData.logo;
+        newFavicon.type = "image/png";
+        document.head.appendChild(newFavicon);
+      }
     }
 
     // Update CSS variables for theme colors directly on :root
     const rootElement = document.documentElement;
-
-    // if (isAltTheme) {
-    //   rootElement.style.setProperty('--primary', '#129748');
-    //   rootElement.style.setProperty('--primary-foreground', '#FFFFFF');
-
-    //   // Also add a data attribute to the document for additional theme-based styling
-    //   document.body.setAttribute('data-theme', 'alt');
-
-    //   console.log('Theme changed to alternative with color #129748');
-    // } else {
-    //   rootElement.style.setProperty('--primary', '#AB0006');
-    //   rootElement.style.setProperty('--primary-foreground', '#FFFFFF');
-
-    //   // Remove the data attribute when using default theme
-    //   document.body.removeAttribute('data-theme');
-
-    //   console.log('Theme changed to default with color #AB0006');
-    // }
 
   }, [isAltTheme, companyData]);
 

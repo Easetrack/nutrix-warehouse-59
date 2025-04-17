@@ -57,15 +57,18 @@ function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/select-warehouse" element={<SelectWarehouse />} />
-                
+
                 {/* Dashboard routes with dashboard layout */}
-                <Route element={<DashboardLayout />}>
+                {/* <Route element={<ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>}>
+                
                   <Route path="/dashboard" element={
                     <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
                   } />
-                  
+
                   <Route path="/stock" element={
                     <ProtectedRoute>
                       <StockUpdate />
@@ -81,7 +84,7 @@ function App() {
                       <SummaryStockUpdateDetail />
                     </ProtectedRoute>
                   } />
-                  
+
                   <Route path="/receiving" element={
                     <ProtectedRoute>
                       <Receiving />
@@ -97,10 +100,10 @@ function App() {
                       <PackingPTW />
                     </ProtectedRoute>
                   } />
-                </Route>
-                
+                </Route> */}
+
                 {/* Settings routes with settings layout */}
-                <Route element={<SettingsLayout />}>
+                {/* <Route element={<SettingsLayout />}>
                   <Route path="/settings" element={
                     <ProtectedRoute>
                       <Settings />
@@ -141,7 +144,7 @@ function App() {
                       <LotModelSettings />
                     </ProtectedRoute>
                   } />
-                  
+
                   <Route path="/settings/permission/*" element={
                     <ProtectedRoute>
                       <PermissionSettings />
@@ -162,13 +165,28 @@ function App() {
                       <PermissionsPage />
                     </ProtectedRoute>
                   } />
+                </Route> */}
+
+                {/* Protected routes with dashboard layout */}
+                <Route element={<ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>}>
+                  <Route element={<DashboardLayout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/stock" element={<StockUpdate />} />
+                    <Route path="/stock/summary" element={<SummaryStockUpdate />} />
+                    <Route path="/stock/details" element={<SummaryStockUpdateDetail />} />
+                    <Route path="/receiving" element={<Receiving />} />
+                    <Route path="/request-picking" element={<RequestPicking />} />
+                    <Route path="/packing-ptw" element={<PackingPTW />} />
+                  </Route>
                 </Route>
-                
+
                 {/* Fallback for 404 pages */}
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
-            
+
             <ThemeCustomizer />
             <Toaster />
             <Sonner />

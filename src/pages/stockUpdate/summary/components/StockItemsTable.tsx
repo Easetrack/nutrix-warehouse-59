@@ -68,7 +68,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("lotNumber")}
               >
                 <div className="flex items-center">
-                  Lot
+                  Total Lot
                   {renderSortIndicator("lotNumber")}
                 </div>
               </TableHead>
@@ -104,7 +104,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("locations")}
               >
                 <div className="flex items-center justify-end">
-                  Location
+                  Total Location
                   {renderSortIndicator("locations")}
                 </div>
               </TableHead>

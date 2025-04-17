@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUser } from '@/hooks/use-user'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   LayoutDashboard,
   Package,
@@ -22,6 +24,7 @@ import { useCompany } from '@/contexts/CompanyContext';
 import ThemeToggle from '@/components/ThemeToggle';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Location } from '@/utils/auth';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 interface SidebarNavProps {
   children: React.ReactNode;
@@ -35,6 +38,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const { language, setLanguage, t } = useLanguage();
+  const { data: user, isLoading, error } = useUser()
   const { companyData, isLoading: isCompanyLoading } = useCompany();
 
   // State for selected warehouse
@@ -62,6 +66,16 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
     localStorage.removeItem('selectedWarehouse');
     navigate('/login');
   };
+
+  const getAvatarFallback = () => {
+    if (!user) return ''
+    return `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
+  }
+
+  if (error) {
+    console.error('Error loading user data:', error)
+    // สามารถแสดงข้อความ error หรือ redirect ไปหน้า login ได้
+  }
 
   const mainMenuItems = [
     { path: '/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
@@ -148,13 +162,15 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className="fixed z-40 flex h-full w-64 flex-col bg-sidebar shadow-lg lg:static"
       >
-        <div className="flex h-16 items-center justify-between border-b px-6">
-          <div className="flex items-center space-x-2">
+        <div className="flex h-16 items-center justify-center border-b px-2">
+          <div className="flex items-center space-x-1">
             <img
               src={companyData?.logo || "/Nutrix.png"}
               alt="Company Logo"
               className="h-8 w-auto object-contain"
             />
+          </div>
+          <div className="flex items-center space-x-2">
             <span className="text-lg font-bold text-primary">
               {companyData?.companyName || "Nutrix WMS"}
             </span>
@@ -405,15 +421,37 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
         </nav>
         <ThemeToggle />
 
-        <div className="border-t border-gray-200 p-4">
+        <div className="border-t border-muted p-4 mt-auto">
+          {isLoading ? (
+            <div className="flex items-center space-x-3 px-3 mb-2">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-3 w-[100px]" />
+                <Skeleton className="h-3 w-[80px]" />
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-3 px-3 mb-2">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback>{getAvatarFallback()}</AvatarFallback>
+              </Avatar>
+              <div className="text-sm">
+                <p className="font-medium">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-muted-foreground">@{user?.username}</p>
+              </div>
+            </div>
+          )}
           <button
             onClick={handleSignOut}
-            className="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
+            className="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-muted"
           >
-            <LogOut size={20} className="text-primary" />
+            <LogOut size={18} className="text-destructive" />
             <span>{t('action.signOut')}</span>
           </button>
         </div>
+
       </motion.div>
 
       <div className="flex-1 overflow-auto">

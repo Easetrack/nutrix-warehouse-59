@@ -18,7 +18,7 @@ const ThemeToggle = () => {
         variant="ghost"
         size="icon"
         onClick={toggleCompanyThemeAndColor}
-        title={`Switch to ${isAltTheme ? "Alternative" : "Nutrix"} theme`}
+        title={`Switch to ${isAltTheme ? "Alternative" : "Nutrix Public Company Limited"} theme`}
         className="relative mr-2"
       >
         <Repeat

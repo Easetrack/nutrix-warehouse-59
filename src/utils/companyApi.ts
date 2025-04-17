@@ -42,7 +42,7 @@ export const fetchCompanyData = async (): Promise<CompanyData> => {
     // Return default values when API fails
     return {
       comId: '',
-      companyName: 'Nutrix WMS',
+      companyName: 'Nutrix Public Company Limited',
       logo: '/Nutrix.png'
     };
   }

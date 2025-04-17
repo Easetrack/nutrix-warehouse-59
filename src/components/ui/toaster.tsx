@@ -13,6 +13,7 @@ import { useCompany } from "@/contexts/CompanyContext";
 import imageTop from "@/assets/Group 3.png";
 import imageBop from "@/assets/Group 6.png";
 import imageBg from "@/assets/Dog print.png";
+import srpIcon from "@/assets/Group.png"
 
 export function Toaster() {
   const { toasts } = useToast();
@@ -39,15 +40,24 @@ export function Toaster() {
             className="relative overflow-hidden"
           >
             {/* รูปสามเหลี่ยมด้านบน */}
-            {!isAltTheme && (
-              <div className="absolute top-0 left-0 w-full flex justify-start">
-                <img
-                  src={imageTop}
-                  alt="Top decoration"
-                  className="w-10 h-10"
-                />
+            <div className="absolute top-0 left-0 w-16 h-16 bg-primary rounded-br-full">
+              <div className="absolute bottom-7 right-7 flex items-center justify-center">
+                {!isAltTheme && (
+                  <img
+                    src={imageBg}
+                    alt="Top decoration"
+                    className="w-6 h-6"
+                  />
+                )}
+                {isAltTheme && (
+                  <img
+                    src={srpIcon}
+                    alt="Top decoration"
+                    className="w-6 h-6"
+                  />
+                )}
               </div>
-            )}
+            </div>
 
             {/* เนื้อหา Toast */}
             <div className="grid gap-1 pt-6 pb-6">
@@ -63,15 +73,24 @@ export function Toaster() {
             <ToastClose />
 
             {/* รูปสามเหลี่ยมด้านล่าง */}
-            {!isAltTheme && (
-              <div className="absolute bottom-0 right-0 w-full flex justify-end">
-                <img
-                  src={imageBop}
-                  alt="Bottom decoration"
-                  className="w-10 h-10"
-                />
+            <div className="absolute bottom-0 right-0 w-16 h-16 bg-primary rounded-tl-full">
+              <div className="absolute top-7 left-7 flex items-center justify-center">
+              {!isAltTheme && (
+                  <img
+                    src={imageBg}
+                    alt="Top decoration"
+                    className="w-6 h-6"
+                  />
+                )}
+                {isAltTheme && (
+                  <img
+                    src={srpIcon}
+                    alt="Top decoration"
+                    className="w-6 h-6"
+                  />
+                )}
               </div>
-            )}
+            </div>
           </Toast>
         );
       })}

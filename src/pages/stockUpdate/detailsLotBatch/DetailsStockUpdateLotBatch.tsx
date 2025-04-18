@@ -54,9 +54,8 @@ import { Loading } from "@/components/ui/custom/loading";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItem, StockResponse } from "@/types/stock";
 import { authenticatedFetch } from "@/utils/auth";
-import { useStockLotData } from "./hooks/useStockData";
+import { useStockData } from "./hooks/useStockData";
 
-// Mock data for additional filters
 const warehouses = [
   "All Warehouses",
   "Bangkok Central",
@@ -133,7 +132,7 @@ const StockUpdate = () => {
     setSelectedZone: setStockSelectedZone,
     setSelectedArea: setStockSelectedArea,
     setSelectedCategory: setStockSelectedCategory,
-  } = useStockLotData();
+  } = useStockData();
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -166,29 +165,24 @@ const StockUpdate = () => {
       perPage: perPage.toString(),
     });
 
-    // Add search filters if set
     if (searchTerm) {
       queryParams.append("searchByProductName", searchTerm);
       queryParams.append("searchByBarcode", searchTerm);
       queryParams.append("searchByProductId", searchTerm);
     }
 
-    // Add category filter if not "All Categories"
     if (selectedCategory !== "All Categories") {
       queryParams.append("searchByCategory", selectedCategory);
     }
 
-    // Add zone filter if not "All Zones"
     if (selectedZone !== "All Zones") {
       queryParams.append("zoneId", selectedZone.replace("Zone ", ""));
     }
 
-    // Add area filter if not "All Areas"
     if (selectedArea !== "All Areas") {
       queryParams.append("areaId", selectedArea);
     }
 
-    // Add sorting parameters if set
     if (sortColumn) {
       const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)
         }`;
@@ -199,8 +193,6 @@ const StockUpdate = () => {
   };
 
   useEffect(() => {
-    // Client-side filtering is now only used for warehouse selection
-    // Other filters are handled by the API
     if (selectedWarehouse !== "All Warehouses") {
       // This would need to be implemented with actual warehouse data
       // For now, it's just a placeholder
@@ -223,14 +215,13 @@ const StockUpdate = () => {
     }
   };
 
-
   const handleViewDetail = (item: StockItem) => {
     setSelectedItem(item);
     setIsDetailOpen(true);
   };
 
   const handleSearch = () => {
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
     fetchStockData();
   };
 
@@ -247,7 +238,7 @@ const StockUpdate = () => {
     setStockSelectedCategory("All Categories");
     setSortColumn(null);
     setSortDirection("asc");
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1);
     fetchStockData();
   };
 
@@ -262,7 +253,7 @@ const StockUpdate = () => {
     setStockSelectedArea(filters.area);
     setSelectedCategory(filters.category);
     setStockSelectedCategory(filters.category);
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
     fetchStockData();
   };
 
@@ -339,7 +330,6 @@ const StockUpdate = () => {
           <h1 className="text-2xl font-bold">
             Stock Update: Detail by Lot Batch
           </h1>
-          {/* <p className="text-gray-600">Manage and view your inventory items</p> */}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -411,7 +401,6 @@ const StockUpdate = () => {
               />
             </div>
 
-            {/* Pagination */}
             <div className="mt-4 flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
                 Showing {filteredItems.length} of {totalCount} items

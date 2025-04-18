@@ -7,11 +7,25 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
-  const warehouse = localStorage.getItem("selectedWarehouse");
+  let warehouseId = "001";
+  try {
+    const raw = localStorage.getItem("selectedWarehouse");
+    if (raw?.startsWith("{")) {
+      const parsed = JSON.parse(raw);
+      warehouseId = parsed?.id || "001";
+    } else {
+      warehouseId = raw || "001";
+    }
+  } catch {
+    warehouseId = "001";
+  }
+
+  console.log("token", token);
+  console.log("warehouse", warehouseId);
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-    config.headers["x-location"] = warehouse || "001";
+    config.headers.Authorization = `Bearer ${(token)}`;
+    config.headers["x-location"] = (warehouseId || "001");
   }
   return config;
 });

@@ -72,10 +72,10 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
     return `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
   }
 
-  if (error) {
-    console.error('Error loading user data:', error)
-    // สามารถแสดงข้อความ error หรือ redirect ไปหน้า login ได้
-  }
+  // if (error) {
+  //   console.error('Error loading user data:', error)
+  //   // สามารถแสดงข้อความ error หรือ redirect ไปหน้า login ได้
+  // }
 
   const mainMenuItems = [
     { path: '/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
@@ -423,34 +423,35 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
 
         <div className="border-t border-muted p-4 mt-auto">
           {isLoading ? (
-            <div className="flex items-center space-x-3 px-3 mb-2">
+            <div className="flex items-center gap-3 px-3 mb-3 animate-pulse">
               <Skeleton className="h-8 w-8 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-3 w-[100px]" />
+              <div className="space-y-1.5">
+                <Skeleton className="h-4 w-[100px]" />
                 <Skeleton className="h-3 w-[80px]" />
               </div>
             </div>
           ) : (
-            <div className="flex items-center space-x-3 px-3 mb-2">
+            <div className="flex items-center gap-3 px-3 mb-3">
               <Avatar className="h-8 w-8">
                 <AvatarFallback>{getAvatarFallback()}</AvatarFallback>
               </Avatar>
-              <div className="text-sm">
+              <div className="text-sm leading-tight">
                 <p className="font-medium">
                   {user?.firstName} {user?.lastName}
                 </p>
-                <p className="text-muted-foreground">@{user?.username}</p>
+                <p className="text-muted-foreground text-xs">@{user?.username}</p>
               </div>
             </div>
           )}
           <button
             onClick={handleSignOut}
-            className="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-muted"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-muted transition"
           >
             <LogOut size={18} className="text-destructive" />
             <span>{t('action.signOut')}</span>
           </button>
         </div>
+
 
       </motion.div>
 

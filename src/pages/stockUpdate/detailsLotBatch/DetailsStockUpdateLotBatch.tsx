@@ -54,7 +54,7 @@ import { Loading } from "@/components/ui/custom/loading";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItem, StockResponse } from "@/types/stock";
 import { authenticatedFetch } from "@/utils/auth";
-import { useStockData } from "./hooks/useStockData";
+import { useStockLotData } from "./hooks/useStockData";
 
 // Mock data for additional filters
 const warehouses = [
@@ -133,7 +133,7 @@ const StockUpdate = () => {
     setSelectedZone: setStockSelectedZone,
     setSelectedArea: setStockSelectedArea,
     setSelectedCategory: setStockSelectedCategory,
-  } = useStockData();
+  } = useStockLotData();
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");

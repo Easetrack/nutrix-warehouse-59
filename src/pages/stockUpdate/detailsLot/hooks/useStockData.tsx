@@ -96,7 +96,7 @@ export const useStockData = () => {
       const queryParams = buildQueryParams();
 
       const response = await authenticatedFetch(
-        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`,
+        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate/byLot?${queryParams.toString()}`,
         {
           headers: {
             'x-location': locationId,

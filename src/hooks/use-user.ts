@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import apiClient from '@/services/api-client'
+import { authenticatedFetch } from '@/utils/auth';
 
 interface UserData {
   username: string
@@ -11,8 +12,15 @@ interface UserData {
 }
 
 const fetchUserData = async (): Promise<UserData> => {
-  const response = await apiClient.get('/User/me')
-  return response.data
+  try {
+    console.log('Calling /User/me')
+    const response = await apiClient.get('/User/me')
+    console.log('User data:', response.data)
+    return response.data
+  } catch (err) {
+    console.error('Fetch user failed:', err)
+    throw err
+  }
 }
 
 export const useUser = () => {

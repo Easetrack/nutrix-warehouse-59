@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/types/stockupdate/summary";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
@@ -135,11 +135,11 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                   </TableCell>
                   <TableCell className="font-medium">{item.productId}</TableCell>
                   <TableCell className="max-w-md">{item.productName}</TableCell>
-                  <TableCell>{item.lotNumber}</TableCell>
+                  <TableCell className="text-right">{item.totalLot.toLocaleString()}</TableCell>
                   <TableCell className="text-right">{item.qty.toLocaleString()}</TableCell>
                   <TableCell>{item.unitName}</TableCell>
                   <TableCell>{item.categoryName}</TableCell>
-                  <TableCell className="text-right">{item.locations}</TableCell>
+                  <TableCell className="text-right">{item.totalLocation.toLocaleString()}</TableCell>
                 </TableRow>
               ))
             )}

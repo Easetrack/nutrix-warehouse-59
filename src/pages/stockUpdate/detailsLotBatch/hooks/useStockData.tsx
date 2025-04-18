@@ -4,7 +4,7 @@ import { StockItem, StockResponse } from "@/types/stock";
 import { authenticatedFetch } from "@/utils/auth";
 import { useToast } from "@/hooks/use-toast";
 
-export const useStockData = () => {
+export const useStockLotData = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -96,7 +96,7 @@ export const useStockData = () => {
       const queryParams = buildQueryParams();
 
       const response = await authenticatedFetch(
-        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`,
+        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate/byLotBatch?${queryParams.toString()}`,
         {
           headers: {
             'x-location': locationId,

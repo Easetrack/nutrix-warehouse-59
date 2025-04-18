@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { StockItem, StockResponse } from "@/types/stock";
+import { StockItem, StockResponse } from "@/types/stockupdate/summary";
 import { authenticatedFetch } from "@/utils/auth";
 import { useToast } from "@/hooks/use-toast";
 
@@ -111,6 +111,7 @@ export const useStockData = () => {
 
       // Handle null items from API response
       const items = data.items || [];
+      console.log('items', items);
       setStockItems(items);
       setFilteredItems(items);
       setTotalPages(data.totalPages || 1);

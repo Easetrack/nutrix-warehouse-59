@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }) => {
     verifyAuth();
   }, [navigate]);
 
-  return isAuthenticated ? children : children;
+  return isAuthenticated ? children : null;
 };
 
 export default ProtectedRoute;

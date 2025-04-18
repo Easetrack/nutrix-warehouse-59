@@ -88,7 +88,7 @@ const DetailsStockUpdateLot = () => {
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        onSearch={handleSearch}
+        onSearch={() => handleSearch()}
         onClear={handleClear}
       />
 

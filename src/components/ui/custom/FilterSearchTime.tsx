@@ -71,7 +71,7 @@ export interface FilterValues {
   searchTerm: string;
   warehouse: string;
   time: string;
-  date: Date | null;    // ✅ เพิ่ม field สำหรับ date
+  date: Date | null;
   zone: string;
   area: string;
   category: string;
@@ -81,8 +81,8 @@ export interface FilterValues {
 const defaultValues: FilterValues = {
   searchTerm: '',
   warehouse: 'All Warehouses',
-  time: null,
-  date: null,  // ✅ เพิ่ม default
+  time: '',
+  date: null,
   zone: 'All Zones',
   area: 'All Areas',
   category: 'All Categories',

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/types/stockupdate/summary";
@@ -12,6 +13,7 @@ export const useStockData = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTime, setSearchTime] = useState("");
+  const [searchDate, setSearchDate] = useState<Date | null>(null);
   const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
   const [selectedZone, setSelectedZone] = useState("All Zones");
   const [selectedArea, setSelectedArea] = useState("All Areas");
@@ -172,8 +174,7 @@ export const useStockData = () => {
     setIsDetailOpen(true);
   };
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
+  const handleSearch = () => {
     setCurrentPage(1);
     fetchStockData();
   };
@@ -181,6 +182,7 @@ export const useStockData = () => {
   const handleClear = () => {
     setSearchTerm("");
     setSearchTime("");
+    setSearchDate(null);
     setSelectedWarehouse("All Warehouses");
     setSelectedZone("All Zones");
     setSelectedArea("All Areas");
@@ -197,13 +199,13 @@ export const useStockData = () => {
 
   const handleAdvancedClear = () => {
     setAdvancedFilterValues({
-      searchTerm: searchTerm,
-      time: searchTime,
-      date: searchDate,
-      warehouse: selectedWarehouse,
-      zone: selectedZone,
-      area: selectedArea,
-      category: selectedCategory,
+      searchTerm: "",
+      time: "",
+      date: null,
+      warehouse: "All Warehouses",
+      zone: "All Zones",
+      area: "All Areas",
+      category: "All Categories",
       uom: "All UoMs",
     });
     setCurrentPage(1);

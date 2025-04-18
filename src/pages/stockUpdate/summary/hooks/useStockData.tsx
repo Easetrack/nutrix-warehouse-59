@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { StockItem, StockResponse } from "@/types/stockupdate/summary";
-import { authenticatedFetch } from "@/utils/auth";
+import { StockItem } from "@/types/stockupdate/summary";
 import { useToast } from "@/hooks/use-toast";
+import { fetchStockUpdateSummary } from "@/services/stockUpdate";
+import { StockUpdateQueryParams } from "@/types/stockupdate/api";
 
 export const useStockData = () => {
   const navigate = useNavigate();
@@ -50,41 +51,32 @@ export const useStockData = () => {
     fetchStockData();
   }, [navigate, currentPage, perPage, locationId]);
 
-  const buildQueryParams = () => {
-    const queryParams = new URLSearchParams({
-      page: currentPage.toString(),
-      perPage: perPage.toString(),
-    });
+  const buildQueryParams = (): StockUpdateQueryParams => {
+    const params: StockUpdateQueryParams = {
+      page: currentPage,
+      perPage: perPage,
+    };
 
-    // Add search filters if set
+    // Add search filters
     if (searchTerm) {
-      queryParams.append('searchByProductName', searchTerm);
-      queryParams.append('searchByBarcode', searchTerm);
-      queryParams.append('searchByProductId', searchTerm);
+      params.searchByProductName = searchTerm;
+      params.searchByBarcode = searchTerm;
+      params.searchByProductId = searchTerm;
     }
 
-    // Add category filter if not "All Categories"
     if (selectedCategory !== "All Categories") {
-      queryParams.append('searchByCategory', selectedCategory);
+      params.searchByCategory = selectedCategory;
     }
 
-    // Add zone filter if not "All Zones"
     if (selectedZone !== "All Zones") {
-      queryParams.append('zoneId', selectedZone.replace('Zone ', ''));
+      params.zoneId = selectedZone.replace("Zone ", "");
     }
 
-    // Add area filter if not "All Areas"
     if (selectedArea !== "All Areas") {
-      queryParams.append('areaId', selectedArea);
+      params.areaId = selectedArea;
     }
 
-    // Add sorting parameters if set
-    if (sortColumn) {
-      const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
-      queryParams.append(sortParam, sortDirection);
-    }
-
-    return queryParams;
+    return params;
   };
 
   const fetchStockData = async () => {
@@ -92,26 +84,10 @@ export const useStockData = () => {
     setError(null);
 
     try {
-      const queryParams = buildQueryParams();
-
-      const response = await authenticatedFetch(
-        `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`,
-        {
-          headers: {
-            'x-location': locationId,
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch stock data: ${response.status}`);
-      }
-
-      const data: StockResponse = await response.json();
-
-      // Handle null items from API response
+      const params = buildQueryParams();
+      const data = await fetchStockUpdateSummary(params);
+      
       const items = data.items || [];
-      console.log('items', items);
       setStockItems(items);
       setFilteredItems(items);
       setTotalPages(data.totalPages || 1);

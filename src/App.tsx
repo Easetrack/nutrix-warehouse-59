@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import SelectWarehouse from "./pages/SelectWarehouse";
 import Dashboard from "./pages/Dashboard";
+import DashboardLayout from "./app/dashboard/layout";
 
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -81,177 +82,44 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/select-warehouse" element={<SelectWarehouse />} />
 
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route >
+                  <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/stock/summary" element={<ProtectedRoute><SummaryStockUpdate /></ProtectedRoute>} />
+                    <Route path="/stock/detailsLot" element={
+                      <ProtectedRoute>
+                        <SummaryStockUpdateDetailsLot />
+                      </ProtectedRoute>
+                    } />
 
-                <Route
-                  path="/stock"
-                  element={
-                    <ProtectedRoute>
-                      <StockUpdate />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/stock/summary"
-                  element={
-                    <ProtectedRoute>
-                      <SummaryStockUpdate />
-                    </ProtectedRoute>
-                  }
-                />
-                {/* <Route path="/stock/details" element={
-                <ProtectedRoute>
-                  <SummaryStockUpdateDetail />
-                </ProtectedRoute>
-              } /> */}
+                    <Route path="/stock/detailsLotBatch" element={
+                      <ProtectedRoute>
+                        <SummaryStockUpdateDetailsLotBatch />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/stock/summary" element={<ProtectedRoute><SummaryStockUpdate /></ProtectedRoute>} />
+                    <Route path="/stock/details" element={<ProtectedRoute><SummaryStockUpdateDetail /></ProtectedRoute>} />
+                    <Route path="/receiving" element={<ProtectedRoute><Receiving /></ProtectedRoute>} />
+                    <Route path="/request-picking" element={<ProtectedRoute><RequestPicking /></ProtectedRoute>} />
+                    <Route path="/packing-ptw" element={<ProtectedRoute><PackingPTW /></ProtectedRoute>} />
+                    <Route path="/settings/permission/users/*" element={
+                      <ProtectedRoute>
+                        <UsersPage />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/settings/permission/roles/*" element={
+                      <ProtectedRoute>
+                        <RoleRoutes />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/settings/permission/permissions" element={
+                      <ProtectedRoute>
+                        <PermissionsPage />
+                      </ProtectedRoute>
+                    } />
+                  </Route>
+                </Route>
 
-                <Route
-                  path="/stock/detailsLot"
-                  element={
-                    <ProtectedRoute>
-                      <SummaryStockUpdateDetailsLot />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/stock/detailsLotBatch"
-                  element={
-                    <ProtectedRoute>
-                      <SummaryStockUpdateDetailsLotBatch />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/receiving"
-                  element={
-                    <ProtectedRoute>
-                      <Receiving />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/request-picking"
-                  element={
-                    <ProtectedRoute>
-                      <RequestPicking />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/packing-ptw"
-                  element={
-                    <ProtectedRoute>
-                      <PackingPTW />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/settings"
-                  element={
-                    <ProtectedRoute>
-                      <Settings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/product"
-                  element={
-                    <ProtectedRoute>
-                      <ProductSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/location"
-                  element={
-                    <ProtectedRoute>
-                      <LocationSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/department"
-                  element={
-                    <ProtectedRoute>
-                      <DepartmentSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/customer"
-                  element={
-                    <ProtectedRoute>
-                      <CustomerSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/vendor"
-                  element={
-                    <ProtectedRoute>
-                      <VendorSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/transaction-model"
-                  element={
-                    <ProtectedRoute>
-                      <TransactionModelSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/lot-model"
-                  element={
-                    <ProtectedRoute>
-                      <LotModelSettings />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/settings/permission/*"
-                  element={
-                    <ProtectedRoute>
-                      <PermissionSettings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/permission/users/*"
-                  element={
-                    <ProtectedRoute>
-                      <UsersPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/permission/roles/*"
-                  element={
-                    <ProtectedRoute>
-                      <RoleRoutes />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings/permission/permissions"
-                  element={
-                    <ProtectedRoute>
-                      <PermissionsPage />
-                    </ProtectedRoute>
-                  }
-                />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

@@ -29,18 +29,18 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <DashboardHeader 
+      {/* <DashboardHeader 
         showFilters={showFilters} 
         toggleFilters={() => setShowFilters(!showFilters)} 
         notificationsData={notificationsData} 
-      />
+      /> */}
       <div className="flex flex-1">
         <SidebarNav>
           <Outlet />
         </SidebarNav>
-        <main className="flex-1 p-4 md:p-6">
+        {/* <main className="flex-1 p-4 md:p-6">
           <Outlet />
-        </main>
+        </main> */}
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { StockItem } from "@/types/stockupdate/summary";
 import { useToast } from "@/hooks/use-toast";
 import { fetchStockUpdateByLotBatch } from "@/services/stockUpdate";
 import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { FilterValues } from "@/components/ui/custom/FilterSearchTime";
 
 export const useStockData = () => {
   const navigate = useNavigate();
@@ -26,6 +27,18 @@ export const useStockData = () => {
   const [perPage, setPerPage] = useState(10);
   const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
+  const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
+    searchTerm: searchTerm,
+    time: searchTime,
+    date: searchDate,
+    warehouse: selectedWarehouse,
+    zone: selectedZone,
+    area: selectedArea,
+    category: selectedCategory,
+    uom: "All UoMs",
+  });
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -154,6 +167,49 @@ export const useStockData = () => {
     }
   };
 
+  const handleViewDetail = (item: StockItem) => {
+    setSelectedItem(item);
+    setIsDetailOpen(true);
+  };
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(1);
+    fetchStockData();
+  };
+
+  const handleClear = () => {
+    setSearchTerm("");
+    setSearchTime("");
+    setSelectedWarehouse("All Warehouses");
+    setSelectedZone("All Zones");
+    setSelectedArea("All Areas");
+    setSelectedCategory("All Categories");
+    setCurrentPage(1);
+    fetchStockData();
+  };
+
+  const handleAdvancedSearch = (values: FilterValues) => {
+    setAdvancedFilterValues(values);
+    setCurrentPage(1);
+    fetchStockData();
+  };
+
+  const handleAdvancedClear = () => {
+    setAdvancedFilterValues({
+      searchTerm: searchTerm,
+      time: searchTime,
+      date: searchDate,
+      warehouse: selectedWarehouse,
+      zone: selectedZone,
+      area: selectedArea,
+      category: selectedCategory,
+      uom: "All UoMs",
+    });
+    setCurrentPage(1);
+    fetchStockData();
+  };
+
   return {
     stockItems,
     filteredItems,
@@ -162,30 +218,21 @@ export const useStockData = () => {
     currentPage,
     totalPages,
     totalCount,
-    perPage,
     sortColumn,
     sortDirection,
-    selectedItems,
+    selectedItem,
+    isDetailOpen,
     searchTerm,
-    searchTime,
-    selectedWarehouse,
-    selectedZone,
-    selectedArea,
-    selectedCategory,
-    fetchStockData,
-    handleSelectAll,
-    handleSelectItem,
+    advancedFilterValues,
     handleSort,
     handleNextPage,
     handlePreviousPage,
-    setCurrentPage,
-    setSortColumn,
-    setSortDirection,
+    handleViewDetail,
+    handleSearch,
+    handleClear,
+    handleAdvancedSearch,
+    handleAdvancedClear,
     setSearchTerm,
-    setSearchTime,
-    setSelectedWarehouse,
-    setSelectedZone,
-    setSelectedArea,
-    setSelectedCategory
+    setIsDetailOpen,
   };
 };

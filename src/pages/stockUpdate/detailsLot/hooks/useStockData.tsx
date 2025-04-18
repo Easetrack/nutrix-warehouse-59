@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/types/stockupdate/summary";
@@ -78,7 +77,7 @@ export const useStockData = () => {
     }
 
     if (sortColumn) {
-      const sortKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}` as keyof StockUpdateLotQueryParams;
+      const sortKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
       params[sortKey] = sortDirection;
     }
 

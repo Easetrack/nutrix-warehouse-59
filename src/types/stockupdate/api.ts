@@ -26,14 +26,15 @@ export interface StockUpdateQueryParams {
 }
 
 export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
-  sortByCategory?: string;
-  sortByType?: string;
-  sortBySubType?: string;
-  sortByBarcode?: string;
-  sortByProductId?: string;
-  sortByProductName?: string;
-  sortByUnit?: string;
-  sortByQty?: string;
-  sortByTags?: string;
-  sortByNonTags?: string;
+  sortByCategory?: "asc" | "desc";
+  sortByType?: "asc" | "desc";
+  sortBySubType?: "asc" | "desc";
+  sortByBarcode?: "asc" | "desc";
+  sortByProductId?: "asc" | "desc";
+  sortByProductName?: "asc" | "desc";
+  sortByUnit?: "asc" | "desc";
+  sortByQty?: "asc" | "desc";
+  sortByTags?: "asc" | "desc";
+  sortByNonTags?: "asc" | "desc";
+  [key: string]: string | number | undefined;  // Add index signature to allow dynamic property access
 }

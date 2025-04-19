@@ -41,6 +41,11 @@ export const useStockItems = (locationId: string) => {
     }
   };
 
+  const handleViewDetail = (item: StockItem) => {
+    setSelectedItem(item);
+    setIsDetailOpen(true);
+  };
+
   return {
     stockItems,
     filteredItems,
@@ -55,5 +60,6 @@ export const useStockItems = (locationId: string) => {
     totalPages,
     totalCount,
     fetchStockData,
+    handleViewDetail,
   };
 };

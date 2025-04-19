@@ -97,5 +97,6 @@ export const useStockData = () => {
     handleClear,
     handleAdvancedSearch,
     handleAdvancedClear,
+    handleViewDetail: stockItems.handleViewDetail,
   };
 };

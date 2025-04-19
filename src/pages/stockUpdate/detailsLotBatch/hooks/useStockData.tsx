@@ -1,191 +1,99 @@
+
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { StockItem } from "@/types/stockupdate/summary";
-import { useToast } from "@/hooks/use-toast";
-import { fetchStockUpdateByLotBatch } from "@/services/stockUpdate";
-import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { FilterValues } from "@/components/ui/custom/FilterSearchTime";
+import { useStockAuth } from "../../hooks/useStockAuth";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { useStockItems } from "./useStockItems";
 
 export const useStockData = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchTime, setSearchTime] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  const [selectedZone, setSelectedZone] = useState("All Zones");
-  const [selectedArea, setSelectedArea] = useState("All Areas");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [stockItems, setStockItems] = useState<StockItem[]>([]);
-  const [filteredItems, setFilteredItems] = useState<StockItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [perPage, setPerPage] = useState(10);
-  const [error, setError] = useState<string | null>(null);
-  const [locationId, setLocationId] = useState<string>("1");
+  const { locationId } = useStockAuth();
+  const queryParams = useQueryParams();
+  const stockItems = useStockItems(locationId);
+  const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
+    searchTerm: queryParams.searchTerm,
+    time: queryParams.searchTime,
+    date: queryParams.searchDate,
+    warehouse: queryParams.selectedWarehouse,
+    zone: queryParams.selectedZone,
+    area: queryParams.selectedArea,
+    category: queryParams.selectedCategory,
+    uom: "All UoMs",
+  });
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
+    if (locationId) {
+      stockItems.fetchStockData(queryParams.buildQueryParams());
     }
-
-    const storedWarehouse = localStorage.getItem("selectedWarehouse");
-    if (!storedWarehouse) {
-      navigate("/select-warehouse");
-      return;
-    } else {
-      try {
-        const parsedWarehouse = JSON.parse(storedWarehouse);
-        if (parsedWarehouse && parsedWarehouse.id) {
-          setLocationId(parsedWarehouse.id);
-        }
-      } catch (error) {
-        console.error('Error parsing stored warehouse:', error);
-      }
-    }
-
-    fetchStockData();
-  }, [navigate, currentPage, perPage, locationId]);
-
-  const buildQueryParams = (): StockUpdateLotQueryParams => {
-    const params: StockUpdateLotQueryParams = {
-      page: currentPage,
-      perPage: perPage,
-    };
-
-    if (searchTerm) {
-      params.searchByProductName = searchTerm;
-      params.searchByBarcode = searchTerm;
-      params.searchByProductId = searchTerm;
-    }
-
-    if (selectedCategory !== "All Categories") {
-      params.searchByCategory = selectedCategory;
-    }
-
-    if (selectedZone !== "All Zones") {
-      params.zoneId = selectedZone.replace("Zone ", "");
-    }
-
-    if (selectedArea !== "All Areas") {
-      params.areaId = selectedArea;
-    }
-
-    if (sortColumn) {
-      const sortKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
-      params[sortKey] = sortDirection;
-    }
-
-    return params;
-  };
-
-  const fetchStockData = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const params = buildQueryParams();
-      const data = await fetchStockUpdateByLotBatch(params);
-      
-      const items = data.items || [];
-      setStockItems(items);
-      setFilteredItems(items);
-      setTotalPages(data.totalPages || 1);
-      setTotalCount(data.totalCount || 0);
-      setPerPage(data.perPage || 10);
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      setError("Failed to load stock data. Please try again.");
-      toast({
-        title: "Error",
-        description: "Failed to load stock data. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedWarehouse !== "All Warehouses") {
-      // This would need to be implemented with actual warehouse data
-      // For now, it's just a placeholder
-    }
-  }, [stockItems, selectedWarehouse]);
-
-  const handleSelectAll = () => {
-    if (selectedItems.length === filteredItems.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(filteredItems.map((item) => item.productId));
-    }
-  };
-
-  const handleSelectItem = (id: string) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
-    }
-  };
+  }, [locationId, queryParams.currentPage, queryParams.perPage]);
 
   const handleSort = (column: string) => {
-    const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-    setSortColumn(column);
-    setSortDirection(newDirection);
-    setCurrentPage(1);
-    fetchStockData();
+    queryParams.setSortColumn(column);
+    queryParams.setSortDirection(
+      queryParams.sortColumn === column && queryParams.sortDirection === "asc" ? "desc" : "asc"
+    );
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
+  const handleSearch = () => {
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
+  const handleClear = () => {
+    queryParams.setSearchTerm("");
+    queryParams.setSearchTime("");
+    queryParams.setSearchDate(null);
+    queryParams.setSelectedWarehouse("All Warehouses");
+    queryParams.setSelectedZone("All Zones");
+    queryParams.setSelectedArea("All Areas");
+    queryParams.setSelectedCategory("All Categories");
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
+  const handleAdvancedSearch = (values: FilterValues) => {
+    setAdvancedFilterValues(values);
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
+  const handleAdvancedClear = () => {
+    setAdvancedFilterValues({
+      searchTerm: "",
+      time: "",
+      date: null,
+      warehouse: "All Warehouses",
+      zone: "All Zones",
+      area: "All Areas",
+      category: "All Categories",
+      uom: "All UoMs",
+    });
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+  
+  // Add pagination handler methods
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    queryParams.setCurrentPage(queryParams.currentPage + 1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    queryParams.setCurrentPage(Math.max(1, queryParams.currentPage - 1));
+    stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
   return {
-    stockItems,
-    filteredItems,
-    isLoading,
-    error,
-    currentPage,
-    totalPages,
-    totalCount,
-    perPage,
-    sortColumn,
-    sortDirection,
-    selectedItems,
-    searchTerm,
-    searchTime,
-    selectedWarehouse,
-    selectedZone,
-    selectedArea,
-    selectedCategory,
-    fetchStockData,
-    handleSelectAll,
-    handleSelectItem,
+    ...stockItems,
+    ...queryParams,
+    advancedFilterValues,
     handleSort,
+    handleSearch,
+    handleClear,
+    handleAdvancedSearch,
+    handleAdvancedClear,
     handleNextPage,
     handlePreviousPage,
-    setCurrentPage,
-    setSortColumn,
-    setSortDirection,
-    setSearchTerm,
-    setSearchTime,
-    setSelectedWarehouse,
-    setSelectedZone,
-    setSelectedArea,
-    setSelectedCategory
   };
 };

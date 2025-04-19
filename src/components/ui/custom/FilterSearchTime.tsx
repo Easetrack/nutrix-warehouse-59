@@ -1,64 +1,14 @@
 
 import React, { useState } from 'react';
-import { Search, RotateCcw } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { format } from "date-fns";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import TimePicker from "@/components/ui/time-picker"
-import { DatePicker } from "@/components/ui/date-picker"
-
-// Mock data for filters
-const warehouses = [
-  "All Warehouses",
-  "Bangkok Central",
-  "Chiang Mai Distribution",
-  "Phuket Storage",
-  "Pattaya Facility",
-];
-
-const zones = ["All Zones", "Zone A", "Zone B", "Zone C", "Zone D"];
-
-const areas = [
-  "All Areas",
-  "Dry Food",
-  "Wet Food",
-  "Premium Section",
-  "Specialty",
-  "Health",
-  "Small Pets",
-  "Aquatics",
-];
-
-const categories = [
-  "All Categories",
-  "LADIES WEAR",
-  "MEN WEAR",
-  "KIDS WEAR",
-  "ACCESSORIES",
-  "Raw Material",
-  "Packaging",
-  "Product",
-];
-
-const uoms = [
-  "All UoMs",
-  "Piece",
-  "Box",
-  "Carton",
-  "Pallet",
-  "kg",
-  "g",
-  "L",
-  "mL",
-];
+import { FilterSearchInput } from './filter/FilterSearch';
+import { FilterSelect } from './filter/FilterSelect';
+import { FilterActions } from './filter/FilterActions';
+import { warehouses, zones, areas, categories, uoms } from './filter/filterOptions';
+import { DatePicker } from "@/components/ui/date-picker";
+import TimePicker from "@/components/ui/time-picker";
 
 interface FilterSearchProps {
   onSearch: (filters: FilterValues) => void;
@@ -71,7 +21,7 @@ export interface FilterValues {
   searchTerm: string;
   warehouse: string;
   time: string;
-  date: Date | null;    // ✅ เพิ่ม field สำหรับ date
+  date: Date | null;
   zone: string;
   area: string;
   category: string;
@@ -81,8 +31,8 @@ export interface FilterValues {
 const defaultValues: FilterValues = {
   searchTerm: '',
   warehouse: 'All Warehouses',
-  time: null,
-  date: null,  // ✅ เพิ่ม default
+  time: '',
+  date: null,
   zone: 'All Zones',
   area: 'All Areas',
   category: 'All Categories',
@@ -102,10 +52,6 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
   });
 
   const handleSearch = () => {
-    const formattedFilters = {
-      ...filters,
-      date: filters.date ? format (filters.date, 'yyyy-MM-dd') : '', // format ก่อนส่ง
-    };
     onSearch(filters);
     setIsOpen(false);
   };
@@ -133,138 +79,35 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
         <div className="space-y-4">
           <h3 className="font-medium text-sm mb-2">Filter Search</h3>
 
-          <div>
-            <Input
-              placeholder="Search by item code, name or lot"
-              value={filters.searchTerm}
-              onChange={handleInputChange}
-              className="w-full"
-              iconPosition="right"
-              icon={<Search className="h-4 w-4 text-muted-foreground" />}
-            />
-          </div>
+          <FilterSearchInput
+            value={filters.searchTerm}
+            onChange={handleInputChange}
+          />
 
-          {/* <div>
-            <TimePicker
-              onChange={(value) => handleSelectChange(value, 'time')}
-            />
-          </div> */}
+          <DatePicker
+            selected={filters.date ?? undefined}
+            onSelect={(date) => setFilters({ ...filters, date: date ?? null })}
+            placeholder="Select a date"
+          />
 
-          <div>
-            <DatePicker
-              selected={filters.date ?? undefined}
-              onSelect={(date) => setFilters({ ...filters, date: date ?? null })}
-              placeholder="Select a date"
-            />
-          </div>
+          {Object.entries({
+            warehouse: { options: warehouses, placeholder: "Select Warehouse" },
+            zone: { options: zones, placeholder: "Select Zone" },
+            area: { options: areas, placeholder: "Select Area" },
+            category: { options: categories, placeholder: "Select Category" },
+            uom: { options: uoms, placeholder: "Select UoM" },
+          }).map(([field, { options, placeholder }]) => (
+            <div key={field}>
+              <FilterSelect
+                value={filters[field as keyof FilterValues] as string}
+                options={options}
+                placeholder={placeholder}
+                onValueChange={(value) => handleSelectChange(value, field as keyof FilterValues)}
+              />
+            </div>
+          ))}
 
-          <div>
-            <Select
-              value={filters.warehouse}
-              onValueChange={(value) => handleSelectChange(value, 'warehouse')}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Warehouse" />
-              </SelectTrigger>
-              <SelectContent>
-                {warehouses.map((warehouse) => (
-                  <SelectItem key={warehouse} value={warehouse}>
-                    {warehouse}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Select
-              value={filters.zone}
-              onValueChange={(value) => handleSelectChange(value, 'zone')}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Zone" />
-              </SelectTrigger>
-              <SelectContent>
-                {zones.map((zone) => (
-                  <SelectItem key={zone} value={zone}>
-                    {zone}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Select
-              value={filters.area}
-              onValueChange={(value) => handleSelectChange(value, 'area')}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Area" />
-              </SelectTrigger>
-              <SelectContent>
-                {areas.map((area) => (
-                  <SelectItem key={area} value={area}>
-                    {area}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Select
-              value={filters.category}
-              onValueChange={(value) => handleSelectChange(value, 'category')}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Select
-              value={filters.uom}
-              onValueChange={(value) => handleSelectChange(value, 'uom')}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select UoM" />
-              </SelectTrigger>
-              <SelectContent>
-                {uoms.map((uom) => (
-                  <SelectItem key={uom} value={uom}>
-                    {uom}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex gap-2 pt-2">
-            <Button
-              variant="outline"
-              onClick={handleClear}
-              className="flex-1"
-            >
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Clear
-            </Button>
-            <Button
-              onClick={handleSearch}
-              className="flex-1 bg-primary text-white"
-            >
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
-          </div>
+          <FilterActions onClear={handleClear} onSearch={handleSearch} />
         </div>
       </PopoverContent>
     </Popover>

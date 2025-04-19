@@ -20,9 +20,6 @@ apiClient.interceptors.request.use((config) => {
     warehouseId = "001";
   }
 
-  console.log("token", token);
-  console.log("warehouse", warehouseId);
-
   if (token) {
     config.headers.Authorization = `Bearer ${(token)}`;
     config.headers["x-location"] = (warehouseId || "001");

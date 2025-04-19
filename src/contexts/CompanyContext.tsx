@@ -42,7 +42,7 @@ export const CompanyProvider: React.FC<CompanyProviderProps> = ({ children }) =>
         try {
           const data = await fetchCompanyData();
           setCompanyData(data);
-          console.log('Company data loaded:', data);
+          // console.log('Company data loaded:', data);
         } catch (error) {
           console.error('Failed to load company data:', error);
         }

@@ -15,7 +15,7 @@ const fetchUserData = async (): Promise<UserData> => {
   try {
     console.log('Calling /User/me')
     const response = await apiClient.get('/User/me')
-    console.log('User data:', response.data)
+    // console.log('User data:', response.data)
     return response.data
   } catch (err) {
     console.error('Fetch user failed:', err)

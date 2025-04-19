@@ -29,13 +29,13 @@ export const fetchCompanyData = async (): Promise<CompanyData> => {
     }
 
     if(response){
-      console.log('Company data response:', response);
+      // console.log('Company data response:', response);
 
     } 
 
     const data: CompanyData = await response.json();
 
-    console.log('Company data:', response);
+    // console.log('Company data:', response);
     return data;
   } catch (error) {
     console.error('Error fetching company data:', error);

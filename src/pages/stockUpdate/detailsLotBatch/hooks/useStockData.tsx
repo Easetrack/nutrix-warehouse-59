@@ -72,6 +72,17 @@ export const useStockData = () => {
     queryParams.setCurrentPage(1);
     stockItems.fetchStockData(queryParams.buildQueryParams());
   };
+  
+  // Add pagination handler methods
+  const handleNextPage = () => {
+    queryParams.setCurrentPage(queryParams.currentPage + 1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
+  const handlePreviousPage = () => {
+    queryParams.setCurrentPage(Math.max(1, queryParams.currentPage - 1));
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
 
   return {
     ...stockItems,
@@ -82,5 +93,7 @@ export const useStockData = () => {
     handleClear,
     handleAdvancedSearch,
     handleAdvancedClear,
+    handleNextPage,
+    handlePreviousPage,
   };
 };

@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { FilterHeader } from './filter/FilterHeader';
 import { FilterSearchInput } from './filter/FilterSearchInput';
 import { FilterSelect } from './filter/FilterSelect';
 import { FilterActions } from './filter/FilterActions';
+import { useFilterSearch } from '@/hooks/useFilterSearch';
 import {
   warehouses,
   zones,
@@ -16,8 +17,6 @@ import {
 
 export interface FilterValues {
   searchTerm: string;
-  time?: string;
-  date?: Date | null;
   warehouse: string;
   zone: string;
   area: string;
@@ -32,47 +31,21 @@ interface FilterSearchProps {
   trigger?: React.ReactNode;
 }
 
-const defaultValues: FilterValues = {
-  searchTerm: '',
-  time: '',
-  date: null,
-  warehouse: 'All Warehouses',
-  zone: 'All Zones',
-  area: 'All Areas',
-  category: 'All Categories',
-  uom: 'All UoMs',
-};
-
 export const FilterSearch: React.FC<FilterSearchProps> = ({
   onSearch,
   onClear,
-  initialValues = {},
+  initialValues,
   trigger
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterValues>({
-    ...defaultValues,
-    ...initialValues,
-  });
-
-  const handleSearch = () => {
-    onSearch(filters);
-    setIsOpen(false);
-  };
-
-  const handleClear = () => {
-    const resetFilters = { ...defaultValues };
-    setFilters(resetFilters);
-    onClear();
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({ ...filters, searchTerm: e.target.value });
-  };
-
-  const handleSelectChange = (value: string, field: keyof FilterValues) => {
-    setFilters({ ...filters, [field]: value });
-  };
+  const {
+    isOpen,
+    filters,
+    setIsOpen,
+    handleSearch,
+    handleClear,
+    handleInputChange,
+    handleSelectChange,
+  } = useFilterSearch({ onSearch, onClear, initialValues });
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

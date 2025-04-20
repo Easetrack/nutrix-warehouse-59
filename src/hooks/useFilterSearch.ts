@@ -1,11 +1,8 @@
-import { useState } from 'react';
-import { FilterValues } from '@/components/ui/custom/FilterSearch';
 
-interface UseFilterSearchProps {
-  onSearch: (filters: FilterValues) => void;
-  onClear: () => void;
-  initialValues?: Partial<FilterValues>;
-}
+import { useState } from 'react';
+import { FilterValues, FilterSearchProps } from '@/types/filter';
+
+type UseFilterSearchProps = Pick<FilterSearchProps, 'onSearch' | 'onClear' | 'initialValues'>;
 
 export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFilterSearchProps) => {
   const defaultValues: FilterValues = {
@@ -22,7 +19,6 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     barcode: '',
     productId: '',
     productName: '',
-    unitId: '',
     serialNo: '',
     stockId: '',
     subAreaId: '',
@@ -34,6 +30,8 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     searchByProductName: '',
     searchByUnit: '',
     expiredDate: '',
+    zoneId: '',
+    areaId: '',
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +49,7 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
       searchByCategory: filters.category !== 'All Categories' ? filters.category : '',
       zoneId: filters.zone !== 'All Zones' ? filters.zone.replace('Zone ', '') : '',
       areaId: filters.area !== 'All Areas' ? filters.area : '',
-      unitId: filters.uom !== 'All UoMs' ? filters.uom : '',
+      searchByUnit: filters.uom !== 'All UoMs' ? filters.uom : '',
     };
     onSearch(apiFilters);
     setIsOpen(false);

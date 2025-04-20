@@ -17,6 +17,8 @@ import {
 
 export interface FilterValues {
   searchTerm: string;
+  time?: string;
+  date?: Date | null;
   warehouse: string;
   zone: string;
   area: string;

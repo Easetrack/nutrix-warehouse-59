@@ -11,6 +11,8 @@ interface UseFilterSearchProps {
 export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFilterSearchProps) => {
   const defaultValues: FilterValues = {
     searchTerm: '',
+    time: '',
+    date: null,
     warehouse: 'All Warehouses',
     zone: 'All Zones',
     area: 'All Areas',

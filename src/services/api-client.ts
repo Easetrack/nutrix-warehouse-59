@@ -23,13 +23,10 @@ apiClient.interceptors.request.use((config) => {
   }
 
   if (token) {
-    // Fix the typing by using the correct method to set headers
-    config.headers = {
-      ...(config.headers || {}),
-      Authorization: `Bearer ${token}`,
-      "x-location": warehouseId,
-      "Content-Type": "application/json",
-    };
+    // Use proper way to set headers in Axios v1.x
+    config.headers.Authorization = `Bearer ${token}`;
+    config.headers["x-location"] = warehouseId;
+    config.headers["Content-Type"] = "application/json";
   }
   return config;
 });
@@ -48,11 +45,8 @@ apiClient.interceptors.response.use(
         if (success) {
           const newToken = localStorage.getItem("accessToken");
           if (newToken) {
-            // Update to use proper axios headers handling
-            originalRequest.headers = {
-              ...(originalRequest.headers || {}),
-              Authorization: `Bearer ${newToken}`,
-            };
+            // Use proper way to set Authorization header
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
             return apiClient(originalRequest);
           }
         }

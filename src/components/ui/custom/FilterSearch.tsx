@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -24,6 +23,15 @@ export interface FilterValues {
   area: string;
   category: string;
   uom: string;
+  typeId?: string;
+  subTypeId?: string;
+  barcode?: string;
+  productId?: string;
+  productName?: string;
+  unitId?: string;
+  serialNo?: string;
+  stockId?: string;
+  subAreaId?: string;
 }
 
 interface FilterSearchProps {

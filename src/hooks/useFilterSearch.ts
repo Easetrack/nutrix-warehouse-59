@@ -18,6 +18,15 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     area: 'All Areas',
     category: 'All Categories',
     uom: 'All UoMs',
+    typeId: '',
+    subTypeId: '',
+    barcode: '',
+    productId: '',
+    productName: '',
+    unitId: '',
+    serialNo: '',
+    stockId: '',
+    subAreaId: '',
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +36,18 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
   });
 
   const handleSearch = () => {
-    onSearch(filters);
+    const apiFilters: FilterValues = {
+      ...filters,
+      // Map the filter values to match API parameters
+      searchByProductName: filters.searchTerm,
+      searchByBarcode: filters.searchTerm,
+      searchByProductId: filters.searchTerm,
+      categoryId: filters.category !== 'All Categories' ? filters.category : undefined,
+      zoneId: filters.zone !== 'All Zones' ? filters.zone.replace('Zone ', '') : undefined,
+      areaId: filters.area !== 'All Areas' ? filters.area : undefined,
+      unitId: filters.uom !== 'All UoMs' ? filters.uom : undefined,
+    };
+    onSearch(apiFilters);
     setIsOpen(false);
   };
 

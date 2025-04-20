@@ -21,24 +21,32 @@ export const useQueryParams = () => {
       perPage: perPage,
     };
 
+    // Add search term
     if (searchTerm) {
-      params.searchByProductName = searchTerm;
-      params.searchByBarcode = searchTerm;
-      params.searchByProductId = searchTerm;
+      params.search = searchTerm;
     }
 
+    // Add date and time filters
+    if (searchDate) {
+      params.expiredDate = searchDate.toISOString().split('T')[0];
+    }
+
+    // Add category filter
     if (selectedCategory !== "All Categories") {
-      params.searchByCategory = selectedCategory;
+      params.categoryId = selectedCategory;
     }
 
+    // Add zone filter
     if (selectedZone !== "All Zones") {
       params.zoneId = selectedZone.replace("Zone ", "");
     }
 
+    // Add area filter
     if (selectedArea !== "All Areas") {
       params.areaId = selectedArea;
     }
 
+    // Add sorting
     if (sortColumn) {
       const sortKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
       params[sortKey] = sortDirection;
@@ -72,3 +80,4 @@ export const useQueryParams = () => {
     buildQueryParams,
   };
 };
+

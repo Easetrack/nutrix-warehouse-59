@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { refreshAccessToken, logout } from "@/utils/auth";
 
@@ -8,6 +9,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   let warehouseId = "001";
+  
   try {
     const raw = localStorage.getItem("selectedWarehouse");
     if (raw?.startsWith("{")) {
@@ -21,8 +23,12 @@ apiClient.interceptors.request.use((config) => {
   }
 
   if (token) {
-    config.headers.Authorization = `Bearer ${(token)}`;
-    config.headers["x-location"] = (warehouseId || "001");
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${token}`,
+      "x-location": warehouseId,
+      "Content-Type": "application/json",
+    };
   }
   return config;
 });

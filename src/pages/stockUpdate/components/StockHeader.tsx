@@ -3,7 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FilterSearch, FilterValues } from "@/components/ui/custom/FilterSearchTime";
+import { FilterSearchTime, FilterValues } from "@/components/ui/custom/FilterSearchTime";
+import { useToast } from "@/hooks/use-toast";
 
 interface StockHeaderProps {
   title: string;
@@ -20,6 +21,16 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
   onAdvancedClear,
   initialFilterValues,
 }) => {
+  const { toast } = useToast();
+
+  const handleAdvancedSearch = (values: FilterValues) => {
+    onAdvancedSearch(values);
+    toast({
+      title: "Filters Applied",
+      description: "The stock list has been filtered according to your criteria.",
+    });
+  };
+
   return (
     <motion.div
       variants={{
@@ -35,13 +46,13 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
         <Button
           variant="outline"
           onClick={onExport}
-          className="flex-1 space-x-1"
+          className="space-x-1"
         >
           <Download size={16} />
           <span>Export</span>
         </Button>
-        <FilterSearch
-          onSearch={onAdvancedSearch}
+        <FilterSearchTime
+          onSearch={handleAdvancedSearch}
           onClear={onAdvancedClear}
           initialValues={initialFilterValues}
           trigger={

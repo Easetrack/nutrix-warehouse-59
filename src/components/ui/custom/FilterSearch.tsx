@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, RotateCcw } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -66,6 +65,8 @@ interface FilterSearchProps {
 
 export interface FilterValues {
   searchTerm: string;
+  time?: string;
+  date?: Date | null;
   warehouse: string;
   zone: string;
   area: string;
@@ -75,6 +76,8 @@ export interface FilterValues {
 
 const defaultValues: FilterValues = {
   searchTerm: '',
+  time: '',
+  date: null,
   warehouse: 'All Warehouses',
   zone: 'All Zones',
   area: 'All Areas',

@@ -8,16 +8,16 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
   const queryParams = new URLSearchParams();
   
   if (params.search) {
-    queryParams.append('search', params.search);
+    queryParams.append('search', params.search.toString());
   }
   if (params.categoryId) {
-    queryParams.append('categoryId', params.categoryId);
+    queryParams.append('categoryId', params.categoryId.toString());
   }
   if (params.zoneId) {
-    queryParams.append('zoneId', params.zoneId);
+    queryParams.append('zoneId', params.zoneId.toString());
   }
   if (params.areaId) {
-    queryParams.append('areaId', params.areaId);
+    queryParams.append('areaId', params.areaId.toString());
   }
   if (params.page) {
     queryParams.append('page', params.page.toString());
@@ -28,6 +28,8 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
   if (params.expiredDate) {
     queryParams.append('expiredDate', params.expiredDate);
   }
+
+  console.log('Query Params:', queryParams.toString()); // Debugging line
 
   const response = await apiClient.get(`/StockUpdate?${queryParams.toString()}`);
   return response.data;

@@ -25,6 +25,7 @@ export const useStockData = () => {
   const [perPage, setPerPage] = useState(10);
   const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
+  
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -55,6 +56,7 @@ export const useStockData = () => {
     const params: StockUpdateQueryParams = {
       page: currentPage,
       perPage: perPage,
+      search: searchTerm,
     };
 
     // Add search filters
@@ -86,6 +88,8 @@ export const useStockData = () => {
     try {
       const params = buildQueryParams();
       const data = await fetchStockUpdateSummary(params);
+
+      console.log("Fetched stock data:", params); // Debugging line
       
       const items = data.items || [];
       setStockItems(items);
@@ -105,6 +109,8 @@ export const useStockData = () => {
       setIsLoading(false);
     }
   };
+
+  
 
   useEffect(() => {
     // Client-side filtering is now only used for warehouse selection

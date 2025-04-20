@@ -20,23 +20,23 @@ import { StockItem } from "@/types/stock";
 const SummaryStockUpdate = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  const [selectedZone, setSelectedZone] = useState("All Zones");
-  const [selectedArea, setSelectedArea] = useState("All Areas");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
+  // const [selectedZone, setSelectedZone] = useState("All Zones");
+  // const [selectedArea, setSelectedArea] = useState("All Areas");
+  // const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
-  const [advancedFilterValues, setAdvancedFilterValues] =
-    useState<FilterValues>({
-      searchTerm: searchTerm,
-      warehouse: selectedWarehouse,
-      zone: selectedZone,
-      area: selectedArea,
-      category: selectedCategory,
-      uom: "All UoMs",
-    });
+  // const [advancedFilterValues, setAdvancedFilterValues] =
+  //   useState<FilterValues>({
+  //     searchTerm: searchTerm,
+  //     warehouse: selectedWarehouse,
+  //     zone: selectedZone,
+  //     area: selectedArea,
+  //     category: selectedCategory,
+  //     uom: "All UoMs",
+  //   });
 
   const {
     stockItems,
@@ -55,11 +55,16 @@ const SummaryStockUpdate = () => {
     setCurrentPage,
     setSortColumn,
     setSortDirection,
-    setSearchTerm: setStockSearchTerm,
-    setSelectedWarehouse: setStockSelectedWarehouse,
-    setSelectedZone: setStockSelectedZone,
-    setSelectedArea: setStockSelectedArea,
-    setSelectedCategory: setStockSelectedCategory,
+    searchTerm,
+    selectedWarehouse,
+    selectedZone,
+    selectedArea,
+    selectedCategory,
+    setSearchTerm,
+    setSelectedWarehouse,
+    setSelectedZone,
+    setSelectedArea,
+    setSelectedCategory,
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
@@ -73,18 +78,15 @@ const SummaryStockUpdate = () => {
   };
 
   const handleClear = () => {
-    setSearchTerm("");
-    setStockSearchTerm("");
+    // setSearchTerm("");
+    // setSelectedZone("All Zones");
+    // setSelectedArea("All Areas");
+    // setSelectedCategory("All Categories");
+
     setSelectedWarehouse("All Warehouses");
-    setStockSelectedWarehouse("All Warehouses");
-    setSelectedZone("All Zones");
-    setStockSelectedZone("All Zones");
-    setSelectedArea("All Areas");
-    setStockSelectedArea("All Areas");
-    setSelectedCategory("All Categories");
-    setStockSelectedCategory("All Categories");
     setSortColumn(null);
     setSortDirection("asc");
+    setSearchTerm('');
     setCurrentPage(1); // Reset to first page
     fetchStockData();
   };
@@ -97,16 +99,13 @@ const SummaryStockUpdate = () => {
   };
 
   const handleAdvancedSearch = (filters: FilterValues) => {
-    setSearchTerm(filters.searchTerm);
-    setStockSearchTerm(filters.searchTerm);
+    // setSearchTerm(filters.searchTerm);
+    // setSelectedZone(filters.zone);
+    // setSelectedArea(filters.area);
+    // setSelectedCategory(filters.category);
+
     setSelectedWarehouse(filters.warehouse);
-    setStockSelectedWarehouse(filters.warehouse);
-    setSelectedZone(filters.zone);
-    setStockSelectedZone(filters.zone);
-    setSelectedArea(filters.area);
-    setStockSelectedArea(filters.area);
-    setSelectedCategory(filters.category);
-    setStockSelectedCategory(filters.category);
+
     setCurrentPage(1); // Reset to first page on new search
     fetchStockData();
   };
@@ -174,7 +173,14 @@ const SummaryStockUpdate = () => {
           <FilterSearch
             onSearch={handleAdvancedSearch}
             onClear={handleAdvancedClear}
-            initialValues={advancedFilterValues}
+            initialValues={{
+              searchTerm: searchTerm, // ใช้จาก hook
+              warehouse: selectedWarehouse, // ใช้จาก hook
+              zone: selectedZone, // ใช้จาก hook
+              area: selectedArea, // ใช้จาก hook
+              category: selectedCategory, // ใช้จาก hook
+              uom: "All UoMs"
+            }}
             trigger={
               <Button variant="outline" className="space-x-1">
                 <Filter className="h-4 w-4" />
@@ -272,3 +278,7 @@ const SummaryStockUpdate = () => {
 };
 
 export default SummaryStockUpdate;
+function setSelectedWarehouse(warehouse: string) {
+  throw new Error("Function not implemented.");
+}
+

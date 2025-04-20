@@ -8,7 +8,10 @@ import { FilterActions } from './filter/FilterActions';
 import { FilterLocationSelects } from './filter/FilterLocationSelects';
 import { FilterProductSelects } from './filter/FilterProductSelects';
 import { useFilterSearch } from '@/hooks/useFilterSearch';
-import { FilterSearchProps } from '@/types/filter';
+import { FilterSearchProps, FilterValues } from '@/types/filter';
+
+// Export the FilterValues type for backward compatibility
+export type { FilterValues } from '@/types/filter';
 
 export const FilterSearch: React.FC<FilterSearchProps> = ({
   onSearch,

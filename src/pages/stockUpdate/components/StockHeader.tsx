@@ -3,7 +3,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FilterSearch, FilterValues } from "@/components/ui/custom/FilterSearch";
+import { FilterSearch } from "@/components/ui/custom/FilterSearch";
+import type { FilterValues } from '@/types/filter';
 import { useToast } from "@/hooks/use-toast";
 
 interface StockHeaderProps {

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -8,8 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import {
   FilterSearch,
-  FilterValues,
 } from "@/components/ui/custom/FilterSearch";
+import type { FilterValues } from '@/types/filter';
 import { Loading } from "@/components/ui/custom/loading";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";

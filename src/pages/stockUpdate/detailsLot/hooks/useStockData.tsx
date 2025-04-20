@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { StockItem } from "@/types/stockupdate/summary";
-import { FilterValues } from "@/components/ui/custom/FilterSearchTime";
+import type { FilterValues } from '@/types/filter';
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { useStockItems } from "../../hooks/useStockItems";

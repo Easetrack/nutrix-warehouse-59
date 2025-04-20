@@ -40,6 +40,10 @@ export interface FilterValues {
   searchByProductName?: string;
   searchByUnit?: string;
   expiredDate?: string;
+  zoneId?: string;
+  areaId?: string;
+  unitId?: string;
+  expiredDate?: string;
 }
 
 interface FilterSearchProps {

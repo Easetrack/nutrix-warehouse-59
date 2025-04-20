@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FilterValues } from '@/components/ui/custom/FilterSearch';
 
@@ -27,7 +26,6 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     serialNo: '',
     stockId: '',
     subAreaId: '',
-    // Initialize searchBy properties
     searchByCategory: '',
     searchByType: '',
     searchBySubType: '',
@@ -47,11 +45,9 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
   const handleSearch = () => {
     const apiFilters: FilterValues = {
       ...filters,
-      // Map the filter values to match API parameters
       searchByProductName: filters.searchTerm,
       searchByBarcode: filters.searchTerm,
       searchByProductId: filters.searchTerm,
-      // Use the correct property name 'category' instead of 'categoryId'
       searchByCategory: filters.category !== 'All Categories' ? filters.category : '',
       zoneId: filters.zone !== 'All Zones' ? filters.zone.replace('Zone ', '') : '',
       areaId: filters.area !== 'All Areas' ? filters.area : '',

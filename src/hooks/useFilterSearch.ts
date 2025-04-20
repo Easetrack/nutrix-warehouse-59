@@ -51,10 +51,11 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
       searchByProductName: filters.searchTerm,
       searchByBarcode: filters.searchTerm,
       searchByProductId: filters.searchTerm,
-      categoryId: filters.category !== 'All Categories' ? filters.category : undefined,
-      zoneId: filters.zone !== 'All Zones' ? filters.zone.replace('Zone ', '') : undefined,
-      areaId: filters.area !== 'All Areas' ? filters.area : undefined,
-      unitId: filters.uom !== 'All UoMs' ? filters.uom : undefined,
+      // Use the correct property name 'category' instead of 'categoryId'
+      searchByCategory: filters.category !== 'All Categories' ? filters.category : '',
+      zoneId: filters.zone !== 'All Zones' ? filters.zone.replace('Zone ', '') : '',
+      areaId: filters.area !== 'All Areas' ? filters.area : '',
+      unitId: filters.uom !== 'All UoMs' ? filters.uom : '',
     };
     onSearch(apiFilters);
     setIsOpen(false);

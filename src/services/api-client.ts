@@ -23,8 +23,8 @@ apiClient.interceptors.request.use((config) => {
   }
 
   if (token) {
+    // Fix typing issue by properly setting the headers
     config.headers = {
-      ...config.headers,
       Authorization: `Bearer ${token}`,
       "x-location": warehouseId,
       "Content-Type": "application/json",

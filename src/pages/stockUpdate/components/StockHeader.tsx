@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FilterSearchTime, FilterValues } from "@/components/ui/custom/FilterSearchTime";
+import { FilterSearch, FilterValues } from "@/components/ui/custom/FilterSearch";
 import { useToast } from "@/hooks/use-toast";
 
 interface StockHeaderProps {
@@ -51,7 +51,7 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
           <Download size={16} />
           <span>Export</span>
         </Button>
-        <FilterSearchTime
+        <FilterSearch
           onSearch={handleAdvancedSearch}
           onClear={onAdvancedClear}
           initialValues={initialFilterValues}

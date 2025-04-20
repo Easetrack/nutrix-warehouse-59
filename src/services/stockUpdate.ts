@@ -36,27 +36,13 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
 export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): Promise<StockResponse> => {
   const queryParams = new URLSearchParams();
   
-  if (params.search) {
-    queryParams.append('search', params.search);
-  }
-  if (params.categoryId) {
-    queryParams.append('categoryId', params.categoryId);
-  }
-  if (params.zoneId) {
-    queryParams.append('zoneId', params.zoneId);
-  }
-  if (params.areaId) {
-    queryParams.append('areaId', params.areaId);
-  }
-  if (params.page) {
-    queryParams.append('page', params.page.toString());
-  }
-  if (params.perPage) {
-    queryParams.append('perPage', params.perPage.toString());
-  }
-  if (params.expiredDate) {
-    queryParams.append('expiredDate', params.expiredDate);
-  }
+  // Add base parameters
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      // Convert number values to string for URLSearchParams
+      queryParams.append(key, String(value));
+    }
+  });
 
   const response = await apiClient.get(`/StockUpdate/byLot?${queryParams.toString()}`);
   return response.data;
@@ -65,29 +51,14 @@ export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): 
 export const fetchStockUpdateByLotBatch = async (params: StockUpdateLotQueryParams): Promise<StockResponse> => {
   const queryParams = new URLSearchParams();
   
-  if (params.search) {
-    queryParams.append('search', params.search);
-  }
-  if (params.categoryId) {
-    queryParams.append('categoryId', params.categoryId);
-  }
-  if (params.zoneId) {
-    queryParams.append('zoneId', params.zoneId);
-  }
-  if (params.areaId) {
-    queryParams.append('areaId', params.areaId);
-  }
-  if (params.page) {
-    queryParams.append('page', params.page.toString());
-  }
-  if (params.perPage) {
-    queryParams.append('perPage', params.perPage.toString());
-  }
-  if (params.expiredDate) {
-    queryParams.append('expiredDate', params.expiredDate);
-  }
+  // Add base parameters
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      // Convert number values to string for URLSearchParams
+      queryParams.append(key, String(value));
+    }
+  });
 
   const response = await apiClient.get(`/StockUpdate/byLotBatch?${queryParams.toString()}`);
   return response.data;
 };
-

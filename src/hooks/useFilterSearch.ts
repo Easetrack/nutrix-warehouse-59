@@ -27,6 +27,15 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     serialNo: '',
     stockId: '',
     subAreaId: '',
+    // Initialize searchBy properties
+    searchByCategory: '',
+    searchByType: '',
+    searchBySubType: '',
+    searchByBarcode: '',
+    searchByProductId: '',
+    searchByProductName: '',
+    searchByUnit: '',
+    expiredDate: '',
   };
 
   const [isOpen, setIsOpen] = useState(false);

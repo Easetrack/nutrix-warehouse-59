@@ -1,7 +1,9 @@
+
 export interface StockUpdateQueryParams {
   page?: number;
   perPage?: number;
   search?: string;
+  expiredDate?: string;
   categoryId?: string;
   typeId?: string;
   subTypeId?: string;

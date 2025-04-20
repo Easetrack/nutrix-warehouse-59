@@ -32,6 +32,14 @@ export interface FilterValues {
   serialNo?: string;
   stockId?: string;
   subAreaId?: string;
+  searchByCategory?: string;
+  searchByType?: string;
+  searchBySubType?: string;
+  searchByBarcode?: string;
+  searchByProductId?: string;
+  searchByProductName?: string;
+  searchByUnit?: string;
+  expiredDate?: string;
 }
 
 interface FilterSearchProps {

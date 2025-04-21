@@ -7,12 +7,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Loader2 } from 'lucide-react';
+
+interface FilterOption {
+  id: string;
+  name: string;
+  code?: string;
+}
 
 interface FilterSelectProps {
   value: string;
-  options: string[];
+  options: FilterOption[];
   placeholder: string;
   onValueChange: (value: string) => void;
+  isLoading?: boolean;
+  disabled?: boolean;
 }
 
 export const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -20,19 +29,30 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   options,
   placeholder,
   onValueChange,
+  isLoading = false,
+  disabled = false,
 }) => {
   return (
-    <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            {option}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="relative">
+      <Select 
+        value={value} 
+        onValueChange={onValueChange}
+        disabled={disabled || isLoading}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={placeholder} />
+          {isLoading && (
+            <Loader2 className="h-4 w-4 animate-spin ml-2" />
+          )}
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.id} value={option.id}>
+              {option.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

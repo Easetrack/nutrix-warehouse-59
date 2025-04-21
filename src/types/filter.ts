@@ -13,20 +13,23 @@ export interface LocationFilterValues {
   area: string;
   zoneId?: string;
   areaId?: string;
+  subArea?: string;
+  subAreaId?: string;
 }
 
 // Product-specific filter properties
 export interface ProductFilterValues {
   category: string;
   uom: string;
+  type?: string;
   typeId?: string;
+  subType?: string;
   subTypeId?: string;
   barcode?: string;
   productId?: string;
   productName?: string;
   serialNo?: string;
   stockId?: string;
-  subAreaId?: string;
 }
 
 // Search criteria filter properties

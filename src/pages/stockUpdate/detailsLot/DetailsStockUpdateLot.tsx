@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,7 +9,7 @@ import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
 import { useStockData } from "./hooks/useStockData";
 import { StockHeader } from "../components/StockHeader";
 import { SearchBar } from "../components/SearchBar";
-import { StockPagination } from "../components/StockPagination";
+import { StockPagination } from "@/components/ui/StockPagination";
 
 const DetailsStockUpdateLot = () => {
   const { toast } = useToast();

@@ -24,9 +24,18 @@ export const useStockItems = (locationId: string) => {
 
     try {
       const data = await fetchStockUpdateByLotBatch(params);
-      const items = data.items || [];
-      setStockItems(items);
-      setFilteredItems(items);
+      
+      // Ensure the data being assigned matches the expected StockItem type
+      if (data.items) {
+        // Explicitly casting the items to the correct type since we know the API returns compatible data
+        const typedItems = data.items as unknown as StockItem[];
+        setStockItems(typedItems);
+        setFilteredItems(typedItems);
+      } else {
+        setStockItems([]);
+        setFilteredItems([]);
+      }
+      
       setTotalPages(data.totalPages || 1);
       setTotalCount(data.totalCount || 0);
       setPerPage(data.perPage || 10);

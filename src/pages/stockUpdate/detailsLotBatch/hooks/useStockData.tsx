@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { FilterValues } from "@/components/ui/custom/FilterSearchTime";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -85,11 +84,20 @@ export const useStockData = () => {
     stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  // Add setPerPage function
+  // Implement setPerPage without relying on queryParams.setPerPage
   const setPerPage = (newPerPage: number) => {
-    queryParams.setPerPage(newPerPage);
+    // Create updated parameters with new perPage value
+    const updatedParams = {
+      ...queryParams.buildQueryParams(),
+      perPage: newPerPage,
+      page: 1, // Reset to page 1 when changing perPage
+    };
+    
+    // Update the page in queryParams
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    
+    // Fetch with new parameters
+    stockItems.fetchStockData(updatedParams);
   };
 
   return {

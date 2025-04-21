@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { StockItem } from "@/types/stockupdate/summary";
 import type { FilterValues } from '@/types/filter';
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -86,11 +85,20 @@ export const useStockData = () => {
     }
   };
 
-  // Add the setPerPage function
+  // Implement setPerPage manually without relying on queryParams
   const setPerPage = (newPerPage: number) => {
-    queryParams.setPerPage(newPerPage);
+    // Just update the currentPage and perPage when fetching
+    const updatedParams = {
+      ...queryParams.buildQueryParams(),
+      perPage: newPerPage,
+      page: 1, // Reset to page 1 when changing perPage
+    };
+    
+    // Update the page in queryParams
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    
+    // Fetch with new parameters
+    stockItems.fetchStockData(updatedParams);
   };
 
   return {

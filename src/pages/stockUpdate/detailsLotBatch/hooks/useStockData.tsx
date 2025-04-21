@@ -5,7 +5,7 @@ import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { useStockItems } from "./useStockItems";
 
-export const useStockData = () => {
+export const useStockData = () => { 
   const { locationId } = useStockAuth();
   const queryParams = useQueryParams();
   const stockItems = useStockItems(locationId);

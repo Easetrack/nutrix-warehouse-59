@@ -1,7 +1,7 @@
 
 import React from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { StockItem } from "@/types/stockupdate/lotBatch";
+import { StockItem } from "@/types/stockupdate/lot";
 
 interface TableRowsProps {
   filteredItems: StockItem[];
@@ -46,7 +46,6 @@ export const TableRows: React.FC<TableRowsProps> = ({
           <TableCell>{item.productId}</TableCell>
           <TableCell>{item.productName}</TableCell>
           <TableCell>{item.lotMaster}</TableCell>
-          <TableCell>{item.lotBatch	}</TableCell>
           <TableCell>{item.barcode}</TableCell>
           <TableCell>{item.categoryName}</TableCell>
           <TableCell>{item.typeName}</TableCell>

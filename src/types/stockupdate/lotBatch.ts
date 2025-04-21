@@ -28,6 +28,7 @@ export interface StockItem {
     totalLot: number | null;
     lotNumber: string;
     lotMaster: string;
+    lotBatch: string;
     locations: string | null;
     totalLocation: number;
 }

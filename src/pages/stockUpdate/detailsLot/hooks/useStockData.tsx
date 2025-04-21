@@ -4,7 +4,7 @@ import { StockItem } from "@/types/stockupdate/summary";
 import type { FilterValues } from '@/types/filter';
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
-import { useStockItems } from "../../hooks/useStockItems";
+import { useStockItems } from "./useStockItems";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();

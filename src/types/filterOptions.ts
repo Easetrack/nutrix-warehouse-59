@@ -1,6 +1,6 @@
 
 export interface FilterOption {
-  id: string;
+  id: string;   // This should never be an empty string
   name: string;
   code?: string;
 }

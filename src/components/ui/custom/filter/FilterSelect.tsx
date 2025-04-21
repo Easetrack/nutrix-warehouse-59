@@ -47,7 +47,11 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
         </SelectTrigger>
         <SelectContent>
           {Array.isArray(options) && options.map((option) => (
-            <SelectItem key={option.id} value={option.id}>
+            // Ensure option.id is never an empty string
+            <SelectItem 
+              key={option.id} 
+              value={option.id || `option-${option.name}`} // Fallback to a non-empty string if id is empty
+            >
               {option.name}
             </SelectItem>
           ))}

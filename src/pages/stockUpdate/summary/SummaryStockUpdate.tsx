@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/types/stockupdate/summary"; // Fixed import path for StockItem
 import { useStockData } from "./hooks/useStockData";
 import { SummaryHeader } from "./components/SummaryHeader";
 import { SummarySearchBar } from "./components/SummarySearchBar";

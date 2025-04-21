@@ -1,5 +1,4 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { LocationFilterValues } from '@/types/filter';
 import { useFilterOptions } from '@/hooks/useFilterOptions';
@@ -7,11 +6,13 @@ import { useFilterOptions } from '@/hooks/useFilterOptions';
 interface FilterLocationSelectsProps {
   values: LocationFilterValues;
   onValueChange: (value: string, field: keyof LocationFilterValues) => void;
+  visibleFields?: (keyof LocationFilterValues)[];
 }
 
 export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
   values,
   onValueChange,
+  visibleFields,
 }) => {
   const {
     warehouses,
@@ -22,77 +23,109 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
     isLoadingZones,
     isLoadingAreas,
     isLoadingSubAreas,
+    loadZones,
     loadAreas,
     loadSubAreas
   } = useFilterOptions();
 
-  // Load areas when zone changes
-  useEffect(() => {
-    if (values.zone && values.zone !== 'All Zones') {
-      // Extract the zone code from "Zone X" format or use the value directly
-      const zoneCode = values.zone.startsWith('Zone ') 
-        ? values.zone.replace('Zone ', '')
-        : values.zone;
-      
-      loadAreas(zoneCode);
-    }
-  }, [values.zone, loadAreas]);
+  const prevWarehouse = useRef<string | null>(null);
+  const prevZone = useRef<string | null>(null);
+  const prevArea = useRef<string | null>(null);
 
-  // Load sub-areas when area changes
+  const shouldShow = (field: keyof LocationFilterValues) =>
+    !visibleFields || visibleFields.includes(field);
+
+
+
   useEffect(() => {
-    if (values.zone && values.area && values.zone !== 'All Zones' && values.area !== 'All Areas') {
-      // Extract the zone code from "Zone X" format or use the value directly
-      const zoneCode = values.zone.startsWith('Zone ') 
-        ? values.zone.replace('Zone ', '')
-        : values.zone;
-      
-      loadSubAreas(zoneCode, values.area);
+    const wh = values.warehouse;
+
+    if (wh && wh !== '' && wh !== prevWarehouse.current) {
+      prevWarehouse.current = wh;
+      loadZones(wh); // ต้องส่ง stockCode จาก warehouse
     }
-  }, [values.zone, values.area, loadSubAreas]);
+  }, [values.warehouse]);
+
+  useEffect(() => {
+    const zone = values.zone?.startsWith('Zone ') ? values.zone.replace('Zone ', '') : values.zone;
+    const wh = values.warehouse;
+
+    if (
+      zone &&
+      wh &&
+      zone !== '' &&
+      wh !== '' &&
+      zone !== prevZone.current
+    ) {
+      prevZone.current = zone;
+      loadAreas(wh, zone); // ✅ ส่ง warehouse ด้วย
+    }
+  }, [values.zone, values.warehouse]); // ✅ อย่าลืมใส่ values.warehouse ด้วย
+
+  useEffect(() => {
+    const zone = values.zone?.startsWith('Zone ') ? values.zone.replace('Zone ', '') : values.zone;
+    const wh = values.warehouse;
+
+    if (
+      zone &&
+      wh &&
+      values.area &&
+      zone !== '' &&
+      values.area !== '' &&
+      wh !== '' &&
+      values.area !== prevArea.current
+    ) {
+      prevArea.current = values.area;
+      loadSubAreas(zone, values.area, wh); // ✅ ส่ง warehouse ด้วย
+    }
+  }, [values.zone, values.area, values.warehouse]); // ✅ เพิ่ม values.warehouse เข้า dependency
+
+
 
   return (
     <>
-      <div>
+      {shouldShow('warehouse') && (
         <FilterSelect
-          value={values.warehouse || 'All Warehouses'}
-          options={warehouses || []}
+          value={values.warehouse}
+          options={warehouses}
           placeholder="Select Warehouse"
           onValueChange={(value) => onValueChange(value, 'warehouse')}
           isLoading={isLoadingWarehouses}
         />
-      </div>
+      )}
 
-      <div>
+      {shouldShow('zone') && (
         <FilterSelect
-          value={values.zone || 'All Zones'}
-          options={zones || []}
+          value={values.zoneId}
+          options={zones}
           placeholder="Select Zone"
-          onValueChange={(value) => onValueChange(value, 'zone')}
+          onValueChange={(value) => onValueChange(value, 'zoneId')}
           isLoading={isLoadingZones}
+          disabled={values.warehouse === 'All Warehouses'}
         />
-      </div>
+      )}
 
-      <div>
+      {shouldShow('area') && (
         <FilterSelect
-          value={values.area || 'All Areas'}
-          options={areas || []}
+          value={values.areaId}
+          options={areas}
           placeholder="Select Area"
-          onValueChange={(value) => onValueChange(value, 'area')}
+          onValueChange={(value) => onValueChange(value, 'areaId')}
           isLoading={isLoadingAreas}
           disabled={values.zone === 'All Zones'}
         />
-      </div>
+      )}
 
-      <div>
+      {shouldShow('subArea') && (
         <FilterSelect
-          value={values.subArea || 'All SubAreas'}
-          options={subAreas || []}
+          value={values.subAreaId}
+          options={subAreas}
           placeholder="Select Sub Area"
           onValueChange={(value) => onValueChange(value, 'subAreaId')}
           isLoading={isLoadingSubAreas}
           disabled={values.zone === 'All Zones' || values.area === 'All Areas'}
         />
-      </div>
+      )}
     </>
   );
 };

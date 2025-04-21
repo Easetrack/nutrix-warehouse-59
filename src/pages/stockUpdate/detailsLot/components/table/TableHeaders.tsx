@@ -18,7 +18,7 @@ export const TableHeaders: React.FC<TableHeadersProps> = ({
     { id: "productId", label: "Item ID", width: "w-25" },
     { id: "productName", label: "Item Name", width: "w-50" },
     { id: "lotNumber", label: "Lot", width: "w-30" },
-    { id: "LotBatch", label: "Lot Batch", width: "w-30" },
+    // { id: "LotBatch", label: "Lot Batch", width: "w-30" },
     { id: "Barcode", label: "barcode", width: "w-30" },
     { id: "categories", label: "Categories", width: "w-28" },
     { id: "Group", label: "Group", width: "" },

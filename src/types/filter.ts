@@ -56,4 +56,7 @@ export interface FilterSearchProps {
   onClear: () => void;
   initialValues?: Partial<FilterValues>;
   trigger?: React.ReactNode;
+  visibleLocationFields?: (keyof LocationFilterValues)[];
+  visibleProductFields?: (keyof ProductFilterValues)[];
+  visibleInputFields?: ('search' | 'date' | 'selectLocation' | 'selectProduct')[];
 }

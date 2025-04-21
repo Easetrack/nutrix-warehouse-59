@@ -1,13 +1,12 @@
-
-import { useEffect, useState } from 'react';
-import { 
-  fetchWarehouses, 
-  fetchZones, 
-  fetchAreas, 
-  fetchSubAreas
-} from '@/services/location';
-import { useToast } from '@/hooks/use-toast';
-import type { FilterOption } from '@/types/filterOptions';
+import { useEffect, useState } from "react";
+import {
+  fetchWarehouses,
+  fetchZones,
+  fetchAreas,
+  fetchSubAreas,
+} from "@/services/location";
+import { useToast } from "@/hooks/use-toast";
+import type { FilterOption } from "@/types/filterOptions";
 
 export const useLocationOptions = () => {
   const { toast } = useToast();
@@ -20,16 +19,20 @@ export const useLocationOptions = () => {
   const [isLoadingAreas, setIsLoadingAreas] = useState(false);
   const [isLoadingSubAreas, setIsLoadingSubAreas] = useState(false);
 
-  const addAllOption = (options: FilterOption[], labelPrefix: string): FilterOption[] => {
-    return [{ id: `All ${labelPrefix}s`, name: `All ${labelPrefix}s` }, ...options];
+  const addAllOption = (
+    options: FilterOption[],
+    labelPrefix: string
+  ): FilterOption[] => {
+    // return [{ id: `All ${labelPrefix}s`, name: `All ${labelPrefix}s` }, ...options];
+    return [...options];
   };
 
   const loadWarehouses = async () => {
     setIsLoadingWarehouses(true);
     try {
       const data = await fetchWarehouses();
-      const formatted = data.map(w => ({ id: w.id, name: w.name }));
-      setWarehouses(addAllOption(formatted, 'Warehouse'));
+      const formatted = data.map((w) => ({ id: w.id, name: w.name }));
+      setWarehouses(addAllOption(formatted, "Warehouse"));
     } catch (error) {
       toast({
         variant: "destructive",
@@ -41,12 +44,24 @@ export const useLocationOptions = () => {
     }
   };
 
-  const loadZones = async () => {
+  const loadZones = async (stockCode: string) => {
+    if (!stockCode || stockCode === "All Warehouses") {
+      setZones(addAllOption([], "Zone"));
+      setAreas(addAllOption([], "Area"));
+      setSubAreas(addAllOption([], "SubArea"));
+      return;
+    }
     setIsLoadingZones(true);
     try {
-      const data = await fetchZones();
-      const formatted = data.map(z => ({ id: z.code, name: z.name, code: z.code }));
-      setZones(addAllOption(formatted, 'Zone'));
+      const data = await fetchZones(stockCode);
+      const formatted = data.map((z) => ({
+        id: z.code,
+        name: z.name,
+        code: z.code,
+      }));
+      setZones(addAllOption(formatted, "Zone"));
+      setAreas(addAllOption([], "Area"));
+      setSubAreas(addAllOption([], "SubArea"));
     } catch (error) {
       toast({
         variant: "destructive",
@@ -58,18 +73,22 @@ export const useLocationOptions = () => {
     }
   };
 
-  const loadAreas = async (zoneCode: string) => {
-    if (!zoneCode || zoneCode === 'All Zones') {
-      setAreas(addAllOption([], 'Area'));
-      setSubAreas(addAllOption([], 'SubArea'));
+  const loadAreas = async (zoneCode: string, stockCode: string) => {
+    if (!zoneCode || zoneCode === "All Zones") {
+      setAreas(addAllOption([], "Area"));
+      setSubAreas(addAllOption([], "SubArea"));
       return;
     }
     setIsLoadingAreas(true);
     try {
-      const data = await fetchAreas(zoneCode);
-      const formatted = data.map(a => ({ id: a.code, name: a.name, code: a.code }));
-      setAreas(addAllOption(formatted, 'Area'));
-      setSubAreas(addAllOption([], 'SubArea'));
+      const data = await fetchAreas(zoneCode, stockCode);
+      const formatted = data.map((a) => ({
+        id: a.code,
+        name: a.name,
+        code: a.code,
+      }));
+      setAreas(addAllOption(formatted, "Area"));
+      setSubAreas(addAllOption([], "SubArea"));
     } catch (error) {
       toast({
         variant: "destructive",
@@ -81,16 +100,25 @@ export const useLocationOptions = () => {
     }
   };
 
-  const loadSubAreas = async (zoneCode: string, areaCode: string) => {
-    if (!zoneCode || !areaCode || zoneCode === 'All Zones' || areaCode === 'All Areas') {
-      setSubAreas(addAllOption([], 'SubArea'));
+  const loadSubAreas = async (zoneCode: string, areaCode: string, stockCode: string) => {
+    if (
+      !zoneCode ||
+      !areaCode ||
+      zoneCode === "All Zones" ||
+      areaCode === "All Areas"
+    ) {
+      setSubAreas(addAllOption([], "SubArea"));
       return;
     }
     setIsLoadingSubAreas(true);
     try {
-      const data = await fetchSubAreas(zoneCode, areaCode);
-      const formatted = data.map(sa => ({ id: sa.code, name: sa.name, code: sa.code }));
-      setSubAreas(addAllOption(formatted, 'SubArea'));
+      const data = await fetchSubAreas(zoneCode, areaCode, stockCode);
+      const formatted = data.map((sa) => ({
+        id: sa.code,
+        name: sa.name,
+        code: sa.code,
+      }));
+      setSubAreas(addAllOption(formatted, "SubArea"));
     } catch (error) {
       toast({
         variant: "destructive",
@@ -104,12 +132,19 @@ export const useLocationOptions = () => {
 
   useEffect(() => {
     loadWarehouses();
-    loadZones();
   }, []);
 
   return {
-    warehouses, zones, areas, subAreas,
-    isLoadingWarehouses, isLoadingZones, isLoadingAreas, isLoadingSubAreas,
-    loadAreas, loadSubAreas,
+    warehouses,
+    zones,
+    areas,
+    subAreas,
+    isLoadingWarehouses,
+    isLoadingZones,
+    isLoadingAreas,
+    isLoadingSubAreas,
+    loadZones,
+    loadAreas,
+    loadSubAreas,
   };
 };

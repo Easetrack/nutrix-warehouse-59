@@ -9,15 +9,21 @@ import { FilterLocationSelects } from './filter/FilterLocationSelects';
 import { FilterProductSelects } from './filter/FilterProductSelects';
 import { useFilterSearch } from '@/hooks/useFilterSearch';
 import { FilterSearchProps, FilterValues } from '@/types/filter';
+import { DatePicker } from '@/components/ui/date-picker'
+
 
 // Export the FilterValues type for backward compatibility
 export type { FilterValues } from '@/types/filter';
+
 
 export const FilterSearch: React.FC<FilterSearchProps> = ({
   onSearch,
   onClear,
   initialValues,
-  trigger
+  trigger,
+  visibleLocationFields,
+  visibleProductFields,
+  visibleInputFields
 }) => {
   const {
     isOpen,
@@ -29,6 +35,11 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
     handleSelectChange,
   } = useFilterSearch({ onSearch, onClear, initialValues });
 
+
+  const shouldShowInput = (input: 'search' | 'date' | 'selectLocation' | 'selectProduct') =>
+    !visibleInputFields || visibleInputFields.includes(input);
+
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -37,23 +48,38 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
       <PopoverContent className="w-[320px] p-4 shadow-lg border border-border bg-background" align="end">
         <div className="space-y-4">
           <FilterHeader />
-          
-          <div>
-            <FilterSearchInput 
+
+          {shouldShowInput('search') && (
+            <FilterSearchInput
               value={filters.searchTerm}
               onChange={handleInputChange}
             />
-          </div>
-          
-          <FilterLocationSelects
-            values={filters}
-            onValueChange={handleSelectChange}
-          />
+          )}
 
-          <FilterProductSelects
-            values={filters}
-            onValueChange={handleSelectChange}
-          />
+          {shouldShowInput('date') && (
+            <DatePicker
+              selected={filters.date ?? undefined}
+              onSelect={(date) => handleSelectChange(date as never, 'date')}
+              placeholder="เลือกวันที่"
+              className="w-full"
+            />
+          )}
+
+          {shouldShowInput('selectLocation') && (
+            <FilterLocationSelects
+              values={filters}
+              onValueChange={handleSelectChange}
+              visibleFields={visibleLocationFields || ['warehouse', 'zone', 'area', 'subArea']}
+            />
+          )}
+
+          {shouldShowInput('selectProduct') && (
+            <FilterProductSelects
+              values={filters}
+              onValueChange={handleSelectChange}
+              visibleFields={visibleProductFields || ['category', 'typeId', 'subTypeId', 'uom']}
+            />
+          )}
 
           <FilterActions onClear={handleClear} onSearch={handleSearch} />
         </div>

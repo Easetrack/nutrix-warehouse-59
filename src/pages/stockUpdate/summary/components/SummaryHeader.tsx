@@ -10,7 +10,9 @@ interface SummaryHeaderProps {
   selectedWarehouse: string;
   selectedZone: string;
   selectedArea: string;
+  selectedSubArea: string;
   selectedCategory: string;
+  selectedUoM: string;
   onExport: () => void;
   onAdvancedSearch: (filters: FilterValues) => void;
   onAdvancedClear: () => void;
@@ -21,7 +23,9 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   selectedWarehouse,
   selectedZone,
   selectedArea,
+  selectedSubArea,
   selectedCategory,
+  selectedUoM,
   onExport,
   onAdvancedSearch,
   onAdvancedClear,
@@ -48,9 +52,13 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
             warehouse: selectedWarehouse,
             zone: selectedZone,
             area: selectedArea,
+            subArea: selectedSubArea,
             category: selectedCategory,
-            uom: "All UoMs"
+            uom: selectedUoM,
           }}
+          visibleInputFields={['search', 'selectLocation', 'selectProduct']} // ไม่แสดง product filter
+          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}  // แสดงแค่ warehouse + zone
+          visibleProductFields={['category', 'uom']}  // แสดงแค่ category + type
           trigger={
             <Button variant="outline" className="space-x-1">
               <Filter className="h-4 w-4" />

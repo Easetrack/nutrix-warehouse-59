@@ -36,12 +36,16 @@ const SummaryStockUpdate = () => {
     selectedWarehouse,
     selectedZone,
     selectedArea,
+    selectedSubArea,
     selectedCategory,
+    selectedUoM,
     setSearchTerm,
     setSelectedWarehouse,
     setSelectedZone,
     setSelectedArea,
+    setSelectedSubArea,
     setSelectedCategory,
+    setSelectedUoM,
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
@@ -56,6 +60,7 @@ const SummaryStockUpdate = () => {
 
   const handleClear = () => {
     setSelectedWarehouse("All Warehouses");
+    setSelectedCategory('')
     setSortColumn(null);
     setSortDirection("asc");
     setSearchTerm('');
@@ -72,6 +77,12 @@ const SummaryStockUpdate = () => {
 
   const handleAdvancedSearch = (filters) => {
     setSelectedWarehouse(filters.warehouse);
+    setSelectedZone(filters.zone);
+    setSelectedArea(filters.area);
+    setSelectedSubArea(filters.subArea);
+    setSelectedCategory(filters.category);
+    setSelectedUoM(filters.uom)
+    setSearchTerm(filters.searchTerm); // ถ้ามีการค้นหาด้วย
     setCurrentPage(1);
     fetchStockData();
   };
@@ -124,7 +135,9 @@ const SummaryStockUpdate = () => {
         selectedWarehouse={selectedWarehouse}
         selectedZone={selectedZone}
         selectedArea={selectedArea}
+        selectedSubArea={selectedSubArea}
         selectedCategory={selectedCategory}
+        selectedUoM={selectedUoM}
         onExport={handleExport}
         onAdvancedSearch={handleAdvancedSearch}
         onAdvancedClear={handleAdvancedClear}

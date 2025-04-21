@@ -44,10 +44,10 @@ export const useStockData = () => {
     queryParams.setSearchTerm("");
     queryParams.setSearchTime("");
     queryParams.setSearchDate(null);
-    queryParams.setSelectedWarehouse("All Warehouses");
-    queryParams.setSelectedZone("All Zones");
-    queryParams.setSelectedArea("All Areas");
-    queryParams.setSelectedCategory("All Categories");
+    queryParams.setSelectedWarehouse("");
+    queryParams.setSelectedZone("");
+    queryParams.setSelectedArea("");
+    queryParams.setSelectedCategory("");
     queryParams.setCurrentPage(1);
     stockItems.fetchStockData(queryParams.buildQueryParams());
   };
@@ -63,11 +63,11 @@ export const useStockData = () => {
       searchTerm: "",
       time: "",
       date: null,
-      warehouse: "All Warehouses",
-      zone: "All Zones",
-      area: "All Areas",
-      category: "All Categories",
-      uom: "All UoMs",
+      warehouse: "",
+      zone: "",
+      area: "",
+      category: "",
+      uom: "",
     });
     queryParams.setCurrentPage(1);
     stockItems.fetchStockData(queryParams.buildQueryParams());

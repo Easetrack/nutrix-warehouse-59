@@ -13,7 +13,9 @@ export const useStockData = () => {
   const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
   const [selectedZone, setSelectedZone] = useState("All Zones");
   const [selectedArea, setSelectedArea] = useState("All Areas");
+  const [selectedSubArea, setSelectedSubArea] = useState("All SubAreas");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedUoM, setSelectedUoM] = useState("All UoM");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [stockItems, setStockItems] = useState<StockItem[]>([]);
@@ -59,6 +61,9 @@ export const useStockData = () => {
       search: searchTerm,
     };
 
+    console.log('params', params)
+    console.log('selectedZone', selectedZone)
+
     // Add search filters
     if (searchTerm) {
       params.searchByProductName = searchTerm;
@@ -70,12 +75,20 @@ export const useStockData = () => {
       params.searchByCategory = selectedCategory;
     }
 
+    if (selectedUoM !== "All UoM") {
+      params.unitId = selectedUoM;
+    }
+
     if (selectedZone !== "All Zones") {
-      params.zoneId = selectedZone.replace("Zone ", "");
+      params.zoneId = selectedZone;
     }
 
     if (selectedArea !== "All Areas") {
       params.areaId = selectedArea;
+    }
+
+    if (selectedSubArea !== "All SubAreas") {
+      params.subAreaId = selectedSubArea;
     }
 
     return params;
@@ -109,8 +122,6 @@ export const useStockData = () => {
       setIsLoading(false);
     }
   };
-
-  
 
   useEffect(() => {
     // Client-side filtering is now only used for warehouse selection
@@ -174,7 +185,9 @@ export const useStockData = () => {
     selectedWarehouse,
     selectedZone,
     selectedArea,
+    selectedSubArea,
     selectedCategory,
+    selectedUoM,
     fetchStockData,
     handleSelectAll,
     handleSelectItem,
@@ -188,6 +201,8 @@ export const useStockData = () => {
     setSelectedWarehouse,
     setSelectedZone,
     setSelectedArea,
-    setSelectedCategory
+    setSelectedSubArea,
+    setSelectedCategory,
+    setSelectedUoM
   };
 };

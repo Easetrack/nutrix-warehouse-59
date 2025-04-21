@@ -7,8 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
 import { useStockData } from "./hooks/useStockData";
-import { StockHeader } from "../components/StockHeader";
-import { SearchBar } from "../components/SearchBar";
+import { StockHeader } from "./components/StockHeader";
+import { SearchBar } from "./components/SearchBar";
 import { StockPagination } from "@/components/ui/StockPagination";
 
 const DetailsStockUpdateLot = () => {
@@ -104,6 +104,7 @@ const DetailsStockUpdateLot = () => {
                 sortDirection={sortDirection}
                 handleSort={handleSort}
                 handleViewDetail={handleViewDetail}
+                
               />
             </div>
 

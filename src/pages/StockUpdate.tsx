@@ -82,10 +82,10 @@ const StockUpdate = () => {
   const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  const [selectedZone, setSelectedZone] = useState("All Zones");
-  const [selectedArea, setSelectedArea] = useState("All Areas");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedWarehouse, setSelectedWarehouse] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [stockItems, setStockItems] = useState<StockItem[]>([]);
@@ -251,10 +251,10 @@ const StockUpdate = () => {
 
   const handleClear = () => {
     setSearchTerm("");
-    setSelectedWarehouse("All Warehouses");
-    setSelectedZone("All Zones");
-    setSelectedArea("All Areas");
-    setSelectedCategory("All Categories");
+    setSelectedWarehouse("");
+    setSelectedZone("");
+    setSelectedArea("");
+    setSelectedCategory("");
     setSortColumn(null);
     setSortDirection("asc");
     setSelectedItems([]);

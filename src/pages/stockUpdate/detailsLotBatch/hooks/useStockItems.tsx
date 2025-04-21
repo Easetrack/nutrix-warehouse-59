@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { StockItem } from "@/types/stockupdate/summary";
+import { StockItem } from "@/types/stockupdate/lotBatch";
 import { useToast } from "@/hooks/use-toast";
 import { fetchStockUpdateByLotBatch } from "@/services/stockUpdate";
 import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";

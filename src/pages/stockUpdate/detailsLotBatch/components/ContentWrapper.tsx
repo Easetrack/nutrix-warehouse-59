@@ -1,9 +1,10 @@
+
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { StockItemsTable } from "./StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/types/stockupdate/lotBatch";
 
 interface ContentWrapperProps {
   filteredItems: StockItem[];

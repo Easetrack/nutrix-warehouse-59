@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/types/stockupdate/lotBatch";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;
@@ -101,6 +101,18 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                 <p className="text-xs text-gray-500">Non-Tags</p>
                 <p className="text-sm font-medium">{selectedItem.nonTags}</p>
               </div>
+              <div className="flex justify-between">
+                <p className="text-xs text-gray-500">Lot Number</p>
+                <p className="text-sm font-medium">{selectedItem.lotNumber || "N/A"}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="text-xs text-gray-500">Lot Master</p>
+                <p className="text-sm font-medium">{selectedItem.lotMaster || "N/A"}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="text-xs text-gray-500">Lot Batch</p>
+                <p className="text-sm font-medium">{selectedItem.lotBatch || "N/A"}</p>
+              </div>
             </div>
           </div>
 
@@ -119,6 +131,14 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                 <div className="flex justify-between">
                   <span>Sub Type</span>
                   <span>{selectedItem.subTypeName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Total Lot</span>
+                  <span>{selectedItem.totalLot || "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Total Locations</span>
+                  <span>{selectedItem.totalLocation || "N/A"}</span>
                 </div>
               </div>
             </div>

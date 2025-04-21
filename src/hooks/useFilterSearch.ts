@@ -84,9 +84,33 @@ export const useFilterSearch = ({
     setFilters({ ...filters, searchTerm: e.target.value });
   };
 
+  // !! อันนี้คือ IMPORTANT PART: เวลาที่เลือกค่าจาก FilterSelect, update ทั้งฟิลด์ name (zone, area, subArea) และฟิลด์ id ด้วย
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
-    // Reset dependent fields when parent field changes
-    if (field === "category") {
+    if (field === "zoneId") {
+      setFilters({
+        ...filters,
+        zoneId: value,
+        zone: value, // สมมติ option id กับ name ตรงกัน, ถ้าต่างจะต้องกำหนด mapping เพิ่ม
+        areaId: "",
+        area: "",
+        subAreaId: "",
+        subArea: "",
+      });
+    } else if (field === "areaId") {
+      setFilters({
+        ...filters,
+        areaId: value,
+        area: value,
+        subAreaId: "",
+        subArea: "",
+      });
+    } else if (field === "subAreaId") {
+      setFilters({
+        ...filters,
+        subAreaId: value,
+        subArea: value,
+      });
+    } else if (field === "category") {
       setFilters({
         ...filters,
         [field]: value,
@@ -98,19 +122,6 @@ export const useFilterSearch = ({
         ...filters,
         [field]: value,
         subTypeId: "",
-      });
-    } else if (field === "zone") {
-      setFilters({
-        ...filters,
-        [field]: value,
-        areaId: "",
-        subAreaId: "",
-      });
-    } else if (field === "area") {
-      setFilters({
-        ...filters,
-        [field]: value,
-        subAreaId: "",
       });
     } else {
       setFilters({ ...filters, [field]: value });

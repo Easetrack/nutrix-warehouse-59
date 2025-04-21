@@ -2,19 +2,24 @@
 import { useState, useEffect } from "react";
 import { FilterValues, FilterSearchProps } from "@/types/filter";
 
-// Key for localStorage
-const FILTER_LOCALSTORAGE_KEY = "filterSearchValues";
+// Default localStorage key (fallback)
+const DEFAULT_FILTER_LOCALSTORAGE_KEY = "filterSearchValues";
 
 type UseFilterSearchProps = Pick<
   FilterSearchProps,
   "onSearch" | "onClear" | "initialValues"
->;
+> & {
+  storageKey?: string; // <<< เพิ่ม prop
+};
 
 export const useFilterSearch = ({
   onSearch,
   onClear,
   initialValues = {},
+  storageKey,
 }: UseFilterSearchProps) => {
+  const FILTER_LOCALSTORAGE_KEY = storageKey || DEFAULT_FILTER_LOCALSTORAGE_KEY;
+
   const defaultValues: FilterValues = {
     searchTerm: "",
     time: "",
@@ -47,10 +52,12 @@ export const useFilterSearch = ({
     areaId: "",
   };
 
-  // --------- ขั้นตอน 1: ดึงค่าจาก localStorage (ถ้ามี) ---------
+  // --- ใช้ FILTER_LOCALSTORAGE_KEY (รับจาก props หรือ default) ---
   function getInitialFilters() {
-    // ถ้ามีใน localStorage ให้ใช้
-    const saved = typeof window !== "undefined" ? localStorage.getItem(FILTER_LOCALSTORAGE_KEY) : null;
+    const saved =
+      typeof window !== "undefined"
+        ? localStorage.getItem(FILTER_LOCALSTORAGE_KEY)
+        : null;
     if (saved) {
       try {
         return { ...defaultValues, ...JSON.parse(saved) };
@@ -58,20 +65,15 @@ export const useFilterSearch = ({
         return { ...defaultValues, ...initialValues };
       }
     }
-    // ถ้าไม่มีใน localStorage ให้ใช้ initialValues
     return { ...defaultValues, ...initialValues };
   }
 
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterValues>(getInitialFilters());
 
-  // --------- ขั้นตอน 2: sync ค่ากับ localStorage ทุกครั้งที่ filter เปลี่ยน ---------
   useEffect(() => {
     localStorage.setItem(FILTER_LOCALSTORAGE_KEY, JSON.stringify(filters));
-  }, [filters]);
-
-  // debug
-  console.log("initialValues", initialValues);
+  }, [filters, FILTER_LOCALSTORAGE_KEY]);
 
   const cleanValue = (val: string) => {
     if (!val) return "";
@@ -92,7 +94,6 @@ export const useFilterSearch = ({
       subAreaId: cleanValue(filters.subAreaId || filters.subArea),
       searchByUnit: cleanValue(filters.uom),
     };
-    console.log('apiFilters', apiFilters);
     onSearch(apiFilters);
     setIsOpen(false);
   };
@@ -100,7 +101,7 @@ export const useFilterSearch = ({
   const handleClear = () => {
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
-    localStorage.removeItem(FILTER_LOCALSTORAGE_KEY); // ลบค่าออก
+    localStorage.removeItem(FILTER_LOCALSTORAGE_KEY); // เคลียร์ค่าเฉพาะคีย์นี้
     onClear();
   };
 

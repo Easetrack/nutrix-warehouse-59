@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { StockItem } from "@/types/stockupdate/summary"; // Fixed import path for StockItem
+import { StockItem } from "@/types/stockupdate/summary";
 import { useStockData } from "./hooks/useStockData";
 import { SummaryHeader } from "./components/SummaryHeader";
 import { SummarySearchBar } from "./components/SummarySearchBar";
@@ -15,6 +15,7 @@ const SummaryStockUpdate = () => {
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
+  // ปรับตรงนี้เพื่อรวมทุก state & handler จาก useStockData
   const {
     stockItems,
     filteredItems,
@@ -29,25 +30,26 @@ const SummaryStockUpdate = () => {
     handleSort,
     handleNextPage,
     handlePreviousPage,
+    perPage,
+    handlePerPageChange,
+    // ฟิลด์ filter หลัก
+    searchTerm,
+    setSearchTerm,
+    selectedWarehouse,
+    setSelectedWarehouse,
+    selectedZone,
+    setSelectedZone,
+    selectedArea,
+    setSelectedArea,
+    selectedSubArea,
+    setSelectedSubArea,
+    selectedCategory,
+    setSelectedCategory,
+    selectedUoM,
+    setSelectedUoM,
     setCurrentPage,
     setSortColumn,
     setSortDirection,
-    searchTerm,
-    selectedWarehouse,
-    selectedZone,
-    selectedArea,
-    selectedSubArea,
-    selectedCategory,
-    selectedUoM,
-    setSearchTerm,
-    setSelectedWarehouse,
-    setSelectedZone,
-    setSelectedArea,
-    setSelectedSubArea,
-    setSelectedCategory,
-    setSelectedUoM,
-    perPage,
-    handlePerPageChange
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
@@ -55,42 +57,50 @@ const SummaryStockUpdate = () => {
     setIsDetailOpen(true);
   };
 
+  // ปรับ logic ให้ SearchBar ใช้งาน search หลัก และ reset page ในทุก search
   const handleSearch = () => {
     setCurrentPage(1);
     fetchStockData();
   };
 
+  // ปรับให้ HandleClear reset ทุก filter/select, pagination และรีโหลดข้อมูล
   const handleClear = () => {
+    setSearchTerm('');
     setSelectedWarehouse("All Warehouses");
-    setSelectedCategory('')
+    setSelectedZone("All Zones");
+    setSelectedArea("All Areas");
+    setSelectedSubArea("All SubAreas");
+    setSelectedCategory("All Categories");
+    setSelectedUoM("All UoM");
     setSortColumn(null);
     setSortDirection("asc");
-    setSearchTerm('');
     setCurrentPage(1);
     fetchStockData();
   };
 
-  const handleExport = () => {
-    toast({
-      title: "Export Started",
-      description: "Your stock data is being exported to Excel.",
-    });
-  };
-
+  // Advance Search (FilterSearch)
   const handleAdvancedSearch = (filters) => {
-    setSelectedWarehouse(filters.warehouse);
-    setSelectedZone(filters.zone);
-    setSelectedArea(filters.area);
-    setSelectedSubArea(filters.subArea);
-    setSelectedCategory(filters.category);
-    setSelectedUoM(filters.uom)
-    setSearchTerm(filters.searchTerm); // ถ้ามีการค้นหาด้วย
+    setSearchTerm(filters.searchTerm ?? '');
+    setSelectedWarehouse(filters.warehouse ?? "All Warehouses");
+    setSelectedZone(filters.zone ?? "All Zones");
+    setSelectedArea(filters.area ?? "All Areas");
+    setSelectedSubArea(filters.subArea ?? "All SubAreas");
+    setSelectedCategory(filters.category ?? "All Categories");
+    setSelectedUoM(filters.uom ?? "All UoM");
     setCurrentPage(1);
     fetchStockData();
   };
 
   const handleAdvancedClear = () => {
     handleClear();
+  };
+
+  // Export
+  const handleExport = () => {
+    toast({
+      title: "Export Started",
+      description: "Your stock data is being exported to Excel.",
+    });
   };
 
   const containerVariants = {
@@ -164,13 +174,13 @@ const SummaryStockUpdate = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           totalCount={totalCount}
+          perPage={perPage}
+          handlePerPageChange={handlePerPageChange}
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           selectedItem={selectedItem}
           isDetailOpen={isDetailOpen}
           setIsDetailOpen={setIsDetailOpen}
-          perPage={perPage}
-          handlePerPageChange={handlePerPageChange}
         />
       </motion.div>
     </motion.div>

@@ -1,6 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FilterValues, FilterSearchProps } from "@/types/filter";
+
+// Key for localStorage
+const FILTER_LOCALSTORAGE_KEY = "filterSearchValues";
 
 type UseFilterSearchProps = Pick<
   FilterSearchProps,
@@ -44,24 +47,40 @@ export const useFilterSearch = ({
     areaId: "",
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterValues>({
-    ...defaultValues,
-    ...initialValues,
-  });
+  // --------- ขั้นตอน 1: ดึงค่าจาก localStorage (ถ้ามี) ---------
+  function getInitialFilters() {
+    // ถ้ามีใน localStorage ให้ใช้
+    const saved = typeof window !== "undefined" ? localStorage.getItem(FILTER_LOCALSTORAGE_KEY) : null;
+    if (saved) {
+      try {
+        return { ...defaultValues, ...JSON.parse(saved) };
+      } catch {
+        return { ...defaultValues, ...initialValues };
+      }
+    }
+    // ถ้าไม่มีใน localStorage ให้ใช้ initialValues
+    return { ...defaultValues, ...initialValues };
+  }
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterValues>(getInitialFilters());
+
+  // --------- ขั้นตอน 2: sync ค่ากับ localStorage ทุกครั้งที่ filter เปลี่ยน ---------
+  useEffect(() => {
+    localStorage.setItem(FILTER_LOCALSTORAGE_KEY, JSON.stringify(filters));
+  }, [filters]);
+
+  // debug
   console.log("initialValues", initialValues);
 
   const cleanValue = (val: string) => {
     if (!val) return "";
-    // Make sure "All-" prefixed values are handled consistently
     if (val.startsWith("All-")) return val;
     if (val.startsWith("option-")) return val.replace("option-", "");
     return val;
   };
 
   const handleSearch = () => {
-    // Make sure we're not sending empty values to the API
     const apiFilters: FilterValues = {
       ...filters,
       searchByProductName: filters.searchTerm,
@@ -81,6 +100,7 @@ export const useFilterSearch = ({
   const handleClear = () => {
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
+    localStorage.removeItem(FILTER_LOCALSTORAGE_KEY); // ลบค่าออก
     onClear();
   };
 
@@ -89,15 +109,12 @@ export const useFilterSearch = ({
   };
 
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
-    // Don't accept empty string values for select fields to prevent errors
     if (value === "") return;
-    
-    // Handle location fields properly using IDs
     if (field === "zoneId" || field === "zone") {
       setFilters({
         ...filters,
         zoneId: value,
-        zone: value, // Use the same value for both name and ID
+        zone: value,
         areaId: "",
         area: "",
         subAreaId: "",
@@ -107,7 +124,7 @@ export const useFilterSearch = ({
       setFilters({
         ...filters,
         areaId: value,
-        area: value, // Use the same value for both name and ID
+        area: value,
         subAreaId: "",
         subArea: "",
       });
@@ -115,7 +132,7 @@ export const useFilterSearch = ({
       setFilters({
         ...filters,
         subAreaId: value,
-        subArea: value, // Use the same value for both name and ID
+        subArea: value,
       });
     } else if (field === "category") {
       setFilters({

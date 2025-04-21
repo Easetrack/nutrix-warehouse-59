@@ -1,9 +1,8 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { StockItemsTable } from "./StockItemsTable";
-import { StockPagination } from "../../components/StockPagination";
+import { StockPagination } from "@/components/ui/StockPagination";
 import { StockItem } from "@/types/stock";
 
 interface ContentWrapperProps {

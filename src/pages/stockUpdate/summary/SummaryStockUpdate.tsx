@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -16,27 +15,14 @@ import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
 import { useStockData } from "./hooks/useStockData";
 import { StockItem } from "@/types/stock";
+import { StockPagination } from "@/components/ui/StockPagination";
 
 const SummaryStockUpdate = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  // const [selectedZone, setSelectedZone] = useState("All Zones");
-  // const [selectedArea, setSelectedArea] = useState("All Areas");
-  // const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
-  // const [advancedFilterValues, setAdvancedFilterValues] =
-  //   useState<FilterValues>({
-  //     searchTerm: searchTerm,
-  //     warehouse: selectedWarehouse,
-  //     zone: selectedZone,
-  //     area: selectedArea,
-  //     category: selectedCategory,
-  //     uom: "All UoMs",
-  //   });
 
   const {
     stockItems,
@@ -73,21 +59,16 @@ const SummaryStockUpdate = () => {
   };
 
   const handleSearch = () => {
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
     fetchStockData();
   };
 
   const handleClear = () => {
-    // setSearchTerm("");
-    // setSelectedZone("All Zones");
-    // setSelectedArea("All Areas");
-    // setSelectedCategory("All Categories");
-
     setSelectedWarehouse("All Warehouses");
     setSortColumn(null);
     setSortDirection("asc");
     setSearchTerm('');
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1);
     fetchStockData();
   };
 
@@ -99,14 +80,8 @@ const SummaryStockUpdate = () => {
   };
 
   const handleAdvancedSearch = (filters: FilterValues) => {
-    // setSearchTerm(filters.searchTerm);
-    // setSelectedZone(filters.zone);
-    // setSelectedArea(filters.area);
-    // setSelectedCategory(filters.category);
-
     setSelectedWarehouse(filters.warehouse);
-
-    setCurrentPage(1); // Reset to first page on new search
+    setCurrentPage(1);
     fetchStockData();
   };
 
@@ -174,11 +149,11 @@ const SummaryStockUpdate = () => {
             onSearch={handleAdvancedSearch}
             onClear={handleAdvancedClear}
             initialValues={{
-              searchTerm: searchTerm, // ใช้จาก hook
-              warehouse: selectedWarehouse, // ใช้จาก hook
-              zone: selectedZone, // ใช้จาก hook
-              area: selectedArea, // ใช้จาก hook
-              category: selectedCategory, // ใช้จาก hook
+              searchTerm: searchTerm,
+              warehouse: selectedWarehouse,
+              zone: selectedZone,
+              area: selectedArea,
+              category: selectedCategory,
               uom: "All UoMs"
             }}
             trigger={
@@ -237,33 +212,14 @@ const SummaryStockUpdate = () => {
               handleViewDetail={handleViewDetail}
             />
 
-            {/* Pagination */}
-            <div className="mt-4 flex items-center justify-between">
-              <div className="text-sm text-muted-foreground">
-                Showing {filteredItems.length} of {totalCount} items
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handlePreviousPage}
-                  disabled={currentPage === 1}
-                >
-                  Previous
-                </Button>
-                <span className="text-sm">
-                  Page {currentPage} of {totalPages || 1}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleNextPage}
-                  disabled={currentPage === totalPages || totalPages === 0}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
+            <StockPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalCount={totalCount}
+              itemsLength={filteredItems.length}
+              onPreviousPage={handlePreviousPage}
+              onNextPage={handleNextPage}
+            />
           </CardContent>
         </Card>
       </motion.div>
@@ -281,4 +237,3 @@ export default SummaryStockUpdate;
 function setSelectedWarehouse(warehouse: string) {
   throw new Error("Function not implemented.");
 }
-

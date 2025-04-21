@@ -8,25 +8,45 @@ interface StockPaginationProps {
   totalPages: number;
   totalCount: number;
   itemsLength: number;
+  perPage: number;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  onPerPageChange: (perPage: number) => void;
 }
+
+const perPageOptions = [10, 20, 50, 100];
 
 export const StockPagination: React.FC<StockPaginationProps> = ({
   currentPage,
   totalPages,
   totalCount,
   itemsLength,
+  perPage,
   onPreviousPage,
   onNextPage,
+  onPerPageChange,
 }) => {
   return (
-    <nav
-      className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
-      aria-label="Pagination"
-    >
-      <div className="text-sm text-muted-foreground min-w-max">
-        Showing {itemsLength} of {totalCount} items
+    <nav className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2" aria-label="Pagination">
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-muted-foreground min-w-max">
+          Showing {itemsLength} of {totalCount} items
+        </span>
+        <div className="flex items-center ml-2">
+          <label htmlFor="per-page" className="mr-2 text-sm text-muted-foreground">
+            Per page
+          </label>
+          <select
+            id="per-page"
+            className="border rounded px-2 py-1 text-sm focus:outline-none"
+            value={perPage}
+            onChange={e => onPerPageChange(Number(e.target.value))}
+          >
+            {perPageOptions.map(opt => (
+              <option value={opt} key={opt}>{opt}</option>
+            ))}
+          </select>
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <Button

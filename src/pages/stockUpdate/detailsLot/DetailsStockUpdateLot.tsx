@@ -37,6 +37,8 @@ const DetailsStockUpdateLot = () => {
     handleAdvancedClear,
     setSearchTerm,
     setIsDetailOpen,
+    perPage,
+    setPerPage,
   } = useStockData();
 
   const handleExport = () => {
@@ -104,7 +106,6 @@ const DetailsStockUpdateLot = () => {
                 sortDirection={sortDirection}
                 handleSort={handleSort}
                 handleViewDetail={handleViewDetail}
-                
               />
             </div>
 
@@ -113,6 +114,8 @@ const DetailsStockUpdateLot = () => {
               totalPages={totalPages}
               totalCount={totalCount}
               itemsLength={filteredItems.length}
+              perPage={perPage}
+              onPerPageChange={setPerPage}
               onPreviousPage={handlePreviousPage}
               onNextPage={handleNextPage}
             />

@@ -15,6 +15,8 @@ interface SummaryTableAreaProps {
   currentPage: number;
   totalPages: number;
   totalCount: number;
+  perPage: number;
+  handlePerPageChange: (perPage: number) => void;
   handleNextPage: () => void;
   handlePreviousPage: () => void;
   selectedItem: StockItem | null;
@@ -31,6 +33,8 @@ export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
   currentPage,
   totalPages,
   totalCount,
+  perPage,
+  handlePerPageChange,
   handleNextPage,
   handlePreviousPage,
   selectedItem,
@@ -53,6 +57,8 @@ export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
           totalPages={totalPages}
           totalCount={totalCount}
           itemsLength={filteredItems.length}
+          perPage={perPage}
+          onPerPageChange={handlePerPageChange}
           onPreviousPage={handlePreviousPage}
           onNextPage={handleNextPage}
         />

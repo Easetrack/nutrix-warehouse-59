@@ -13,6 +13,8 @@ interface ContentWrapperProps {
   currentPage: number;
   totalPages: number;
   totalCount: number;
+  perPage: number;
+  handlePerPageChange: (perPage: number) => void;
   handleSort: (column: string) => void;
   handleViewDetail: (item: StockItem) => void;
   handlePreviousPage: () => void;
@@ -26,6 +28,8 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
   currentPage,
   totalPages,
   totalCount,
+  perPage,
+  handlePerPageChange,
   handleSort,
   handleViewDetail,
   handlePreviousPage,
@@ -55,6 +59,8 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
             totalPages={totalPages}
             totalCount={totalCount}
             itemsLength={filteredItems.length}
+            perPage={perPage}
+            onPerPageChange={handlePerPageChange}
             onPreviousPage={handlePreviousPage}
             onNextPage={handleNextPage}
           />

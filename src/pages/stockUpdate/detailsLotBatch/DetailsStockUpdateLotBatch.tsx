@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -26,6 +25,7 @@ const DetailsStockUpdateLotBatch = () => {
     isDetailOpen,
     searchTerm,
     advancedFilterValues,
+    perPage,
     handleSort,
     handleNextPage,
     handlePreviousPage,
@@ -36,6 +36,7 @@ const DetailsStockUpdateLotBatch = () => {
     handleAdvancedClear,
     setSearchTerm,
     setIsDetailOpen,
+    setPerPage,
   } = useStockData();
 
   const handleExport = () => {
@@ -83,6 +84,8 @@ const DetailsStockUpdateLotBatch = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         totalCount={totalCount}
+        perPage={perPage}
+        handlePerPageChange={setPerPage}
         handleSort={handleSort}
         handleViewDetail={handleViewDetail}
         handlePreviousPage={handlePreviousPage}

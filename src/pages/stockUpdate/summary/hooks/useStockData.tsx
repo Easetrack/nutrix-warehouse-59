@@ -169,6 +169,11 @@ export const useStockData = () => {
     }
   };
 
+  const handlePerPageChange = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setCurrentPage(1);
+  };
+
   return {
     stockItems,
     filteredItems,
@@ -203,6 +208,7 @@ export const useStockData = () => {
     setSelectedArea,
     setSelectedSubArea,
     setSelectedCategory,
-    setSelectedUoM
+    setSelectedUoM,
+    handlePerPageChange
   };
 };

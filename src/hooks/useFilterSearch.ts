@@ -14,6 +14,9 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
     area: 'All Areas',
     category: 'All Categories',
     uom: 'All UoMs',
+    type: 'All Types',
+    subType: 'All SubTypes',
+    subArea: 'All SubAreas',
     typeId: '',
     subTypeId: '',
     barcode: '',
@@ -66,7 +69,36 @@ export const useFilterSearch = ({ onSearch, onClear, initialValues = {} }: UseFi
   };
 
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
-    setFilters({ ...filters, [field]: value });
+    // Reset dependent fields when parent field changes
+    if (field === 'category') {
+      setFilters({ 
+        ...filters, 
+        [field]: value,
+        typeId: 'All Types',
+        subTypeId: 'All SubTypes',
+      });
+    } else if (field === 'typeId') {
+      setFilters({ 
+        ...filters, 
+        [field]: value,
+        subTypeId: 'All SubTypes',
+      });
+    } else if (field === 'zone') {
+      setFilters({ 
+        ...filters, 
+        [field]: value,
+        area: 'All Areas',
+        subAreaId: 'All SubAreas',
+      });
+    } else if (field === 'area') {
+      setFilters({ 
+        ...filters, 
+        [field]: value,
+        subAreaId: 'All SubAreas',
+      });
+    } else {
+      setFilters({ ...filters, [field]: value });
+    }
   };
 
   return {

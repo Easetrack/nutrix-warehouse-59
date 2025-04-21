@@ -46,6 +46,8 @@ const SummaryStockUpdate = () => {
     setSelectedSubArea,
     setSelectedCategory,
     setSelectedUoM,
+    perPage,
+    handlePerPageChange
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
@@ -167,6 +169,8 @@ const SummaryStockUpdate = () => {
           selectedItem={selectedItem}
           isDetailOpen={isDetailOpen}
           setIsDetailOpen={setIsDetailOpen}
+          perPage={perPage}
+          handlePerPageChange={handlePerPageChange}
         />
       </motion.div>
     </motion.div>

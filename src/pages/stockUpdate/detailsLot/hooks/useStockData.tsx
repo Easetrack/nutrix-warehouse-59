@@ -86,6 +86,13 @@ export const useStockData = () => {
     }
   };
 
+  // Add the setPerPage function
+  const setPerPage = (newPerPage: number) => {
+    queryParams.setPerPage(newPerPage);
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
   return {
     ...stockItems,
     ...queryParams,
@@ -98,5 +105,6 @@ export const useStockData = () => {
     handleAdvancedSearch,
     handleAdvancedClear,
     handleViewDetail: stockItems.handleViewDetail,
+    setPerPage, // Add the setPerPage function to the returned object
   };
 };

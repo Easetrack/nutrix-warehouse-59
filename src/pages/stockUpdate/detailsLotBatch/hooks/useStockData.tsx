@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { FilterValues } from "@/components/ui/custom/FilterSearchTime";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -84,6 +85,13 @@ export const useStockData = () => {
     stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
+  // Add setPerPage function
+  const setPerPage = (newPerPage: number) => {
+    queryParams.setPerPage(newPerPage);
+    queryParams.setCurrentPage(1);
+    stockItems.fetchStockData(queryParams.buildQueryParams());
+  };
+
   return {
     ...stockItems,
     ...queryParams,
@@ -95,5 +103,6 @@ export const useStockData = () => {
     handleAdvancedClear,
     handleNextPage,
     handlePreviousPage,
+    setPerPage, // Add the setPerPage function to the returned object
   };
 };

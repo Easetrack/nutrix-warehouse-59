@@ -59,4 +59,5 @@ export interface FilterSearchProps {
   visibleLocationFields?: (keyof LocationFilterValues)[];
   visibleProductFields?: (keyof ProductFilterValues)[];
   visibleInputFields?: ('search' | 'date' | 'selectLocation' | 'selectProduct')[];
+  storageKey?: string; // Add storageKey prop
 }

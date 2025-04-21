@@ -56,9 +56,10 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
             category: selectedCategory,
             uom: selectedUoM,
           }}
-          visibleInputFields={['search', 'selectLocation', 'selectProduct']} // ไม่แสดง product filter
-          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}  // แสดงแค่ warehouse + zone
-          visibleProductFields={['category', 'uom']}  // แสดงแค่ category + type
+          visibleInputFields={['search', 'selectLocation', 'selectProduct']}
+          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}
+          visibleProductFields={['category', 'uom']}
+          storageKey="stockUpdate_summary_filters" // Add unique storageKey for summary page
           trigger={
             <Button variant="outline" className="space-x-1">
               <Filter className="h-4 w-4" />

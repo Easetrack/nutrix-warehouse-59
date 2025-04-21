@@ -23,7 +23,8 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
   trigger,
   visibleLocationFields,
   visibleProductFields,
-  visibleInputFields
+  visibleInputFields,
+  storageKey // Add storageKey prop
 }) => {
   const {
     isOpen,
@@ -33,7 +34,12 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
     handleClear,
     handleInputChange,
     handleSelectChange,
-  } = useFilterSearch({ onSearch, onClear, initialValues });
+  } = useFilterSearch({ 
+    onSearch, 
+    onClear, 
+    initialValues,
+    storageKey // Pass storageKey to useFilterSearch
+  });
 
 
   const shouldShowInput = (input: 'search' | 'date' | 'selectLocation' | 'selectProduct') =>

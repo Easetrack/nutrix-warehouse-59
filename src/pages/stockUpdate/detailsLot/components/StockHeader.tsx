@@ -56,9 +56,10 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
           onSearch={handleAdvancedSearch}
           onClear={onAdvancedClear}
           initialValues={initialFilterValues}
-          visibleInputFields={['search', 'date', 'selectLocation','selectProduct']} // ไม่แสดง product filter
-          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']} // แสดงแค่ warehouse + zone
-          visibleProductFields={['category', 'uom']}  // แสดงแค่ category + type
+          visibleInputFields={['search', 'date', 'selectLocation','selectProduct']}
+          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}
+          visibleProductFields={['category', 'uom']}
+          storageKey="stockUpdate_lot_filters" // Add unique storageKey for details lot page
           trigger={
             <Button variant="outline" className="space-x-1">
               <Filter className="h-4 w-4" />

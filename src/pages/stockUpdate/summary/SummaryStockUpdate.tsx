@@ -50,49 +50,15 @@ const SummaryStockUpdate = () => {
     setCurrentPage,
     setSortColumn,
     setSortDirection,
+    // เพิ่ม handler ที่เราสร้างไว้ใน hook
+    handleSearch,
+    handleClear,
+    handleAdvancedSearch
   } = useStockData();
 
   const handleViewDetail = (item: StockItem) => {
     setSelectedItem(item);
     setIsDetailOpen(true);
-  };
-
-  // ปรับ logic ให้ SearchBar ใช้งาน search หลัก และ reset page ในทุก search
-  const handleSearch = () => {
-    setCurrentPage(1);
-    fetchStockData();
-  };
-
-  // ปรับให้ HandleClear reset ทุก filter/select, pagination และรีโหลดข้อมูล
-  const handleClear = () => {
-    setSearchTerm('');
-    setSelectedWarehouse("All Warehouses");
-    setSelectedZone("All Zones");
-    setSelectedArea("All Areas");
-    setSelectedSubArea("All SubAreas");
-    setSelectedCategory("All Categories");
-    setSelectedUoM("All UoM");
-    setSortColumn(null);
-    setSortDirection("asc");
-    setCurrentPage(1);
-    fetchStockData();
-  };
-
-  // Advance Search (FilterSearch)
-  const handleAdvancedSearch = (filters) => {
-    setSearchTerm(filters.searchTerm ?? '');
-    setSelectedWarehouse(filters.warehouse ?? "All Warehouses");
-    setSelectedZone(filters.zone ?? "All Zones");
-    setSelectedArea(filters.area ?? "All Areas");
-    setSelectedSubArea(filters.subArea ?? "All SubAreas");
-    setSelectedCategory(filters.category ?? "All Categories");
-    setSelectedUoM(filters.uom ?? "All UoM");
-    setCurrentPage(1);
-    fetchStockData();
-  };
-
-  const handleAdvancedClear = () => {
-    handleClear();
   };
 
   // Export
@@ -152,7 +118,7 @@ const SummaryStockUpdate = () => {
         selectedUoM={selectedUoM}
         onExport={handleExport}
         onAdvancedSearch={handleAdvancedSearch}
-        onAdvancedClear={handleAdvancedClear}
+        onAdvancedClear={handleClear}
       />
 
       <motion.div variants={itemVariants}>

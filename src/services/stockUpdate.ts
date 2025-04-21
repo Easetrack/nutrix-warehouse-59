@@ -7,27 +7,12 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
   // Build query params
   const queryParams = new URLSearchParams();
   
-  if (params.search) {
-    queryParams.append('search', params.search.toString());
-  }
-  if (params.categoryId) {
-    queryParams.append('categoryId', params.categoryId.toString());
-  }
-  if (params.zoneId) {
-    queryParams.append('zoneId', params.zoneId.toString());
-  }
-  if (params.areaId) {
-    queryParams.append('areaId', params.areaId.toString());
-  }
-  if (params.page) {
-    queryParams.append('page', params.page.toString());
-  }
-  if (params.perPage) {
-    queryParams.append('perPage', params.perPage.toString());
-  }
-  if (params.expiredDate) {
-    queryParams.append('expiredDate', params.expiredDate);
-  }
+  // ส่งเฉพาะค่าที่มีและไม่ใช่ค่าว่างเท่านั้น
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      queryParams.append(key, String(value));
+    }
+  });
 
   console.log('Query Params:', queryParams.toString()); // Debugging line
 

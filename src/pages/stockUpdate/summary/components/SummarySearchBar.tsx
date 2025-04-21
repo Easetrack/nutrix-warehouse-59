@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import { Search, RefreshCcw } from "lucide-react";
 
 interface SummarySearchBarProps {
@@ -15,6 +15,13 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
   handleSearch,
   handleClear,
 }) => {
+  // เพิ่มความสามารถในการกด Enter เพื่อค้นหา
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="mb-6 rounded-lg border border-bg bg-card shadow">
       <div className="p-3">
@@ -22,9 +29,10 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
           <div className="relative flex-grow">
             <input
               type="text"
-              placeholder="Search"
+              placeholder="ค้นหาด้วยชื่อสินค้า, รหัสสินค้า หรือบาร์โค้ด..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="w-full rounded-md border bg-secondary px-4 py-2 focus:border-green-600 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
@@ -34,14 +42,14 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
               className="flex items-center justify-center space-x-1 rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
               <Search size={16} />
-              <span>Search</span>
+              <span>ค้นหา</span>
             </button>
             <button
               onClick={handleClear}
               className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
               <RefreshCcw size={16} />
-              <span>Clear</span>
+              <span>ล้าง</span>
             </button>
           </div>
         </div>

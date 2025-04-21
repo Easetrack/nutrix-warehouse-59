@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/types/stockupdate/summary";
@@ -54,42 +55,48 @@ export const useStockData = () => {
     fetchStockData();
   }, [navigate, currentPage, perPage, locationId]);
 
+  // ปรับวิธีการสร้าง query parameters เพื่อให้รองรับค่า "All" ต่างๆ
   const buildQueryParams = (): StockUpdateQueryParams => {
     const params: StockUpdateQueryParams = {
       page: currentPage,
       perPage: perPage,
-      search: searchTerm,
     };
 
-    console.log('params', params)
-    console.log('selectedZone', selectedZone)
-
-    // Add search filters
-    if (searchTerm) {
-      params.searchByProductName = searchTerm;
-      params.searchByBarcode = searchTerm;
-      params.searchByProductId = searchTerm;
+    // เพิ่มค่า search เมื่อมีการค้นหา
+    if (searchTerm && searchTerm.trim() !== '') {
+      params.search = searchTerm.trim();
+      params.searchByProductName = searchTerm.trim();
+      params.searchByBarcode = searchTerm.trim();
+      params.searchByProductId = searchTerm.trim();
     }
 
-    if (selectedCategory !== "All Categories") {
+    // ส่งค่าว่างถ้าเป็น All Categories
+    if (selectedCategory && selectedCategory !== "All Categories") {
       params.searchByCategory = selectedCategory;
     }
 
-    if (selectedUoM !== "All UoM") {
+    // ส่งค่าว่างถ้าเป็น All UoM
+    if (selectedUoM && selectedUoM !== "All UoM") {
       params.unitId = selectedUoM;
     }
 
-    if (selectedZone !== "All Zones") {
+    // ส่งค่าว่างถ้าเป็น All Zones
+    if (selectedZone && selectedZone !== "All Zones") {
       params.zoneId = selectedZone;
     }
 
-    if (selectedArea !== "All Areas") {
+    // ส่งค่าว่างถ้าเป็น All Areas
+    if (selectedArea && selectedArea !== "All Areas") {
       params.areaId = selectedArea;
     }
 
-    if (selectedSubArea !== "All SubAreas") {
+    // ส่งค่าว่างถ้าเป็น All SubAreas
+    if (selectedSubArea && selectedSubArea !== "All SubAreas") {
       params.subAreaId = selectedSubArea;
     }
+
+    console.log('params', params);
+    console.log('selectedZone', selectedZone);
 
     return params;
   };
@@ -174,6 +181,61 @@ export const useStockData = () => {
     setCurrentPage(1);
   };
 
+  // เพิ่มฟังก์ชันจัดการการค้นหาที่จะทำงานทันทีที่กดปุ่ม Search
+  const handleSearch = () => {
+    setCurrentPage(1); // รีเซ็ตหน้าเป็นหน้าแรก
+    fetchStockData(); // ดึงข้อมูลใหม่ทันที
+  };
+
+  // ฟังก์ชันล้างฟิลเตอร์ทั้งหมด
+  const handleClear = () => {
+    setSearchTerm("");
+    setSelectedWarehouse("All Warehouses");
+    setSelectedZone("All Zones");
+    setSelectedArea("All Areas");
+    setSelectedSubArea("All SubAreas");
+    setSelectedCategory("All Categories");
+    setSelectedUoM("All UoM");
+    setSortColumn(null);
+    setSortDirection("asc");
+    setCurrentPage(1);
+    fetchStockData(); // ดึงข้อมูลใหม่ทันที
+  };
+
+  // ฟังก์ชันสำหรับการค้นหาขั้นสูง
+  const handleAdvancedSearch = (filters: any) => {
+    if (filters.searchTerm !== undefined) {
+      setSearchTerm(filters.searchTerm);
+    }
+    
+    if (filters.warehouse !== undefined) {
+      setSelectedWarehouse(filters.warehouse);
+    }
+    
+    if (filters.zone !== undefined) {
+      setSelectedZone(filters.zone);
+    }
+    
+    if (filters.area !== undefined) {
+      setSelectedArea(filters.area);
+    }
+    
+    if (filters.subArea !== undefined) {
+      setSelectedSubArea(filters.subArea);
+    }
+    
+    if (filters.category !== undefined) {
+      setSelectedCategory(filters.category);
+    }
+    
+    if (filters.uom !== undefined) {
+      setSelectedUoM(filters.uom);
+    }
+    
+    setCurrentPage(1);
+    fetchStockData(); // ดึงข้อมูลใหม่ทันที
+  };
+
   return {
     stockItems,
     filteredItems,
@@ -209,6 +271,9 @@ export const useStockData = () => {
     setSelectedSubArea,
     setSelectedCategory,
     setSelectedUoM,
-    handlePerPageChange
+    handlePerPageChange,
+    handleSearch,
+    handleClear,
+    handleAdvancedSearch
   };
 };

@@ -24,11 +24,12 @@ export const useLocationOptions = () => {
     options: FilterOption[],
     labelPrefix: string
   ): FilterOption[] => {
-    // Add "All" option with a valid non-empty ID that doesn't conflict with real IDs
+    // Use a consistent ID format for "All" options that is definitely not empty
+    // and won't conflict with real IDs
     return [{ 
-      id: `All-${labelPrefix}s`, 
+      id: `All-${labelPrefix}`, 
       name: `All ${labelPrefix}s`, 
-      code: `All-${labelPrefix}s` 
+      code: `All-${labelPrefix}` // Use the same value for code to ensure it's not empty
     }, ...options];
   };
 

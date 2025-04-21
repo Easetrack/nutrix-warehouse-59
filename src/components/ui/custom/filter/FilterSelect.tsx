@@ -32,6 +32,13 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   isLoading = false,
   disabled = false,
 }) => {
+  // Ensure we have valid options with non-empty values
+  const validOptions = options.filter(option => {
+    // Make sure every option has a valid non-empty ID or code as value
+    const optionValue = option.code || option.id;
+    return optionValue && optionValue.trim() !== '';
+  });
+
   return (
     <div className="relative">
       <Select 
@@ -46,14 +53,21 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
           )}
         </SelectTrigger>
         <SelectContent>
-          {Array.isArray(options) && options.map((option) => (
-            <SelectItem 
-              key={option.id || option.name} 
-              value={option.code || option.id} // Use code if available, otherwise id
-            >
-              {option.name}
-            </SelectItem>
-          ))}
+          {Array.isArray(validOptions) && validOptions.map((option) => {
+            // Ensure we always have a non-empty value
+            const optionValue = option.code || option.id;
+            // Skip rendering items with empty values to prevent the error
+            if (!optionValue || optionValue.trim() === '') return null;
+            
+            return (
+              <SelectItem 
+                key={option.id || option.name} 
+                value={optionValue}
+              >
+                {option.name}
+              </SelectItem>
+            );
+          })}
         </SelectContent>
       </Select>
     </div>

@@ -54,21 +54,23 @@ export const useFilterSearch = ({
 
   const cleanValue = (val: string) => {
     if (!val) return "";
-    if (val.startsWith("All-")) return "";
+    // Make sure "All-" prefixed values are handled consistently
+    if (val.startsWith("All-")) return val;
     if (val.startsWith("option-")) return val.replace("option-", "");
     return val;
   };
 
   const handleSearch = () => {
+    // Make sure we're not sending empty values to the API
     const apiFilters: FilterValues = {
       ...filters,
       searchByProductName: filters.searchTerm,
       searchByBarcode: filters.searchTerm,
       searchByProductId: filters.searchTerm,
       searchByCategory: cleanValue(filters.category),
-      zoneId: cleanValue(filters.zoneId),
-      areaId: cleanValue(filters.areaId),
-      subAreaId: cleanValue(filters.subAreaId),
+      zoneId: cleanValue(filters.zoneId || filters.zone),
+      areaId: cleanValue(filters.areaId || filters.area),
+      subAreaId: cleanValue(filters.subAreaId || filters.subArea),
       searchByUnit: cleanValue(filters.uom),
     };
     console.log('apiFilters', apiFilters);
@@ -87,8 +89,11 @@ export const useFilterSearch = ({
   };
 
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
+    // Don't accept empty string values for select fields to prevent errors
+    if (value === "") return;
+    
     // Handle location fields properly using IDs
-    if (field === "zoneId") {
+    if (field === "zoneId" || field === "zone") {
       setFilters({
         ...filters,
         zoneId: value,
@@ -98,7 +103,7 @@ export const useFilterSearch = ({
         subAreaId: "",
         subArea: "",
       });
-    } else if (field === "areaId") {
+    } else if (field === "areaId" || field === "area") {
       setFilters({
         ...filters,
         areaId: value,
@@ -106,7 +111,7 @@ export const useFilterSearch = ({
         subAreaId: "",
         subArea: "",
       });
-    } else if (field === "subAreaId") {
+    } else if (field === "subAreaId" || field === "subArea") {
       setFilters({
         ...filters,
         subAreaId: value,

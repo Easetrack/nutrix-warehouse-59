@@ -49,7 +49,7 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
           {Array.isArray(options) && options.map((option) => (
             <SelectItem 
               key={option.id || option.name} 
-              value={option.id || `option-${option.name}`} // Ensure value is never empty
+              value={option.code || option.id} // Use code if available, otherwise id
             >
               {option.name}
             </SelectItem>

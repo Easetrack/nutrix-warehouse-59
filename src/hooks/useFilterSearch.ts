@@ -54,8 +54,9 @@ export const useFilterSearch = ({
 
   const cleanValue = (val: string) => {
     if (!val) return "";
-    if (val.startsWith("option-All")) return "";
-    return val.startsWith("option-") ? val.replace("option-", "") : val;
+    if (val.startsWith("All-")) return "";
+    if (val.startsWith("option-")) return val.replace("option-", "");
+    return val;
   };
 
   const handleSearch = () => {
@@ -70,7 +71,7 @@ export const useFilterSearch = ({
       subAreaId: cleanValue(filters.subAreaId),
       searchByUnit: cleanValue(filters.uom),
     };
-    console.log('apiFilters', apiFilters)
+    console.log('apiFilters', apiFilters);
     onSearch(apiFilters);
     setIsOpen(false);
   };
@@ -85,13 +86,13 @@ export const useFilterSearch = ({
     setFilters({ ...filters, searchTerm: e.target.value });
   };
 
-  // !! อันนี้คือ IMPORTANT PART: เวลาที่เลือกค่าจาก FilterSelect, update ทั้งฟิลด์ name (zone, area, subArea) และฟิลด์ id ด้วย
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
+    // Handle location fields properly using IDs
     if (field === "zoneId") {
       setFilters({
         ...filters,
         zoneId: value,
-        zone: value, // สมมติ option id กับ name ตรงกัน, ถ้าต่างจะต้องกำหนด mapping เพิ่ม
+        zone: value, // Use the same value for both name and ID
         areaId: "",
         area: "",
         subAreaId: "",
@@ -101,7 +102,7 @@ export const useFilterSearch = ({
       setFilters({
         ...filters,
         areaId: value,
-        area: value,
+        area: value, // Use the same value for both name and ID
         subAreaId: "",
         subArea: "",
       });
@@ -109,7 +110,7 @@ export const useFilterSearch = ({
       setFilters({
         ...filters,
         subAreaId: value,
-        subArea: value,
+        subArea: value, // Use the same value for both name and ID
       });
     } else if (field === "category") {
       setFilters({

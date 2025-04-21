@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { LocationFilterValues } from '@/types/filter';
@@ -35,52 +36,52 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
   const shouldShow = (field: keyof LocationFilterValues) =>
     !visibleFields || visibleFields.includes(field);
 
-
-
   useEffect(() => {
     const wh = values.warehouse;
 
     if (wh && wh !== '' && wh !== prevWarehouse.current) {
       prevWarehouse.current = wh;
-      loadZones(wh); // ต้องส่ง stockCode จาก warehouse
+      loadZones(wh); // Send warehouse ID
     }
   }, [values.warehouse]);
 
   useEffect(() => {
-    const zone = values.zone?.startsWith('Zone ') ? values.zone.replace('Zone ', '') : values.zone;
+    const zoneId = values.zoneId;
     const wh = values.warehouse;
 
     if (
-      zone &&
+      zoneId &&
       wh &&
-      zone !== '' &&
+      zoneId !== '' &&
       wh !== '' &&
-      zone !== prevZone.current
+      zoneId !== prevZone.current &&
+      !zoneId.startsWith('All-')
     ) {
-      prevZone.current = zone;
-      loadAreas(wh, zone); // ✅ ส่ง warehouse ด้วย
+      prevZone.current = zoneId;
+      loadAreas(zoneId, wh); // Send zoneId and warehouse ID
     }
-  }, [values.zone, values.warehouse]); // ✅ อย่าลืมใส่ values.warehouse ด้วย
+  }, [values.zoneId, values.warehouse]);
 
   useEffect(() => {
-    const zone = values.zone?.startsWith('Zone ') ? values.zone.replace('Zone ', '') : values.zone;
+    const zoneId = values.zoneId;
+    const areaId = values.areaId;
     const wh = values.warehouse;
 
     if (
-      zone &&
+      zoneId &&
+      areaId &&
       wh &&
-      values.area &&
-      zone !== '' &&
-      values.area !== '' &&
+      zoneId !== '' &&
+      areaId !== '' &&
       wh !== '' &&
-      values.area !== prevArea.current
+      areaId !== prevArea.current &&
+      !zoneId.startsWith('All-') &&
+      !areaId.startsWith('All-')
     ) {
-      prevArea.current = values.area;
-      loadSubAreas(zone, values.area, wh); // ✅ ส่ง warehouse ด้วย
+      prevArea.current = areaId;
+      loadSubAreas(zoneId, areaId, wh); // Send zoneId, areaId and warehouse ID
     }
-  }, [values.zone, values.area, values.warehouse]); // ✅ เพิ่ม values.warehouse เข้า dependency
-
-
+  }, [values.zoneId, values.areaId, values.warehouse]);
 
   return (
     <>
@@ -101,7 +102,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
           placeholder="Select Zone"
           onValueChange={(value) => onValueChange(value, 'zoneId')}
           isLoading={isLoadingZones}
-          disabled={values.warehouse === 'All Warehouses'}
+          disabled={!values.warehouse || values.warehouse === ''}
         />
       )}
 
@@ -112,7 +113,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
           placeholder="Select Area"
           onValueChange={(value) => onValueChange(value, 'areaId')}
           isLoading={isLoadingAreas}
-          disabled={values.zone === 'All Zones'}
+          disabled={!values.zoneId || values.zoneId.startsWith('All-')}
         />
       )}
 
@@ -123,7 +124,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
           placeholder="Select Sub Area"
           onValueChange={(value) => onValueChange(value, 'subAreaId')}
           isLoading={isLoadingSubAreas}
-          disabled={values.zone === 'All Zones' || values.area === 'All Areas'}
+          disabled={!values.areaId || values.areaId.startsWith('All-')}
         />
       )}
     </>

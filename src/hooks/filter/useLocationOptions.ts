@@ -24,15 +24,19 @@ export const useLocationOptions = () => {
     options: FilterOption[],
     labelPrefix: string
   ): FilterOption[] => {
-    // Add "All" option with a valid non-empty ID
-    return [{ id: `All-${labelPrefix}s`, name: `All ${labelPrefix}s` }, ...options];
+    // Add "All" option with a valid non-empty ID that doesn't conflict with real IDs
+    return [{ 
+      id: `All-${labelPrefix}s`, 
+      name: `All ${labelPrefix}s`, 
+      code: `All-${labelPrefix}s` 
+    }, ...options];
   };
 
   const loadWarehouses = async () => {
     setIsLoadingWarehouses(true);
     try {
       const data = await fetchWarehouses();
-      const formatted = data.map((w) => ({ id: w.id, name: w.name }));
+      const formatted = data.map((w) => ({ id: w.id, name: w.name, code: w.id }));
       setWarehouses(addAllOption(formatted, "Warehouse"));
     } catch (error) {
       toast({
@@ -46,7 +50,7 @@ export const useLocationOptions = () => {
   };
 
   const loadZones = async (stockCode: string) => {
-    if (!stockCode || stockCode === "All Warehouses") {
+    if (!stockCode || stockCode === "All-Warehouses") {
       setZones(addAllOption([], "Zone"));
       setAreas(addAllOption([], "Area"));
       setSubAreas(addAllOption([], "SubArea"));
@@ -56,7 +60,7 @@ export const useLocationOptions = () => {
     try {
       const data = await fetchZones(stockCode);
       const formatted = data.map((z) => ({
-        id: z.code,
+        id: z.id,
         name: z.name,
         code: z.code,
       }));
@@ -75,7 +79,7 @@ export const useLocationOptions = () => {
   };
 
   const loadAreas = async (zoneCode: string, stockCode: string) => {
-    if (!zoneCode || zoneCode === "All Zones") {
+    if (!zoneCode || zoneCode === "All-Zones") {
       setAreas(addAllOption([], "Area"));
       setSubAreas(addAllOption([], "SubArea"));
       return;
@@ -84,7 +88,7 @@ export const useLocationOptions = () => {
     try {
       const data = await fetchAreas(zoneCode, stockCode);
       const formatted = data.map((a) => ({
-        id: a.code,
+        id: a.id,
         name: a.name,
         code: a.code,
       }));
@@ -105,8 +109,8 @@ export const useLocationOptions = () => {
     if (
       !zoneCode ||
       !areaCode ||
-      zoneCode === "All Zones" ||
-      areaCode === "All Areas"
+      zoneCode === "All-Zones" ||
+      areaCode === "All-Areas"
     ) {
       setSubAreas(addAllOption([], "SubArea"));
       return;
@@ -115,7 +119,7 @@ export const useLocationOptions = () => {
     try {
       const data = await fetchSubAreas(zoneCode, areaCode, stockCode);
       const formatted = data.map((sa) => ({
-        id: sa.code,
+        id: sa.id,
         name: sa.name,
         code: sa.code,
       }));

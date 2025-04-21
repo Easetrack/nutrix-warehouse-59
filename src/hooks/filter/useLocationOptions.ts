@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   fetchWarehouses,
@@ -23,8 +24,8 @@ export const useLocationOptions = () => {
     options: FilterOption[],
     labelPrefix: string
   ): FilterOption[] => {
-    // return [{ id: `All ${labelPrefix}s`, name: `All ${labelPrefix}s` }, ...options];
-    return [...options];
+    // Add "All" option with a valid non-empty ID
+    return [{ id: `All-${labelPrefix}s`, name: `All ${labelPrefix}s` }, ...options];
   };
 
   const loadWarehouses = async () => {

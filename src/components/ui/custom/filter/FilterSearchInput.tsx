@@ -10,13 +10,16 @@ interface FilterSearchInputProps {
 
 export const FilterSearchInput: React.FC<FilterSearchInputProps> = ({ value, onChange }) => {
   return (
-    <Input
-      placeholder="Search by item code, name or lot"
-      value={value}
-      onChange={onChange}
-      className="w-full"
-      iconPosition="right"
-      icon={<Search className="h-4 w-4 text-muted-foreground" />}
-    />
+    <div className="relative">
+      <Input
+        placeholder="Search by item code, name or lot"
+        value={value}
+        onChange={onChange}
+        className="w-full pr-10"
+      />
+      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+        <Search className="h-4 w-4 text-muted-foreground" />
+      </div>
+    </div>
   );
 };

@@ -34,7 +34,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
       <PopoverTrigger asChild>
         {trigger || <Button variant="outline">Filter</Button>}
       </PopoverTrigger>
-      <PopoverContent className="w-[320px] p-4 shadow-lg border border-border" align="end">
+      <PopoverContent className="w-[320px] p-4 shadow-lg border border-border bg-background" align="end">
         <div className="space-y-4">
           <FilterHeader />
           

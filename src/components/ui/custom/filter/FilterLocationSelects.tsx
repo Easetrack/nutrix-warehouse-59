@@ -54,8 +54,8 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
     <>
       <div>
         <FilterSelect
-          value={values.warehouse}
-          options={warehouses}
+          value={values.warehouse || 'All Warehouses'}
+          options={warehouses || []}
           placeholder="Select Warehouse"
           onValueChange={(value) => onValueChange(value, 'warehouse')}
           isLoading={isLoadingWarehouses}
@@ -64,8 +64,8 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
 
       <div>
         <FilterSelect
-          value={values.zone}
-          options={zones}
+          value={values.zone || 'All Zones'}
+          options={zones || []}
           placeholder="Select Zone"
           onValueChange={(value) => onValueChange(value, 'zone')}
           isLoading={isLoadingZones}
@@ -74,8 +74,8 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
 
       <div>
         <FilterSelect
-          value={values.area}
-          options={areas}
+          value={values.area || 'All Areas'}
+          options={areas || []}
           placeholder="Select Area"
           onValueChange={(value) => onValueChange(value, 'area')}
           isLoading={isLoadingAreas}
@@ -86,7 +86,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
       <div>
         <FilterSelect
           value={values.subArea || 'All SubAreas'}
-          options={subAreas}
+          options={subAreas || []}
           placeholder="Select Sub Area"
           onValueChange={(value) => onValueChange(value, 'subAreaId')}
           isLoading={isLoadingSubAreas}

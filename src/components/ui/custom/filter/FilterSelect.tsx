@@ -26,7 +26,7 @@ interface FilterSelectProps {
 
 export const FilterSelect: React.FC<FilterSelectProps> = ({
   value,
-  options,
+  options = [],
   placeholder,
   onValueChange,
   isLoading = false,
@@ -46,7 +46,7 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
           )}
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => (
+          {Array.isArray(options) && options.map((option) => (
             <SelectItem key={option.id} value={option.id}>
               {option.name}
             </SelectItem>

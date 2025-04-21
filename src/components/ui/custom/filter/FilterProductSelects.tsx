@@ -46,8 +46,8 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
     <>
       <div>
         <FilterSelect
-          value={values.category}
-          options={categories}
+          value={values.category || 'All Categories'}
+          options={categories || []}
           placeholder="Select Category"
           onValueChange={(value) => onValueChange(value, 'category')}
           isLoading={isLoadingCategories}
@@ -57,7 +57,7 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
       <div>
         <FilterSelect
           value={values.typeId || 'All Types'}
-          options={types}
+          options={types || []}
           placeholder="Select Type"
           onValueChange={(value) => onValueChange(value, 'typeId')}
           isLoading={isLoadingTypes}
@@ -68,7 +68,7 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
       <div>
         <FilterSelect
           value={values.subTypeId || 'All SubTypes'}
-          options={subTypes}
+          options={subTypes || []}
           placeholder="Select Sub Type"
           onValueChange={(value) => onValueChange(value, 'subTypeId')}
           isLoading={isLoadingSubTypes}
@@ -78,8 +78,8 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
 
       <div>
         <FilterSelect
-          value={values.uom}
-          options={units}
+          value={values.uom || 'All UoMs'}
+          options={units || []}
           placeholder="Select UoM"
           onValueChange={(value) => onValueChange(value, 'uom')}
           isLoading={isLoadingUnits}

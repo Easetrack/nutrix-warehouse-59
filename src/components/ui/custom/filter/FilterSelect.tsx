@@ -42,11 +42,14 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
     return optionValue && optionValue.trim() !== '';
   });
 
+  // Use placeholder as label if no label is provided
+  const displayLabel = label || placeholder;
+
   return (
     <div className="space-y-2">
-      {label && (
+      {displayLabel && (
         <Label className="text-sm font-medium text-muted-foreground">
-          {label}
+          {displayLabel}
         </Label>
       )}
       <div className="relative">

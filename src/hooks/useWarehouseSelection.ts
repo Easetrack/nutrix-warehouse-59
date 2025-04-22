@@ -10,6 +10,7 @@ export const useWarehouseSelection = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedWarehouse, setSelectedWarehouse] = useState<Location | null>(null);
   const [recentWarehouses, setRecentWarehouses] = useState<Location[]>([]);
 
   const {
@@ -78,6 +79,8 @@ export const useWarehouseSelection = () => {
     isLoading,
     handleSelectWarehouse,
     handleLogout,
-    refetch
+    refetch,
+    selectedWarehouse,
+    setSelectedWarehouse
   };
 };

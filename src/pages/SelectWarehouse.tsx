@@ -20,7 +20,9 @@ const SelectWarehouse = () => {
     isLoading,
     handleSelectWarehouse,
     handleLogout,
-    refetch
+    refetch,
+    selectedWarehouse,
+    setSelectedWarehouse
   } = useWarehouseSelection();
 
   useEffect(() => {
@@ -32,6 +34,16 @@ const SelectWarehouse = () => {
     };
     checkAuth();
   }, [navigate]);
+
+  const handleWarehouseClick = (location) => {
+    setSelectedWarehouse(location);
+  };
+
+  const handleContinue = () => {
+    if (selectedWarehouse) {
+      handleSelectWarehouse(selectedWarehouse);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -101,7 +113,8 @@ const SelectWarehouse = () => {
                 <WarehouseCard
                   key={location.id}
                   location={location}
-                  onClick={handleSelectWarehouse}
+                  onClick={handleWarehouseClick}
+                  isSelected={selectedWarehouse?.id === location.id}
                 />
               ))}
             </div>
@@ -110,11 +123,8 @@ const SelectWarehouse = () => {
               variant="success" 
               size="lg"
               className="w-full max-w-md mx-auto block"
-              onClick={() => {
-                if (locations.length > 0) {
-                  handleSelectWarehouse(locations[0]);
-                }
-              }}
+              disabled={!selectedWarehouse}
+              onClick={handleContinue}
             >
               CONTINUE
             </Button>

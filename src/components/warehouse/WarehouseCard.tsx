@@ -8,16 +8,19 @@ import { Location } from "@/utils/auth";
 interface WarehouseCardProps {
   location: Location;
   onClick: (location: Location) => void;
+  isSelected?: boolean;
 }
 
-export const WarehouseCard = ({ location, onClick }: WarehouseCardProps) => {
+export const WarehouseCard = ({ location, onClick, isSelected = false }: WarehouseCardProps) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
       onClick={() => onClick(location)}
       className="cursor-pointer"
     >
-      <Card className="overflow-hidden transition-all hover:shadow-md">
+      <Card className={`overflow-hidden transition-all hover:shadow-md ${
+        isSelected ? 'ring-2 ring-green-500 bg-green-50' : ''
+      }`}>
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <div className="mt-1">

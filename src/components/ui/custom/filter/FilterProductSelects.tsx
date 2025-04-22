@@ -90,7 +90,7 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
           isLoading={isLoadingSubTypes}
           disabled={
             values.category === 'All Categories' ||
-             values.category === '' ||
+            values.category === '' ||
             !values.typeId ||
             values.typeId === 'All Types'
           }

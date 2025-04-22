@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/types/stockupdate/summary";
@@ -147,7 +146,8 @@ export const useStockData = () => {
     fetchStockData();
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
+    // Reset all filters
     setSearchTerm("");
     setSelectedWarehouse("All Warehouses");
     setSelectedZone("All Zones");
@@ -158,7 +158,37 @@ export const useStockData = () => {
     setSortColumn(null);
     setSortDirection("asc");
     setCurrentPage(1);
-    fetchStockData();
+
+    // Immediately fetch data with cleared filters
+    try {
+      const params = buildQueryParams({
+        currentPage: 1,
+        perPage,
+        searchTerm: "",
+        selectedCategory: "All Categories",
+        selectedUoM: "All UoM",
+        selectedZone: "All Zones",
+        selectedArea: "All Areas",
+        selectedSubArea: "All SubAreas"
+      });
+
+      const data = await fetchStockUpdateSummary(params);
+      
+      const items = data.items || [];
+      setStockItems(items);
+      setFilteredItems(items);
+      setTotalPages(data.totalPages || 1);
+      setTotalCount(data.totalCount || 0);
+      setPerPage(data.perPage || 10);
+    } catch (error) {
+      console.error("Error fetching stock data:", error);
+      setError("Failed to load stock data. Please try again.");
+      toast({
+        title: "Error",
+        description: "Failed to load stock data. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAdvancedSearch = (filters: FilterValues) => {

@@ -10,6 +10,8 @@ interface QueryBuilderProps {
   selectedZone: string;
   selectedArea: string;
   selectedSubArea: string;
+  searchDate?: Date | null;
+  expiredDate?: Date | null;
 }
 
 export const useQueryBuilder = () => {
@@ -22,6 +24,8 @@ export const useQueryBuilder = () => {
     selectedZone,
     selectedArea,
     selectedSubArea,
+    searchDate,
+    expiredDate,
   }: QueryBuilderProps): StockUpdateQueryParams => {
     const params: StockUpdateQueryParams = {
       page: currentPage,
@@ -55,8 +59,18 @@ export const useQueryBuilder = () => {
       params.subAreaId = selectedSubArea;
     }
 
+    // Add date parameters
+    if (searchDate) {
+      params.searchDate = searchDate.toISOString().split('T')[0];
+    }
+
+    if (expiredDate) {
+      params.expiredDate = expiredDate.toISOString().split('T')[0];
+    }
+
     return params;
   };
 
   return { buildQueryParams };
 };
+

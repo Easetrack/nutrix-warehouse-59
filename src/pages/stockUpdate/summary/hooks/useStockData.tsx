@@ -43,6 +43,10 @@ export const useStockData = () => {
     setSelectedCategory,
     selectedUoM,
     setSelectedUoM,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate,
   } = useFilterState();
 
   const {
@@ -71,6 +75,8 @@ export const useStockData = () => {
       selectedZone,
       selectedArea,
       selectedSubArea,
+      searchDate,
+      expiredDate,
     });
 
     const result = await fetchStock(params);
@@ -149,6 +155,10 @@ export const useStockData = () => {
     handlePerPageChange,
     handleSearch,
     handleClear,
-    handleAdvancedSearch
+    handleAdvancedSearch,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate
   };
 };

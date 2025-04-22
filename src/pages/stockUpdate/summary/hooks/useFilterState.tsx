@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 export const useFilterState = () => {
@@ -11,6 +10,8 @@ export const useFilterState = () => {
   const [selectedUoM, setSelectedUoM] = useState("All UoM");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [searchDate, setSearchDate] = useState<Date | null>(null);
+  const [expiredDate, setExpiredDate] = useState<Date | null>(null);
 
   return {
     searchTerm,
@@ -31,5 +32,9 @@ export const useFilterState = () => {
     setSortColumn,
     sortDirection,
     setSortDirection,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate,
   };
 };

@@ -1,8 +1,8 @@
-
 export interface StockUpdateQueryParams {
   page?: number;
   perPage?: number;
   search?: string;
+  searchDate?: string;
   expiredDate?: string;
   categoryId?: string;
   typeId?: string;
@@ -36,5 +36,5 @@ export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
   sortByQty?: "asc" | "desc";
   sortByTags?: "asc" | "desc";
   sortByNonTags?: "asc" | "desc";
-  [key: string]: string | number | undefined;  // Add index signature to allow dynamic property access
+  [key: string]: string | number | undefined;
 }

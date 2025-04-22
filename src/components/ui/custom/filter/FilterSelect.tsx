@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Loader2 } from 'lucide-react';
+import { Label } from '@/components/ui/label';
 
 interface FilterOption {
   id: string;
@@ -22,6 +23,7 @@ interface FilterSelectProps {
   onValueChange: (value: string) => void;
   isLoading?: boolean;
   disabled?: boolean;
+  label?: string;
 }
 
 export const FilterSelect: React.FC<FilterSelectProps> = ({
@@ -31,6 +33,7 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   onValueChange,
   isLoading = false,
   disabled = false,
+  label,
 }) => {
   // Ensure we have valid options with non-empty values
   const validOptions = options.filter(option => {
@@ -40,36 +43,43 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   });
 
   return (
-    <div className="relative">
-      <Select 
-        value={value} 
-        onValueChange={onValueChange}
-        disabled={disabled || isLoading}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={placeholder} />
-          {isLoading && (
-            <Loader2 className="h-4 w-4 animate-spin ml-2" />
-          )}
-        </SelectTrigger>
-        <SelectContent>
-          {Array.isArray(validOptions) && validOptions.map((option) => {
-            // Ensure we always have a non-empty value
-            const optionValue = option.code || option.id;
-            // Skip rendering items with empty values to prevent the error
-            if (!optionValue || optionValue.trim() === '') return null;
-            
-            return (
-              <SelectItem 
-                key={option.id || option.name} 
-                value={optionValue}
-              >
-                {option.name}
-              </SelectItem>
-            );
-          })}
-        </SelectContent>
-      </Select>
+    <div className="space-y-2">
+      {label && (
+        <Label className="text-sm font-medium text-muted-foreground">
+          {label}
+        </Label>
+      )}
+      <div className="relative">
+        <Select 
+          value={value} 
+          onValueChange={onValueChange}
+          disabled={disabled || isLoading}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder={placeholder} />
+            {isLoading && (
+              <Loader2 className="h-4 w-4 animate-spin ml-2" />
+            )}
+          </SelectTrigger>
+          <SelectContent>
+            {Array.isArray(validOptions) && validOptions.map((option) => {
+              // Ensure we always have a non-empty value
+              const optionValue = option.code || option.id;
+              // Skip rendering items with empty values to prevent the error
+              if (!optionValue || optionValue.trim() === '') return null;
+              
+              return (
+                <SelectItem 
+                  key={option.id || option.name} 
+                  value={optionValue}
+                >
+                  {option.name}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };

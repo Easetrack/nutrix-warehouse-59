@@ -18,29 +18,34 @@ export const useStockData = () => {
     area: queryParams.selectedArea,
     category: queryParams.selectedCategory,
     uom: "All UoMs",
+    expiredDate: null
   });
 
   useEffect(() => {
-    if (locationId) {
-      stockItems.fetchStockData(queryParams.buildQueryParams());
-    }
-  }, [locationId, queryParams.currentPage, queryParams.perPage]);
+    const initialFetch = async () => {
+      if (locationId) {
+        await stockItems.fetchStockData(queryParams.buildQueryParams());
+      }
+    };
+    
+    initialFetch();
+  }, [locationId]);
 
-  const handleSort = (column: string) => {
+  const handleSort = async (column: string) => {
     queryParams.setSortColumn(column);
     queryParams.setSortDirection(
       queryParams.sortColumn === column && queryParams.sortDirection === "asc" ? "desc" : "asc"
     );
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
     queryParams.setSearchTerm("");
     queryParams.setSearchTime("");
     queryParams.setSearchDate(null);
@@ -49,16 +54,43 @@ export const useStockData = () => {
     queryParams.setSelectedArea("All Areas");
     queryParams.setSelectedCategory("All Categories");
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  const handleAdvancedSearch = (values: FilterValues) => {
+  const handleAdvancedSearch = async (values: FilterValues) => {
     setAdvancedFilterValues(values);
+    
+    // Update queryParams with all relevant filter values
+    if (values.searchTerm !== undefined) {
+      queryParams.setSearchTerm(values.searchTerm);
+    }
+    if (values.date !== undefined) {
+      queryParams.setSearchDate(values.date);
+    }
+    if (values.expiredDate !== undefined) {
+      // Ensure expiredDate gets set in queryParams
+      if (queryParams.setExpiredDate) {
+        queryParams.setExpiredDate(values.expiredDate);
+      }
+    }
+    if (values.warehouse !== undefined) {
+      queryParams.setSelectedWarehouse(values.warehouse);
+    }
+    if (values.zone !== undefined) {
+      queryParams.setSelectedZone(values.zone);
+    }
+    if (values.area !== undefined) {
+      queryParams.setSelectedArea(values.area);
+    }
+    if (values.category !== undefined) {
+      queryParams.setSelectedCategory(values.category);
+    }
+    
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  const handleAdvancedClear = () => {
+  const handleAdvancedClear = async () => {
     setAdvancedFilterValues({
       searchTerm: "",
       time: "",
@@ -68,26 +100,29 @@ export const useStockData = () => {
       area: "All Areas",
       category: "All Categories",
       uom: "All UoMs",
+      expiredDate: null
     });
     queryParams.setCurrentPage(1);
-    stockItems.fetchStockData(queryParams.buildQueryParams());
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  const handleNextPage = () => {
+  const handleNextPage = async () => {
     if (queryParams.currentPage < stockItems.totalPages) {
       queryParams.setCurrentPage(queryParams.currentPage + 1);
+      await stockItems.fetchStockData(queryParams.buildQueryParams());
     }
   };
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = async () => {
     if (queryParams.currentPage > 1) {
       queryParams.setCurrentPage(queryParams.currentPage - 1);
+      await stockItems.fetchStockData(queryParams.buildQueryParams());
     }
   };
 
-  // Implement setPerPage manually without relying on queryParams
-  const setPerPage = (newPerPage: number) => {
-    // Just update the currentPage and perPage when fetching
+  // Implement setPerPage manually with async fetch
+  const setPerPage = async (newPerPage: number) => {
+    // Create updated parameters with new perPage value
     const updatedParams = {
       ...queryParams.buildQueryParams(),
       perPage: newPerPage,
@@ -98,7 +133,7 @@ export const useStockData = () => {
     queryParams.setCurrentPage(1);
     
     // Fetch with new parameters
-    stockItems.fetchStockData(updatedParams);
+    await stockItems.fetchStockData(updatedParams);
   };
 
   return {
@@ -113,6 +148,6 @@ export const useStockData = () => {
     handleAdvancedSearch,
     handleAdvancedClear,
     handleViewDetail: stockItems.handleViewDetail,
-    setPerPage, // Add the setPerPage function to the returned object
+    setPerPage,
   };
 };

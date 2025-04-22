@@ -15,10 +15,11 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
   handleSearch,
   handleClear,
 }) => {
-  // เพิ่มความสามารถในการกด Enter เพื่อค้นหา
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  // Fix Enter key handling
+  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      e.preventDefault();
+      await handleSearch();
     }
   };
 

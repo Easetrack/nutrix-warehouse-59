@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { StockItem } from "@/types/stockupdate/summary";
 import { useFilterState } from "./useFilterState";
@@ -43,6 +44,10 @@ export const useStockData = () => {
     setSelectedCategory,
     selectedUoM,
     setSelectedUoM,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
     searchDate,
     setSearchDate,
     expiredDate,
@@ -79,6 +84,7 @@ export const useStockData = () => {
       expiredDate,
     });
 
+    console.log("Fetching stock data with params:", params);
     const result = await fetchStock(params);
     if (result) {
       setTotalPages(result.totalPages);
@@ -87,13 +93,13 @@ export const useStockData = () => {
     }
   };
 
-  const {
-    sortColumn,
-    setSortColumn,
-    sortDirection,
-    setSortDirection,
-    handleSort
-  } = useSortHandler(fetchStockData);
+  // Use updated sort handler with async fetchStockData
+  const handleSort = async (column: string) => {
+    const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(column);
+    setSortDirection(newDirection);
+    await fetchStockData();
+  };
 
   const {
     handleSearch,
@@ -110,12 +116,23 @@ export const useStockData = () => {
     setSelectedCategory,
     setSelectedUoM,
     setSortColumn,
-    setSortDirection
+    setSortDirection,
+    setSearchDate,
+    setExpiredDate
   });
 
   useEffect(() => {
-    fetchStockData();
-  }, [currentPage, perPage, locationId]);
+    const initialFetch = async () => {
+      if (locationId) {
+        await fetchStockData();
+      }
+    };
+    
+    initialFetch();
+  }, [locationId]);
+
+  // Don't automatically refetch on perPage or currentPage changes
+  // This will now be handled by the pagination handlers
 
   return {
     stockItems,
@@ -136,13 +153,26 @@ export const useStockData = () => {
     selectedSubArea,
     selectedCategory,
     selectedUoM,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate,
     fetchStockData,
     handleSelectAll: () => handleSelectAll(filteredItems.map(item => item.productId)),
     handleSelectItem,
     handleSort,
-    handleNextPage,
-    handlePreviousPage,
-    setCurrentPage,
+    handleNextPage: async () => {
+      handleNextPage();
+      await fetchStockData();
+    },
+    handlePreviousPage: async () => {
+      handlePreviousPage();
+      await fetchStockData();
+    },
+    setCurrentPage: async (page: number) => {
+      setCurrentPage(page);
+      await fetchStockData();
+    },
     setSortColumn,
     setSortDirection,
     setSearchTerm,
@@ -152,13 +182,12 @@ export const useStockData = () => {
     setSelectedSubArea,
     setSelectedCategory,
     setSelectedUoM,
-    handlePerPageChange,
+    handlePerPageChange: async (newPerPage: number) => {
+      handlePerPageChange(newPerPage);
+      await fetchStockData();
+    },
     handleSearch,
     handleClear,
-    handleAdvancedSearch,
-    searchDate,
-    setSearchDate,
-    expiredDate,
-    setExpiredDate
+    handleAdvancedSearch
   };
 };

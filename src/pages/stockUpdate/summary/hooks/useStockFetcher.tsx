@@ -17,6 +17,7 @@ export const useStockFetcher = () => {
     setError(null);
 
     try {
+      console.log("Fetching data with params:", params);
       const data = await fetchStockUpdateSummary(params);
       const items = data.items || [];
       setStockItems(items);

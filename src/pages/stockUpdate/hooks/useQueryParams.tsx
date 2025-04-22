@@ -1,55 +1,94 @@
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
 
 export const useQueryParams = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTime, setSearchTime] = useState("");
   const [searchDate, setSearchDate] = useState<Date | null>(null);
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  const [selectedZone, setSelectedZone] = useState("All Zones");
-  const [selectedArea, setSelectedArea] = useState("All Areas");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [expiredDate, setExpiredDate] = useState<Date | null>(null);
+  const [selectedWarehouse, setSelectedWarehouse] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
 
   const buildQueryParams = (): StockUpdateLotQueryParams => {
     const params: StockUpdateLotQueryParams = {
       page: currentPage,
-      perPage: perPage,
+      perPage: 10,
     };
 
-    // Add search term
-    if (searchTerm) {
-      params.search = searchTerm;
+    if (searchTerm && searchTerm.trim() !== '') {
+      params.search = searchTerm.trim();
+      params.searchByProductName = searchTerm.trim();
+      params.searchByBarcode = searchTerm.trim();
+      params.searchByProductId = searchTerm.trim();
     }
 
-    // Add date and time filters
+    if (searchTime && searchTime.trim() !== '') {
+      params.searchTime = searchTime.trim();
+    }
+
     if (searchDate) {
-      params.expiredDate = searchDate.toISOString().split('T')[0];
+      params.searchDate = format(searchDate, 'MM-dd-yyyy');
     }
 
-    // Add category filter
-    if (selectedCategory !== "All Categories") {
-      params.categoryId = selectedCategory;
+    if (expiredDate) {
+      params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
     }
 
-    // Add zone filter
-    if (selectedZone !== "All Zones") {
-      params.zoneId = selectedZone.replace("Zone ", "");
+    if (selectedWarehouse && selectedWarehouse !== "All Warehouses" && selectedWarehouse !== "") {
+      params.warehouseId = selectedWarehouse;
     }
 
-    // Add area filter
-    if (selectedArea !== "All Areas") {
+    if (selectedZone && selectedZone !== "All Zones" && selectedZone !== "") {
+      params.zoneId = selectedZone;
+    }
+
+    if (selectedArea && selectedArea !== "All Areas" && selectedArea !== "") {
       params.areaId = selectedArea;
     }
 
-    // Add sorting
+    if (selectedCategory && selectedCategory !== "All Categories" && selectedCategory !== "") {
+      params.searchByCategory = selectedCategory;
+    }
+
+    // Add sorting parameters
     if (sortColumn) {
-      const sortKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
-      params[sortKey] = sortDirection;
+      const direction = sortDirection || "asc";
+      
+      switch (sortColumn) {
+        case "category":
+          params.sortByCategory = direction;
+          break;
+        case "productId":
+          params.sortByProductId = direction;
+          break;
+        case "barcode":
+          params.sortByBarcode = direction;
+          break;
+        case "productName":
+          params.sortByProductName = direction;
+          break;
+        case "unit":
+          params.sortByUnit = direction;
+          break;
+        case "qty":
+          params.sortByQty = direction;
+          break;
+        case "tags":
+          params.sortByTags = direction;
+          break;
+        case "nonTags":
+          params.sortByNonTags = direction;
+          break;
+        default:
+          break;
+      }
     }
 
     return params;
@@ -62,6 +101,8 @@ export const useQueryParams = () => {
     setSearchTime,
     searchDate,
     setSearchDate,
+    expiredDate,
+    setExpiredDate,
     selectedWarehouse,
     setSelectedWarehouse,
     selectedZone,
@@ -70,14 +111,12 @@ export const useQueryParams = () => {
     setSelectedArea,
     selectedCategory,
     setSelectedCategory,
+    currentPage, 
+    setCurrentPage,
     sortColumn,
     setSortColumn,
     sortDirection,
     setSortDirection,
-    currentPage,
-    setCurrentPage,
-    perPage,
     buildQueryParams,
   };
 };
-

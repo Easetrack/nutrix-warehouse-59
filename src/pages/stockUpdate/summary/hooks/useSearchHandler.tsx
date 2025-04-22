@@ -3,7 +3,7 @@ import { FilterValues } from "@/types/filter";
 
 interface SearchHandlerProps {
   setCurrentPage: (page: number) => void;
-  fetchDataCallback: () => void;
+  fetchDataCallback: () => Promise<void>;
   setSearchTerm: (term: string) => void;
   setSelectedWarehouse: (warehouse: string) => void;
   setSelectedZone: (zone: string) => void;
@@ -13,6 +13,8 @@ interface SearchHandlerProps {
   setSelectedUoM: (uom: string) => void;
   setSortColumn: (column: string | null) => void;
   setSortDirection: (direction: "asc" | "desc") => void;
+  setSearchDate?: (date: Date | null) => void;
+  setExpiredDate?: (date: Date | null) => void;
 }
 
 export const useSearchHandler = ({
@@ -26,11 +28,13 @@ export const useSearchHandler = ({
   setSelectedCategory,
   setSelectedUoM,
   setSortColumn,
-  setSortDirection
+  setSortDirection,
+  setSearchDate,
+  setExpiredDate
 }: SearchHandlerProps) => {
-  const handleSearch = () => {
+  const handleSearch = async () => {
     setCurrentPage(1);
-    fetchDataCallback();
+    await fetchDataCallback();
   };
 
   const handleClear = async () => {
@@ -43,11 +47,20 @@ export const useSearchHandler = ({
     setSelectedUoM("All UoM");
     setSortColumn(null);
     setSortDirection("asc");
+    
+    if (setSearchDate) {
+      setSearchDate(null);
+    }
+    
+    if (setExpiredDate) {
+      setExpiredDate(null);
+    }
+    
     setCurrentPage(1);
-    fetchDataCallback();
+    await fetchDataCallback();
   };
 
-  const handleAdvancedSearch = (filters: FilterValues) => {
+  const handleAdvancedSearch = async (filters: FilterValues) => {
     if (filters.searchTerm !== undefined) {
       setSearchTerm(filters.searchTerm);
     }
@@ -76,8 +89,16 @@ export const useSearchHandler = ({
       setSelectedUoM(filters.uom);
     }
     
+    if (filters.date !== undefined && setSearchDate) {
+      setSearchDate(filters.date);
+    }
+    
+    if (filters.expiredDate !== undefined && setExpiredDate) {
+      setExpiredDate(filters.expiredDate);
+    }
+    
     setCurrentPage(1);
-    fetchDataCallback();
+    await fetchDataCallback();
   };
 
   return {

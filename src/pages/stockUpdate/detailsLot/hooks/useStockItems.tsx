@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { StockItem } from "@/types/stockupdate/lot";
 import { useToast } from "@/hooks/use-toast";
-import { fetchStockUpdateByLotBatch } from "@/services/stockUpdate";
+import { fetchStockUpdateByLot } from "@/services/stockUpdate";
 import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
 
 export const useStockItems = (locationId: string) => {
@@ -16,20 +16,24 @@ export const useStockItems = (locationId: string) => {
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [perPage, setPerPage] = useState(10);
 
   const fetchStockData = async (params: StockUpdateLotQueryParams) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await fetchStockUpdateByLotBatch(params);
+      console.log("Fetching Lot stock data with params:", params);
+      const data = await fetchStockUpdateByLot(params);
       const items = data.items || [];
       setStockItems(items);
       setFilteredItems(items);
       setTotalPages(data.totalPages || 1);
       setTotalCount(data.totalCount || 0);
-      setPerPage(data.perPage || 10);
+      return {
+        totalPages: data.totalPages || 1,
+        totalCount: data.totalCount || 0,
+        perPage: data.perPage || 10
+      };
     } catch (error) {
       console.error("Error fetching stock data:", error);
       setError("Failed to load stock data. Please try again.");
@@ -38,24 +42,9 @@ export const useStockItems = (locationId: string) => {
         description: "Failed to load stock data. Please try again.",
         variant: "destructive",
       });
+      return null;
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleSelectAll = () => {
-    if (selectedItems.length === filteredItems.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(filteredItems.map((item) => item.productId));
-    }
-  };
-
-  const handleSelectItem = (id: string) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
     }
   };
 
@@ -68,17 +57,16 @@ export const useStockItems = (locationId: string) => {
     stockItems,
     filteredItems,
     selectedItems,
+    setSelectedItems,
     selectedItem,
+    setSelectedItem,
     isDetailOpen,
+    setIsDetailOpen,
     isLoading,
     error,
     totalPages,
     totalCount,
-    perPage,
-    setIsDetailOpen,
-    handleSelectAll,
-    handleSelectItem,
-    handleViewDetail,
     fetchStockData,
+    handleViewDetail,
   };
 };

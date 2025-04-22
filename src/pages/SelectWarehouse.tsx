@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -10,9 +9,11 @@ import { useWarehouseSelection } from "@/hooks/useWarehouseSelection";
 import { getAuthTokens } from "@/utils/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const SelectWarehouse = () => {
   const navigate = useNavigate();
+  const { primaryColor } = useTheme();
   const {
     searchTerm,
     setSearchTerm,
@@ -54,7 +55,7 @@ const SelectWarehouse = () => {
         className="w-full max-w-5xl"
       >
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold">Select Warehouse</h1>
+          <h1 className="text-3xl font-bold" style={{ color: primaryColor }}>Select Warehouse</h1>
           <p className="mt-2 text-muted-foreground">
             Choose the warehouse you want to work with
           </p>
@@ -62,7 +63,10 @@ const SelectWarehouse = () => {
 
         <div className="mb-6">
           <div className="relative max-w-md mx-auto">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search 
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" 
+              style={{ color: primaryColor }}
+            />
             <Input
               placeholder="Search warehouses..."
               value={searchTerm}
@@ -107,32 +111,44 @@ const SelectWarehouse = () => {
             </Button>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-              {locations.map((location) => (
-                <WarehouseCard
-                  key={location.id}
-                  location={location}
-                  onClick={handleWarehouseClick}
-                  isSelected={selectedWarehouse?.id === location.id}
-                />
-              ))}
-            </div>
+          locations.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+                {locations.map((location) => (
+                  <WarehouseCard
+                    key={location.id}
+                    location={location}
+                    onClick={handleWarehouseClick}
+                    isSelected={selectedWarehouse?.id === location.id}
+                    primaryColor={primaryColor}
+                  />
+                ))}
+              </div>
 
-            <Button 
-              variant="success" 
-              size="lg"
-              className="w-full max-w-md mx-auto block"
-              disabled={!selectedWarehouse}
-              onClick={handleContinue}
-            >
-              CONTINUE
-            </Button>
-          </>
+              <Button 
+                variant="success" 
+                size="lg"
+                className="w-full max-w-md mx-auto block"
+                disabled={!selectedWarehouse}
+                onClick={handleContinue}
+                style={{ 
+                  backgroundColor: primaryColor, 
+                  color: 'white',
+                  opacity: selectedWarehouse ? 1 : 0.5
+                }}
+              >
+                CONTINUE
+              </Button>
+            </>
+          )
         )}
 
         <div className="mt-8 text-center">
-          <Button variant="outline" onClick={handleLogout}>
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            style={{ borderColor: primaryColor, color: primaryColor }}
+          >
             Log Out
           </Button>
         </div>

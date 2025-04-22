@@ -9,9 +9,15 @@ interface WarehouseCardProps {
   location: Location;
   onClick: (location: Location) => void;
   isSelected?: boolean;
+  primaryColor?: string;
 }
 
-export const WarehouseCard = ({ location, onClick, isSelected = false }: WarehouseCardProps) => {
+export const WarehouseCard = ({ 
+  location, 
+  onClick, 
+  isSelected = false, 
+  primaryColor = '#6366f1' // default fallback color
+}: WarehouseCardProps) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -19,12 +25,15 @@ export const WarehouseCard = ({ location, onClick, isSelected = false }: Warehou
       className="cursor-pointer"
     >
       <Card className={`overflow-hidden transition-all hover:shadow-md ${
-        isSelected ? 'ring-2 ring-green-500 bg-green-50' : ''
+        isSelected ? `ring-2 ring-[${primaryColor}] bg-[${primaryColor}]/10` : ''
       }`}>
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <div className="mt-1">
-              <MapPin className="h-4 w-4 text-green-600" />
+              <MapPin 
+                className="h-4 w-4" 
+                style={{ color: primaryColor }} 
+              />
             </div>
             <div className="flex-1">
               <div className="flex flex-col gap-1">
@@ -32,7 +41,10 @@ export const WarehouseCard = ({ location, onClick, isSelected = false }: Warehou
                 <p className="text-sm text-muted-foreground text-left">
                   {location.address || 'Thailand'}
                 </p>
-                <p className="text-sm text-green-600 text-left">
+                <p 
+                  className="text-sm text-left" 
+                  style={{ color: primaryColor }}
+                >
                   {location.inventory || '0'} items in inventory
                 </p>
               </div>

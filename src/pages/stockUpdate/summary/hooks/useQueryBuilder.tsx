@@ -1,5 +1,5 @@
-
 import { StockUpdateQueryParams } from "@/types/stockupdate/api";
+import { format } from "date-fns";
 
 interface QueryBuilderProps {
   currentPage: number;
@@ -59,13 +59,12 @@ export const useQueryBuilder = () => {
       params.subAreaId = selectedSubArea;
     }
 
-    // Add date parameters
     if (searchDate) {
-      params.searchDate = searchDate.toISOString().split('T')[0];
+      params.searchDate = format(searchDate, 'MM-dd-yyyy');
     }
 
     if (expiredDate) {
-      params.expiredDate = expiredDate.toISOString().split('T')[0];
+      params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
     }
 
     return params;
@@ -73,4 +72,3 @@ export const useQueryBuilder = () => {
 
   return { buildQueryParams };
 };
-

@@ -15,6 +15,7 @@ interface SearchHandlerProps {
   setSortDirection: (direction: "asc" | "desc") => void;
   setSearchDate?: (date: Date | null) => void;
   setExpiredDate?: (date: Date | null) => void;
+  setPerPage?: (perPage: number) => Promise<void>; // Add optional setPerPage function
 }
 
 export const useSearchHandler = ({
@@ -30,7 +31,8 @@ export const useSearchHandler = ({
   setSortColumn,
   setSortDirection,
   setSearchDate,
-  setExpiredDate
+  setExpiredDate,
+  setPerPage
 }: SearchHandlerProps) => {
   const handleSearch = async () => {
     // Reset to page 1 for new search
@@ -107,9 +109,16 @@ export const useSearchHandler = ({
     await fetchDataCallback();
   };
 
+  const handlePerPageChange = async (newPerPage: number) => {
+    if (setPerPage) {
+      await setPerPage(newPerPage);
+    }
+  };
+
   return {
     handleSearch,
     handleClear,
-    handleAdvancedSearch
+    handleAdvancedSearch,
+    handlePerPageChange // Add new handler to return object
   };
 };

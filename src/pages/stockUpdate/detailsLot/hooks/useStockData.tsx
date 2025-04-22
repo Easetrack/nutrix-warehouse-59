@@ -9,6 +9,7 @@ export const useStockData = () => {
   const { locationId } = useStockAuth();
   const queryParams = useQueryParams();
   const stockItems = useStockItems(locationId);
+  const [perPage, setPerPage] = useState(10); // Add perPage state
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
     searchTerm: queryParams.searchTerm,
     time: queryParams.searchTime,
@@ -137,8 +138,10 @@ export const useStockData = () => {
     await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  // Implement setPerPage without relying on queryParams.setPerPage
-  const setPerPage = async (newPerPage: number) => {
+  // Implement setPerPage with explicit return type
+  const handlePerPageChange = async (newPerPage: number): Promise<void> => {
+    setPerPage(newPerPage);
+    
     // Create updated parameters with new perPage value
     const updatedParams = {
       ...queryParams.buildQueryParams(),
@@ -156,6 +159,7 @@ export const useStockData = () => {
   return {
     ...stockItems,
     ...queryParams,
+    perPage, // Make sure perPage is explicitly included in the return object
     advancedFilterValues,
     handleSort,
     handleSearch,
@@ -164,6 +168,6 @@ export const useStockData = () => {
     handleAdvancedClear,
     handleNextPage,
     handlePreviousPage,
-    setPerPage,
+    setPerPage: handlePerPageChange, // Use the handler function for setPerPage
   };
 };

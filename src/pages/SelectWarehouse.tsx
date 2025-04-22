@@ -1,33 +1,27 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/hooks/use-toast";
-import { MapPin, Search, Warehouse } from "lucide-react";
-import { Location, fetchLocations, logout, getAuthTokens } from "@/utils/auth";
-import apiClient from "@/services/api-client";
-import { useQuery } from '@tanstack/react-query';
+import { Search, Warehouse } from "lucide-react";
+import { WarehouseCard } from "@/components/warehouse/WarehouseCard";
+import { useWarehouseSelection } from "@/hooks/useWarehouseSelection";
+import { getAuthTokens } from "@/utils/auth";
+import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 const SelectWarehouse = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [recentWarehouses, setRecentWarehouses] = useState<Location[]>([]);
-
   const {
-    data: locations = [],
+    searchTerm,
+    setSearchTerm,
+    locations,
     isLoading,
-    error: fetchError,
+    handleSelectWarehouse,
+    handleLogout,
     refetch
-  } = useQuery<Location[], Error>({
-    queryKey: ['warehouseLocations'],
-    queryFn: fetchLocations,
-    select: (data) => data.filter(loc => loc.id !== ""),
-    staleTime: 5 * 60 * 1000,
-  });
+  } = useWarehouseSelection();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -37,80 +31,7 @@ const SelectWarehouse = () => {
       }
     };
     checkAuth();
-
-    const lastSelected = localStorage.getItem('lastSelectedWarehouse');
-    if (lastSelected) {
-      setRecentWarehouses([JSON.parse(lastSelected)]);
-    }
   }, [navigate]);
-
-  useEffect(() => {
-    if (fetchError) {
-      toast({
-        title: "Error",
-        description: fetchError.message || "Failed to load warehouse locations",
-        variant: "destructive",
-      });
-    }
-  }, [fetchError, toast]);
-
-  const handleSelectWarehouse = (location: Location) => {
-    if (!location.id) {
-      toast({
-        title: "Invalid Selection",
-        description: "Please select a valid warehouse",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    localStorage.setItem('selectedWarehouse', JSON.stringify(location));
-    localStorage.setItem('currentWarehouseId', location.id);
-    localStorage.setItem('currentWarehouseName', location.name);
-    localStorage.setItem('lastSelectedWarehouse', JSON.stringify(location));
-
-    apiClient.defaults.headers['x-location'] = location.id;
-
-    toast({
-      title: "Warehouse Selected",
-      description: `You have selected ${location.name}`,
-    });
-
-    navigate("/dashboard");
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
-
-  const filteredLocations = locations.filter(location =>
-    location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    location.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const WarehouseCard = ({ location }: { location: Location }) => (
-    <Card className="overflow-hidden transition-all hover:shadow-md">
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
-          <div className="mt-1">
-            <MapPin className="h-4 w-4 text-green-600" />
-          </div>
-          <div className="flex-1">
-            <div className="flex flex-col gap-1">
-              <h3 className="font-medium text-left">{location.name}</h3>
-              <p className="text-sm text-muted-foreground text-left">
-                {location.address || 'Thailand'}
-              </p>
-              <p className="text-sm text-green-600 text-left">
-                {location.inventory || '0'} items in inventory
-              </p>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -156,7 +77,7 @@ const SelectWarehouse = () => {
               </Card>
             ))}
           </div>
-        ) : filteredLocations.length === 0 ? (
+        ) : locations.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <Warehouse className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-lg font-medium">
@@ -176,15 +97,12 @@ const SelectWarehouse = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
-              {filteredLocations.map((location) => (
-                <motion.div
+              {locations.map((location) => (
+                <WarehouseCard
                   key={location.id}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => handleSelectWarehouse(location)}
-                  className="cursor-pointer"
-                >
-                  <WarehouseCard location={location} />
-                </motion.div>
+                  location={location}
+                  onClick={handleSelectWarehouse}
+                />
               ))}
             </div>
 
@@ -193,8 +111,8 @@ const SelectWarehouse = () => {
               size="lg"
               className="w-full max-w-md mx-auto block"
               onClick={() => {
-                if (filteredLocations.length > 0) {
-                  handleSelectWarehouse(filteredLocations[0]);
+                if (locations.length > 0) {
+                  handleSelectWarehouse(locations[0]);
                 }
               }}
             >

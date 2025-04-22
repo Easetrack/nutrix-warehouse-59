@@ -1,11 +1,11 @@
 
 import { useState, useEffect } from "react";
-import type { FilterValues } from '@/types/filter';
+import { FilterValues } from "@/types/filter";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { useStockItems } from "./useStockItems";
 
-export const useStockData = () => {
+export const useStockData = () => { 
   const { locationId } = useStockAuth();
   const queryParams = useQueryParams();
   const stockItems = useStockItems(locationId);
@@ -18,9 +18,8 @@ export const useStockData = () => {
     area: queryParams.selectedArea,
     category: queryParams.selectedCategory,
     uom: "All UoMs",
-    expiredDate: null
+    expiredDate: queryParams.expiredDate
   });
-  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
     const initialFetch = async () => {
@@ -50,11 +49,17 @@ export const useStockData = () => {
     queryParams.setSearchTerm("");
     queryParams.setSearchTime("");
     queryParams.setSearchDate(null);
-    queryParams.setSelectedWarehouse("All Warehouses");
-    queryParams.setSelectedZone("All Zones");
-    queryParams.setSelectedArea("All Areas");
-    queryParams.setSelectedCategory("All Categories");
+    queryParams.setSelectedWarehouse("");
+    queryParams.setSelectedZone("");
+    queryParams.setSelectedArea("");
+    queryParams.setSelectedCategory("");
     queryParams.setCurrentPage(1);
+    
+    // Clear any expiredDate if it exists in queryParams
+    if (queryParams.setExpiredDate) {
+      queryParams.setExpiredDate(null);
+    }
+    
     await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
@@ -96,34 +101,44 @@ export const useStockData = () => {
       searchTerm: "",
       time: "",
       date: null,
-      warehouse: "All Warehouses",
-      zone: "All Zones",
-      area: "All Areas",
-      category: "All Categories",
-      uom: "All UoMs",
+      warehouse: "",
+      zone: "",
+      area: "",
+      category: "",
+      uom: "",
       expiredDate: null
     });
+    
+    // Clear all query params
+    queryParams.setSearchTerm("");
+    queryParams.setSearchTime("");
+    queryParams.setSearchDate(null);
+    queryParams.setSelectedWarehouse("");
+    queryParams.setSelectedZone("");
+    queryParams.setSelectedArea("");
+    queryParams.setSelectedCategory("");
+    
+    if (queryParams.setExpiredDate) {
+      queryParams.setExpiredDate(null);
+    }
+    
     queryParams.setCurrentPage(1);
     await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
-
+  
+  // Add pagination handler methods with async fetch
   const handleNextPage = async () => {
-    if (queryParams.currentPage < stockItems.totalPages) {
-      queryParams.setCurrentPage(queryParams.currentPage + 1);
-      await stockItems.fetchStockData(queryParams.buildQueryParams());
-    }
+    queryParams.setCurrentPage(queryParams.currentPage + 1);
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
   const handlePreviousPage = async () => {
-    if (queryParams.currentPage > 1) {
-      queryParams.setCurrentPage(queryParams.currentPage - 1);
-      await stockItems.fetchStockData(queryParams.buildQueryParams());
-    }
+    queryParams.setCurrentPage(Math.max(1, queryParams.currentPage - 1));
+    await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
 
-  // Implement setPerPage manually with async fetch
-  const handlePerPageChange = async (newPerPage: number) => {
-    setPerPage(newPerPage);
+  // Implement setPerPage without relying on queryParams.setPerPage
+  const setPerPage = async (newPerPage: number) => {
     // Create updated parameters with new perPage value
     const updatedParams = {
       ...queryParams.buildQueryParams(),
@@ -142,15 +157,13 @@ export const useStockData = () => {
     ...stockItems,
     ...queryParams,
     advancedFilterValues,
-    perPage,
     handleSort,
-    handleNextPage,
-    handlePreviousPage,
     handleSearch,
     handleClear,
     handleAdvancedSearch,
     handleAdvancedClear,
-    handleViewDetail: stockItems.handleViewDetail,
-    setPerPage: handlePerPageChange,
+    handleNextPage,
+    handlePreviousPage,
+    setPerPage,
   };
 };

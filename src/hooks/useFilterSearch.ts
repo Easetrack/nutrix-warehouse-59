@@ -97,7 +97,11 @@ export const useFilterSearch = ({
       subAreaId: cleanValue(filters.subAreaId || ""),
       searchByUnit: cleanValue(filters.uom || ""),
     };
+    
+    // Call the onSearch callback directly with the current filters
     onSearch(apiFilters);
+    
+    // Close the filter popup
     setIsOpen(false);
   };
 
@@ -105,6 +109,7 @@ export const useFilterSearch = ({
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
     localStorage.removeItem(FILTER_LOCALSTORAGE_KEY);
+    // Call the onClear callback directly
     onClear();
   };
 

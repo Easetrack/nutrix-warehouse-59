@@ -33,11 +33,14 @@ export const useSearchHandler = ({
   setExpiredDate
 }: SearchHandlerProps) => {
   const handleSearch = async () => {
+    // Reset to page 1 for new search
     setCurrentPage(1);
+    // Immediately fetch data with the current filters
     await fetchDataCallback();
   };
 
   const handleClear = async () => {
+    // Clear all filters
     setSearchTerm("");
     setSelectedWarehouse("All Warehouses");
     setSelectedZone("All Zones");
@@ -56,11 +59,13 @@ export const useSearchHandler = ({
       setExpiredDate(null);
     }
     
+    // Reset to page 1 and fetch data immediately with cleared filters
     setCurrentPage(1);
     await fetchDataCallback();
   };
 
   const handleAdvancedSearch = async (filters: FilterValues) => {
+    // Apply each filter value if provided
     if (filters.searchTerm !== undefined) {
       setSearchTerm(filters.searchTerm);
     }
@@ -97,6 +102,7 @@ export const useSearchHandler = ({
       setExpiredDate(filters.expiredDate);
     }
     
+    // Reset to page 1 and fetch data immediately after setting all filters
     setCurrentPage(1);
     await fetchDataCallback();
   };

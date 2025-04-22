@@ -15,7 +15,7 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
   handleSearch,
   handleClear,
 }) => {
-  // Fix Enter key handling
+  // Fix Enter key handling to immediately trigger search
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();

@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Warehouse, Search } from "lucide-react";
+import { MapPin, Search, Warehouse } from "lucide-react";
 import { Location, fetchLocations, logout, getAuthTokens } from "@/utils/auth";
 import apiClient from "@/services/api-client";
 import { useQuery } from '@tanstack/react-query';
@@ -89,17 +89,40 @@ const SelectWarehouse = () => {
     location.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const WarehouseCard = ({ location }: { location: Location }) => (
+    <Card className="overflow-hidden transition-all hover:shadow-md">
+      <CardContent className="p-4">
+        <div className="flex items-start gap-3">
+          <div className="mt-1">
+            <MapPin className="h-4 w-4 text-green-600" />
+          </div>
+          <div className="flex-1">
+            <div className="flex flex-col gap-1">
+              <h3 className="font-medium text-left">{location.name}</h3>
+              <p className="text-sm text-muted-foreground text-left">
+                {location.address || 'Thailand'}
+              </p>
+              <p className="text-sm text-green-600 text-left">
+                {location.inventory || '0'} items in inventory
+              </p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl"
+        className="w-full max-w-5xl"
       >
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold">Select Warehouse</h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-muted-foreground">
             Choose the warehouse you want to work with
           </p>
         </div>
@@ -116,37 +139,18 @@ const SelectWarehouse = () => {
           </div>
         </div>
 
-        {recentWarehouses.length > 0 && (
-          <div className="mb-6">
-            <h2 className="mb-3 text-lg font-medium">Recently Used</h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {recentWarehouses.map((location) => (
-                <Card key={`recent-${location.id}`} className="overflow-hidden border-primary">
-                  {/* ... same card content ... */}
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <h2 className="mb-3 text-lg font-medium">
-          {recentWarehouses.length > 0 ? 'All Warehouses' : 'Available Warehouses'}
-        </h2>
-
         {isLoading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
               <Card key={index} className="overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <div className="flex items-center mb-4">
-                      <Skeleton className="h-10 w-10 rounded-full mr-3" />
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <Skeleton className="h-4 w-4" />
+                    <div className="flex-1 space-y-2">
                       <Skeleton className="h-5 w-32" />
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-4 w-28" />
                     </div>
-                    <Skeleton className="h-4 w-24" />
-                  </div>
-                  <div className="bg-background p-4">
-                    <Skeleton className="h-9 w-full rounded-md" />
                   </div>
                 </CardContent>
               </Card>
@@ -170,38 +174,33 @@ const SelectWarehouse = () => {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {filteredLocations.map((location) => (
-              <Card
-                key={location.id}
-                className="overflow-hidden transition-all hover:shadow-md"
-              >
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <div className="mb-4 flex items-center">
-                      <div className="mr-3 rounded-full bg-primary/10 p-2">
-                        <Warehouse className="h-5 w-5 text-primary" />
-                      </div>
-                      <h3 className="font-medium">
-                        {location.name}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-gray-500">
-                      ID: {location.id}
-                    </p>
-                  </div>
-                  <div className="bg-background p-4">
-                    <Button
-                      className="w-full"
-                      onClick={() => handleSelectWarehouse(location)}
-                    >
-                      Select
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+              {filteredLocations.map((location) => (
+                <motion.div
+                  key={location.id}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => handleSelectWarehouse(location)}
+                  className="cursor-pointer"
+                >
+                  <WarehouseCard location={location} />
+                </motion.div>
+              ))}
+            </div>
+
+            <Button 
+              variant="success" 
+              size="lg"
+              className="w-full max-w-md mx-auto block"
+              onClick={() => {
+                if (filteredLocations.length > 0) {
+                  handleSelectWarehouse(filteredLocations[0]);
+                }
+              }}
+            >
+              CONTINUE
+            </Button>
+          </>
         )}
 
         <div className="mt-8 text-center">

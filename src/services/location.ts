@@ -1,10 +1,11 @@
-
 import apiClient from './api-client';
 
 export interface Location {
   id: string;
   name: string;
   isDefault?: boolean | null;
+  address?: string;
+  inventory?: number;
 }
 
 export interface Zone {

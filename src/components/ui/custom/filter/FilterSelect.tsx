@@ -46,7 +46,7 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   const displayLabel = label || placeholder;
 
   return (
-    <div className="space-y-2">
+    <div className="">
       {displayLabel && (
         <Label className="text-sm font-medium text-muted-foreground">
           {displayLabel}

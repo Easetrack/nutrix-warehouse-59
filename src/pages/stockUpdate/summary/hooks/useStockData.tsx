@@ -1,22 +1,33 @@
-import { useState, useEffect } from "react";
+
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/types/stockupdate/summary";
-import { useToast } from "@/hooks/use-toast";
-import { fetchStockUpdateSummary } from "@/services/stockUpdate";
 import { useFilterState } from "./useFilterState";
 import { usePagination } from "./usePagination";
 import { useQueryBuilder } from "./useQueryBuilder";
+import { useStockFetcher } from "./useStockFetcher";
+import { useItemSelection } from "./useItemSelection";
 import { FilterValues } from "@/types/filter";
 
 export const useStockData = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [stockItems, setStockItems] = useState<StockItem[]>([]);
-  const [filteredItems, setFilteredItems] = useState<StockItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  
+  const {
+    stockItems,
+    filteredItems,
+    isLoading,
+    error,
+    fetchStockData: fetchStock,
+    setStockItems,
+    setFilteredItems
+  } = useStockFetcher();
+
+  const {
+    selectedItems,
+    handleSelectAll,
+    handleSelectItem
+  } = useItemSelection();
 
   const {
     searchTerm,
@@ -81,55 +92,22 @@ export const useStockData = () => {
   }, [navigate, currentPage, perPage, locationId]);
 
   const fetchStockData = async () => {
-    setIsLoading(true);
-    setError(null);
+    const params = buildQueryParams({
+      currentPage,
+      perPage,
+      searchTerm,
+      selectedCategory,
+      selectedUoM,
+      selectedZone,
+      selectedArea,
+      selectedSubArea,
+    });
 
-    try {
-      const params = buildQueryParams({
-        currentPage,
-        perPage,
-        searchTerm,
-        selectedCategory,
-        selectedUoM,
-        selectedZone,
-        selectedArea,
-        selectedSubArea,
-      });
-
-      const data = await fetchStockUpdateSummary(params);
-      
-      const items = data.items || [];
-      setStockItems(items);
-      setFilteredItems(items);
-      setTotalPages(data.totalPages || 1);
-      setTotalCount(data.totalCount || 0);
-      setPerPage(data.perPage || 10);
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      setError("Failed to load stock data. Please try again.");
-      toast({
-        title: "Error",
-        description: "Failed to load stock data. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSelectAll = () => {
-    if (selectedItems.length === filteredItems.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(filteredItems.map((item) => item.productId));
-    }
-  };
-
-  const handleSelectItem = (id: string) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
+    const result = await fetchStock(params);
+    if (result) {
+      setTotalPages(result.totalPages);
+      setTotalCount(result.totalCount);
+      setPerPage(result.perPage);
     }
   };
 
@@ -147,7 +125,6 @@ export const useStockData = () => {
   };
 
   const handleClear = async () => {
-    // Reset all filters
     setSearchTerm("");
     setSelectedWarehouse("All Warehouses");
     setSelectedZone("All Zones");
@@ -159,35 +136,22 @@ export const useStockData = () => {
     setSortDirection("asc");
     setCurrentPage(1);
 
-    // Immediately fetch data with cleared filters
-    try {
-      const params = buildQueryParams({
-        currentPage: 1,
-        perPage,
-        searchTerm: "",
-        selectedCategory: "All Categories",
-        selectedUoM: "All UoM",
-        selectedZone: "All Zones",
-        selectedArea: "All Areas",
-        selectedSubArea: "All SubAreas"
-      });
+    const params = buildQueryParams({
+      currentPage: 1,
+      perPage,
+      searchTerm: "",
+      selectedCategory: "All Categories",
+      selectedUoM: "All UoM",
+      selectedZone: "All Zones",
+      selectedArea: "All Areas",
+      selectedSubArea: "All SubAreas"
+    });
 
-      const data = await fetchStockUpdateSummary(params);
-      
-      const items = data.items || [];
-      setStockItems(items);
-      setFilteredItems(items);
-      setTotalPages(data.totalPages || 1);
-      setTotalCount(data.totalCount || 0);
-      setPerPage(data.perPage || 10);
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      setError("Failed to load stock data. Please try again.");
-      toast({
-        title: "Error",
-        description: "Failed to load stock data. Please try again.",
-        variant: "destructive",
-      });
+    const result = await fetchStock(params);
+    if (result) {
+      setTotalPages(result.totalPages);
+      setTotalCount(result.totalCount);
+      setPerPage(result.perPage);
     }
   };
 
@@ -244,7 +208,7 @@ export const useStockData = () => {
     selectedCategory,
     selectedUoM,
     fetchStockData,
-    handleSelectAll,
+    handleSelectAll: () => handleSelectAll(filteredItems.map(item => item.productId)),
     handleSelectItem,
     handleSort,
     handleNextPage,

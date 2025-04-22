@@ -19,7 +19,11 @@ export interface Location {
   id: string;
   name: string;
   isDefault: boolean | null;
+  address?: string;
+  inventory?: string | number;
 }
+
+// The remaining functions remain unchanged
 
 /**
  * Get current authentication tokens from localStorage

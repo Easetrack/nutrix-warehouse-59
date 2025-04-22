@@ -11,10 +11,8 @@ import { useFilterSearch } from '@/hooks/useFilterSearch';
 import { FilterSearchProps, FilterValues } from '@/types/filter';
 import { DatePicker } from '@/components/ui/date-picker'
 
-
 // Export the FilterValues type for backward compatibility
 export type { FilterValues } from '@/types/filter';
-
 
 export const FilterSearch: React.FC<FilterSearchProps> = ({
   onSearch,
@@ -24,7 +22,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
   visibleLocationFields,
   visibleProductFields,
   visibleInputFields,
-  storageKey // Add storageKey prop
+  storageKey
 }) => {
   const {
     isOpen,
@@ -38,13 +36,11 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
     onSearch, 
     onClear, 
     initialValues,
-    storageKey // Pass storageKey to useFilterSearch
+    storageKey
   });
-
 
   const shouldShowInput = (input: 'search' | 'date' | 'selectLocation' | 'selectProduct') =>
     !visibleInputFields || visibleInputFields.includes(input);
-
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -57,7 +53,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
 
           {shouldShowInput('search') && (
             <FilterSearchInput
-              value={filters.searchTerm}
+              value={filters.searchTerm || ''}
               onChange={handleInputChange}
             />
           )}

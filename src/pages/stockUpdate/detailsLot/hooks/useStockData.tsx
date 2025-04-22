@@ -20,6 +20,7 @@ export const useStockData = () => {
     uom: "All UoMs",
     expiredDate: null
   });
+  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
     const initialFetch = async () => {
@@ -121,7 +122,8 @@ export const useStockData = () => {
   };
 
   // Implement setPerPage manually with async fetch
-  const setPerPage = async (newPerPage: number) => {
+  const handlePerPageChange = async (newPerPage: number) => {
+    setPerPage(newPerPage);
     // Create updated parameters with new perPage value
     const updatedParams = {
       ...queryParams.buildQueryParams(),
@@ -140,6 +142,7 @@ export const useStockData = () => {
     ...stockItems,
     ...queryParams,
     advancedFilterValues,
+    perPage,
     handleSort,
     handleNextPage,
     handlePreviousPage,
@@ -148,6 +151,6 @@ export const useStockData = () => {
     handleAdvancedSearch,
     handleAdvancedClear,
     handleViewDetail: stockItems.handleViewDetail,
-    setPerPage,
+    setPerPage: handlePerPageChange,
   };
 };

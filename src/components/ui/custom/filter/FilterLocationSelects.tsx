@@ -43,10 +43,10 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
       prevWarehouse.current = wh;
       loadZones(wh); // Send warehouse ID
     }
-  }, [values.warehouse]);
+  }, [values.warehouse, loadZones]);
 
   useEffect(() => {
-    const zoneId = values.zoneId;
+    const zoneId = values.zoneId || values.zone;
     const wh = values.warehouse;
 
     if (
@@ -60,11 +60,11 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
       prevZone.current = zoneId;
       loadAreas(zoneId, wh); // Send zoneId and warehouse ID
     }
-  }, [values.zoneId, values.warehouse]);
+  }, [values.zoneId, values.zone, values.warehouse, loadAreas]);
 
   useEffect(() => {
-    const zoneId = values.zoneId;
-    const areaId = values.areaId;
+    const zoneId = values.zoneId || values.zone;
+    const areaId = values.areaId || values.area;
     const wh = values.warehouse;
 
     if (
@@ -81,13 +81,13 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
       prevArea.current = areaId;
       loadSubAreas(zoneId, areaId, wh); // Send zoneId, areaId and warehouse ID
     }
-  }, [values.zoneId, values.areaId, values.warehouse]);
+  }, [values.zoneId, values.zone, values.areaId, values.area, values.warehouse, loadSubAreas]);
 
   return (
     <>
       {shouldShow('warehouse') && (
         <FilterSelect
-          value={values.warehouse}
+          value={values.warehouse || ''}
           options={warehouses}
           placeholder="Select Warehouse"
           onValueChange={(value) => onValueChange(value, 'warehouse')}
@@ -97,10 +97,10 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
 
       {shouldShow('zone') && (
         <FilterSelect
-          value={values.zoneId}
+          value={values.zoneId || values.zone || ''}
           options={zones}
           placeholder="Select Zone"
-          onValueChange={(value) => onValueChange(value, 'zoneId')}
+          onValueChange={(value) => onValueChange(value, 'zone')}
           isLoading={isLoadingZones}
           disabled={!values.warehouse || values.warehouse === ''}
         />
@@ -108,23 +108,23 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
 
       {shouldShow('area') && (
         <FilterSelect
-          value={values.areaId}
+          value={values.areaId || values.area || ''}
           options={areas}
           placeholder="Select Area"
-          onValueChange={(value) => onValueChange(value, 'areaId')}
+          onValueChange={(value) => onValueChange(value, 'area')}
           isLoading={isLoadingAreas}
-          disabled={!values.zoneId || values.zoneId.startsWith('All-')}
+          disabled={!(values.zoneId || values.zone) || (values.zoneId || values.zone || '').startsWith('All-')}
         />
       )}
 
       {shouldShow('subArea') && (
         <FilterSelect
-          value={values.subAreaId}
+          value={values.subAreaId || values.subArea || ''}
           options={subAreas}
           placeholder="Select Sub Area"
-          onValueChange={(value) => onValueChange(value, 'subAreaId')}
+          onValueChange={(value) => onValueChange(value, 'subArea')}
           isLoading={isLoadingSubAreas}
-          disabled={!values.areaId || values.areaId.startsWith('All-')}
+          disabled={!(values.areaId || values.area) || (values.areaId || values.area || '').startsWith('All-')}
         />
       )}
     </>

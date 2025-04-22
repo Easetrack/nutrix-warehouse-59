@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { ProductFilterValues } from '@/types/filter';
@@ -44,7 +45,7 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
       loadTypes(values.category);
       loadUnits(values.category);
     }
-  }, [values.category]);
+  }, [values.category, loadTypes, loadUnits]);
 
   useEffect(() => {
     if (
@@ -55,7 +56,7 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
       prevType.current = values.typeId;
       loadSubTypes(values.typeId);
     }
-  }, [values.typeId]);
+  }, [values.typeId, loadSubTypes]);
 
   return (
     <>

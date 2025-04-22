@@ -9,7 +9,7 @@ type UseFilterSearchProps = Pick<
   FilterSearchProps,
   "onSearch" | "onClear" | "initialValues"
 > & {
-  storageKey?: string; // <<< เพิ่ม prop
+  storageKey?: string;
 };
 
 export const useFilterSearch = ({
@@ -40,19 +40,11 @@ export const useFilterSearch = ({
     serialNo: "",
     stockId: "",
     subAreaId: "",
-    searchByCategory: "",
-    searchByType: "",
-    searchBySubType: "",
-    searchByBarcode: "",
-    searchByProductId: "",
-    searchByProductName: "",
-    searchByUnit: "",
-    expiredDate: "",
     zoneId: "",
     areaId: "",
+    expiredDate: null,
   };
 
-  // --- ใช้ FILTER_LOCALSTORAGE_KEY (รับจาก props หรือ default) ---
   function getInitialFilters() {
     const saved =
       typeof window !== "undefined"
@@ -60,7 +52,15 @@ export const useFilterSearch = ({
         : null;
     if (saved) {
       try {
-        return { ...defaultValues, ...JSON.parse(saved) };
+        const parsedData = JSON.parse(saved);
+        // Handle date conversion for date fields that might be stored as strings
+        if (parsedData.date && typeof parsedData.date === 'string') {
+          parsedData.date = new Date(parsedData.date);
+        }
+        if (parsedData.expiredDate && typeof parsedData.expiredDate === 'string') {
+          parsedData.expiredDate = new Date(parsedData.expiredDate);
+        }
+        return { ...defaultValues, ...parsedData };
       } catch {
         return { ...defaultValues, ...initialValues };
       }
@@ -88,11 +88,14 @@ export const useFilterSearch = ({
       searchByProductName: filters.searchTerm,
       searchByBarcode: filters.searchTerm,
       searchByProductId: filters.searchTerm,
-      searchByCategory: cleanValue(filters.category),
-      zoneId: cleanValue(filters.zoneId || filters.zone),
-      areaId: cleanValue(filters.areaId || filters.area),
-      subAreaId: cleanValue(filters.subAreaId || filters.subArea),
-      searchByUnit: cleanValue(filters.uom),
+      searchByCategory: cleanValue(filters.category || ""),
+      zone: cleanValue(filters.zone || ""),
+      area: cleanValue(filters.area || ""),
+      subArea: cleanValue(filters.subArea || ""),
+      zoneId: cleanValue(filters.zoneId || ""),
+      areaId: cleanValue(filters.areaId || ""),
+      subAreaId: cleanValue(filters.subAreaId || ""),
+      searchByUnit: cleanValue(filters.uom || ""),
     };
     onSearch(apiFilters);
     setIsOpen(false);
@@ -101,7 +104,7 @@ export const useFilterSearch = ({
   const handleClear = () => {
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
-    localStorage.removeItem(FILTER_LOCALSTORAGE_KEY); // เคลียร์ค่าเฉพาะคีย์นี้
+    localStorage.removeItem(FILTER_LOCALSTORAGE_KEY);
     onClear();
   };
 
@@ -111,42 +114,54 @@ export const useFilterSearch = ({
 
   const handleSelectChange = (value: string, field: keyof FilterValues) => {
     if (value === "") return;
-    if (field === "zoneId" || field === "zone") {
+    
+    // Handle location hierarchy
+    if (field === "zone" || field === "zoneId") {
       setFilters({
         ...filters,
-        zoneId: value,
         zone: value,
-        areaId: "",
+        zoneId: value,
         area: "",
-        subAreaId: "",
+        areaId: "",
         subArea: "",
+        subAreaId: "",
       });
-    } else if (field === "areaId" || field === "area") {
+    } else if (field === "area" || field === "areaId") {
       setFilters({
         ...filters,
-        areaId: value,
         area: value,
-        subAreaId: "",
+        areaId: value,
         subArea: "",
+        subAreaId: "",
       });
-    } else if (field === "subAreaId" || field === "subArea") {
+    } else if (field === "subArea" || field === "subAreaId") {
       setFilters({
         ...filters,
-        subAreaId: value,
         subArea: value,
+        subAreaId: value,
       });
-    } else if (field === "category") {
+    } 
+    // Handle product hierarchy
+    else if (field === "category") {
       setFilters({
         ...filters,
         [field]: value,
         typeId: "",
         subTypeId: "",
       });
-    } else if (field === "typeId") {
+    } else if (field === "typeId" || field === "type") {
       setFilters({
         ...filters,
-        [field]: value,
+        typeId: value,
+        type: value,
         subTypeId: "",
+        subType: "",
+      });
+    } else if (field === "subTypeId" || field === "subType") {
+      setFilters({
+        ...filters,
+        subTypeId: value,
+        subType: value,
       });
     } else {
       setFilters({ ...filters, [field]: value });

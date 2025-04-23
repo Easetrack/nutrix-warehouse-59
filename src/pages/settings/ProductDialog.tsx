@@ -1,15 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue
-} from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import {
   fetchCategories,
@@ -17,6 +8,7 @@ import {
   fetchSubTypes,
   fetchUnits,
 } from "@/services/product";
+import ProductDialogForm from "./ProductDialogForm";
 
 type Product = {
   id: string;
@@ -139,129 +131,35 @@ const ProductDialog: React.FC<Props> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>{editingProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
-            <DialogDescription>
-              {editingProduct
-                ? `Edit details for ${editingProduct.name}`
-                : "Enter the details for the new product"}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4 grid gap-2">
-            <Input
-              name="id"
-              value={form.id}
-              onChange={handleChange}
-              placeholder="Enter Product ID"
-              className="bg-gray-50"
-              required
-            />
-            <Input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Enter Product Name"
-              className="bg-gray-50"
-              required
-            />
-
-            {/* Category Select */}
-            <Select
-              value={form.category}
-              onValueChange={(v) => handleSelectChange("category", v)}
-              disabled={loadingCategories}
-            >
-              <SelectTrigger className="bg-gray-50 w-full">
-                <SelectValue placeholder="Select Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categoryOptions.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Group Select */}
-            <Select
-              value={form.group}
-              onValueChange={(v) => handleSelectChange("group", v)}
-              disabled={loadingTypes || !form.category}
-            >
-              <SelectTrigger className="bg-gray-50 w-full">
-                <SelectValue placeholder="Select Group" />
-              </SelectTrigger>
-              <SelectContent>
-                {typeOptions.map((type) => (
-                  <SelectItem key={type.id} value={type.id}>
-                    {type.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* SubGroup Select */}
-            <Select
-              value={form.subGroup}
-              onValueChange={(v) => handleSelectChange("subGroup", v)}
-              disabled={loadingSubTypes || !form.group}
-            >
-              <SelectTrigger className="bg-gray-50 w-full">
-                <SelectValue placeholder="Select Sub Group" />
-              </SelectTrigger>
-              <SelectContent>
-                {subTypeOptions.map((stype) => (
-                  <SelectItem key={stype.id} value={stype.id}>
-                    {stype.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Stock, UOM */}
-            <Input
-              name="stock"
-              type="number"
-              value={form.stock}
-              onChange={handleChange}
-              placeholder="Enter Stock"
-              min={0}
-              className="bg-gray-50"
-              required
-            />
-
-            <Select
-              value={form.uom}
-              onValueChange={(v) => handleSelectChange("uom", v)}
-              disabled={loadingUnits || !form.category}
-            >
-              <SelectTrigger className="bg-gray-50 w-full">
-                <SelectValue placeholder="Select UoM" />
-              </SelectTrigger>
-              <SelectContent>
-                {uomOptions.map((uom) => (
-                  <SelectItem key={uom.id} value={uom.name}>
-                    {uom.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">
-              {editingProduct ? "Update Product" : "Add Product"}
-            </Button>
-          </DialogFooter>
-        </form>
+        <DialogHeader>
+          <DialogTitle>{editingProduct ? "Edit Product" : "Add New Product"}</DialogTitle>
+          <DialogDescription>
+            {editingProduct
+              ? `Edit details for ${editingProduct.name}`
+              : "Enter the details for the new product"}
+          </DialogDescription>
+        </DialogHeader>
+        <ProductDialogForm
+          form={form}
+          setForm={setForm}
+          loading={{
+            loadingCategories,
+            loadingTypes,
+            loadingSubTypes,
+            loadingUnits
+          }}
+          options={{
+            categoryOptions,
+            typeOptions,
+            subTypeOptions,
+            uomOptions
+          }}
+          onClose={handleClose}
+          editingProduct={editingProduct}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleSelectChange={handleSelectChange}
+        />
       </DialogContent>
     </Dialog>
   );

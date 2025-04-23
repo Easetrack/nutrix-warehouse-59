@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState } from "react";
 import { Plus, Search, X } from "lucide-react";
 import ProductSummaryCard from "./ProductSummaryCard";
@@ -112,9 +113,7 @@ const ProductSettings: React.FC = () => {
           <Button
             type="button"
             className="h-12 w-32 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold gap-2"
-            onClick={() => {
-              // filter applied on-the-fly
-            }}
+            onClick={() => {}}
           >
             <Search className="w-5 h-5" />
             Search
@@ -131,7 +130,7 @@ const ProductSettings: React.FC = () => {
         </form>
         <Button
           type="button"
-          className="h-12 w-44 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold gap-2 ml-auto"
+          className="h-12 w-full sm:w-44 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold gap-2 ml-0 sm:ml-auto"
           onClick={() => {
             setShowAdd(true);
             setEditingProduct(null);
@@ -141,14 +140,16 @@ const ProductSettings: React.FC = () => {
           Add Product
         </Button>
       </div>
-      <ProductTable
-        products={filteredProducts}
-        onEdit={(p) => {
-          setEditingProduct(p);
-          setShowAdd(true);
-        }}
-        onDelete={(p) => setDeleteProduct(p)}
-      />
+      <div className="overflow-x-auto rounded-xl">
+        <ProductTable
+          products={filteredProducts}
+          onEdit={(p) => {
+            setEditingProduct(p);
+            setShowAdd(true);
+          }}
+          onDelete={(p) => setDeleteProduct(p)}
+        />
+      </div>
       <ProductDialog
         open={showAdd}
         onOpenChange={(v) => {

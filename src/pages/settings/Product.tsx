@@ -1,5 +1,6 @@
+
 import React, { useMemo, useState } from "react";
-import { Search, RotateCcw } from "lucide-react";
+import { Search, RotateCcw, Plus } from "lucide-react";
 import ProductSummaryCard from "./ProductSummaryCard";
 import ProductTable from "./ProductTable";
 import ProductDialog from "./ProductDialog";
@@ -89,58 +90,76 @@ const ProductSettings: React.FC = () => {
 
   return (
     <div className="w-full px-4 md:px-6 mb-10">
-      <h1 className="text-3xl font-bold mb-1">Product</h1>
-      <p className="text-muted-foreground mb-6">Manage your product catalog and inventory settings.</p>
-      
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <ProductSummaryCard
-          productsCount={products.length}
-          categoriesCount={categories.length}
-          totalStock={`${totalStockKg} Kg | ${totalStockPc} Pc`}
-        />
-      </div>
-
-      <div className="flex items-center w-full gap-3 mb-3">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-          className="flex flex-1 gap-2"
-        >
-          <Input
-            placeholder="Search All"
-            className="bg-gray-50 h-12 rounded-lg border px-4 border-gray-200"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Button
-            type="button"
-            className="h-12 w-32 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold gap-2"
-            onClick={() => {}}
-          >
-            <Search className="w-5 h-5" />
-            Search
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="h-12 w-32 rounded-lg border border-gray-300 text-gray-700 font-semibold gap-2"
-            onClick={() => setSearch("")}
-          >
-            <RotateCcw className="w-5 h-5" />
-            Clear
-          </Button>
-        </form>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">Product</h1>
+          <p className="text-muted-foreground">Manage your product catalog and inventory settings.</p>
+        </div>
         <Button
           type="button"
-          className="h-12 w-44 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold gap-2"
+          variant="success"
+          className="h-10 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-medium gap-2"
           onClick={() => {
             setShowAdd(true);
             setEditingProduct(null);
           }}
         >
-          + Add Product
+          <Plus className="w-4 h-4" />
+          Add Product
         </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="border rounded-xl bg-white">
+          <div className="flex flex-col items-center justify-center py-6">
+            <p className="text-lg font-semibold">Total Products</p>
+            <div className="text-4xl font-bold mt-2">{products.length}</div>
+          </div>
+        </div>
+        <div className="border rounded-xl bg-white">
+          <div className="flex flex-col items-center justify-center py-6">
+            <p className="text-lg font-semibold">Categories</p>
+            <div className="text-4xl font-bold mt-2">{categories.length}</div>
+          </div>
+        </div>
+        <div className="border rounded-xl bg-white">
+          <div className="flex flex-col items-center justify-center py-6">
+            <p className="text-lg font-semibold">Total Stock</p>
+            <div className="text-3xl font-bold mt-2">
+              {totalStockKg} Kg | {totalStockPc} Pc
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex mb-4">
+        <div className="flex-1 flex space-x-2">
+          <Input
+            placeholder="Search All"
+            className="bg-white h-10 rounded-lg border px-4 border-gray-200"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <div className="flex space-x-2">
+            <Button
+              type="button"
+              className="h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium"
+              onClick={() => {}}
+            >
+              <Search className="w-4 h-4 mr-2" />
+              Search
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="h-10 px-4 rounded-lg border border-gray-300 text-gray-700 font-medium"
+              onClick={() => setSearch("")}
+            >
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
+          </div>
+        </div>
       </div>
 
       <div className="overflow-x-auto rounded-xl">

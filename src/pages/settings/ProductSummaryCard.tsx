@@ -12,18 +12,24 @@ const ProductSummaryCard: React.FC<Props> = ({
   categoriesCount,
   totalStock,
 }) => (
-  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-6">
-    <div className="border rounded-xl flex flex-col items-center justify-center py-10 bg-white">
-      <p className="text-lg font-semibold mb-1">Total Products</p>
-      <div className="text-4xl font-bold">{productsCount}</div>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="border rounded-xl bg-white">
+      <div className="flex flex-col items-center justify-center py-6">
+        <p className="text-lg font-semibold">Total Products</p>
+        <div className="text-4xl font-bold mt-2">{productsCount}</div>
+      </div>
     </div>
-    <div className="border rounded-xl flex flex-col items-center justify-center py-10 bg-white">
-      <p className="text-lg font-semibold mb-1">Categories</p>
-      <div className="text-4xl font-bold">{categoriesCount}</div>
+    <div className="border rounded-xl bg-white">
+      <div className="flex flex-col items-center justify-center py-6">
+        <p className="text-lg font-semibold">Categories</p>
+        <div className="text-4xl font-bold mt-2">{categoriesCount}</div>
+      </div>
     </div>
-    <div className="border rounded-xl flex flex-col items-center justify-center py-10 bg-white">
-      <p className="text-lg font-semibold mb-1">Total Stock</p>
-      <div className="text-3xl font-bold">{totalStock}</div>
+    <div className="border rounded-xl bg-white">
+      <div className="flex flex-col items-center justify-center py-6">
+        <p className="text-lg font-semibold">Total Stock</p>
+        <div className="text-3xl font-bold mt-2">{totalStock}</div>
+      </div>
     </div>
   </div>
 );

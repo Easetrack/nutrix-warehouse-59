@@ -34,14 +34,23 @@ export const useSearchHandler = ({
   setExpiredDate,
   setPerPage
 }: SearchHandlerProps) => {
-  const handleSearch = async () => {
+  const handleSearch = async (): Promise<void> => {
     // Reset to page 1 for new search
     setCurrentPage(1);
+    
     // Immediately fetch data with the current filters
-    return fetchDataCallback(); // Return the Promise
+    // Make sure to await the fetchDataCallback
+    try {
+      console.log("Executing search...");
+      await fetchDataCallback();
+      console.log("Search completed successfully");
+    } catch (error) {
+      console.error("Error during search:", error);
+      throw error; // Re-throw to allow caller to handle
+    }
   };
 
-  const handleClear = async () => {
+  const handleClear = async (): Promise<void> => {
     // Clear all filters
     setSearchTerm("");
     setSelectedWarehouse("All Warehouses");
@@ -63,10 +72,18 @@ export const useSearchHandler = ({
     
     // Reset to page 1 and fetch data immediately with cleared filters
     setCurrentPage(1);
-    return fetchDataCallback(); // Return the Promise
+    
+    try {
+      console.log("Executing clear and search...");
+      await fetchDataCallback();
+      console.log("Clear and search completed successfully");
+    } catch (error) {
+      console.error("Error during clear and search:", error);
+      throw error; // Re-throw to allow caller to handle
+    }
   };
 
-  const handleAdvancedSearch = async (filters: FilterValues) => {
+  const handleAdvancedSearch = async (filters: FilterValues): Promise<void> => {
     // Apply each filter value if provided
     if (filters.searchTerm !== undefined) {
       setSearchTerm(filters.searchTerm);
@@ -106,12 +123,20 @@ export const useSearchHandler = ({
     
     // Reset to page 1 and fetch data immediately after setting all filters
     setCurrentPage(1);
-    return fetchDataCallback(); // Return the Promise
+    
+    try {
+      console.log("Executing advanced search...");
+      await fetchDataCallback();
+      console.log("Advanced search completed successfully");
+    } catch (error) {
+      console.error("Error during advanced search:", error);
+      throw error; // Re-throw to allow caller to handle
+    }
   };
 
-  const handlePerPageChange = async (newPerPage: number) => {
+  const handlePerPageChange = async (newPerPage: number): Promise<void> => {
     if (setPerPage) {
-      return setPerPage(newPerPage); // Return the Promise
+      await setPerPage(newPerPage);
     }
   };
 

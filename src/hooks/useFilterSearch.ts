@@ -70,6 +70,7 @@ export const useFilterSearch = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterValues>(getInitialFilters());
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(FILTER_LOCALSTORAGE_KEY, JSON.stringify(filters));
@@ -82,35 +83,42 @@ export const useFilterSearch = ({
     return val;
   };
 
-  const handleSearch = () => {
-    const apiFilters: FilterValues = {
-      ...filters,
-      searchByProductName: filters.searchTerm,
-      searchByBarcode: filters.searchTerm,
-      searchByProductId: filters.searchTerm,
-      searchByCategory: cleanValue(filters.category || ""),
-      zone: cleanValue(filters.zone || ""),
-      area: cleanValue(filters.area || ""),
-      subArea: cleanValue(filters.subArea || ""),
-      zoneId: cleanValue(filters.zoneId || ""),
-      areaId: cleanValue(filters.areaId || ""),
-      subAreaId: cleanValue(filters.subAreaId || ""),
-      searchByUnit: cleanValue(filters.uom || ""),
-    };
+  const handleSearch = async () => {
+    if (isSearching) return;
     
-    // Call the onSearch callback directly with the current filters
-    onSearch(apiFilters);
+    setIsSearching(true);
     
-    // Close the filter popup
-    setIsOpen(false);
+    try {
+      const apiFilters: FilterValues = {
+        ...filters,
+        searchByProductName: filters.searchTerm,
+        searchByBarcode: filters.searchTerm,
+        searchByProductId: filters.searchTerm,
+        searchByCategory: cleanValue(filters.category || ""),
+        zone: cleanValue(filters.zone || ""),
+        area: cleanValue(filters.area || ""),
+        subArea: cleanValue(filters.subArea || ""),
+        zoneId: cleanValue(filters.zoneId || ""),
+        areaId: cleanValue(filters.areaId || ""),
+        subAreaId: cleanValue(filters.subAreaId || ""),
+        searchByUnit: cleanValue(filters.uom || ""),
+      };
+      
+      // Call the onSearch callback directly with the current filters
+      await onSearch(apiFilters);
+    } finally {
+      setIsSearching(false);
+      // Close the filter popup
+      setIsOpen(false);
+    }
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
     localStorage.removeItem(FILTER_LOCALSTORAGE_KEY);
     // Call the onClear callback directly
-    onClear();
+    await onClear();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,6 +184,7 @@ export const useFilterSearch = ({
   return {
     isOpen,
     filters,
+    isSearching,
     setIsOpen,
     handleSearch,
     handleClear,

@@ -14,8 +14,8 @@ interface SummaryHeaderProps {
   selectedCategory: string;
   selectedUoM: string;
   onExport: () => void;
-  onAdvancedSearch: (filters: FilterValues) => void;
-  onAdvancedClear: () => void;
+  onAdvancedSearch: (filters: FilterValues) => Promise<void>;
+  onAdvancedClear: () => Promise<void>;
 }
 
 export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
@@ -59,7 +59,7 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
           visibleInputFields={['search', 'selectLocation', 'selectProduct']}
           visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}
           visibleProductFields={['category', 'uom']}
-          storageKey="stockUpdate_summary_filters" // Add unique storageKey for summary page
+          storageKey="stockUpdate_summary_filters"
           trigger={
             <Button variant="outline" className="space-x-1">
               <Filter className="h-4 w-4" />

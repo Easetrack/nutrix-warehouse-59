@@ -27,6 +27,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
   const {
     isOpen,
     filters,
+    isSearching,
     setIsOpen,
     handleSearch,
     handleClear,
@@ -83,7 +84,11 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
             />
           )}
 
-          <FilterActions onClear={handleClear} onSearch={handleSearch} />
+          <FilterActions 
+            onClear={handleClear} 
+            onSearch={handleSearch} 
+            isSearching={isSearching}
+          />
         </div>
       </PopoverContent>
     </Popover>

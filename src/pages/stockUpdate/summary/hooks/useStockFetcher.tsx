@@ -9,7 +9,7 @@ export const useStockFetcher = () => {
   const { toast } = useToast();
   const [stockItems, setStockItems] = useState<StockItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<StockItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStockData = async (params: StockUpdateQueryParams) => {

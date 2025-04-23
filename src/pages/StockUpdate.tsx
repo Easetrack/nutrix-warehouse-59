@@ -10,20 +10,21 @@ import { StockDetailsDialog } from "./stockUpdate/components/StockDetailsDialog"
 const StockUpdate = () => {
   const stock = useStockUpdate();
 
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
+  
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
 
+  // Loading state
   if (stock.isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -31,11 +32,18 @@ const StockUpdate = () => {
       </div>
     );
   }
+  
+  // Error state
   if (stock.error) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="text-red-500 mb-4">{stock.error}</div>
-        <button onClick={stock.handleSearch}>Try Again</button>
+        <button 
+          onClick={stock.handleSearch}
+          className="px-4 py-2 bg-primary text-white rounded-md"
+        >
+          Try Again
+        </button>
       </div>
     );
   }
@@ -96,4 +104,5 @@ const StockUpdate = () => {
     </motion.div>
   );
 };
+
 export default StockUpdate;

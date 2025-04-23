@@ -15,7 +15,7 @@ interface SearchHandlerProps {
   setSortDirection: (direction: "asc" | "desc") => void;
   setSearchDate?: (date: Date | null) => void;
   setExpiredDate?: (date: Date | null) => void;
-  setPerPage?: (perPage: number) => Promise<void>; // Add optional setPerPage function
+  setPerPage?: (perPage: number) => Promise<void>;
 }
 
 export const useSearchHandler = ({
@@ -34,23 +34,28 @@ export const useSearchHandler = ({
   setExpiredDate,
   setPerPage
 }: SearchHandlerProps) => {
+  /**
+   * Handles search operation with current filters
+   */
   const handleSearch = async (): Promise<void> => {
     // Reset to page 1 for new search
     setCurrentPage(1);
     
-    // Immediately fetch data with the current filters
     try {
       console.log("Executing search...");
       await fetchDataCallback();
       console.log("Search completed successfully");
     } catch (error) {
       console.error("Error during search:", error);
-      throw error; // Re-throw to allow caller to handle
+      throw error;
     }
   };
 
+  /**
+   * Clears all filters and performs a new search
+   */
   const handleClear = async (): Promise<void> => {
-    // Clear all filters
+    // Reset all filter values
     setSearchTerm("");
     setSelectedWarehouse("All Warehouses");
     setSelectedZone("All Zones");
@@ -69,7 +74,7 @@ export const useSearchHandler = ({
       setExpiredDate(null);
     }
     
-    // Reset to page 1 and fetch data immediately with cleared filters
+    // Reset to first page and fetch data
     setCurrentPage(1);
     
     try {
@@ -78,14 +83,17 @@ export const useSearchHandler = ({
       console.log("Clear and search completed successfully");
     } catch (error) {
       console.error("Error during clear and search:", error);
-      throw error; // Re-throw to allow caller to handle
+      throw error;
     }
   };
 
+  /**
+   * Applies advanced filter values and performs search
+   */
   const handleAdvancedSearch = async (filters: FilterValues): Promise<void> => {
     console.log("Advanced search with filters:", filters);
     
-    // Apply each filter value if provided
+    // Apply provided filter values
     if (filters.searchTerm !== undefined) {
       setSearchTerm(filters.searchTerm);
     }
@@ -122,20 +130,22 @@ export const useSearchHandler = ({
       setExpiredDate(filters.expiredDate);
     }
     
-    // Reset to page 1 
+    // Reset to page 1 and execute search
     setCurrentPage(1);
     
-    // Fetch data immediately after setting all filters
     try {
       console.log("Executing advanced search...");
       await fetchDataCallback();
       console.log("Advanced search completed successfully");
     } catch (error) {
       console.error("Error during advanced search:", error);
-      throw error; // Re-throw to allow caller to handle
+      throw error;
     }
   };
 
+  /**
+   * Changes items per page and refetches data
+   */
   const handlePerPageChange = async (newPerPage: number): Promise<void> => {
     if (setPerPage) {
       await setPerPage(newPerPage);

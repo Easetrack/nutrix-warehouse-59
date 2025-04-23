@@ -8,6 +8,36 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Search, RefreshCcw, Download } from "lucide-react";
 
+// Data constants
+const WAREHOUSES = [
+  "All Warehouses",
+  "Bangkok Central",
+  "Chiang Mai Distribution",
+  "Phuket Storage",
+  "Pattaya Facility",
+];
+
+const ZONES = ["All Zones", "Zone A", "Zone B", "Zone C", "Zone D"];
+
+const AREAS = [
+  "All Areas",
+  "Dry Food",
+  "Wet Food",
+  "Premium Section",
+  "Specialty",
+  "Health",
+  "Small Pets",
+  "Aquatics",
+];
+
+const CATEGORIES = [
+  "All Categories",
+  "LADIES WEAR",
+  "MEN WEAR",
+  "KIDS WEAR",
+  "ACCESSORIES",
+];
+
 interface StockFilterBarProps {
   searchTerm: string;
   setSearchTerm: (v: string) => void;
@@ -25,32 +55,6 @@ interface StockFilterBarProps {
   showFilters: boolean;
   setShowFilters: (v: boolean) => void;
 }
-
-const warehouses = [
-  "All Warehouses",
-  "Bangkok Central",
-  "Chiang Mai Distribution",
-  "Phuket Storage",
-  "Pattaya Facility",
-];
-const zones = ["All Zones", "Zone A", "Zone B", "Zone C", "Zone D"];
-const areas = [
-  "All Areas",
-  "Dry Food",
-  "Wet Food",
-  "Premium Section",
-  "Specialty",
-  "Health",
-  "Small Pets",
-  "Aquatics",
-];
-const categories = [
-  "All Categories",
-  "LADIES WEAR",
-  "MEN WEAR",
-  "KIDS WEAR",
-  "ACCESSORIES",
-];
 
 export const StockFilterBar: React.FC<StockFilterBarProps> = ({
   searchTerm,
@@ -71,6 +75,7 @@ export const StockFilterBar: React.FC<StockFilterBarProps> = ({
 }) => {
   return (
     <div className="mb-6">
+      {/* Header with toggle */}
       <div className="flex justify-between items-center mb-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Stock Update</h1>
@@ -88,10 +93,12 @@ export const StockFilterBar: React.FC<StockFilterBarProps> = ({
         </div>
       </div>
 
+      {/* Filter panel */}
       {showFilters && (
         <Card className="mb-4">
           <CardContent className="p-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+              {/* Search input */}
               <div className="lg:col-span-2 flex w-full items-center space-x-2">
                 <Input
                   type="text"
@@ -101,87 +108,70 @@ export const StockFilterBar: React.FC<StockFilterBarProps> = ({
                   className="w-full"
                 />
               </div>
+              
+              {/* Warehouse selector */}
               <div>
-                <Select value={selectedWarehouse} onValueChange={setSelectedWarehouse}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Warehouse" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {warehouses.map((warehouse) => (
-                      <SelectItem key={warehouse} value={warehouse}>
-                        {warehouse}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FilterSelect
+                  value={selectedWarehouse}
+                  onChange={setSelectedWarehouse}
+                  options={WAREHOUSES}
+                  placeholder="Select Warehouse"
+                />
               </div>
+              
+              {/* Zone selector */}
               <div>
-                <Select value={selectedZone} onValueChange={setSelectedZone}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Zone" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {zones.map((zone) => (
-                      <SelectItem key={zone} value={zone}>
-                        {zone}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FilterSelect
+                  value={selectedZone}
+                  onChange={setSelectedZone}
+                  options={ZONES}
+                  placeholder="Select Zone"
+                />
               </div>
+              
+              {/* Area selector */}
               <div>
-                <Select value={selectedArea} onValueChange={setSelectedArea}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Area" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {areas.map((area) => (
-                      <SelectItem key={area} value={area}>
-                        {area}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FilterSelect
+                  value={selectedArea}
+                  onChange={setSelectedArea}
+                  options={AREAS}
+                  placeholder="Select Area"
+                />
               </div>
+              
+              {/* Category selector */}
               <div className="lg:col-span-2">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FilterSelect
+                  value={selectedCategory}
+                  onChange={setSelectedCategory}
+                  options={CATEGORIES}
+                  placeholder="Select Category"
+                />
               </div>
+              
+              {/* Action buttons */}
               <div className="flex space-x-2 lg:col-span-3">
-                <Button
+                <ActionButton
                   variant="default"
                   onClick={handleSearch}
-                  className="flex-1 space-x-1 bg-primary"
-                >
-                  <Search size={16} />
-                  <span>Search</span>
-                </Button>
-                <Button
+                  icon={<Search size={16} />}
+                  label="Search"
+                  className="bg-primary"
+                />
+                
+                <ActionButton
                   variant="outline"
                   onClick={handleClear}
-                  className="flex-1 space-x-1"
-                >
-                  <RefreshCcw size={16} />
-                  <span>Clear</span>
-                </Button>
-                <Button
+                  icon={<RefreshCcw size={16} />}
+                  label="Clear"
+                />
+                
+                <ActionButton
                   variant="outline"
                   onClick={handleExport}
-                  className="flex-1 space-x-1"
-                >
-                  <Download size={16} />
-                  <span>Export</span>
-                </Button>
+                  icon={<Download size={16} />}
+                  label="Export"
+                />
               </div>
             </div>
           </CardContent>
@@ -190,3 +180,56 @@ export const StockFilterBar: React.FC<StockFilterBarProps> = ({
     </div>
   );
 };
+
+// Helper components for cleaner code
+interface FilterSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+  placeholder: string;
+}
+
+const FilterSelect: React.FC<FilterSelectProps> = ({
+  value,
+  onChange,
+  options,
+  placeholder
+}) => (
+  <Select value={value} onValueChange={onChange}>
+    <SelectTrigger>
+      <SelectValue placeholder={placeholder} />
+    </SelectTrigger>
+    <SelectContent>
+      {options.map((option) => (
+        <SelectItem key={option} value={option}>
+          {option}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+);
+
+interface ActionButtonProps {
+  variant: "default" | "outline";
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  className?: string;
+}
+
+const ActionButton: React.FC<ActionButtonProps> = ({
+  variant,
+  onClick,
+  icon,
+  label,
+  className = ""
+}) => (
+  <Button
+    variant={variant}
+    onClick={onClick}
+    className={`flex-1 space-x-1 ${className}`}
+  >
+    {icon}
+    <span>{label}</span>
+  </Button>
+);

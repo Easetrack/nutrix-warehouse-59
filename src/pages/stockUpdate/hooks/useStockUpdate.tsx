@@ -50,6 +50,7 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // States
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedWarehouse, setSelectedWarehouse] = useState("");
@@ -62,7 +63,7 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
   const [filteredItems, setFilteredItems] = useState<StockItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -71,12 +72,27 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
   const [error, setError] = useState<string | null>(null);
   const [locationId, setLocationId] = useState<string>("1");
 
+  // Auth check and warehouse selection
   useEffect(() => {
+    checkAuthAndWarehouse();
+    // eslint-disable-next-line
+  }, [navigate]);
+  
+  // Fetch data when certain dependencies change
+  useEffect(() => {
+    if (locationId) {
+      fetchStockData();
+    }
+    // eslint-disable-next-line
+  }, [navigate, currentPage, perPage, locationId]);
+
+  const checkAuthAndWarehouse = () => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
+    
     const storedWarehouse = localStorage.getItem("selectedWarehouse");
     if (!storedWarehouse) {
       navigate("/select-warehouse");
@@ -91,56 +107,69 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
         console.error('Error parsing stored warehouse:', error);
       }
     }
-    fetchStockData();
-    // eslint-disable-next-line
-  }, [navigate, currentPage, perPage, locationId]);
+  };
   
+  // Build query parameters for API call
   const buildQueryParams = useCallback(() => {
     const queryParams = new URLSearchParams({
       page: currentPage.toString(),
       perPage: perPage.toString(),
     });
+    
     if (searchTerm) {
       queryParams.append('searchByProductName', searchTerm);
       queryParams.append('searchByBarcode', searchTerm);
       queryParams.append('searchByProductId', searchTerm);
     }
+    
     if (selectedCategory && selectedCategory !== "All Categories") {
       queryParams.append('searchByCategory', selectedCategory);
     }
+    
     if (selectedZone && selectedZone !== "All Zones") {
       queryParams.append('zoneId', selectedZone.replace('Zone ', ''));
     }
+    
     if (selectedArea && selectedArea !== "All Areas") {
       queryParams.append('areaId', selectedArea);
     }
+    
     if (sortColumn) {
       const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
       queryParams.append(sortParam, sortDirection);
     }
+    
     return queryParams;
   }, [currentPage, perPage, searchTerm, selectedCategory, selectedZone, selectedArea, sortColumn, sortDirection]);
 
+  // Fetch stock data from API
   const fetchStockData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    
     try {
       const queryParams = buildQueryParams();
+      console.log("API Request URL:", `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`);
+      
       const response = await authenticatedFetch(
         `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${queryParams.toString()}`,
         { headers: { 'x-location': locationId } }
       );
+      
       if (!response.ok) {
         throw new Error(`Failed to fetch stock data: ${response.status}`);
       }
+      
       const data: StockResponse = await response.json();
       const items = data.items || [];
+      
       setStockItems(items);
       setFilteredItems(items);
       setTotalPages(data.totalPages || 1);
       setTotalCount(data.totalCount || 0);
       setPerPage(data.perPage || 10);
     } catch (error) {
+      console.error("API Error:", error);
       setError("Failed to load stock data. Please try again.");
       toast({
         title: "Error",
@@ -152,11 +181,7 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
     }
   }, [buildQueryParams, locationId, toast]);
 
-  useEffect(() => {
-    // Only for "warehouse" future filtering
-    // eslint-disable-next-line
-  }, [stockItems, selectedWarehouse]);
-
+  // Item selection handlers
   const handleSelectAll = () => {
     if (selectedItems.length === filteredItems.length) {
       setSelectedItems([]);
@@ -173,6 +198,7 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
     }
   };
 
+  // Sorting handler
   const handleSort = (column: string) => {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
     setSortColumn(column);
@@ -181,6 +207,7 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
     fetchStockData();
   };
 
+  // Search, clear, and export handlers
   const handleSearch = () => {
     setCurrentPage(1);
     fetchStockData();
@@ -206,11 +233,13 @@ export const useStockUpdate = (): UseStockUpdateReturn => {
     });
   };
 
+  // Pagination handlers
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
+  
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

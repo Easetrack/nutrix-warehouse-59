@@ -89,7 +89,7 @@ const ProductSettings: React.FC = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-6 mb-10 px-2">
+    <div className="w-full px-4 md:px-6 mb-10">
       <h1 className="text-3xl font-bold mb-1">Product</h1>
       <p className="text-muted-foreground mb-6">Manage your product catalog and inventory settings.</p>
       <ProductSummaryCard
@@ -150,23 +150,27 @@ const ProductSettings: React.FC = () => {
           onDelete={(p) => setDeleteProduct(p)}
         />
       </div>
-      <ProductDialog
-        open={showAdd}
-        onOpenChange={(v) => {
-          setShowAdd(v);
-          if (!v) setEditingProduct(null);
-        }}
-        onSave={handleSave}
-        editingProduct={editingProduct}
-      />
-      <ProductDeleteDialog
-        open={!!deleteProduct}
-        onOpenChange={(v) => {
-          if (!v) setDeleteProduct(null);
-        }}
-        onConfirm={handleDelete}
-        productName={deleteProduct?.name || ""}
-      />
+      {showAdd && (
+        <ProductDialog
+          open={showAdd}
+          onOpenChange={(v) => {
+            setShowAdd(v);
+            if (!v) setEditingProduct(null);
+          }}
+          onSave={handleSave}
+          editingProduct={editingProduct}
+        />
+      )}
+      {deleteProduct && (
+        <ProductDeleteDialog
+          open={!!deleteProduct}
+          onOpenChange={(v) => {
+            if (!v) setDeleteProduct(null);
+          }}
+          onConfirm={handleDelete}
+          productName={deleteProduct?.name || ""}
+        />
+      )}
       {showDeleteSuccess && (
         <div className="fixed right-6 bottom-6 z-50 w-[350px] pointer-events-none">
           <div className="bg-white border border-green-200 shadow-lg rounded-xl px-6 py-5 flex items-center gap-4 pointer-events-auto">

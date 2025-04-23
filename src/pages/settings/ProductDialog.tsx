@@ -88,20 +88,23 @@ const ProductDialog: React.FC<Props> = ({
 
   // reset subsequent selects when parent changes
   useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      group: "",
-      subGroup: "",
-      uom: "",
-    }));
-    // eslint-disable-next-line
+    if (form.category) {
+      setForm((prev) => ({
+        ...prev,
+        group: "",
+        subGroup: "",
+        uom: "",
+      }));
+    }
   }, [form.category]);
+  
   useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      subGroup: "",
-    }));
-    // eslint-disable-next-line
+    if (form.group) {
+      setForm((prev) => ({
+        ...prev,
+        subGroup: "",
+      }));
+    }
   }, [form.group]);
 
   const handleChange = (
@@ -126,6 +129,10 @@ const ProductDialog: React.FC<Props> = ({
     if (!form.id || !form.name || !form.category || !form.group || !form.subGroup || !form.uom)
       return;
     onSave(form);
+    onOpenChange(false);
+  };
+
+  const handleClose = () => {
     onOpenChange(false);
   };
 
@@ -246,7 +253,7 @@ const ProductDialog: React.FC<Props> = ({
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange(false)}
+              onClick={handleClose}
             >
               Cancel
             </Button>

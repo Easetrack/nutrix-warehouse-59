@@ -1,6 +1,5 @@
-
 import React, { useMemo, useState } from "react";
-import { Plus, Search, Trash2, Edit, Clear } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import ProductSummaryCard from "./ProductSummaryCard";
 import ProductTable from "./ProductTable";
 import ProductDialog from "./ProductDialog";
@@ -9,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
-// sample/mock data
 const initialProducts = [
   { id: "PROD-001", name: "Premium Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 125, uom: "Kg" },
   { id: "PROD-002", name: "Standard Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 324, uom: "Kg" },
@@ -27,7 +25,6 @@ const ProductSettings: React.FC = () => {
   const [deleteProduct, setDeleteProduct] = useState<any>(null);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
-  // Filter & sort products
   const filteredProducts = useMemo(
     () =>
       search.trim()
@@ -65,7 +62,6 @@ const ProductSettings: React.FC = () => {
     ? products.find((p) => p.id === editingProduct.id)
     : null;
 
-  // handle add & edit
   const handleSave = (newProduct: any) => {
     if (editingProduct) {
       setProducts((prev) =>
@@ -82,7 +78,6 @@ const ProductSettings: React.FC = () => {
     setEditingProduct(null);
   };
 
-  // handle delete
   const handleDelete = () => {
     if (deleteProduct) {
       setProducts((prev) => prev.filter((p) => p.id !== deleteProduct.id));
@@ -130,7 +125,7 @@ const ProductSettings: React.FC = () => {
             className="h-12 w-32 rounded-lg border border-gray-300 text-gray-700 font-semibold gap-2"
             onClick={() => setSearch("")}
           >
-            <Clear className="w-5 h-5" />
+            <X className="w-5 h-5" />
             Clear
           </Button>
         </form>
@@ -154,7 +149,6 @@ const ProductSettings: React.FC = () => {
         }}
         onDelete={(p) => setDeleteProduct(p)}
       />
-      {/* Add/Edit Dialog */}
       <ProductDialog
         open={showAdd}
         onOpenChange={(v) => {
@@ -164,7 +158,6 @@ const ProductSettings: React.FC = () => {
         onSave={handleSave}
         editingProduct={editingProduct}
       />
-      {/* Delete Confirm Dialog */}
       <ProductDeleteDialog
         open={!!deleteProduct}
         onOpenChange={(v) => {
@@ -173,7 +166,6 @@ const ProductSettings: React.FC = () => {
         onConfirm={handleDelete}
         productName={deleteProduct?.name || ""}
       />
-      {/* Success toast (custom for image requirement) */}
       {showDeleteSuccess && (
         <div className="fixed right-6 bottom-6 z-50 w-[350px] pointer-events-none">
           <div className="bg-white border border-green-200 shadow-lg rounded-xl px-6 py-5 flex items-center gap-4 pointer-events-auto">

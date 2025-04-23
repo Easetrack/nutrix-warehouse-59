@@ -102,6 +102,16 @@ function App() {
                     <Route path="/receiving" element={<ProtectedRoute><Receiving /></ProtectedRoute>} />
                     <Route path="/request-picking" element={<ProtectedRoute><RequestPicking /></ProtectedRoute>} />
                     <Route path="/packing-ptw" element={<ProtectedRoute><PackingPTW /></ProtectedRoute>} />
+                    <Route path="/settings/product" element={
+                      <ProtectedRoute>
+                        <ProductSettings />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="/settings/location" element={
+                      <ProtectedRoute>
+                        <LocationSettings />
+                      </ProtectedRoute>
+                    } />
                     <Route path="/settings/permission/users/*" element={
                       <ProtectedRoute>
                         <UsersPage />

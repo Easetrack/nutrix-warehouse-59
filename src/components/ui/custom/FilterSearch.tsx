@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { FilterHeader } from './filter/FilterHeader';
@@ -40,15 +40,28 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
     storageKey
   });
 
+  // Update initial values when they change from parent
+  useEffect(() => {
+    console.log("FilterSearch: initialValues updated", initialValues);
+  }, [initialValues]);
+
   const shouldShowInput = (input: 'search' | 'date' | 'selectLocation' | 'selectProduct') =>
     !visibleInputFields || visibleInputFields.includes(input);
+
+  // Handle key press for search input
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {trigger || <Button variant="outline">Filter</Button>}
       </PopoverTrigger>
-      <PopoverContent className="w-[320px] p-4 shadow-lg border border-border bg-background" align="end">
+      <PopoverContent className="w-[320px] p-4 shadow-lg border border-border bg-background" align="end" onKeyDown={handleKeyPress}>
         <div className="space-y-4">
           <FilterHeader />
 

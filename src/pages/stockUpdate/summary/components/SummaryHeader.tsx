@@ -4,6 +4,7 @@ import { Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FilterSearch } from "@/components/ui/custom/FilterSearch";
 import type { FilterValues } from '@/types/filter';
+import { useToast } from "@/hooks/use-toast";
 
 interface SummaryHeaderProps {
   searchTerm: string;
@@ -30,6 +31,25 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   onAdvancedSearch,
   onAdvancedClear,
 }) => {
+  const { toast } = useToast();
+  
+  const handleAdvancedSearch = async (filters: FilterValues) => {
+    try {
+      await onAdvancedSearch(filters);
+      toast({
+        title: "การค้นหา",
+        description: "ทำการค้นหาข้อมูลเรียบร้อยแล้ว",
+      });
+    } catch (error) {
+      console.error("Error during advanced search:", error);
+      toast({
+        title: "เกิดข้อผิดพลาด",
+        description: "ไม่สามารถค้นหาข้อมูลได้ กรุณาลองใหม่อีกครั้ง",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="mb-6 flex justify-between items-center">
       <div>
@@ -45,7 +65,7 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
           <span>Export</span>
         </Button>
         <FilterSearch
-          onSearch={onAdvancedSearch}
+          onSearch={handleAdvancedSearch}
           onClear={onAdvancedClear}
           initialValues={{
             searchTerm: searchTerm,

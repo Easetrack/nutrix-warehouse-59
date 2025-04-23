@@ -39,7 +39,6 @@ export const useSearchHandler = ({
     setCurrentPage(1);
     
     // Immediately fetch data with the current filters
-    // Make sure to await the fetchDataCallback
     try {
       console.log("Executing search...");
       await fetchDataCallback();
@@ -84,6 +83,8 @@ export const useSearchHandler = ({
   };
 
   const handleAdvancedSearch = async (filters: FilterValues): Promise<void> => {
+    console.log("Advanced search with filters:", filters);
+    
     // Apply each filter value if provided
     if (filters.searchTerm !== undefined) {
       setSearchTerm(filters.searchTerm);
@@ -121,9 +122,10 @@ export const useSearchHandler = ({
       setExpiredDate(filters.expiredDate);
     }
     
-    // Reset to page 1 and fetch data immediately after setting all filters
+    // Reset to page 1 
     setCurrentPage(1);
     
+    // Fetch data immediately after setting all filters
     try {
       console.log("Executing advanced search...");
       await fetchDataCallback();

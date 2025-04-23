@@ -72,6 +72,7 @@ export const useFilterSearch = ({
   const [filters, setFilters] = useState<FilterValues>(getInitialFilters());
   const [isSearching, setIsSearching] = useState(false);
 
+  // Synchronize with localStorage when filters change
   useEffect(() => {
     localStorage.setItem(FILTER_LOCALSTORAGE_KEY, JSON.stringify(filters));
   }, [filters, FILTER_LOCALSTORAGE_KEY]);
@@ -89,6 +90,7 @@ export const useFilterSearch = ({
     setIsSearching(true);
     
     try {
+      // Prepare clean filter values for API
       const apiFilters: FilterValues = {
         ...filters,
         searchByProductName: filters.searchTerm,
@@ -104,7 +106,9 @@ export const useFilterSearch = ({
         searchByUnit: cleanValue(filters.uom || ""),
       };
       
-      // Call the onSearch callback directly with the current filters
+      console.log('Search initiated with filters:', apiFilters);
+      
+      // Call the onSearch callback with the current filters
       await onSearch(apiFilters);
     } finally {
       setIsSearching(false);
@@ -117,6 +121,9 @@ export const useFilterSearch = ({
     const resetFilters = { ...defaultValues };
     setFilters(resetFilters);
     localStorage.removeItem(FILTER_LOCALSTORAGE_KEY);
+    
+    console.log('Clear filters initiated');
+    
     // Call the onClear callback directly
     await onClear();
   };

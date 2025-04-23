@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState } from "react";
 import { Search, RotateCcw, Plus } from "lucide-react";
 import ProductSummaryCard from "./ProductSummaryCard";
@@ -109,56 +108,51 @@ const ProductSettings: React.FC = () => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="border rounded-xl bg-white">
-          <div className="flex flex-col items-center justify-center py-6">
-            <p className="text-lg font-semibold">Total Products</p>
-            <div className="text-4xl font-bold mt-2">{products.length}</div>
-          </div>
-        </div>
-        <div className="border rounded-xl bg-white">
-          <div className="flex flex-col items-center justify-center py-6">
-            <p className="text-lg font-semibold">Categories</p>
-            <div className="text-4xl font-bold mt-2">{categories.length}</div>
-          </div>
-        </div>
-        <div className="border rounded-xl bg-white">
-          <div className="flex flex-col items-center justify-center py-6">
-            <p className="text-lg font-semibold">Total Stock</p>
-            <div className="text-3xl font-bold mt-2">
-              {totalStockKg} Kg | {totalStockPc} Pc
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProductSummaryCard
+        productsCount={products.length}
+        categoriesCount={categories.length}
+        totalStock={`${totalStockKg} Kg | ${totalStockPc} Pc`}
+      />
 
-      <div className="flex mb-4">
-        <div className="flex-1 flex space-x-2">
+      <div className="flex items-center gap-2 mb-4 mt-6">
+        <div className="flex-1 flex items-center gap-2">
           <Input
             placeholder="Search All"
-            className="bg-white h-10 rounded-lg border px-4 border-gray-200"
+            className="bg-white h-10 rounded-lg border px-4 border-gray-200 w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div className="flex space-x-2">
-            <Button
-              type="button"
-              className="h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium"
-              onClick={() => {}}
-            >
-              <Search className="w-4 h-4 mr-2" />
-              Search
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="h-10 px-4 rounded-lg border border-gray-300 text-gray-700 font-medium"
-              onClick={() => setSearch("")}
-            >
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Clear
-            </Button>
-          </div>
+          <Button
+            type="button"
+            className="h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium"
+            onClick={() => {}}
+          >
+            <Search className="w-4 h-4 mr-2" />
+            Search
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 px-4 rounded-lg border border-gray-300 text-gray-700 font-medium"
+            onClick={() => setSearch("")}
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Clear
+          </Button>
+        </div>
+        <div className="flex md:hidden">
+          <Button
+            type="button"
+            variant="success"
+            className="h-10 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-medium gap-2"
+            onClick={() => {
+              setShowAdd(true);
+              setEditingProduct(null);
+            }}
+          >
+            <Plus className="w-4 h-4" />
+            Add Product
+          </Button>
         </div>
       </div>
 

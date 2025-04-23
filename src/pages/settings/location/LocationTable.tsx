@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, MoreHorizontal } from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -10,7 +10,7 @@ import {
   TableRow,
   TableCell
 } from "@/components/ui/table";
-
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 interface LocationType {
   id: string;
   name: string;
@@ -45,7 +45,7 @@ const LocationTable: React.FC<LocationTableProps> = ({
           <TableHead>Sub Area</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Capacity</TableHead>
-          <TableHead className="text-right w-24">Action</TableHead>
+          <TableHead className="text-center w-24">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -83,13 +83,22 @@ const LocationTable: React.FC<LocationTableProps> = ({
               </div>
             </TableCell>
             <TableCell className="text-right">
-              <div className="flex justify-end gap-2">
-                <Button size="icon" variant="ghost" onClick={() => onEdit(loc)}>
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button size="icon" variant="ghost" onClick={() => onDelete(loc)}>
-                  <Trash2 className="h-4 w-4 text-red-500" />
-                </Button>
+              <div className="flex justify-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <MoreHorizontal className="w-5 h-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem  onClick={() => onEdit(loc)}>
+                      <Edit className="w-4 h-4 mr-2" /> Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-600 focus:text-red-700" onClick={() => onDelete(loc)}>
+                      <Trash2 className="w-4 h-4 mr-2" /> Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </TableCell>
           </TableRow>

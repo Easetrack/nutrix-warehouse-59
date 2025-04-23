@@ -1,12 +1,14 @@
 import React, { useMemo, useState } from "react";
 import { Search, RotateCcw, Plus } from "lucide-react";
-import ProductSummaryCard from "./ProductSummaryCard";
-import ProductTable from "./ProductTable";
-import ProductDialog from "./ProductDialog";
-import ProductDeleteDialog from "./ProductDeleteDialog";
+import ProductSummaryCard from "./product/ProductSummaryCard";
+import ProductTable from "./product/ProductTable";
+import ProductDialog from "./product/ProductDialog";
+import ProductDeleteDialog from "./product/ProductDeleteDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+
+import { Product } from "./product/types"; // Assuming you have a Product type defined in your types folder
 
 const initialProducts = [
   { id: "PROD-001", name: "Premium Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 125, uom: "Kg" },
@@ -21,8 +23,8 @@ const ProductSettings: React.FC = () => {
   const [products, setProducts] = useState(initialProducts);
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
-  const [deleteProduct, setDeleteProduct] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState<Product>(null);
+  const [deleteProduct, setDeleteProduct] = useState<Product>(null);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
   const filteredProducts = useMemo(
@@ -62,7 +64,7 @@ const ProductSettings: React.FC = () => {
     ? products.find((p) => p.id === editingProduct.id)
     : null;
 
-  const handleSave = (newProduct: any) => {
+  const handleSave = (newProduct: Product) => {
     if (editingProduct) {
       setProducts((prev) =>
         prev.map((p) => (p.id === newProduct.id ? { ...newProduct } : p))

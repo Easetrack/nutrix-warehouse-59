@@ -29,13 +29,13 @@ const ProductSettings: React.FC = () => {
     () =>
       search.trim()
         ? products.filter(
-            (p) =>
-              p.id.toLowerCase().includes(search.toLowerCase()) ||
-              p.name.toLowerCase().includes(search.toLowerCase()) ||
-              p.category.toLowerCase().includes(search.toLowerCase()) ||
-              p.group.toLowerCase().includes(search.toLowerCase()) ||
-              p.subGroup.toLowerCase().includes(search.toLowerCase())
-          )
+          (p) =>
+            p.id.toLowerCase().includes(search.toLowerCase()) ||
+            p.name.toLowerCase().includes(search.toLowerCase()) ||
+            p.category.toLowerCase().includes(search.toLowerCase()) ||
+            p.group.toLowerCase().includes(search.toLowerCase()) ||
+            p.subGroup.toLowerCase().includes(search.toLowerCase())
+        )
         : products,
     [products, search]
   );
@@ -114,32 +114,33 @@ const ProductSettings: React.FC = () => {
         totalStock={`${totalStockKg} Kg | ${totalStockPc} Pc`}
       />
 
+      <div className="grid grid-cols-[1fr_auto_auto] items-center gap-2 mb-4 mt-6">
+        <Input
+          placeholder="Search All"
+          className="bg-white h-10 rounded-lg border px-4 border-gray-200 w-full"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button
+          type="button"
+          className="h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium"
+          onClick={() => { }}
+        >
+          <Search className="w-4 h-4 mr-2" />
+          Search
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          className="h-10 px-4 rounded-lg border border-gray-300 text-gray-700 font-medium"
+          onClick={() => setSearch("")}
+        >
+          <RotateCcw className="w-4 h-4 mr-2" />
+          Clear
+        </Button>
+      </div>
+
       <div className="flex items-center gap-2 mb-4 mt-6">
-        <div className="flex-1 flex items-center gap-2">
-          <Input
-            placeholder="Search All"
-            className="bg-white h-10 rounded-lg border px-4 border-gray-200 w-full"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Button
-            type="button"
-            className="h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium"
-            onClick={() => {}}
-          >
-            <Search className="w-4 h-4 mr-2" />
-            Search
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="h-10 px-4 rounded-lg border border-gray-300 text-gray-700 font-medium"
-            onClick={() => setSearch("")}
-          >
-            <RotateCcw className="w-4 h-4 mr-2" />
-            Clear
-          </Button>
-        </div>
         <div className="flex md:hidden">
           <Button
             type="button"
@@ -193,10 +194,10 @@ const ProductSettings: React.FC = () => {
       {showDeleteSuccess && (
         <div className="fixed right-6 bottom-6 z-50 w-[350px] pointer-events-none">
           <div className="bg-white border border-green-200 shadow-lg rounded-xl px-6 py-5 flex items-center gap-4 pointer-events-auto">
-            <img 
-              src="/lovable-uploads/41779e4b-6637-49e8-a6a9-e99c9993ed56.png" 
-              alt="Warehouse" 
-              className="w-12 h-12" 
+            <img
+              src="/lovable-uploads/41779e4b-6637-49e8-a6a9-e99c9993ed56.png"
+              alt="Warehouse"
+              className="w-12 h-12"
             />
             <div>
               <p className="text-base font-semibold text-green-800 mb-1">Delete Success</p>

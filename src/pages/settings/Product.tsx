@@ -1,6 +1,5 @@
-
 import React, { useMemo, useState } from "react";
-import { Plus, Search, X } from "lucide-react";
+import { Search, RotateCcw } from "lucide-react";
 import ProductSummaryCard from "./ProductSummaryCard";
 import ProductTable from "./ProductTable";
 import ProductDialog from "./ProductDialog";
@@ -92,12 +91,16 @@ const ProductSettings: React.FC = () => {
     <div className="w-full px-4 md:px-6 mb-10">
       <h1 className="text-3xl font-bold mb-1">Product</h1>
       <p className="text-muted-foreground mb-6">Manage your product catalog and inventory settings.</p>
-      <ProductSummaryCard
-        productsCount={products.length}
-        categoriesCount={categories.length}
-        totalStock={`${totalStockKg} Kg | ${totalStockPc} Pc`}
-      />
-      <div className="flex flex-col sm:flex-row sm:items-center w-full gap-3 mb-3">
+      
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <ProductSummaryCard
+          productsCount={products.length}
+          categoriesCount={categories.length}
+          totalStock={`${totalStockKg} Kg | ${totalStockPc} Pc`}
+        />
+      </div>
+
+      <div className="flex items-center w-full gap-3 mb-3">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -124,22 +127,22 @@ const ProductSettings: React.FC = () => {
             className="h-12 w-32 rounded-lg border border-gray-300 text-gray-700 font-semibold gap-2"
             onClick={() => setSearch("")}
           >
-            <X className="w-5 h-5" />
+            <RotateCcw className="w-5 h-5" />
             Clear
           </Button>
         </form>
         <Button
           type="button"
-          className="h-12 w-full sm:w-44 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold gap-2 ml-0 sm:ml-auto"
+          className="h-12 w-44 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold gap-2"
           onClick={() => {
             setShowAdd(true);
             setEditingProduct(null);
           }}
         >
-          <Plus className="w-5 h-5" />
-          Add Product
+          + Add Product
         </Button>
       </div>
+
       <div className="overflow-x-auto rounded-xl">
         <ProductTable
           products={filteredProducts}
@@ -150,6 +153,7 @@ const ProductSettings: React.FC = () => {
           onDelete={(p) => setDeleteProduct(p)}
         />
       </div>
+
       {showAdd && (
         <ProductDialog
           open={showAdd}
@@ -161,6 +165,7 @@ const ProductSettings: React.FC = () => {
           editingProduct={editingProduct}
         />
       )}
+
       {deleteProduct && (
         <ProductDeleteDialog
           open={!!deleteProduct}
@@ -171,10 +176,15 @@ const ProductSettings: React.FC = () => {
           productName={deleteProduct?.name || ""}
         />
       )}
+
       {showDeleteSuccess && (
         <div className="fixed right-6 bottom-6 z-50 w-[350px] pointer-events-none">
           <div className="bg-white border border-green-200 shadow-lg rounded-xl px-6 py-5 flex items-center gap-4 pointer-events-auto">
-            <img src="/lovable-uploads/41779e4b-6637-49e8-a6a9-e99c9993ed56.png" alt="Warehouse" className="w-12 h-12" />
+            <img 
+              src="/lovable-uploads/41779e4b-6637-49e8-a6a9-e99c9993ed56.png" 
+              alt="Warehouse" 
+              className="w-12 h-12" 
+            />
             <div>
               <p className="text-base font-semibold text-green-800 mb-1">Delete Success</p>
               <p className="text-gray-700 text-sm">Your Product has been Confirm successfully.</p>

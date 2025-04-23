@@ -102,8 +102,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   const settingsMenuItems = [
-    // { path: '/settings/product', name: t('settings.product') },
-    // { path: '/settings/location', name: t('settings.location') },
+    { path: '/settings/product', name: t('settings.product') },
+    { path: '/settings/location', name: t('settings.location') },
     // { path: '/settings/department', name: t('settings.department') },
     // { path: '/settings/customer', name: t('settings.customer') },
     // { path: '/settings/vendor', name: t('settings.vendor') },

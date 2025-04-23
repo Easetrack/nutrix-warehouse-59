@@ -54,11 +54,13 @@ const ProductDialogSelects: React.FC<ProductDialogSelectsProps> = ({
           <SelectValue placeholder="Select Category" />
         </SelectTrigger>
         <SelectContent>
-          {options.categoryOptions.map((cat) => (
-            <SelectItem key={cat.id} value={cat.id}>
-              {cat.name}
-            </SelectItem>
-          ))}
+          {options.categoryOptions
+            .filter((cat) => cat.id && cat.id.trim() !== "") // Filter out empty IDs
+            .map((cat) => (
+              <SelectItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
 
@@ -72,11 +74,13 @@ const ProductDialogSelects: React.FC<ProductDialogSelectsProps> = ({
           <SelectValue placeholder="Select Group" />
         </SelectTrigger>
         <SelectContent>
-          {options.typeOptions.map((type) => (
-            <SelectItem key={type.id} value={type.id}>
-              {type.name}
-            </SelectItem>
-          ))}
+          {options.typeOptions
+            .filter((type) => type.id && type.id.trim() !== "") // Filter out empty IDs
+            .map((type) => (
+              <SelectItem key={type.id} value={type.id}>
+                {type.name}
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
 
@@ -90,11 +94,13 @@ const ProductDialogSelects: React.FC<ProductDialogSelectsProps> = ({
           <SelectValue placeholder="Select Sub Group" />
         </SelectTrigger>
         <SelectContent>
-          {options.subTypeOptions.map((stype) => (
-            <SelectItem key={stype.id} value={stype.id}>
-              {stype.name}
-            </SelectItem>
-          ))}
+          {options.subTypeOptions
+            .filter((stype) => stype.id && stype.id.trim() !== "") // Filter out empty IDs
+            .map((stype) => (
+              <SelectItem key={stype.id} value={stype.id}>
+                {stype.name}
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
 
@@ -108,11 +114,13 @@ const ProductDialogSelects: React.FC<ProductDialogSelectsProps> = ({
           <SelectValue placeholder="Select UoM" />
         </SelectTrigger>
         <SelectContent>
-          {options.uomOptions.map((uom) => (
-            <SelectItem key={uom.id} value={uom.name}>
-              {uom.name}
-            </SelectItem>
-          ))}
+          {options.uomOptions
+            .filter((uom) => uom.name && uom.name.trim() !== "") // Filter out empty names
+            .map((uom) => (
+              <SelectItem key={uom.id} value={uom.name || uom.id}>
+                {uom.name}
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
     </>

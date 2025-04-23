@@ -5,8 +5,21 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
-const initialLocations = [
+// Define type for location
+interface LocationType {
+  id: string;
+  name: string;
+  zone: string;
+  area: string;
+  subArea: string;
+  type: string;
+  capacity: number;
+  new?: boolean;
+}
+
+const initialLocations: LocationType[] = [
   { id: 'LOC001', name: 'Bangkok', zone: 'A', area: 'Default Area', subArea: 'Default Sub Area', type: 'Storage', capacity: 50 },
   { id: 'LOC002', name: 'Sale Office', zone: 'A', area: 'Default Area', subArea: 'Default Sub Area', type: 'Storage', capacity: 75 },
   { id: 'LOC003', name: 'Head Office', zone: 'A', area: 'Default Area', subArea: 'Default Sub Area', type: 'Packing', capacity: 90 },
@@ -14,11 +27,12 @@ const initialLocations = [
 ];
 
 const LocationSettings = () => {
-  const [locations, setLocations] = useState(initialLocations);
+  const { toast } = useToast();
+  const [locations, setLocations] = useState<LocationType[]>(initialLocations);
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [deleting, setDeleting] = useState(null);
+  const [editing, setEditing] = useState<LocationType | null>(null);
+  const [deleting, setDeleting] = useState<LocationType | null>(null);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
   // For cards summary
@@ -42,10 +56,12 @@ const LocationSettings = () => {
 
   // Success toast
   const handleDelete = () => {
-    setLocations(prev => prev.filter(l => l.id !== deleting.id))
-    setDeleting(null)
-    setShowDeleteSuccess(true)
-    setTimeout(() => setShowDeleteSuccess(false), 3000)
+    if (deleting) {
+      setLocations(prev => prev.filter(l => l.id !== deleting.id));
+      setDeleting(null);
+      setShowDeleteSuccess(true);
+      setTimeout(() => setShowDeleteSuccess(false), 3000);
+    }
   };
 
   return (
@@ -203,7 +219,7 @@ const LocationSettings = () => {
             <p className="text-muted-foreground mb-6">
               {editing ? `Update the details for ${editing.id}` : "Enter the details for the new location"}
             </p>
-            {/* ฟอร์ม */}
+            {/* Form */}
             <form className="space-y-4" onSubmit={e => {
               e.preventDefault();
               const form = e.target as typeof e.target & {
@@ -215,7 +231,7 @@ const LocationSettings = () => {
                 type: { value: string };
                 capacity: { value: string };
               };
-              const newLoc = {
+              const newLoc: LocationType = {
                 id: form.id.value,
                 name: form.name.value,
                 zone: form.zone.value,
@@ -223,12 +239,24 @@ const LocationSettings = () => {
                 subArea: form.subArea.value,
                 type: form.type.value,
                 capacity: Number(form.capacity.value),
-                new: !editing ? true : undefined
               };
+              
+              if (!editing) {
+                newLoc.new = true;
+              }
+              
               if (editing) {
                 setLocations(prev => prev.map(l => l.id === editing.id ? { ...newLoc } : l));
+                toast({
+                  title: "Location Updated",
+                  description: "Location has been successfully updated."
+                });
               } else {
                 setLocations(prev => [...prev, newLoc]);
+                toast({
+                  title: "Location Added", 
+                  description: "New location has been successfully added."
+                });
               }
               setShowAdd(false);
               setEditing(null);

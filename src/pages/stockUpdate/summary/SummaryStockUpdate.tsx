@@ -8,6 +8,8 @@ import { useStockData } from "./hooks/useStockData";
 import { SummaryHeader } from "./components/SummaryHeader";
 import { SummarySearchBar } from "./components/SummarySearchBar";
 import { SummaryTableArea } from "./components/SummaryTableArea";
+import { Loading } from "@/components/ui/custom/loading";
+import { Button } from "@/components/ui/button";
 
 const SummaryStockUpdate = () => {
   const { toast } = useToast();
@@ -15,7 +17,7 @@ const SummaryStockUpdate = () => {
   const [selectedItem, setSelectedItem] = useState<StockItem | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-  // ปรับตรงนี้เพื่อรวมทุก state & handler จาก useStockData
+  // Include all needed states & handlers from useStockData
   const {
     stockItems,
     filteredItems,
@@ -32,7 +34,7 @@ const SummaryStockUpdate = () => {
     handlePreviousPage,
     perPage,
     handlePerPageChange,
-    // ฟิลด์ filter หลัก
+    // Main filter fields
     searchTerm,
     setSearchTerm,
     selectedWarehouse,
@@ -50,7 +52,7 @@ const SummaryStockUpdate = () => {
     setCurrentPage,
     setSortColumn,
     setSortDirection,
-    // เพิ่ม handler ที่เราสร้างไว้ใน hook
+    // Add handlers we created in the hook
     handleSearch,
     handleClear,
     handleAdvancedSearch
@@ -87,7 +89,7 @@ const SummaryStockUpdate = () => {
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <span>Loading stock update...</span>
+        <Loading text="Loading stock update..." />
       </div>
     );
   }
@@ -96,7 +98,7 @@ const SummaryStockUpdate = () => {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="text-red-500 mb-4">{error}</div>
-        <button className="btn" onClick={fetchStockData}>Try Again</button>
+        <Button onClick={handleSearch}>Try Again</Button>
       </div>
     );
   }

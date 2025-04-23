@@ -38,7 +38,7 @@ export const useSearchHandler = ({
     // Reset to page 1 for new search
     setCurrentPage(1);
     // Immediately fetch data with the current filters
-    await fetchDataCallback();
+    return fetchDataCallback(); // Return the Promise
   };
 
   const handleClear = async () => {
@@ -63,7 +63,7 @@ export const useSearchHandler = ({
     
     // Reset to page 1 and fetch data immediately with cleared filters
     setCurrentPage(1);
-    await fetchDataCallback();
+    return fetchDataCallback(); // Return the Promise
   };
 
   const handleAdvancedSearch = async (filters: FilterValues) => {
@@ -106,12 +106,12 @@ export const useSearchHandler = ({
     
     // Reset to page 1 and fetch data immediately after setting all filters
     setCurrentPage(1);
-    await fetchDataCallback();
+    return fetchDataCallback(); // Return the Promise
   };
 
   const handlePerPageChange = async (newPerPage: number) => {
     if (setPerPage) {
-      await setPerPage(newPerPage);
+      return setPerPage(newPerPage); // Return the Promise
     }
   };
 
@@ -119,6 +119,6 @@ export const useSearchHandler = ({
     handleSearch,
     handleClear,
     handleAdvancedSearch,
-    handlePerPageChange // Add new handler to return object
+    handlePerPageChange
   };
 };

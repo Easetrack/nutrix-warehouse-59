@@ -1,4 +1,3 @@
-
 export const navigationTranslations = {
   'nav.dashboard': {
     en: 'Dashboard',
@@ -38,7 +37,7 @@ export const navigationTranslations = {
   },
   'nav.settings.permission.user': {
     en: 'User',
-    th: 'ชื่อใช้งาน'
+    th: 'ผู้ใช้งาน'
   },
   'nav.settings.permission.role': {
     en: 'Role',

@@ -42,7 +42,9 @@ const UserListTable: React.FC<UserListTableProps> = ({
       ? "bg-green-100 text-green-800" 
       : "bg-red-100 text-red-800";
     
-    const statusText = isActive ? "Active" : "Inactive";
+    const statusText = isActive 
+      ? t('permission.user.status.active')
+      : t('permission.user.status.inactive');
     
     return (
       <div className={`px-3 py-1 text-xs font-medium rounded-full w-fit ${statusClassName}`}>
@@ -68,20 +70,20 @@ const UserListTable: React.FC<UserListTableProps> = ({
             <TableHead className="w-12">
               <Checkbox />
             </TableHead>
-            <TableHead className="uppercase text-xs">Status</TableHead>
-            <TableHead className="uppercase text-xs">Full name</TableHead>
-            <TableHead className="uppercase text-xs">Username</TableHead>
-            <TableHead className="uppercase text-xs">Role</TableHead>
-            <TableHead className="uppercase text-xs">Department</TableHead>
-            <TableHead className="uppercase text-xs">Position</TableHead>
-            <TableHead className="uppercase text-xs text-right">Action</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.status')}</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.fullName')}</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.username')}</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.role')}</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.department')}</TableHead>
+            <TableHead className="uppercase text-xs">{t('permission.user.position')}</TableHead>
+            <TableHead className="uppercase text-xs text-right">{t('permission.user.action')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
               <TableCell colSpan={8} className="text-center text-muted-foreground py-10">
-                No users found
+                {t('common.noResults')}
               </TableCell>
             </TableRow>
           ) : (
@@ -119,14 +121,14 @@ const UserListTable: React.FC<UserListTableProps> = ({
                       <DropdownMenuContent align="end" className="w-40 bg-white">
                         <DropdownMenuItem onClick={() => handleEdit(user)} className="cursor-pointer">
                           <Edit className="mr-2 h-4 w-4" />
-                          <span>Edit</span>
+                          <span>{t('permission.user.edit')}</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem 
                           onClick={() => onDeleteUser(user)}
                           className="text-red-600 focus:bg-red-50 focus:text-red-600 cursor-pointer"
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
-                          <span>Delete</span>
+                          <span>{t('permission.user.delete')}</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -142,3 +144,4 @@ const UserListTable: React.FC<UserListTableProps> = ({
 };
 
 export default UserListTable;
+

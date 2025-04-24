@@ -8,6 +8,7 @@ import { stockTranslations } from './stock';
 import { TranslationKey } from '../types';
 import { paginationTranslations } from './pagiantion';
 import { filterTranslations } from './filter';
+import { permissionTranslations } from './permission';
 
 export const translations: TranslationKey = {
   'app.name': {
@@ -22,4 +23,6 @@ export const translations: TranslationKey = {
   ...stockTranslations,
   ...paginationTranslations,
   ...filterTranslations,
+  ...permissionTranslations,
 };
+

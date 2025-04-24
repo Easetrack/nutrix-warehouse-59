@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export const PickingRequestSection = () => {
   return (
-    <div className="bg-white rounded-lg p-6 space-y-4">
+    <div className="bg-white rounded-lg px-6 py-4  space-y-4">
       <h2 className="font-medium">Picking Request</h2>
       <div className="grid grid-cols-5 gap-4">
         <Input value="ANW2025041801" placeholder="Picking Request No" readOnly />

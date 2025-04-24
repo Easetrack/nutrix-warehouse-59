@@ -40,7 +40,7 @@ export const CustomerSection = ({ selectedCustomer, onSelectCustomer }: Customer
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 space-y-4">
+    <div className="bg-white rounded-lg px-6 pt-4 space-y-4">
       <h2 className="font-medium">Customer</h2>
       <div className="grid grid-cols-4 gap-4">
         <div className="relative">

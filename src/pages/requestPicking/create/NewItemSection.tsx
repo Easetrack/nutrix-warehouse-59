@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Plus } from 'lucide-react';
 
 interface Item {
   no: number;
@@ -25,16 +25,8 @@ export const NewItemSection = ({ onAddItem, onClearItems }: NewItemSectionProps)
     <div className="bg-white rounded-lg p-6 space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="font-medium">New Item</h2>
-        <Button 
-          variant="outline" 
-          onClick={onClearItems}
-          className="gap-2"
-        >
-          <RotateCcw className="h-4 w-4" />
-          Clear
-        </Button>
       </div>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-5 gap-4">
         <Input placeholder="Barcode" />
         <Input placeholder="Item Code" />
         <Input placeholder="Item Name" />
@@ -58,22 +50,28 @@ export const NewItemSection = ({ onAddItem, onClearItems }: NewItemSectionProps)
             <SelectItem value="wh3">Bangkok WH3</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            className="gap-2 flex-grow"
+      </div>
+      <div className="grid grid-cols-5 gap-4">
+        <div className="col-start-5 col-end-6 flex gap-2 justify-end items-center">
+          <Button
+            variant="outline"
+            className="gap-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50"
             onClick={onAddItem}
           >
+            <Plus className="h-4 w-4 text-emerald-600" />
             Create
           </Button>
-          <Button 
-            variant="outline" 
-            size="icon"
+          <Button
+            variant="outline"
+            onClick={onClearItems}
+            className="gap-2"
           >
             <RotateCcw className="h-4 w-4" />
+            Clear
           </Button>
         </div>
       </div>
+
     </div>
   );
 };

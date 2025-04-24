@@ -28,7 +28,7 @@ import SummaryStockUpdateDetailsLotBatch from "./pages/stockUpdate/detailsLotBat
 // New pages
 import Receiving from "./pages/Receiving";
 import RequestPicking from "./pages/RequestPicking";
-import CreatePicking from "./pages/CreatePicking";
+import CreatePicking from "./pages/requestPicking/CreatePicking";
 import PackingPTW from "./pages/PackingPTW";
 
 // Settings subpages

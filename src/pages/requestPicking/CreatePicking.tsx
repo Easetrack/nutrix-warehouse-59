@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, RotateCcw, Save } from 'lucide-react';
-import { CustomerSection } from '@/components/picking/create/CustomerSection';
-import { PickingRequestSection } from '@/components/picking/create/PickingRequestSection';
-import { NewItemSection } from '@/components/picking/create/NewItemSection';
-import { ItemsTable } from '@/components/picking/create/ItemsTable';
+import { CustomerSection } from './create/CustomerSection';
+import { PickingRequestSection } from './/create/PickingRequestSection';
+import { NewItemSection } from './/create/NewItemSection';
+import { ItemsTable } from './/create/ItemsTable';
 
 interface Customer {
   id: string;
@@ -44,7 +44,7 @@ const CreatePicking = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
@@ -57,26 +57,33 @@ const CreatePicking = () => {
           <h1 className="text-2xl font-semibold">Create Picking</h1>
         </div>
         <div className="flex gap-2">
+        <Button variant="success" size="default" className="gap-2">
+            <Save className="h-4 w-4" />
+            Save
+          </Button>
           <Button variant="outline" size="default" className="gap-2">
             <RotateCcw className="h-4 w-4" />
             Clear
           </Button>
-          <Button variant="success" size="default" className="gap-2">
-            <Save className="h-4 w-4" />
-            Save
-          </Button>
+          
         </div>
       </div>
 
-      <CustomerSection 
-        selectedCustomer={selectedCustomer}
-        onSelectCustomer={setSelectedCustomer}
-      />
-      <PickingRequestSection />
-      <NewItemSection 
-        onAddItem={handleAddItem}
-        onClearItems={() => setItems([])}
-      />
+      <div className='mb-6 rounded-lg border border-bg bg-card shadow'>
+        <CustomerSection
+          selectedCustomer={selectedCustomer}
+          onSelectCustomer={setSelectedCustomer}
+        />
+        <PickingRequestSection />
+      </div>
+
+      <div className='mb-6 rounded-lg border border-bg bg-card shadow'>
+        <NewItemSection
+          onAddItem={handleAddItem}
+          onClearItems={() => setItems([])}
+        />
+      </div>
+      
       <ItemsTable items={items} />
     </div>
   );

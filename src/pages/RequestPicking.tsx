@@ -1,7 +1,7 @@
 import React from 'react';
-import { PickingList } from '@/components/picking/PickingList';
-import { PickingFilters } from '@/components/picking/PickingFilters';
-import { PickingHeader } from '@/components/picking/PickingHeader';
+import { PickingList } from './requestPicking/PickingList';
+import { PickingFilters } from './requestPicking/PickingFilters';
+import { PickingHeader } from './requestPicking/PickingHeader';
 
 const RequestPicking = () => {
   const handleSearch = () => {
@@ -13,7 +13,7 @@ const RequestPicking = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 w-full ">
       <PickingHeader />
       <PickingFilters
         onSearch={handleSearch}

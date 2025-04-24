@@ -19,7 +19,7 @@ interface PickingFiltersProps {
 
 export const PickingFilters = ({ onSearch, onClear }: PickingFiltersProps) => {
   return (
-    <div className="mb-4 flex gap-2 items-end">
+    <div className="w-full mb-4 flex gap-2 items-end">
       <Select>
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="Select Status" />

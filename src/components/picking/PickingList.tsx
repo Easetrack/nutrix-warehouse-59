@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from './StatusBadge';
+import '@/styles/table.css';
 
 interface PickingRequest {
   id: number;
@@ -15,19 +15,6 @@ interface PickingRequest {
   customerName: string;
   delivery: string;
 }
-
-const getStatusBadge = (status: string) => {
-  switch (status) {
-    case 'Waiting Approve':
-      return <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">{status}</Badge>;
-    case 'Pending Picking':
-      return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">{status}</Badge>;
-    case 'Complete':
-      return <Badge className="bg-green-100 text-green-700 hover:bg-green-100">{status}</Badge>;
-    default:
-      return <Badge variant="outline">{status}</Badge>;
-  }
-};
 
 export const PickingList = () => {
   const requests: PickingRequest[] = [
@@ -89,7 +76,9 @@ export const PickingList = () => {
         {requests.map((request) => (
           <TableRow key={request.id}>
             <TableCell>{request.id}</TableCell>
-            <TableCell>{getStatusBadge(request.status)}</TableCell>
+            <TableCell>
+              <StatusBadge status={request.status} />
+            </TableCell>
             <TableCell>{request.requestNo}</TableCell>
             <TableCell>{request.requestDate}</TableCell>
             <TableCell>{request.type}</TableCell>

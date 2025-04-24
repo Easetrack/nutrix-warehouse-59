@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/stockUpdate";
 import { StockItem } from "@/types/stockupdate/summary";
 import { StockUpdateQueryParams } from "@/types/stockupdate/api";
+import { StockQueryParams } from "./types";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();
@@ -12,13 +13,21 @@ export const useStockFetcher = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStockData = async (params: StockUpdateQueryParams) => {
+  const fetchStockData = async (params: StockQueryParams) => {
     setIsLoading(true);
     setError(null);
 
     try {
       console.log("Fetching data with params:", params);
-      const data = await fetchStockUpdateSummary(params);
+      // Convert StockQueryParams to StockUpdateQueryParams
+      const apiParams: StockUpdateQueryParams = {
+        page: params.currentPage,
+        perPage: params.perPage,
+        search: params.searchTerm,
+        ...params // Spread the rest of the properties
+      };
+      
+      const data = await fetchStockUpdateSummary(apiParams);
       const items = data.items || [];
       setStockItems(items);
       setFilteredItems(items);

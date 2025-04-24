@@ -1,6 +1,7 @@
 
 import { StockUpdateQueryParams } from "@/types/stockupdate/api";
 import { format } from "date-fns";
+import { StockQueryParams } from "./types";
 
 interface QueryBuilderProps {
   currentPage: number;
@@ -31,16 +32,16 @@ export const useQueryBuilder = () => {
     expiredDate,
     sortColumn,
     sortDirection,
-  }: QueryBuilderProps): StockUpdateQueryParams => {
+  }: QueryBuilderProps): StockQueryParams => {
     // Initialize with required params
-    const params: StockUpdateQueryParams = {
-      page: currentPage,
+    const params: StockQueryParams = {
+      currentPage: currentPage,
       perPage: perPage,
     };
 
     // Add search params if provided
     if (searchTerm?.trim()) {
-      params.search = searchTerm.trim();
+      params.searchTerm = searchTerm.trim();
       params.searchByProductName = searchTerm.trim();
       params.searchByBarcode = searchTerm.trim();
       params.searchByProductId = searchTerm.trim();
@@ -83,7 +84,7 @@ export const useQueryBuilder = () => {
     // Add sorting if provided
     if (sortColumn) {
       const sortParam = `sortBy${sortColumn[0]?.toUpperCase()}${sortColumn?.slice(1)}`;
-      params[sortParam as keyof StockUpdateQueryParams] = sortDirection || "asc";
+      params[sortParam] = sortDirection || "asc";
     }
 
     return params;

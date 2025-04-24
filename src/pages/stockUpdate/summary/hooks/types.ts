@@ -13,6 +13,7 @@ export interface StockQueryParams {
     expiredDate?: string | null;
     sortColumn?: string | null;
     sortDirection?: 'asc' | 'desc';
+    [key: string]: string | number | null | undefined; // Add index signature for dynamic properties
 }
 
 export interface AdvancedSearchValues {

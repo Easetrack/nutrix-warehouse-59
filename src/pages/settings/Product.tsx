@@ -142,7 +142,7 @@ const ProductSettings: React.FC = () => {
         </Button>
       </div>
 
-      <div className="flex items-center gap-2 mb-4 mt-6">
+      {/* <div className="flex items-center gap-2 mb-4 mt-6">
         <div className="flex md:hidden">
           <Button
             type="button"
@@ -157,9 +157,9 @@ const ProductSettings: React.FC = () => {
             Add Product
           </Button>
         </div>
-      </div>
+      </div> */}
 
-      <div className="overflow-x-auto rounded-xl">
+      <div className="overflow-auto w-full rounded-xl">
         <ProductTable
           products={filteredProducts}
           onEdit={(p) => {

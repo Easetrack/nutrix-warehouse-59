@@ -22,8 +22,8 @@ type Props = {
 };
 
 const ProductTable: React.FC<Props> = ({ products, onEdit, onDelete }) => (
-  <div className="rounded-xl border bg-white">
-    <table className="min-w-full">
+  <div className="rounded-xl border overflow-auto bg-white">
+    <table className="min-w-full w-full">
       <thead>
         <tr className="text-gray-500 font-medium text-sm [&>th]:py-3 [&>th]:px-2 text-left">
           <th className="w-16">No.</th>

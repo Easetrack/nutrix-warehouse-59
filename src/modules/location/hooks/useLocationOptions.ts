@@ -1,7 +1,7 @@
-
 import { useState, useCallback } from 'react';
 import { fetchWarehouses, fetchZones, fetchAreas, fetchSubAreas } from '../api/locationApi';
 import { FilterOption } from '@/types/filterOptions';
+import { WarehouseResponse, ZoneResponse, AreaResponse, SubAreaResponse } from '../types/api';
 
 export const useLocationOptions = () => {
   const [warehouses, setWarehouses] = useState<FilterOption[]>([]);
@@ -14,16 +14,15 @@ export const useLocationOptions = () => {
   const [isLoadingAreas, setIsLoadingAreas] = useState(false);
   const [isLoadingSubAreas, setIsLoadingSubAreas] = useState(false);
 
-  // Load warehouses
   const loadWarehouses = useCallback(async () => {
     setIsLoadingWarehouses(true);
     try {
       const data = await fetchWarehouses();
       setWarehouses(
-        data.map((item) => ({
+        data.map((item: WarehouseResponse) => ({
           id: item.id,
           name: item.name,
-          code: item.id // Using id as code for consistency
+          code: item.id
         }))
       );
     } catch (error) {
@@ -34,13 +33,12 @@ export const useLocationOptions = () => {
     }
   }, []);
 
-  // Load zones based on selected warehouse
   const loadZones = useCallback(async (warehouse: string) => {
     setIsLoadingZones(true);
     try {
       const data = await fetchZones(warehouse);
       setZones(
-        data.map((item) => ({
+        data.map((item: ZoneResponse) => ({
           id: item.id,
           name: item.name,
           code: item.code
@@ -54,13 +52,12 @@ export const useLocationOptions = () => {
     }
   }, []);
 
-  // Load areas based on selected zone and warehouse
   const loadAreas = useCallback(async (zone: string, warehouse: string) => {
     setIsLoadingAreas(true);
     try {
       const data = await fetchAreas(zone, warehouse);
       setAreas(
-        data.map((item) => ({
+        data.map((item: AreaResponse) => ({
           id: item.id,
           name: item.name,
           code: item.code
@@ -74,14 +71,13 @@ export const useLocationOptions = () => {
     }
   }, []);
 
-  // Load sub-areas based on selected zone, area, and warehouse
   const loadSubAreas = useCallback(
     async (zone: string, area: string, warehouse: string) => {
       setIsLoadingSubAreas(true);
       try {
         const data = await fetchSubAreas(zone, area, warehouse);
         setSubAreas(
-          data.map((item) => ({
+          data.map((item: SubAreaResponse) => ({
             id: item.id,
             name: item.name,
             code: item.code

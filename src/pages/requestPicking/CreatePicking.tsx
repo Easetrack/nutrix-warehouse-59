@@ -7,6 +7,7 @@ import { CustomerSection } from './create/CustomerSection';
 import { PickingRequestSection } from './/create/PickingRequestSection';
 import { NewItemSection } from './/create/NewItemSection';
 import { ItemsTable } from './/create/ItemsTable';
+import { useToast } from '@/hooks/use-toast';
 
 interface Customer {
   id: string;
@@ -27,6 +28,8 @@ interface Item {
 
 const CreatePicking = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isEditable, setIsEditable] = useState(true);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [items, setItems] = useState<Item[]>([]);
 
@@ -43,6 +46,41 @@ const CreatePicking = () => {
     setItems([...items, newItem]);
   };
 
+  const handleSave = () => {
+    if (!selectedCustomer) {
+      toast({
+        title: "Error",
+        description: "Please select a customer before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (items.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please add at least one item before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsEditable(false);
+    toast({
+      title: "Saved Successfully",
+      description: "Your picking request has been saved.",
+    });
+  };
+
+  const handleClear = () => {
+    setSelectedCustomer(null);
+    setItems([]);
+    toast({
+      title: "Cleared",
+      description: "Form has been cleared.",
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -57,15 +95,14 @@ const CreatePicking = () => {
           <h1 className="text-2xl font-semibold">Create Picking</h1>
         </div>
         <div className="flex gap-2">
-        <Button variant="success" size="default" className="gap-2">
+          <Button variant="success" size="default" className="gap-2" onClick={handleSave}>
             <Save className="h-4 w-4" />
             Save
           </Button>
-          <Button variant="outline" size="default" className="gap-2">
+          <Button variant="outline" size="default" className="gap-2" onClick={handleClear}>
             <RotateCcw className="h-4 w-4" />
             Clear
           </Button>
-          
         </div>
       </div>
 

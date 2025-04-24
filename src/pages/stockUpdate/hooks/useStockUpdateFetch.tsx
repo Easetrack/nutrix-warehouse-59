@@ -25,20 +25,24 @@ export const useStockUpdateFetch = ({
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
-  const buildQueryParams = useCallback(() => {
+  const buildQueryParams = useCallback((immediateFilters?: any) => {
+    // Use either immediate filters or the filters from props
+    const activeFilters = immediateFilters || filters;
+    
     const queryParams = new URLSearchParams({
       page: currentPage.toString(),
       perPage: perPage.toString(),
     });
 
-    if (filters.searchTerm)
-      ["searchByProductName", "searchByBarcode", "searchByProductId"].forEach(k => queryParams.append(k, filters.searchTerm));
-    if (filters.selectedCategory && filters.selectedCategory !== "All Categories")
-      queryParams.append('searchByCategory', filters.selectedCategory);
-    if (filters.selectedZone && filters.selectedZone !== "All Zones")
-      queryParams.append('zoneId', filters.selectedZone.replace('Zone ', ''));
-    if (filters.selectedArea && filters.selectedArea !== "All Areas")
-      queryParams.append('areaId', filters.selectedArea);
+    // Process active filters
+    if (activeFilters.searchTerm)
+      ["searchByProductName", "searchByBarcode", "searchByProductId"].forEach(k => queryParams.append(k, activeFilters.searchTerm));
+    if (activeFilters.selectedCategory && activeFilters.selectedCategory !== "All Categories")
+      queryParams.append('searchByCategory', activeFilters.selectedCategory);
+    if (activeFilters.selectedZone && activeFilters.selectedZone !== "All Zones")
+      queryParams.append('zoneId', activeFilters.selectedZone.replace('Zone ', ''));
+    if (activeFilters.selectedArea && activeFilters.selectedArea !== "All Areas")
+      queryParams.append('areaId', activeFilters.selectedArea);
     if (sort.sortColumn) {
       const sortParam = `sortBy${sort.sortColumn[0]?.toUpperCase()}${sort.sortColumn?.slice(1)}`;
       queryParams.append(sortParam, sort.sortDirection);
@@ -53,12 +57,14 @@ export const useStockUpdateFetch = ({
     perPage
   ]);
 
-  const fetchStockData = useCallback(async () => {
+  const fetchStockData = useCallback(async (immediateFilters?: any) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const params = buildQueryParams();
+      const params = buildQueryParams(immediateFilters);
+      console.log('Fetching with params:', params.toString()); // Debug log
+      
       const response = await authenticatedFetch(
         `https://webapiorg.easetrackwms.com/api/v1/StockUpdate?${params.toString()}`,
         { headers: { 'x-location': locationId } }

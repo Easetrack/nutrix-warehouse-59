@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { FilterValues } from "@/types/filter";
 import { useStockAuth } from "../../hooks/useStockAuth";
@@ -9,7 +8,7 @@ export const useStockData = () => {
   const { locationId } = useStockAuth();
   const queryParams = useQueryParams();
   const stockItems = useStockItems(locationId);
-  const [perPage, setPerPage] = useState(10); // Add perPage state
+  const [perPage, setPerPage] = useState(10);
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({
     searchTerm: queryParams.searchTerm,
     time: queryParams.searchTime,
@@ -33,17 +32,35 @@ export const useStockData = () => {
   }, [locationId]);
 
   const handleSort = async (column: string) => {
+    const newDirection = queryParams.sortColumn === column && queryParams.sortDirection === "asc" ? "desc" : "asc";
     queryParams.setSortColumn(column);
-    queryParams.setSortDirection(
-      queryParams.sortColumn === column && queryParams.sortDirection === "asc" ? "desc" : "asc"
-    );
+    queryParams.setSortDirection(newDirection);
     queryParams.setCurrentPage(1);
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    
+    const updatedParams = {
+      ...queryParams.buildQueryParams(),
+      sortColumn: column,
+      sortDirection: newDirection,
+      page: 1
+    };
+    
+    await stockItems.fetchStockData(updatedParams);
   };
 
   const handleSearch = async () => {
     queryParams.setCurrentPage(1);
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    
+    const currentParams = {
+      ...queryParams.buildQueryParams(),
+      page: 1,
+      searchTerm: queryParams.searchTerm,
+      selectedWarehouse: queryParams.selectedWarehouse,
+      selectedZone: queryParams.selectedZone,
+      selectedArea: queryParams.selectedArea,
+      selectedCategory: queryParams.selectedCategory
+    };
+    
+    await stockItems.fetchStockData(currentParams);
   };
 
   const handleClear = async () => {
@@ -56,29 +73,29 @@ export const useStockData = () => {
     queryParams.setSelectedCategory("");
     queryParams.setCurrentPage(1);
     
-    // Clear any expiredDate if it exists in queryParams
     if (queryParams.setExpiredDate) {
       queryParams.setExpiredDate(null);
     }
     
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    const clearedParams = {
+      page: 1,
+      perPage: perPage
+    };
+    
+    await stockItems.fetchStockData(clearedParams);
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
     setAdvancedFilterValues(values);
     
-    // Update queryParams with all relevant filter values
     if (values.searchTerm !== undefined) {
       queryParams.setSearchTerm(values.searchTerm);
     }
     if (values.date !== undefined) {
       queryParams.setSearchDate(values.date);
     }
-    if (values.expiredDate !== undefined) {
-      // Ensure expiredDate gets set in queryParams
-      if (queryParams.setExpiredDate) {
-        queryParams.setExpiredDate(values.expiredDate);
-      }
+    if (values.expiredDate !== undefined && queryParams.setExpiredDate) {
+      queryParams.setExpiredDate(values.expiredDate);
     }
     if (values.warehouse !== undefined) {
       queryParams.setSelectedWarehouse(values.warehouse);
@@ -94,7 +111,20 @@ export const useStockData = () => {
     }
     
     queryParams.setCurrentPage(1);
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    
+    const directParams = {
+      page: 1,
+      perPage: perPage,
+      searchTerm: values.searchTerm,
+      searchDate: values.date,
+      expiredDate: values.expiredDate,
+      selectedWarehouse: values.warehouse,
+      selectedZone: values.zone,
+      selectedArea: values.area,
+      selectedCategory: values.category
+    };
+    
+    await stockItems.fetchStockData(directParams);
   };
 
   const handleAdvancedClear = async () => {
@@ -110,7 +140,6 @@ export const useStockData = () => {
       expiredDate: null
     });
     
-    // Clear all query params
     queryParams.setSearchTerm("");
     queryParams.setSearchTime("");
     queryParams.setSearchDate(null);
@@ -127,39 +156,48 @@ export const useStockData = () => {
     await stockItems.fetchStockData(queryParams.buildQueryParams());
   };
   
-  // Add pagination handler methods with async fetch
   const handleNextPage = async () => {
-    queryParams.setCurrentPage(queryParams.currentPage + 1);
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    const nextPage = queryParams.currentPage + 1;
+    queryParams.setCurrentPage(nextPage);
+    
+    const updatedParams = {
+      ...queryParams.buildQueryParams(),
+      page: nextPage
+    };
+    
+    await stockItems.fetchStockData(updatedParams);
   };
 
   const handlePreviousPage = async () => {
-    queryParams.setCurrentPage(Math.max(1, queryParams.currentPage - 1));
-    await stockItems.fetchStockData(queryParams.buildQueryParams());
+    const prevPage = Math.max(1, queryParams.currentPage - 1);
+    queryParams.setCurrentPage(prevPage);
+    
+    const updatedParams = {
+      ...queryParams.buildQueryParams(),
+      page: prevPage
+    };
+    
+    await stockItems.fetchStockData(updatedParams);
   };
 
-  // Implement setPerPage with explicit return type
   const handlePerPageChange = async (newPerPage: number): Promise<void> => {
     setPerPage(newPerPage);
     
-    // Create updated parameters with new perPage value
     const updatedParams = {
       ...queryParams.buildQueryParams(),
       perPage: newPerPage,
-      page: 1, // Reset to page 1 when changing perPage
+      page: 1
     };
     
-    // Update the page in queryParams
     queryParams.setCurrentPage(1);
     
-    // Fetch with new parameters
     await stockItems.fetchStockData(updatedParams);
   };
 
   return {
     ...stockItems,
     ...queryParams,
-    perPage, // Make sure perPage is explicitly included in the return object
+    perPage,
     advancedFilterValues,
     handleSort,
     handleSearch,
@@ -168,6 +206,6 @@ export const useStockData = () => {
     handleAdvancedClear,
     handleNextPage,
     handlePreviousPage,
-    setPerPage: handlePerPageChange, // Use the handler function for setPerPage
+    setPerPage: handlePerPageChange,
   };
 };

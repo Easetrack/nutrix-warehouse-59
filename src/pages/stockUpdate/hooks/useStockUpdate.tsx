@@ -46,12 +46,23 @@ export const useStockUpdate = () => {
     selection.handleSelectAll(fetcher.filteredItems);
   };
 
+  // Modified to pass current filter values directly
   const handleSearch = () => {
     pagination.setCurrentPage(1);
-    fetcher.fetchStockData();
+    
+    // Pass current filter values directly to the fetch function
+    // This ensures we use the latest values, not depending on state updates
+    fetcher.fetchStockData({
+      searchTerm: filters.searchTerm,
+      selectedWarehouse: filters.selectedWarehouse,
+      selectedZone: filters.selectedZone,
+      selectedArea: filters.selectedArea,
+      selectedCategory: filters.selectedCategory,
+    });
   };
 
   const handleClear = () => {
+    // Reset all filters
     filters.setSearchTerm("");
     filters.setSelectedWarehouse("");
     filters.setSelectedZone("");
@@ -61,7 +72,15 @@ export const useStockUpdate = () => {
     sort.setSortDirection("asc");
     selection.setSelectedItems([]);
     pagination.setCurrentPage(1);
-    fetcher.fetchStockData();
+    
+    // Fetch with cleared filters
+    fetcher.fetchStockData({
+      searchTerm: "",
+      selectedWarehouse: "",
+      selectedZone: "",
+      selectedArea: "",
+      selectedCategory: "",
+    });
   };
 
   const handleExport = () => {

@@ -4,20 +4,30 @@ import { StockResponse } from '@/types/stockupdate/summary';
 import { StockUpdateQueryParams, StockUpdateLotQueryParams } from '@/types/stockupdate/api';
 
 /**
+ * Builds query params from the parameters object
+ * @param params Object containing filter values
+ * @returns URLSearchParams object
+ */
+const buildQueryParams = (params: Record<string, any>): URLSearchParams => {
+  const queryParams = new URLSearchParams();
+  
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      queryParams.append(key, String(value));
+    }
+  });
+
+  console.log('Query Params:', queryParams.toString());
+  return queryParams;
+};
+
+/**
  * Fetches stock update summary data with the given query parameters
  */
 export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): Promise<StockResponse> => {
   try {
     // Build query params - only include non-empty values
-    const queryParams = new URLSearchParams();
-    
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        queryParams.append(key, String(value));
-      }
-    });
-
-    console.log('Query Params:', queryParams.toString());
+    const queryParams = buildQueryParams(params);
 
     // Make API request
     const response = await apiClient.get(`/StockUpdate?${queryParams.toString()}`);
@@ -42,13 +52,7 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
 export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): Promise<StockResponse> => {
   try {
     // Build query params
-    const queryParams = new URLSearchParams();
-    
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        queryParams.append(key, String(value));
-      }
-    });
+    const queryParams = buildQueryParams(params);
 
     // Make API request
     const response = await apiClient.get(`/StockUpdate/byLot?${queryParams.toString()}`);
@@ -73,13 +77,7 @@ export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): 
 export const fetchStockUpdateByLotBatch = async (params: StockUpdateLotQueryParams): Promise<StockResponse> => {
   try {
     // Build query params
-    const queryParams = new URLSearchParams();
-    
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        queryParams.append(key, String(value));
-      }
-    });
+    const queryParams = buildQueryParams(params);
 
     // Make API request
     const response = await apiClient.get(`/StockUpdate/byLotBatch?${queryParams.toString()}`);

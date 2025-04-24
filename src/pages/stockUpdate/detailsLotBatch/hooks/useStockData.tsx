@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
@@ -71,14 +72,24 @@ export const useStockData = () => {
     // Create a new object for query params that matches StockUpdateLotQueryParams
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
     
+    // Define a list of valid keys that exist in StockUpdateLotQueryParams
+    const validKeys = [
+      'page', 'perPage', 'search', 'searchDate', 'expiredDate', 
+      'categoryId', 'typeId', 'subTypeId', 'barcode', 'productId', 
+      'productName', 'unitId', 'serialNo', 'stockId', 'zoneId', 
+      'areaId', 'subAreaId', 'searchByCategory', 'searchByType', 
+      'searchBySubType', 'searchByBarcode', 'searchByProductId', 
+      'searchByProductName', 'searchByUnit', 'searchTerm'
+    ];
+    
     // Copy primitive values that match between types
     Object.keys(values).forEach(key => {
       const typedKey = key as keyof FilterValues;
       const value = values[typedKey];
       
       if (value !== undefined && value !== null && !(value instanceof Date)) {
-        // Only assign if the key exists in StockUpdateLotQueryParams
-        if (key in StockUpdateLotQueryParams.prototype) {
+        // Only assign if the key is in our valid keys list
+        if (validKeys.includes(key)) {
           (queryParams as Record<string, string | number>)[key] = value;
         }
       }

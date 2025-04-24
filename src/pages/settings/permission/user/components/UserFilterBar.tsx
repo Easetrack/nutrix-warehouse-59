@@ -47,8 +47,7 @@ const UserFilterBar: React.FC = () => {
       
       <div className="flex-grow relative">
         <Input 
-          placeholder={t('permission.user
-.search.placeholder')} 
+          placeholder={t('permission.user.search.placeholder')} 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pr-10"
@@ -73,4 +72,3 @@ const UserFilterBar: React.FC = () => {
 };
 
 export default UserFilterBar;
-

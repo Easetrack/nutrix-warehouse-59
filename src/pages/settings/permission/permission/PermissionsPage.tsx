@@ -67,7 +67,7 @@ export default function PermissionsPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="">
       <PermissionHeader onAddPermission={() => setIsAddPermissionDialogOpen(true)} />
 
       <div className="rounded-md border bg-white">

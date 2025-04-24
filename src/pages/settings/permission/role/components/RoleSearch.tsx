@@ -3,6 +3,7 @@ import React from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface RoleSearchProps {
   searchTerm: string;
@@ -17,6 +18,8 @@ const RoleSearch: React.FC<RoleSearchProps> = ({
   onSearch,
   onClear
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="p-4">
       <div className="flex gap-2">
@@ -29,10 +32,10 @@ const RoleSearch: React.FC<RoleSearchProps> = ({
           />
         </div>
         <Button variant="default" onClick={onSearch}>
-          <Search className="size-4 mr-1" /> Search
+          <Search className="size-4 mr-1" /> {t('permission.user.search.placeholder')}
         </Button>
         <Button variant="outline" onClick={onClear}>
-          <span>Clear</span>
+          <span>{t('permission.user.clear')}</span>
         </Button>
       </div>
     </div>

@@ -15,7 +15,7 @@ const UserListView: React.FC = () => {
   } = useUserContext();
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="">
       <UserHeader />
       
       <div className="rounded-md border bg-white">

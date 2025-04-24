@@ -87,7 +87,7 @@ export default function RolesPage() {
   };
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="">
       <RoleHeader onAddRole={handleAddRole} />
       
       <div className="rounded-md border bg-white">

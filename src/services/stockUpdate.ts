@@ -2,6 +2,7 @@
 import apiClient from './api-client';
 import { StockResponse } from '@/types/stockupdate/summary';
 import { StockUpdateQueryParams, StockUpdateLotQueryParams } from '@/types/stockupdate/api';
+import { format } from 'date-fns';
 
 /**
  * Builds query params from the parameters object
@@ -13,7 +14,12 @@ const buildQueryParams = (params: Record<string, any>): URLSearchParams => {
   
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== '') {
-      queryParams.append(key, String(value));
+      // Handle Date objects by formatting them to strings
+      if (value instanceof Date) {
+        queryParams.append(key, format(value, 'MM-dd-yyyy'));
+      } else {
+        queryParams.append(key, String(value));
+      }
     }
   });
 

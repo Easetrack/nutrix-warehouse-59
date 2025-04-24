@@ -13,6 +13,8 @@ interface QueryBuilderProps {
   selectedSubArea: string;
   searchDate?: Date | null;
   expiredDate?: Date | null;
+  sortColumn?: string | null;
+  sortDirection?: "asc" | "desc";
 }
 
 export const useQueryBuilder = () => {
@@ -27,6 +29,8 @@ export const useQueryBuilder = () => {
     selectedSubArea,
     searchDate,
     expiredDate,
+    sortColumn,
+    sortDirection,
   }: QueryBuilderProps): StockUpdateQueryParams => {
     // Initialize with required params
     const params: StockUpdateQueryParams = {
@@ -74,6 +78,12 @@ export const useQueryBuilder = () => {
 
     if (expiredDate) {
       params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
+    }
+
+    // Add sorting if provided
+    if (sortColumn) {
+      const sortParam = `sortBy${sortColumn[0]?.toUpperCase()}${sortColumn?.slice(1)}`;
+      params[sortParam as keyof StockUpdateQueryParams] = sortDirection || "asc";
     }
 
     return params;

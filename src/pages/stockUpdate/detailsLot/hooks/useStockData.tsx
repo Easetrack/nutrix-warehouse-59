@@ -1,4 +1,6 @@
+
 import { useState, useEffect } from "react";
+import { format } from "date-fns";
 import { FilterValues } from "@/types/filter";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useQueryParams } from "../../hooks/useQueryParams";
@@ -88,6 +90,7 @@ export const useStockData = () => {
   const handleAdvancedSearch = async (values: FilterValues) => {
     setAdvancedFilterValues(values);
     
+    // Update queryParams with all relevant filter values
     if (values.searchTerm !== undefined) {
       queryParams.setSearchTerm(values.searchTerm);
     }
@@ -112,12 +115,14 @@ export const useStockData = () => {
     
     queryParams.setCurrentPage(1);
     
+    // Create parameters object with appropriate type handling for dates
     const directParams = {
       page: 1,
       perPage: perPage,
       searchTerm: values.searchTerm,
-      searchDate: values.date,
-      expiredDate: values.expiredDate,
+      // Format dates as strings if they exist
+      searchDate: values.date ? format(values.date, 'MM-dd-yyyy') : undefined,
+      expiredDate: values.expiredDate ? format(values.expiredDate, 'MM-dd-yyyy') : undefined,
       selectedWarehouse: values.warehouse,
       selectedZone: values.zone,
       selectedArea: values.area,

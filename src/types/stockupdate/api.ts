@@ -1,3 +1,4 @@
+
 export interface StockUpdateQueryParams {
   page?: number;
   perPage?: number;
@@ -23,6 +24,7 @@ export interface StockUpdateQueryParams {
   searchByProductId?: string;
   searchByProductName?: string;
   searchByUnit?: string;
+  [key: string]: string | number | undefined; // Allow dynamic properties for sorting
 }
 
 export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
@@ -36,5 +38,4 @@ export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
   sortByQty?: "asc" | "desc";
   sortByTags?: "asc" | "desc";
   sortByNonTags?: "asc" | "desc";
-  [key: string]: string | number | undefined;
 }

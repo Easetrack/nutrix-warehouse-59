@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -36,17 +35,12 @@ const CreatePicking = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [items, setItems] = useState<Item[]>([]);
 
-  const handleAddItem = () => {
-    const newItem: Item = {
-      no: items.length + 1,
-      barcode: '250201017002',
-      itemCode: '25020102',
-      itemName: 'PerfectUV Protector S',
-      uom: 'Tube',
-      requestFromWarehouse: 'Bangkok WH1',
-      qty: 15.00
+  const handleAddItem = (newItem: Item) => {
+    const itemWithNumber = {
+      ...newItem,
+      no: items.length + 1
     };
-    setItems([...items, newItem]);
+    setItems([...items, itemWithNumber]);
   };
 
   const handleSave = () => {

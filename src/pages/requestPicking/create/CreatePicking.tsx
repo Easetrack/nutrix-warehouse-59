@@ -10,6 +10,13 @@ import { ItemsTable } from './ItemsTable';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { useToast } from '@/hooks/use-toast';
 
+interface Customer {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+}
+
 interface Item {
   no: number;
   barcode: string;
@@ -26,6 +33,7 @@ const CreatePicking = () => {
   const [isEditable, setIsEditable] = useState(true);
   const [showApproveDialog, setShowApproveDialog] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [items, setItems] = useState<Item[]>([]);
 
   const handleAddItem = () => {
@@ -42,10 +50,37 @@ const CreatePicking = () => {
   };
 
   const handleSave = () => {
+    if (!selectedCustomer) {
+      toast({
+        title: "Error",
+        description: "Please select a customer before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (items.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please add at least one item before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsEditable(false);
     toast({
       title: "Saved Successfully",
       description: "Your picking request has been saved.",
+    });
+  };
+
+  const handleClear = () => {
+    setSelectedCustomer(null);
+    setItems([]);
+    toast({
+      title: "Cleared",
+      description: "Form has been cleared.",
     });
   };
 
@@ -62,7 +97,7 @@ const CreatePicking = () => {
     navigate('/request-picking');
     toast({
       title: "Cancel Success",
-      description: "Your Cancel for Picking has been Approved successfully.",
+      description: "Your Cancel for Picking has been processed successfully.",
     });
   };
 
@@ -86,7 +121,7 @@ const CreatePicking = () => {
                 <Save className="h-4 w-4" />
                 Save
               </Button>
-              <Button variant="outline" size="default" className="gap-2">
+              <Button variant="outline" size="default" className="gap-2" onClick={handleClear}>
                 <RotateCcw className="h-4 w-4" />
                 Clear
               </Button>
@@ -123,8 +158,8 @@ const CreatePicking = () => {
 
       <div className='mb-6 rounded-lg border border-bg bg-card shadow'>
         <CustomerSection
-          selectedCustomer={null}
-          onSelectCustomer={() => {}}
+          selectedCustomer={selectedCustomer}
+          onSelectCustomer={setSelectedCustomer}
           isEditable={isEditable}
         />
         <PickingRequestSection isEditable={isEditable} />

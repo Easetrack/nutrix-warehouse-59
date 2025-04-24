@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { FilterState } from "@/types/filter";
+import { FilterValues } from "@/types/filter";
 
 export const useFilterState = () => {
   const [searchTerm, setSearchTerm] = useState("");

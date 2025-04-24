@@ -10,7 +10,7 @@ import { useEffect, useCallback, useState } from "react";
 
 export const useStockUpdate = () => {
   const { locationId } = useStockUpdateAuth();
-  const filters = useStockUpdateFilters();
+  const filters = useStockUpdateFilters(handleFetchData); // Will be initialized properly
   const pagination = useStockUpdatePagination();
   const sort = useStockUpdateSort();
   const selection = useStockUpdateSelection();
@@ -20,7 +20,7 @@ export const useStockUpdate = () => {
   const [showFilters, setShowFilters] = useState(true);
   const { toast } = useToast();
 
-  // Fetch logic
+  // Fetch logic - Note we've had to move this up since filters uses it
   const fetcher = useStockUpdateFetch({
     filters,
     sort,
@@ -28,6 +28,11 @@ export const useStockUpdate = () => {
     perPage: pagination.perPage,
     locationId
   });
+
+  // Define handleFetchData function that was passed to filters
+  function handleFetchData(params?: any) {
+    return fetcher.fetchStockData(params);
+  }
 
   // Triggers
   useEffect(() => {

@@ -14,6 +14,7 @@ export const useStockData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
   
   const handleFetchData = async (params: any) => {
     const queryParams = {
@@ -61,6 +62,31 @@ export const useStockData = () => {
     setCurrentPage(1);
     await handleFetchData({ page: 1, perPage: newPerPage });
   };
+  
+  const handleAdvancedSearch = async (values: FilterValues) => {
+    setAdvancedFilterValues(values);
+    setCurrentPage(1);
+    await handleFetchData(values);
+  };
+  
+  const handleAdvancedClear = async () => {
+    setAdvancedFilterValues({});
+    setCurrentPage(1);
+    await handleFetchData({});
+  };
+  
+  const handleSearch = async () => {
+    setCurrentPage(1);
+    await handleFetchData({
+      searchTerm: filters.searchTerm
+    });
+  };
+  
+  const handleClear = async () => {
+    filters.setSearchTerm("");
+    setCurrentPage(1);
+    await handleFetchData({});
+  };
 
   return {
     ...stockItems,
@@ -76,5 +102,11 @@ export const useStockData = () => {
     handleNextPage,
     handlePreviousPage,
     handlePerPageChange,
+    setPerPage,
+    advancedFilterValues,
+    handleAdvancedSearch,
+    handleAdvancedClear,
+    handleSearch,
+    handleClear
   };
 };

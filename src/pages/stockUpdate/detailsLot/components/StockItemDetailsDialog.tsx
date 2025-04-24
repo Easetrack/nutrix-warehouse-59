@@ -6,12 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/types/stockupdate/lot";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  selectedItem: StockItem | null;
+  selectedItem: StockItem | null | unknown;
 }
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
@@ -19,7 +19,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   setIsOpen,
   selectedItem,
 }) => {
-  if (!selectedItem) return null;
+  // Type guard to ensure selectedItem is of type StockItem
+  if (!selectedItem || typeof selectedItem !== 'object') return null;
+  
+  const item = selectedItem as StockItem;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -31,8 +34,8 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
         <div className="grid gap-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
             <img
-              src={selectedItem.image || "/placeholder.svg"}
-              alt={selectedItem.productName}
+              src={item.image || "/placeholder.svg"}
+              alt={item.productName}
               className="h-48 w-48 rounded-lg object-cover"
               onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
             />
@@ -41,10 +44,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div>
               <h3 className="text-xl font-bold text-gray-900">
-                {selectedItem.productName}
+                {item.productName}
               </h3>
               <p className="text-sm text-gray-500">
-                {selectedItem.productId}
+                {item.productId}
               </p>
             </div>
 
@@ -52,21 +55,21 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <div className="space-y-1">
                 <p className="text-xs text-gray-500">Category</p>
                 <p className="text-sm font-medium">
-                  {selectedItem.categoryName}
+                  {item.categoryName}
                 </p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-gray-500">Type</p>
-                <p className="text-sm font-medium">{selectedItem.typeName}</p>
+                <p className="text-sm font-medium">{item.typeName}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-gray-500">Barcode</p>
-                <p className="text-sm font-medium">{selectedItem.barcode}</p>
+                <p className="text-sm font-medium">{item.barcode}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-xs text-gray-500">Quantity</p>
                 <p className="text-sm font-medium">
-                  {selectedItem.qty} {selectedItem.unitName}
+                  {item.qty} {item.unitName}
                 </p>
               </div>
             </div>
@@ -75,31 +78,31 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Brand</p>
                 <p className="text-sm font-medium">
-                  {selectedItem.brand || "N/A"}
+                  {item.brand || "N/A"}
                 </p>
               </div>
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Style No</p>
-                <p className="text-sm font-medium">{selectedItem.styleNo || "N/A"}</p>
+                <p className="text-sm font-medium">{item.styleNo || "N/A"}</p>
               </div>
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Color</p>
-                <p className="text-sm font-medium">{selectedItem.color || "N/A"}</p>
+                <p className="text-sm font-medium">{item.color || "N/A"}</p>
               </div>
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Size</p>
-                <p className="text-sm font-medium">{selectedItem.size || "N/A"}</p>
+                <p className="text-sm font-medium">{item.size || "N/A"}</p>
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Tags</p>
-                <p className="text-sm font-medium">{selectedItem.tags}</p>
+                <p className="text-sm font-medium">{item.tags}</p>
               </div>
               <div className="flex justify-between">
                 <p className="text-xs text-gray-500">Non-Tags</p>
-                <p className="text-sm font-medium">{selectedItem.nonTags}</p>
+                <p className="text-sm font-medium">{item.nonTags}</p>
               </div>
             </div>
           </div>
@@ -110,15 +113,15 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Category</span>
-                  <span>{selectedItem.categoryName}</span>
+                  <span>{item.categoryName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Type</span>
-                  <span>{selectedItem.typeName}</span>
+                  <span>{item.typeName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sub Type</span>
-                  <span>{selectedItem.subTypeName}</span>
+                  <span>{item.subTypeName}</span>
                 </div>
               </div>
             </div>

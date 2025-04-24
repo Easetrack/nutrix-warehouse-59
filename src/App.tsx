@@ -1,3 +1,4 @@
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -50,8 +51,6 @@ import RoleRoutes from "./pages/settings/permission/role/components/RoleRoutes";
 import { useEffect } from "react";
 import { useCompany } from "@/contexts/CompanyContext";
 
-// const queryClient = new QueryClient();
-
 function App() {
   const { companyData } = useCompany();
 
@@ -101,6 +100,7 @@ function App() {
                     <Route path="/stock/details" element={<ProtectedRoute><SummaryStockUpdateDetail /></ProtectedRoute>} />
                     <Route path="/receiving" element={<ProtectedRoute><Receiving /></ProtectedRoute>} />
                     <Route path="/request-picking" element={<ProtectedRoute><RequestPicking /></ProtectedRoute>} />
+                    <Route path="/request-picking/create" element={<ProtectedRoute><CreatePicking /></ProtectedRoute>} />
                     <Route path="/packing-ptw" element={<ProtectedRoute><PackingPTW /></ProtectedRoute>} />
                     <Route path="/settings/product" element={
                       <ProtectedRoute>
@@ -137,20 +137,10 @@ function App() {
               <ThemeCustomizer />
               <Toaster />
               <Sonner />
-              {/* {
-              process.env.NODE_ENV === 'development' && (
-                <ReactQueryDevtools
-                  initialIsOpen={false}
-                  position="bottom-right"
-                  toggleButtonProps={{ style: { bottom: '4rem' } }}
-                />
-              )
-            } */}
             </div>
           </CompanyProvider>
         </TooltipProvider>
       </AuthProvider>
-
     </QueryClientProvider>
   );
 }

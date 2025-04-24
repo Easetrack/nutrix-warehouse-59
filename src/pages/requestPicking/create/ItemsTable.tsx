@@ -13,9 +13,10 @@ interface Item {
 
 interface ItemsTableProps {
   items: Item[];
+  isEditable?: boolean;
 }
 
-export const ItemsTable = ({ items }: ItemsTableProps) => {
+export const ItemsTable = ({ items, isEditable = true }: ItemsTableProps) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       <table className="min-w-full">

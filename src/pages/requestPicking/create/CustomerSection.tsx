@@ -12,9 +12,10 @@ interface Customer {
 interface CustomerSectionProps {
   selectedCustomer: Customer | null;
   onSelectCustomer: (customer: Customer) => void;
+  isEditable?: boolean;
 }
 
-export const CustomerSection = ({ selectedCustomer, onSelectCustomer }: CustomerSectionProps) => {
+export const CustomerSection = ({ selectedCustomer, onSelectCustomer, isEditable = true }: CustomerSectionProps) => {
   const [customers] = useState<Customer[]>([
     { id: '001', name: 'Tisis Company', address: '', phone: '' },
     { id: '002', name: 'Smart Reform Plus', address: '319 Chamchuri Square Building 24th Floor, Pathum Wan, Bangkok 10330', phone: '02-610-3168' },
@@ -52,8 +53,9 @@ export const CustomerSection = ({ selectedCustomer, onSelectCustomer }: Customer
               setShowCustomerDropdown(true);
             }}
             className="w-full"
+            readOnly={!isEditable}
           />
-          {showCustomerDropdown && filteredCustomers.length > 0 && (
+          {isEditable && showCustomerDropdown && filteredCustomers.length > 0 && (
             <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
               {filteredCustomers.map((customer) => (
                 <div

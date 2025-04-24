@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LocationSelectors } from "./LocationSelectors";
 import { LocationType } from "@/modules/location/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LocationFormProps {
   onSubmit: (e: React.FormEvent) => void;
@@ -32,12 +33,14 @@ export const LocationForm: React.FC<LocationFormProps> = ({
   editing,
   onClose,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
       <Input
         name="id"
         defaultValue={editing?.id || ""}
-        placeholder="Enter Location ID"
+        placeholder={t('location.enterLocationId')}
         className="bg-gray-50"
         required
       />
@@ -56,7 +59,7 @@ export const LocationForm: React.FC<LocationFormProps> = ({
       <Input
         name="type"
         defaultValue={editing?.type || ""}
-        placeholder="Select Location Type"
+        placeholder={t('location.type')}
         className="bg-gray-50"
         required
       />
@@ -64,7 +67,7 @@ export const LocationForm: React.FC<LocationFormProps> = ({
       <Input
         name="capacity"
         defaultValue={editing?.capacity?.toString() || ""}
-        placeholder={editing ? "Capacity (%)" : "Enter Initial Capacity (%)"}
+        placeholder={editing ? t('location.capacity') : t('location.enterCapacity')}
         className="bg-gray-50"
         required
         type="number"
@@ -74,10 +77,10 @@ export const LocationForm: React.FC<LocationFormProps> = ({
 
       <div className="flex justify-end gap-2 mt-6">
         <Button type="button" variant="outline" onClick={onClose}>
-          Cancel
+          {t('action.cancel')}
         </Button>
         <Button type="submit" variant="success">
-          {editing ? "Update Location" : "Add Location"}
+          {editing ? t('action.update') : t('action.add')}
         </Button>
       </div>
     </form>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { LocationForm } from "./components/LocationForm";
 import { LocationType } from "@/modules/location/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LocationAddEditModalProps {
   show: boolean;
@@ -17,6 +18,7 @@ const LocationAddEditModal: React.FC<LocationAddEditModalProps> = ({
   onClose,
   onSubmit
 }) => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [selectedWarehouse, setSelectedWarehouse] = useState(editing?.name || "");
   const [selectedZone, setSelectedZone] = useState(editing?.zone || "");
@@ -35,8 +37,8 @@ const LocationAddEditModal: React.FC<LocationAddEditModalProps> = ({
 
     if (!selectedWarehouse || !selectedZone || !selectedArea || !selectedSubArea) {
       toast({
-        title: "Validation Error",
-        description: "Please select all location fields",
+        title: t('message.error'),
+        description: t('message.selectOption'),
         variant: "destructive"
       });
       return;
@@ -64,10 +66,10 @@ const LocationAddEditModal: React.FC<LocationAddEditModalProps> = ({
           &times;
         </button>
         <h2 className="text-xl font-bold mb-2">
-          {editing ? "Edit Location" : "Add New Location"}
+          {editing ? t('location.editLocation') : t('location.addNew')}
         </h2>
         <p className="text-muted-foreground mb-6">
-          {editing ? `Update the details for ${editing.id}` : "Enter the details for the new location"}
+          {editing ? `${t('location.editLocation')} ${editing.id}` : t('location.addNew')}
         </p>
         <LocationForm
           onSubmit={handleSubmit}

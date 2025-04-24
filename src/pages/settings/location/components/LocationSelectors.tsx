@@ -2,6 +2,7 @@
 import React from "react";
 import { FilterSelect } from "@/components/ui/custom/filter/FilterSelect";
 import { useLocationOptions } from "@/modules/location/hooks/useLocationOptions";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LocationSelectorsProps {
   selectedWarehouse: string;
@@ -24,6 +25,7 @@ export const LocationSelectors: React.FC<LocationSelectorsProps> = ({
   setSelectedArea,
   setSelectedSubArea,
 }) => {
+  const { t } = useLanguage();
   const {
     warehouses,
     zones,
@@ -38,39 +40,39 @@ export const LocationSelectors: React.FC<LocationSelectorsProps> = ({
   return (
     <>
       <FilterSelect
-        label="Warehouse"
+        label={t('location.warehouse')}
         value={selectedWarehouse}
         options={warehouses}
-        placeholder="Select Warehouse"
+        placeholder={t('location.selectWarehouse')}
         onValueChange={setSelectedWarehouse}
         isLoading={isLoadingWarehouses}
       />
 
       <FilterSelect
-        label="Zone"
+        label={t('location.zone')}
         value={selectedZone}
         options={zones}
-        placeholder="Select Zone"
+        placeholder={t('location.selectZone')}
         onValueChange={setSelectedZone}
         isLoading={isLoadingZones}
         disabled={!selectedWarehouse}
       />
 
       <FilterSelect
-        label="Area"
+        label={t('location.area')}
         value={selectedArea}
         options={areas}
-        placeholder="Select Area"
+        placeholder={t('location.selectArea')}
         onValueChange={setSelectedArea}
         isLoading={isLoadingAreas}
         disabled={!selectedZone}
       />
 
       <FilterSelect
-        label="Sub Area"
+        label={t('location.subArea')}
         value={selectedSubArea}
         options={subAreas}
-        placeholder="Select Sub Area"
+        placeholder={t('location.selectSubArea')}
         onValueChange={setSelectedSubArea}
         isLoading={isLoadingSubAreas}
         disabled={!selectedArea}

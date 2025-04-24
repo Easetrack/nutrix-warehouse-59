@@ -86,6 +86,7 @@ const CreatePicking = () => {
 
   const handleApproveConfirm = () => {
     setShowApproveDialog(false);
+    navigate('/request-picking');
     toast({
       title: "Approved Success",
       description: "Your Request for Picking has been Approved successfully.",

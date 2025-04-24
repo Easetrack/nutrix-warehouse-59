@@ -8,6 +8,7 @@ import { useItemSelection } from "./useItemSelection";
 import { useStockAuth } from "./useStockAuth";
 import { useSortHandler } from "./useSortHandler";
 import { useSearchHandler } from "./useSearchHandler";
+import { StockQueryParams  } from "./types"
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();

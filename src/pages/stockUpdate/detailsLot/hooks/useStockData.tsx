@@ -69,23 +69,30 @@ export const useStockData = () => {
     setAdvancedFilterValues(values);
     setCurrentPage(1);
     
-    // Create a new object for query params without the FilterValues properties that don't match
-    const queryParams: Partial<StockUpdateLotQueryParams> = { ...values };
+    // Create a new object for query params that matches StockUpdateLotQueryParams
+    const queryParams: Partial<StockUpdateLotQueryParams> = {};
     
-    // Convert Date objects to strings before passing to handleFetchData
+    // Copy primitive values that match between types
+    Object.keys(values).forEach(key => {
+      const typedKey = key as keyof FilterValues;
+      if (values[typedKey] !== undefined && values[typedKey] !== null) {
+        // Skip Date objects for now as they need special handling
+        if (!(values[typedKey] instanceof Date)) {
+          (queryParams as any)[key] = values[typedKey];
+        }
+      }
+    });
+    
+    // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');
-      delete queryParams.date; // Remove the date property as it's not in StockUpdateLotQueryParams
     }
     
-    if (values.expiredDate && values.expiredDate instanceof Date) {
-      const formattedDate = format(values.expiredDate, 'MM-dd-yyyy');
-      // Create a new object without the expiredDate from values and add the formatted string
-      delete queryParams.expiredDate;
-      (queryParams as Partial<StockUpdateLotQueryParams>).expiredDate = formattedDate;
+    if (values.expiredDate) {
+      queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
     
-    await handleFetchData(queryParams as Partial<StockUpdateLotQueryParams>);
+    await handleFetchData(queryParams);
   };
   
   const handleAdvancedClear = async () => {

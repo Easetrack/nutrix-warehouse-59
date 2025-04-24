@@ -21,8 +21,9 @@ export const useLocationOptions = () => {
       const data = await fetchWarehouses();
       setWarehouses(
         data.map((item) => ({
-          label: item.name,
-          value: item.name,
+          id: item.id,
+          name: item.name,
+          code: item.id // Using id as code for consistency
         }))
       );
     } catch (error) {
@@ -40,8 +41,9 @@ export const useLocationOptions = () => {
       const data = await fetchZones(warehouse);
       setZones(
         data.map((item) => ({
-          label: item.name,
-          value: item.name,
+          id: item.id,
+          name: item.name,
+          code: item.code
         }))
       );
     } catch (error) {
@@ -59,8 +61,9 @@ export const useLocationOptions = () => {
       const data = await fetchAreas(zone, warehouse);
       setAreas(
         data.map((item) => ({
-          label: item.name,
-          value: item.name,
+          id: item.id,
+          name: item.name,
+          code: item.code
         }))
       );
     } catch (error) {
@@ -79,8 +82,9 @@ export const useLocationOptions = () => {
         const data = await fetchSubAreas(zone, area, warehouse);
         setSubAreas(
           data.map((item) => ({
-            label: item.name,
-            value: item.name,
+            id: item.id,
+            name: item.name,
+            code: item.code
           }))
         );
       } catch (error) {

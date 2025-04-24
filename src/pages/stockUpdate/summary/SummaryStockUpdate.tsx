@@ -28,7 +28,6 @@ const SummaryStockUpdate = () => {
     totalCount,
     sortColumn,
     sortDirection,
-    fetchStockData,
     handleSort,
     handleNextPage,
     handlePreviousPage,
@@ -49,7 +48,6 @@ const SummaryStockUpdate = () => {
     setSelectedCategory,
     selectedUoM,
     setSelectedUoM,
-    setCurrentPage,
     setSortColumn,
     setSortDirection,
     // Add handlers we created in the hook

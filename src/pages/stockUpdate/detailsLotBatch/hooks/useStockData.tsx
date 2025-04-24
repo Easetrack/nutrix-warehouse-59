@@ -4,6 +4,7 @@ import { useStockAuth } from "../../hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
 import { useStockUpdateFilters } from "../../hooks/useStockUpdateFilters";
 import { FilterValues } from "@/types/filter";
+import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
@@ -16,8 +17,8 @@ export const useStockData = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
 
-  const handleFetchData = async (params: any) => {
-    const queryParams = {
+  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
+    const queryParams: StockUpdateLotQueryParams = {
       ...params,
       page: currentPage,
       perPage: perPage,

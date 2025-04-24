@@ -4,6 +4,7 @@ import { navigationTranslations } from './navigation';
 import { settingsTranslations } from './settings';
 import { locationTranslations } from './location';
 import { validationTranslations } from './validation';
+import { stockTranslations } from './stock';
 import { TranslationKey } from '../types';
 
 export const translations: TranslationKey = {
@@ -16,4 +17,5 @@ export const translations: TranslationKey = {
   ...settingsTranslations,
   ...locationTranslations,
   ...validationTranslations,
+  ...stockTranslations,
 };

@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StockItem } from "@/types/stockupdate/summary";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
@@ -26,6 +27,8 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
   handleSort,
   handleViewDetail,
 }) => {
+  const { t } = useLanguage();
+  
   const renderSortIndicator = (column: string) => {
     if (sortColumn !== column) {
       return <ArrowUpDown className="ml-1 h-4 w-4" />;
@@ -43,14 +46,14 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-16 whitespace-nowrap">No.</TableHead>
-              <TableHead className="w-20 whitespace-nowrap">Image</TableHead>
+              <TableHead className="w-16 whitespace-nowrap">{t('stock.table.no')}</TableHead>
+              <TableHead className="w-20 whitespace-nowrap">{t('stock.table.image')}</TableHead>
               <TableHead
                 className="w-25 cursor-pointer whitespace-nowrap"
                 onClick={() => handleSort("productId")}
               >
                 <div className="flex items-center">
-                  Item ID
+                  {t('stock.table.itemId')}
                   {renderSortIndicator("productId")}
                 </div>
               </TableHead>
@@ -59,7 +62,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("productName")}
               >
                 <div className="flex items-center">
-                  Item Name
+                  {t('stock.table.itemName')}
                   {renderSortIndicator("productName")}
                 </div>
               </TableHead>
@@ -68,7 +71,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("lotNumber")}
               >
                 <div className="flex items-center">
-                  Total Lot
+                  {t('stock.table.totalLot')}
                   {renderSortIndicator("lotNumber")}
                 </div>
               </TableHead>
@@ -77,7 +80,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("qty")}
               >
                 <div className="flex items-center">
-                  Total Qty
+                  {t('stock.table.totalQty')}
                   {renderSortIndicator("qty")}
                 </div>
               </TableHead>
@@ -86,7 +89,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("unitName")}
               >
                 <div className="flex items-center">
-                  UoM
+                  {t('stock.table.uom')}
                   {renderSortIndicator("unitName")}
                 </div>
               </TableHead>
@@ -95,7 +98,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("categoryName")}
               >
                 <div className="flex items-center">
-                  Category
+                  {t('stock.table.category')}
                   {renderSortIndicator("categoryName")}
                 </div>
               </TableHead>
@@ -104,7 +107,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 onClick={() => handleSort("locations")}
               >
                 <div className="flex items-center justify-end">
-                  Total Location
+                  {t('stock.table.totalLocation')}
                   {renderSortIndicator("locations")}
                 </div>
               </TableHead>
@@ -114,7 +117,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
             {filteredItems.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={12} className="h-24 text-center">
-                  No items found.
+                  {t('common.noResults')}
                 </TableCell>
               </TableRow>
             ) : (

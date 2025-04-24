@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { StockItem } from "@/types/stockupdate/summary";
 import { useFilterState } from "./useFilterState";
@@ -8,7 +9,7 @@ import { useItemSelection } from "./useItemSelection";
 import { useStockAuth } from "./useStockAuth";
 import { useSortHandler } from "./useSortHandler";
 import { useSearchHandler } from "./useSearchHandler";
-import { StockQueryParams  } from "./types"
+import { StockQueryParams, AdvancedSearchValues } from "./types"
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
@@ -70,9 +71,9 @@ export const useStockData = () => {
 
   const { buildQueryParams } = useQueryBuilder();
 
-  // Modified to accept direct parameters
-  const fetchStockData = async (directParams?: any) => {
-    let params;
+  // Modified to accept direct parameters with proper type
+  const fetchStockData = async (directParams?: StockQueryParams) => {
+    let params: StockQueryParams;
     
     if (directParams) {
       // Use direct params if provided
@@ -184,7 +185,7 @@ export const useStockData = () => {
     await fetchStockData(params);
   };
 
-  const handleAdvancedSearch = async (values: any) => {
+  const handleAdvancedSearch = async (values: AdvancedSearchValues) => {
     // Update state values first
     if (values.searchTerm !== undefined) setSearchTerm(values.searchTerm);
     if (values.warehouse !== undefined) setSelectedWarehouse(values.warehouse);

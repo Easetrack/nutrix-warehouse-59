@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
@@ -75,10 +74,12 @@ export const useStockData = () => {
     // Copy primitive values that match between types
     Object.keys(values).forEach(key => {
       const typedKey = key as keyof FilterValues;
-      if (values[typedKey] !== undefined && values[typedKey] !== null) {
-        // Skip Date objects for now as they need special handling
-        if (!(values[typedKey] instanceof Date)) {
-          (queryParams as any)[key] = values[typedKey];
+      const value = values[typedKey];
+      
+      if (value !== undefined && value !== null && !(value instanceof Date)) {
+        // Only assign if the key exists in StockUpdateLotQueryParams
+        if (key in StockUpdateLotQueryParams.prototype) {
+          (queryParams as Record<string, string | number>)[key] = value;
         }
       }
     });

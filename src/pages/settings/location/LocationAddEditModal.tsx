@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { FilterSelect } from "@/components/ui/custom/filter/FilterSelect";
+import { useLocationOptions } from "@/hooks/filter/useLocationOptions";
 
 interface LocationType {
   id: string;
@@ -28,6 +30,44 @@ const LocationAddEditModal: React.FC<LocationAddEditModalProps> = ({
   onClose,
   onSubmit
 }) => {
+  const { toast } = useToast();
+  const {
+    warehouses,
+    zones,
+    areas,
+    subAreas,
+    isLoadingWarehouses,
+    isLoadingZones,
+    isLoadingAreas,
+    isLoadingSubAreas,
+    loadZones,
+    loadAreas,
+    loadSubAreas,
+  } = useLocationOptions();
+
+  const [selectedWarehouse, setSelectedWarehouse] = React.useState(editing?.name || "");
+  const [selectedZone, setSelectedZone] = React.useState(editing?.zone || "");
+  const [selectedArea, setSelectedArea] = React.useState(editing?.area || "");
+  const [selectedSubArea, setSelectedSubArea] = React.useState(editing?.subArea || "");
+
+  useEffect(() => {
+    if (selectedWarehouse) {
+      loadZones(selectedWarehouse);
+    }
+  }, [selectedWarehouse]);
+
+  useEffect(() => {
+    if (selectedWarehouse && selectedZone) {
+      loadAreas(selectedZone, selectedWarehouse);
+    }
+  }, [selectedZone]);
+
+  useEffect(() => {
+    if (selectedWarehouse && selectedZone && selectedArea) {
+      loadSubAreas(selectedZone, selectedArea, selectedWarehouse);
+    }
+  }, [selectedArea]);
+
   if (!show && !editing) return null;
 
   return (
@@ -44,31 +84,74 @@ const LocationAddEditModal: React.FC<LocationAddEditModalProps> = ({
           e.preventDefault();
           const form = e.target as typeof e.target & {
             id: { value: string };
-            name: { value: string };
-            zone: { value: string };
-            area: { value: string };
-            subArea: { value: string };
             type: { value: string };
             capacity: { value: string };
           };
+          
+          if (!selectedWarehouse || !selectedZone || !selectedArea || !selectedSubArea) {
+            toast({
+              title: "Validation Error",
+              description: "Please select all location fields",
+              variant: "destructive"
+            });
+            return;
+          }
+
           const newLoc: LocationType = {
             id: form.id.value,
-            name: form.name.value,
-            zone: form.zone.value,
-            area: form.area.value,
-            subArea: form.subArea.value,
+            name: selectedWarehouse,
+            zone: selectedZone,
+            area: selectedArea,
+            subArea: selectedSubArea,
             type: form.type.value,
             capacity: Number(form.capacity.value)
           };
           onSubmit(newLoc, editing);
         }}>
           <Input name="id" defaultValue={editing?.id || ""} placeholder="Enter Location ID" className="bg-gray-50" required />
-          <Input name="name" defaultValue={editing?.name || ""} placeholder="Enter Warehouse" className="bg-gray-50" required />
-          <Input name="zone" defaultValue={editing?.zone || ""} placeholder="Enter Zone" className="bg-gray-50" required />
-          <Input name="area" defaultValue={editing?.area || ""} placeholder="Enter Area" className="bg-gray-50" required />
-          <Input name="subArea" defaultValue={editing?.subArea || ""} placeholder="Enter Sub Area" className="bg-gray-50" required />
+          
+          <FilterSelect
+            label="Warehouse"
+            value={selectedWarehouse}
+            options={warehouses}
+            placeholder="Select Warehouse"
+            onValueChange={setSelectedWarehouse}
+            isLoading={isLoadingWarehouses}
+          />
+
+          <FilterSelect
+            label="Zone"
+            value={selectedZone}
+            options={zones}
+            placeholder="Select Zone"
+            onValueChange={setSelectedZone}
+            isLoading={isLoadingZones}
+            disabled={!selectedWarehouse}
+          />
+
+          <FilterSelect
+            label="Area"
+            value={selectedArea}
+            options={areas}
+            placeholder="Select Area"
+            onValueChange={setSelectedArea}
+            isLoading={isLoadingAreas}
+            disabled={!selectedZone}
+          />
+
+          <FilterSelect
+            label="Sub Area"
+            value={selectedSubArea}
+            options={subAreas}
+            placeholder="Select Sub Area"
+            onValueChange={setSelectedSubArea}
+            isLoading={isLoadingSubAreas}
+            disabled={!selectedArea}
+          />
+
           <Input name="type" defaultValue={editing?.type || ""} placeholder="Select Location Type" className="bg-gray-50" required />
           <Input name="capacity" defaultValue={editing?.capacity?.toString() || ""} placeholder={editing ? "Capacity (%)" : "Enter Initial Capacity (%)"} className="bg-gray-50" required type="number" min={0} max={100} />
+          
           <div className="flex justify-end gap-2 mt-6">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel

@@ -1,3 +1,4 @@
+
 export const commonTranslations = {
   'common.loading': {
     en: 'Loading...',
@@ -62,9 +63,5 @@ export const commonTranslations = {
   'common.export': {
     en: 'Export',
     th: 'ส่งออก'
-  },
-  'common.noResults': {
-    en: 'No results found.',
-    th: 'ไม่พบข้อมูล'
-  },
+  }
 } as const;

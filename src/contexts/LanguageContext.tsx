@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 type Language = 'en' | 'th';
@@ -87,6 +88,14 @@ const translations: Translations = {
   'settings.permission': {
     en: 'Permission',
     th: 'การอนุญาต'
+  },
+  'settings.users': {
+    en: 'Users',
+    th: 'ผู้ใช้งาน'
+  },
+  'settings.usersDescription': {
+    en: 'Manage system users and their permissions',
+    th: 'จัดการผู้ใช้ระบบและสิทธิ์ของพวกเขา'
   },
   'common.loading': {
     en: 'Loading...',
@@ -520,19 +529,12 @@ const translations: Translations = {
     th: 'กรุณาเลือกตัวเลือก'
   },
 
-  // Validation messages
-  'validation.required': {
-    en: 'This field is required',
-    th: 'จำเป็นต้องกรอกข้อมูลนี้'
-  },
+  // Validation messages - removed duplicate entry
   'validation.invalidFormat': {
     en: 'Invalid format',
     th: 'รูปแบบไม่ถูกต้อง'
   },
-  'validation.minLength': {
-    en: 'Must be at least {0} characters',
-    th: 'ต้องมีอย่างน้อย {0} ตัวอักษร'
-  },
+  // Note: validation.minLength was moved up to avoid duplication
   'validation.maxLength': {
     en: 'Must not exceed {0} characters',
     th: 'ต้องไม่เกิน {0} ตัวอักษร'

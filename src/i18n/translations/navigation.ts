@@ -40,11 +40,11 @@ export const navigationTranslations = {
     th: 'ผู้ใช้งาน'
   },
   'nav.settings.permission.role': {
-    en: 'Role',
-    th: 'ตั้งบทบาบทบาททค่า'
+    en: 'Roles',
+    th: 'บทบาท'
   },
   'nav.settings.permission.permission': {
-    en: 'Permission',
-    th: 'การอนุญาต'
+    en: 'Permissions',
+    th: 'สิทธิ์การใช้งาน'
   }
 } as const;

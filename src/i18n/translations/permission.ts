@@ -1,4 +1,3 @@
-
 export const permissionTranslations = {
   'permission.users': {
     en: 'Users',
@@ -87,6 +86,101 @@ export const permissionTranslations = {
   'permission.user.clear': {
     en: 'Clear',
     th: 'ล้าง'
+  },
+
+  // Role translations
+  'permission.roles': {
+    en: 'Roles',
+    th: 'บทบาท'
+  },
+  'permission.rolesDescription': {
+    en: 'Manage system roles and their permissions',
+    th: 'จัดการบทบาทและสิทธิ์การใช้งานในระบบ'
+  },
+  'permission.addRole': {
+    en: 'Add Role',
+    th: 'เพิ่มบทบาท'
+  },
+  'permission.editRole': {
+    en: 'Edit Role',
+    th: 'แก้ไขบทบาท'
+  },
+  'permission.roleDetails': {
+    en: 'Role Details',
+    th: 'รายละเอียดบทบาท'
+  },
+  'permission.role.name': {
+    en: 'Role Name',
+    th: 'ชื่อบทบาท'
+  },
+  'permission.role.description': {
+    en: 'Description',
+    th: 'คำอธิบาย'
+  },
+  'permission.role.users': {
+    en: 'Users',
+    th: 'ผู้ใช้งาน'
+  },
+  'permission.role.permissions': {
+    en: 'Permissions',
+    th: 'สิทธิ์การใช้งาน'
+  },
+  'permission.role.search.placeholder': {
+    en: 'Search roles',
+    th: 'ค้นหาบทบาท'
+  },
+  'permission.role.assignPermissions': {
+    en: 'Assign Permissions',
+    th: 'กำหนดสิทธิ์การใช้งาน'
+  },
+
+  // Permission translations
+  'permission.permissions': {
+    en: 'Permissions',
+    th: 'สิทธิ์การใช้งาน'
+  },
+  'permission.permissionsDescription': {
+    en: 'Manage system permissions and access control',
+    th: 'จัดการสิทธิ์ก���รใช้งานและการควบคุมการเข้าถึง'
+  },
+  'permission.addPermission': {
+    en: 'Add Permission',
+    th: 'เพิ่มสิทธิ์การใช้งาน'
+  },
+  'permission.editPermission': {
+    en: 'Edit Permission',
+    th: 'แก้ไขสิทธิ์การใช้งาน'
+  },
+  'permission.permissionDetails': {
+    en: 'Permission Details',
+    th: 'รายละเอียดสิทธิ์การใช้งาน'
+  },
+  'permission.permission.name': {
+    en: 'Permission Name',
+    th: 'ชื่อสิทธิ์การใช้งาน'
+  },
+  'permission.permission.code': {
+    en: 'Permission Code',
+    th: 'รหัสสิทธิ์การใช้งาน'
+  },
+  'permission.permission.description': {
+    en: 'Description',
+    th: 'คำอธิบาย'
+  },
+  'permission.permission.usedInRoles': {
+    en: 'Used in Roles',
+    th: 'ใช้ในบทบาท'
+  },
+  'permission.permission.search.placeholder': {
+    en: 'Search permissions',
+    th: 'ค้นหาสิทธิ์การใช้งาน'
+  },
+  'permission.permission.created': {
+    en: 'Created',
+    th: 'สร้างเมื่อ'
+  },
+  'permission.permission.modified': {
+    en: 'Modified',
+    th: 'แก้ไขเมื่อ'
   }
 } as const;
-

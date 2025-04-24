@@ -5,6 +5,7 @@ import { useStockItems } from "./useStockItems";
 import { useStockUpdateFilters } from "../../hooks/useStockUpdateFilters";
 import { FilterValues } from "@/types/filter";
 import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { format } from "date-fns";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
@@ -14,7 +15,7 @@ export const useStockData = () => {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<unknown>(null);
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
 
   const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
@@ -67,7 +68,20 @@ export const useStockData = () => {
   const handleAdvancedSearch = async (values: FilterValues) => {
     setAdvancedFilterValues(values);
     setCurrentPage(1);
-    await handleFetchData(values);
+    
+    // Convert Date objects to strings before passing to handleFetchData
+    const queryParams: Partial<StockUpdateLotQueryParams> = { ...values };
+    
+    if (values.date) {
+      queryParams.searchDate = format(values.date, 'MM-dd-yyyy');
+      delete queryParams.date;
+    }
+    
+    if (values.expiredDate) {
+      queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
+    }
+    
+    await handleFetchData(queryParams);
   };
   
   const handleAdvancedClear = async () => {

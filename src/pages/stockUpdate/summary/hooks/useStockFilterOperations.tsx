@@ -2,6 +2,7 @@
 import { AdvancedSearchValues, StockQueryParams } from "./types";
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
+import { useFilterState } from "./useFilterState";
 
 export const useStockFilterOperations = (
   fetchStockData: ReturnType<typeof useStockFetcher>["fetchStockData"],
@@ -20,6 +21,31 @@ export const useStockFilterOperations = (
   }
 ) => {
   const { buildQueryParams } = useQueryBuilder();
+
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedWarehouse,
+    setSelectedWarehouse,
+    selectedZone,
+    setSelectedZone,
+    selectedArea,
+    setSelectedArea,
+    selectedSubArea,
+    setSelectedSubArea,
+    selectedCategory,
+    setSelectedCategory,
+    selectedUoM,
+    setSelectedUoM,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate,
+  } = useFilterState();
 
   const handleSearch = async () => {
     setCurrentPage(1);
@@ -46,6 +72,8 @@ export const useStockFilterOperations = (
       sortColumn: null,
       sortDirection: "asc"
     });
+    setSearchTerm("");
+    console.log("Cleared Params:", searchTerm);
     await fetchStockData(clearedParams);
   };
 

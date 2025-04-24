@@ -27,6 +27,10 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
     }
   };
 
+  const handlerClearSearchTerm = async () => {
+    setSearchTerm("");
+  }
+
   const { t } = useLanguage();
 
   const triggerSearch = async () => {
@@ -44,6 +48,7 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
     setIsClearing(true);
     try {
       await handleClear();
+      await handlerClearSearchTerm();
     } finally {
       setIsClearing(false);
     }

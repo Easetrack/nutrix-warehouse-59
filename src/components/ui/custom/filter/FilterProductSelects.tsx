@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { ProductFilterValues } from '@/types/filter';
 import { useFilterOptions } from '@/hooks/useFilterOptions';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterProductSelectsProps {
   values: ProductFilterValues;
@@ -15,6 +16,8 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
   onValueChange,
   visibleFields,
 }) => {
+  const { t } = useLanguage();
+
   const {
     categories,
     types,
@@ -62,9 +65,9 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
     <>
       {shouldShow('category') && (
         <FilterSelect
-          value={values.category || 'All Categories'}
+          value={values.category || t('filter.product.allCategories')}
           options={categories}
-          placeholder="Select Category"
+          placeholder={t('filter.product.category')}
           onValueChange={(value) => onValueChange(value, 'category')}
           isLoading={isLoadingCategories}
         />
@@ -72,39 +75,39 @@ export const FilterProductSelects: React.FC<FilterProductSelectsProps> = ({
 
       {shouldShow('typeId') && (
         <FilterSelect
-          value={values.typeId || 'All Types'}
+          value={values.typeId || t('filter.product.allTypes')}
           options={types}
-          placeholder="Select Type"
+          placeholder={t('filter.product.type')}
           onValueChange={(value) => onValueChange(value, 'typeId')}
           isLoading={isLoadingTypes}
-          disabled={values.category === 'All Categories' || values.category === ''}
+          disabled={values.category === t('filter.product.allCategories') || values.category === ''}
         />
       )}
 
       {shouldShow('subTypeId') && (
         <FilterSelect
-          value={values.subTypeId || 'All SubTypes'}
+          value={values.subTypeId || t('filter.product.allSubTypes')}
           options={subTypes}
-          placeholder="Select Sub Type"
+          placeholder={t('filter.product.subType')}
           onValueChange={(value) => onValueChange(value, 'subTypeId')}
           isLoading={isLoadingSubTypes}
           disabled={
-            values.category === 'All Categories' ||
+            values.category === t('filter.product.allCategories') ||
             values.category === '' ||
             !values.typeId ||
-            values.typeId === 'All Types'
+            values.typeId === t('filter.product.allTypes')
           }
         />
       )}
 
       {shouldShow('uom') && (
         <FilterSelect
-          value={values.uom || 'All UoMs'}
+          value={values.uom || t('filter.product.allUoMs')}
           options={units}
-          placeholder="Select UoM"
+          placeholder={t('filter.product.uom')}
           onValueChange={(value) => onValueChange(value, 'uom')}
           isLoading={isLoadingUnits}
-          disabled={values.category === 'All Categories' || values.category === ''}
+          disabled={values.category === t('filter.product.allCategories') || values.category === ''}
         />
       )}
     </>

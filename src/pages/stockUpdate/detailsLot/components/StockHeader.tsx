@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FilterSearch } from "@/components/ui/custom/FilterSearch";
 import type { FilterValues } from '@/types/filter';
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockHeaderProps {
   title: string;
@@ -23,6 +24,7 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
   initialFilterValues,
 }) => {
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleAdvancedSearch = (values: FilterValues) => {
     onAdvancedSearch(values);
@@ -50,7 +52,7 @@ export const StockHeader: React.FC<StockHeaderProps> = ({
           className="space-x-1"
         >
           <Download size={16} />
-          <span>Export</span>
+          <span>{t("common.export")}</span>
         </Button>
         <FilterSearch
           onSearch={handleAdvancedSearch}

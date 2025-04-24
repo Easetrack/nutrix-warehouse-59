@@ -12,6 +12,7 @@ import {
 import { TableHeaders } from "./table/TableHeaders";
 import { TableRows } from "./table/TableRows";
 import { StockItem } from "@/types/stockupdate/lot";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
@@ -39,6 +40,8 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
     );
   };
 
+  const { t } = useLanguage();
+  
   return (
      <div className="rounded-md border">
           <div className="w-full overflow-auto">

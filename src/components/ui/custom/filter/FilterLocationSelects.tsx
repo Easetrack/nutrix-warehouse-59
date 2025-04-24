@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { LocationFilterValues } from '@/types/filter';
 import { useFilterOptions } from '@/hooks/useFilterOptions';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterLocationSelectsProps {
   values: LocationFilterValues;
@@ -28,6 +29,8 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
     loadAreas,
     loadSubAreas
   } = useFilterOptions();
+
+  const { t } = useLanguage();
 
   const prevWarehouse = useRef<string | null>(null);
   const prevZone = useRef<string | null>(null);
@@ -89,7 +92,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
         <FilterSelect
           value={values.warehouse || ''}
           options={warehouses}
-          placeholder="Select Warehouse"
+          placeholder={t('filter.location.warehouse')}
           onValueChange={(value) => onValueChange(value, 'warehouse')}
           isLoading={isLoadingWarehouses}
         />
@@ -99,7 +102,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
         <FilterSelect
           value={values.zoneId || values.zone || ''}
           options={zones}
-          placeholder="Select Zone"
+          placeholder={t('filter.location.zone')}
           onValueChange={(value) => onValueChange(value, 'zone')}
           isLoading={isLoadingZones}
           disabled={!values.warehouse || values.warehouse === ''}
@@ -110,7 +113,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
         <FilterSelect
           value={values.areaId || values.area || ''}
           options={areas}
-          placeholder="Select Area"
+          placeholder={t('filter.location.area')}
           onValueChange={(value) => onValueChange(value, 'area')}
           isLoading={isLoadingAreas}
           disabled={!(values.zoneId || values.zone) || (values.zoneId || values.zone || '').startsWith('All-')}
@@ -121,7 +124,7 @@ export const FilterLocationSelects: React.FC<FilterLocationSelectsProps> = ({
         <FilterSelect
           value={values.subAreaId || values.subArea || ''}
           options={subAreas}
-          placeholder="Select Sub Area"
+          placeholder={t('filter.location.subArea')}
           onValueChange={(value) => onValueChange(value, 'subArea')}
           isLoading={isLoadingSubAreas}
           disabled={!(values.areaId || values.area) || (values.areaId || values.area || '').startsWith('All-')}

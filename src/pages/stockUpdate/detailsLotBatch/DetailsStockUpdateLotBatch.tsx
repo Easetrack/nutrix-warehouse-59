@@ -9,6 +9,7 @@ import { SearchBar } from "./components/SearchBar";
 import { LoadingState } from "./components/LoadingState";
 import { ErrorState } from "./components/ErrorState";
 import { ContentWrapper } from "./components/ContentWrapper";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const DetailsStockUpdateLotBatch = () => {
   const { toast } = useToast();
@@ -40,6 +41,8 @@ const DetailsStockUpdateLotBatch = () => {
     setPerPage,
   } = useStockData();
 
+  const { t } = useLanguage();
+
   const handleExport = () => {
     toast({
       title: "Export Started",
@@ -64,7 +67,7 @@ const DetailsStockUpdateLotBatch = () => {
       className="container mx-auto"
     >
       <StockHeader
-        title="Stock Update: Detail by Lot Batch"
+        title={t('stock.title.lotBatch')}
         onExport={handleExport}
         onAdvancedSearch={handleAdvancedSearch}
         onAdvancedClear={handleAdvancedClear}

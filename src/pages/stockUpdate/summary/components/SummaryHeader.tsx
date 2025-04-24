@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FilterSearch } from "@/components/ui/custom/FilterSearch";
 import type { FilterValues } from '@/types/filter';
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SummaryHeaderProps {
   searchTerm: string;
@@ -32,6 +33,8 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   onAdvancedClear,
 }) => {
   const { toast } = useToast();
+
+  const { t } = useLanguage();
   
   const handleAdvancedSearch = async (filters: FilterValues) => {
     try {
@@ -53,7 +56,7 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
   return (
     <div className="mb-6 flex justify-between items-center">
       <div>
-        <h1 className="text-2xl font-bold">Stock Update: Summary</h1>
+        <h1 className="text-2xl font-bold">{t('stock.title')}</h1>
       </div>
       <div className="flex items-center space-x-2">
         <Button
@@ -62,7 +65,7 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
           className="space-x-1"
         >
           <Download size={16} />
-          <span>Export</span>
+          <span>{t('common.export')}</span>
         </Button>
         <FilterSearch
           onSearch={handleAdvancedSearch}

@@ -92,7 +92,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
       id: 'stock',
       name: t('nav.stock'),
       icon: <Package size={20} />,
-      hasSubmenu: true
+      hasSubmenu: true,
     },
     // { path: '/receiving', name: t('nav.receiving'), icon: <DownloadCloud size={20} /> },
     { path: '/request-picking', name: t('nav.requestForPicking'), icon: <FileHeart size={20} /> },
@@ -113,9 +113,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
       path: '/settings/permission',
       name: t('settings.permission'),
       subItems: [
-        { path: '/settings/permission/users', name: t('User') },
-        { path: '/settings/permission/roles', name: t('Role') },
-        { path: '/settings/permission/permissions', name: t('Permission') }
+        { path: '/settings/permission/users', name: t('nav.settings.permission.user') },
+        { path: '/settings/permission/roles', name: t('nav.settings.permission.role') },
+        { path: '/settings/permission/permissions', name: t('nav.settings.permission.permission') }
       ]
     },
   ];
@@ -276,7 +276,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
                     ${isActive ? 'bg-primary-50 text-primary font-medium' : 'text-gray-600 hover:bg-gray-100'}
                   `}
                         >
-                          {t('Summary')}
+                          {t('nav.stock.summary')}
                         </NavLink>
                         <NavLink
                           to="/stock/detailsLot"
@@ -285,7 +285,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
                     ${isActive ? 'bg-primary-50 text-primary font-medium' : 'text-gray-600 hover:bg-gray-100'}
                   `}
                         >
-                          {t('Details by Lot')}
+                          {t('nav.stock.lot')}
                         </NavLink>
                         <NavLink
                           to="/stock/detailsLotBatch"
@@ -294,7 +294,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
                     ${isActive ? 'bg-primary-50 text-primary font-medium' : 'text-gray-600 hover:bg-gray-100'}
                   `}
                         >
-                          {t('Details by Lot Batch')}
+                          {t('nav.stock.lotBatch')}
                         </NavLink>
                       </div>
                     </motion.div>

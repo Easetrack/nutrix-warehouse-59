@@ -1,6 +1,7 @@
 
 import React, { KeyboardEvent, useState } from "react";
 import { Search, RefreshCcw, Loader } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SummarySearchBarProps {
   searchTerm: string;
@@ -25,6 +26,8 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
       await triggerSearch();
     }
   };
+
+  const { t } = useLanguage();
 
   const triggerSearch = async () => {
     if (isSearching) return;
@@ -53,7 +56,7 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
           <div className="relative flex-grow">
             <input
               type="text"
-              placeholder="ค้นหาด้วยชื่อสินค้า, รหัสสินค้า หรือบาร์โค้ด..."
+              placeholder={t(`stock.input.searchAll`)}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -71,7 +74,7 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
               ) : (
                 <Search size={16} />
               )}
-              <span>{isSearching ? "กำลังค้นหา..." : "ค้นหา"}</span>
+              <span>{isSearching ? `${t('common.loading')}`  : `${t('common.search')}`}</span>
             </button>
             <button
               onClick={triggerClear}
@@ -83,7 +86,7 @@ export const SummarySearchBar: React.FC<SummarySearchBarProps> = ({
               ) : (
                 <RefreshCcw size={16} />
               )}
-              <span>{isClearing ? "กำลังล้าง..." : "ล้าง"}</span>
+              <span>{isClearing ? "กำลังล้าง..." :  `${t('common.clear')}`}</span>
             </button>
           </div>
         </div>

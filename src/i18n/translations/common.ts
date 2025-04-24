@@ -4,9 +4,17 @@ export const commonTranslations = {
     en: 'Loading...',
     th: 'กำลังโหลด...'
   },
-  'common.search': {
+  'common.search..': {
     en: 'Search...',
     th: 'ค้นหา...'
+  },
+  'common.search': {
+    en: 'Search',
+    th: 'ค้นหา...'
+  },
+  'common.clear': {
+    en: 'Clear...',
+    th: 'ล้าง'
   },
   'common.filters': {
     en: 'Filters',

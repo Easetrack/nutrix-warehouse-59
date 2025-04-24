@@ -11,6 +11,7 @@ import { useStockData } from "./hooks/useStockData";
 import { StockHeader } from "./components/StockHeader";
 import { SearchBar } from "./components/SearchBar";
 import { StockPagination } from "@/components/ui/StockPagination";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const DetailsStockUpdateLot = () => {
   const { toast } = useToast();
@@ -41,6 +42,8 @@ const DetailsStockUpdateLot = () => {
     perPage,
     setPerPage,
   } = useStockData();
+
+  const { t } = useLanguage();
 
   const handleExport = () => {
     toast({
@@ -80,7 +83,7 @@ const DetailsStockUpdateLot = () => {
       className="container mx-auto"
     >
       <StockHeader
-        title="Stock Update: Detail by Lot"
+        title={t('stock.title.lot')}
         onExport={handleExport}
         onAdvancedSearch={handleAdvancedSearch}
         onAdvancedClear={handleAdvancedClear}

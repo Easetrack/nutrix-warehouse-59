@@ -2,6 +2,7 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterSearchInputProps {
   value: string;
@@ -9,10 +10,12 @@ interface FilterSearchInputProps {
 }
 
 export const FilterSearchInput: React.FC<FilterSearchInputProps> = ({ value, onChange }) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="relative">
       <Input
-        placeholder="Search by item code, name or lot"
+        placeholder={t('filter.input.searchByItemCodeNameOrLot')}
         value={value}
         onChange={onChange}
         className="w-full pr-10"

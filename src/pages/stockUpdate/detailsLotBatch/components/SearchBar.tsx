@@ -2,6 +2,7 @@
 import React, { KeyboardEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, RefreshCcw } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SearchBarProps {
   searchTerm: string;
@@ -26,6 +27,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       await triggerSearch();
     }
   };
+
+  const { t } = useLanguage();
 
   const triggerSearch = async () => {
     if (isSearching) return;
@@ -72,7 +75,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 className="flex items-center justify-center space-x-1 rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-70"
               >
                 <Search size={16} />
-                <span>{isSearching ? "Searching..." : "Search"}</span>
+                <span>{isSearching ? `${t('common.loading')}` : `${t('common.search')}`}</span>
               </button>
               <button
                 onClick={triggerClear}
@@ -80,7 +83,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-70"
               >
                 <RefreshCcw size={16} />
-                <span>{isClearing ? "Clearing..." : "Clear"}</span>
+                <span>{isClearing ? "กำลังล้าง..." : `${t('common.clear')}`}</span>
               </button>
             </div>
           </div>

@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockPaginationProps {
   currentPage: number;
@@ -26,15 +27,17 @@ export const StockPagination: React.FC<StockPaginationProps> = ({
   onNextPage,
   onPerPageChange,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <nav className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2" aria-label="Pagination">
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground min-w-max">
-          Showing {itemsLength} of {totalCount} items
+          {t('pagination.showing')} {itemsLength} {t('pagination.of')} {totalCount} {t('pagination.items')}
         </span>
         <div className="flex items-center ml-2">
           <label htmlFor="per-page" className="mr-2 text-sm text-muted-foreground">
-            Per page
+            {t('pagination.perPage')}
           </label>
           <select
             id="per-page"
@@ -57,10 +60,10 @@ export const StockPagination: React.FC<StockPaginationProps> = ({
           className="flex items-center gap-1"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span className="sm:inline hidden">Previous</span>
+          <span className="sm:inline hidden">{t('pagination.previous')}</span>
         </Button>
         <span className="text-sm">
-          Page <strong>{currentPage}</strong> of {totalPages || 1}
+          {t('pagination.page')} <strong>{currentPage}</strong> {t('pagination.of')} {totalPages || 1}
         </span>
         <Button
           variant="outline"
@@ -69,7 +72,7 @@ export const StockPagination: React.FC<StockPaginationProps> = ({
           disabled={currentPage === totalPages || totalPages === 0}
           className="flex items-center gap-1"
         >
-          <span className="sm:inline hidden">Next</span>
+          <span className="sm:inline hidden">{t('pagination.next')}</span>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

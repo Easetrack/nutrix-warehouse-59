@@ -2,6 +2,7 @@
 import React from 'react';
 import { Search, RotateCcw, Loader } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterActionsProps {
   onClear: () => void;
@@ -24,6 +25,8 @@ export const FilterActions: React.FC<FilterActionsProps> = ({
     onClear();
   };
 
+  const { t } = useLanguage();
+
   return (
     <div className="flex gap-2 pt-2">
       <Button 
@@ -34,7 +37,7 @@ export const FilterActions: React.FC<FilterActionsProps> = ({
         type="button"
       >
         <RotateCcw className="h-4 w-4 mr-2" />
-        Clear
+        {t('filter.input.clear')}
       </Button>
       <Button 
         onClick={handleSearch} 
@@ -47,7 +50,7 @@ export const FilterActions: React.FC<FilterActionsProps> = ({
         ) : (
           <Search className="h-4 w-4 mr-2" />
         )}
-        {isSearching ? "กำลังค้นหา..." : "Search"}
+        {isSearching ? "กำลังค้นหา..." : `${t('filter.input.search')}`}
       </Button>
     </div>
   );

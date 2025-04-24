@@ -8,6 +8,18 @@ export const navigationTranslations = {
     en: 'Stock Update',
     th: 'อัพเดทสต๊อก'
   },
+  'nav.stock.summary': {
+    en: 'Summary',
+    th: 'สรุป'
+  },
+  'nav.stock.lot': {
+    en: 'Detail by Lot',
+    th: 'รายละเอียดตามล็อต'
+  },
+  'nav.stock.lotBatch': {
+    en: 'Detail by Lot Batch',
+    th: 'รายละเอียดตามล็อต Batch'
+  },
   'nav.receiving': {
     en: 'Receiving',
     th: 'รับสินค้า'
@@ -23,5 +35,17 @@ export const navigationTranslations = {
   'nav.settings': {
     en: 'Settings',
     th: 'ตั้งค่า'
+  },
+  'nav.settings.permission.user': {
+    en: 'User',
+    th: 'ชื่อใช้งาน'
+  },
+  'nav.settings.permission.role': {
+    en: 'Role',
+    th: 'ตั้งบทบาบทบาททค่า'
+  },
+  'nav.settings.permission.permission': {
+    en: 'Permission',
+    th: 'การอนุญาต'
   }
 } as const;

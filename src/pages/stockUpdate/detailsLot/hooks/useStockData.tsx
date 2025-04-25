@@ -20,13 +20,15 @@ export const useStockData = () => {
 
   const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
     // console.log("warehouse ที่ส่งมา handleFetchData", params); // 👈 log ได้ตรงนี้
-    console.log('queryParams stockId handleFetchData', params.stockId)
+    console.log('queryParams stockId handleFetchData', params)
     const queryParams: StockUpdateLotQueryParams = {
       ...params,
       page: currentPage,
       perPage: perPage,
       search: params.searchTerm ? String(params.searchTerm) : "",
       stockId: params.stockId,
+      categoryId: params.searchByCategory,
+      unitId: params.searchByUnit,
       sortColumn,
       sortDirection
     };
@@ -72,7 +74,7 @@ export const useStockData = () => {
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
-    console.log('queryParams stockId handleAdvancedSearch', values.warehouse)
+    console.log('queryParams stockId handleAdvancedSearch', values)
 
     setAdvancedFilterValues(values);
     setCurrentPage(1);
@@ -112,6 +114,16 @@ export const useStockData = () => {
       queryParams.stockId = ""; // หรือไม่ใส่เลยก็ได้
     }
 
+    // Add category filter if selected
+    if (values.category && values.category !== "All Categories") {
+      queryParams.categoryId = values.category;
+    }
+
+    // Add UoM filter if selected
+    if (values.uom && values.uom !== "All UoM") {
+      queryParams.unitId = values.uom;
+    }
+    
     // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');

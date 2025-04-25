@@ -105,6 +105,16 @@ export const useStockData = () => {
       queryParams.stockId = ""; // หรือไม่ใส่เลยก็ได้
     }
 
+     // Add category filter if selected
+     if (values.category && values.category !== "All Categories") {
+      queryParams.categoryId = values.category;
+    }
+
+    // Add UoM filter if selected
+    if (values.uom && values.uom !== "All UoM") {
+      queryParams.unitId = values.uom;
+    }
+
     // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');

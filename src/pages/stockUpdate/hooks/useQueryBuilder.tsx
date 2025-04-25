@@ -30,7 +30,8 @@ export const useQueryBuilder = () => {
     }
 
     if (selectedCategory && selectedCategory !== "All Categories") {
-      params.searchByCategory = selectedCategory;
+      // params.searchByCategory = selectedCategory;
+      params.categoryId = selectedCategory
     }
 
     if (selectedUoM && selectedUoM !== "All UoM") {

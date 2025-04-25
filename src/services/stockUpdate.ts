@@ -9,7 +9,7 @@ import { format } from 'date-fns';
  * @param params Object containing filter values
  * @returns URLSearchParams object
  */
-const buildQueryParams = (params: Record<string, any>): URLSearchParams => {
+const buildQueryParams = (params: Record<string, unknown>): URLSearchParams => {
   const queryParams = new URLSearchParams();
   
   Object.entries(params).forEach(([key, value]) => {
@@ -23,7 +23,6 @@ const buildQueryParams = (params: Record<string, any>): URLSearchParams => {
     }
   });
 
-  console.log('Query Params:', queryParams.toString());
   return queryParams;
 };
 

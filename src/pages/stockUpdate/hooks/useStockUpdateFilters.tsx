@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { FilterValues } from "@/types/filter";
 
-export const useStockUpdateFilters = (handleFetchData: (params: any) => Promise<void>) => {
+export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Promise<void>) => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");

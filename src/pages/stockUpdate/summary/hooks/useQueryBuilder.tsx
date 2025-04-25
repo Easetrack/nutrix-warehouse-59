@@ -9,6 +9,7 @@ interface QueryBuilderProps {
   searchTerm: string;
   selectedCategory: string;
   selectedUoM: string;
+  selectedWarehouse: string;
   selectedZone: string;
   selectedArea: string;
   selectedSubArea: string;
@@ -25,6 +26,7 @@ export const useQueryBuilder = () => {
     searchTerm,
     selectedCategory,
     selectedUoM,
+    selectedWarehouse,
     selectedZone,
     selectedArea,
     selectedSubArea,
@@ -49,12 +51,27 @@ export const useQueryBuilder = () => {
 
     // Add category filter if selected
     if (selectedCategory && selectedCategory !== "All Categories") {
-      params.searchByCategory = selectedCategory;
+      params.categoryId = selectedCategory;
     }
 
     // Add UoM filter if selected
     if (selectedUoM && selectedUoM !== "All UoM") {
       params.unitId = selectedUoM;
+    }
+
+    // Add zone filter if selected
+
+    if (selectedWarehouse && selectedWarehouse !== "All Warehouse" && selectedWarehouse !== "All-Warehouse") {
+      params.stockId = selectedWarehouse;
+      if (params.stockId === "All Warehouses") {
+        params.stockId = "";
+      }
+    } else if (selectedWarehouse && selectedWarehouse === "All-Warehouse" ||
+      selectedWarehouse && selectedWarehouse === "All Warehouse"
+    ) {
+      params.stockId = "";
+    } else {
+      params.stockId = "";
     }
 
     // Add zone filter if selected

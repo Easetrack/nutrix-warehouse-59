@@ -23,6 +23,7 @@ export const useStockData = () => {
       ...params,
       page: currentPage,
       perPage: perPage,
+      search: params.searchTerm ? String(params.searchTerm) : undefined,
       sortColumn,
       sortDirection
     };

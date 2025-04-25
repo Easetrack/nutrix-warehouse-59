@@ -97,6 +97,7 @@ export const useFilterSearch = ({
         searchByBarcode: filters.searchTerm,
         searchByProductId: filters.searchTerm,
         searchByCategory: cleanValue(filters.category || ""),
+        stockId: cleanValue(filters.stockId || ""),
         zone: cleanValue(filters.zone || ""),
         area: cleanValue(filters.area || ""),
         subArea: cleanValue(filters.subArea || ""),

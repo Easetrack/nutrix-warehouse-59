@@ -19,10 +19,12 @@ export interface StockQueryParams {
 export interface AdvancedSearchValues {
   searchTerm?: string;
   warehouse?: string;
+  stockId?: string;
   zone?: string;
   area?: string;
   subArea?: string;
   category?: string;
+  categoryId?: string;
   uom?: string;
   date?: Date | null;
   expiredDate?: Date | null;

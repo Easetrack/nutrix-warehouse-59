@@ -8,6 +8,7 @@ export const useStockPaginationOperations = (
     searchTerm: string;
     selectedCategory: string;
     selectedUoM: string;
+    selectedWarehouse: string;
     selectedZone: string;
     selectedArea: string;
     selectedSubArea: string;

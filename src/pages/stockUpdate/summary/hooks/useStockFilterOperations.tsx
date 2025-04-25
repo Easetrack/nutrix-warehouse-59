@@ -11,6 +11,7 @@ export const useStockFilterOperations = (
     searchTerm: string;
     selectedCategory: string;
     selectedUoM: string;
+    selectedWarehouse: string;
     selectedZone: string;
     selectedArea: string;
     selectedSubArea: string;
@@ -64,6 +65,7 @@ export const useStockFilterOperations = (
       searchTerm: "",
       selectedCategory: "All Categories",
       selectedUoM: "All UoM",
+      selectedWarehouse: "All Warehouse",
       selectedZone: "All Zones",
       selectedArea: "All Areas",
       selectedSubArea: "All SubAreas",
@@ -84,6 +86,7 @@ export const useStockFilterOperations = (
       searchTerm: values.searchTerm || "",
       selectedCategory: values.category || "All Categories",
       selectedUoM: values.uom || "All UoM",
+      selectedWarehouse: values.warehouse || "",
       selectedZone: values.zone || "All Zones",
       selectedArea: values.area || "All Areas",
       selectedSubArea: values.subArea || "All SubAreas",

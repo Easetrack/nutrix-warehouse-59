@@ -75,15 +75,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 className="flex items-center justify-center space-x-1 rounded-md bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-70"
               >
                 <Search size={16} />
-                <span>{isSearching ? `${t('common.loading')}`  : `${t('common.search')}`}</span>
+                <span>{isSearching ? `${t('common.loading')}` : `${t('common.search')}`}</span>
               </button>
               <button
                 onClick={triggerClear}
                 disabled={isClearing}
-                className="flex items-center justify-center space-x-1 rounded-md border border-gray-300 bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-70"
+                className="flex items-center justify-center space-x-1 rounded-md border 
+              border-gray-300 px-4 py-2 transition-colors hover:bg-red-500 focus:outline-none 
+              focus:ring-2 hover:text-white focus:ring-red-300 focus:ring-offset-2 disabled:opacity-70"
               >
                 <RefreshCcw size={16} />
-                <span>{isClearing ? "กำลังล้าง..." :  `${t('common.clear')}`}</span>
+                <span>{isClearing ? "กำลังล้าง..." : `${t('common.clear')}`}</span>
               </button>
             </div>
           </div>

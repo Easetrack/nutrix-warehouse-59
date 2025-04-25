@@ -23,7 +23,6 @@ export const useStockItems = (locationId: string) => {
     setError(null);
 
     try {
-      console.log("Fetching LotBatch stock data with params:", params);
       const data = await fetchStockUpdateByLotBatch(params);
       
       // Ensure the data being assigned matches the expected StockItem type

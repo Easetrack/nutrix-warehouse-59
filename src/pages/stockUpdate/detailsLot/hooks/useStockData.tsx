@@ -23,6 +23,8 @@ export const useStockData = () => {
       ...params,
       page: currentPage,
       perPage: perPage,
+      search: params.searchTerm ? String(params.searchTerm) : "",
+      stockId: params.stockId,
       sortColumn,
       sortDirection
     };
@@ -116,7 +118,8 @@ export const useStockData = () => {
   const handleSearch = async () => {
     setCurrentPage(1);
     await handleFetchData({
-      searchTerm: filters.searchTerm
+      searchTerm: filters.searchTerm,
+      search: filters.searchTerm
     });
   };
   

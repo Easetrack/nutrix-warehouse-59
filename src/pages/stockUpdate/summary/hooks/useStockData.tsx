@@ -67,6 +67,7 @@ export const useStockData = () => {
     searchTerm,
     selectedCategory,
     selectedUoM,
+    selectedWarehouse,
     selectedZone,
     selectedArea,
     selectedSubArea,

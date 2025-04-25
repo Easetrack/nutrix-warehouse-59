@@ -1,7 +1,8 @@
 
 import React from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { StockItem } from "@/types/stockupdate/lotBatch";
+import { StockItem } from "@/types/stockupdate/lot";
+import { format, parseISO } from 'date-fns';
 
 interface TableRowsProps {
   filteredItems: StockItem[];
@@ -46,10 +47,23 @@ export const TableRows: React.FC<TableRowsProps> = ({
           <TableCell>{item.productId}</TableCell>
           <TableCell>{item.productName}</TableCell>
           <TableCell>{item.lotMaster}</TableCell>
-          <TableCell>{item.lotBatch	}</TableCell>
+          <TableCell>{item.lotBatch}</TableCell>
           <TableCell>{item.barcode}</TableCell>
           <TableCell>{item.categoryName}</TableCell>
           <TableCell>{item.typeName}</TableCell>
+          <TableCell>{item.subTypeName}</TableCell>
+          <TableCell>{item.tagQty.toLocaleString()}</TableCell>
+          <TableCell>{item.nonTagQty.toLocaleString()}</TableCell>
+          <TableCell>{item.qty.toLocaleString()}</TableCell>
+          <TableCell>{item.unitName}</TableCell>
+          <TableCell>{item.warehouse}</TableCell>
+          <TableCell>{item.zoneName}</TableCell>
+          <TableCell>{item.areaName}</TableCell>
+          <TableCell>{item.subAreaName}</TableCell>
+          <TableCell className={item.shelfLifeDays <= 0 ? 'text-red-500' : ''}>
+            {item.shelfLifeDays}
+          </TableCell>
+          <TableCell>{item.expiredDate ? format(parseISO(item.expiredDate), 'dd/MM/yyyy') : '-'}</TableCell>
         </TableRow>
       ))}
     </TableBody>

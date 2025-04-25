@@ -20,7 +20,7 @@ export const useStockData = () => {
 
   const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
     // console.log("warehouse ที่ส่งมา handleFetchData", params); // 👈 log ได้ตรงนี้
-    console.log('queryParams stockId handleFetchData', params)
+    // console.log('queryParams stockId handleFetchData', params)
     const queryParams: StockUpdateLotQueryParams = {
       ...params,
       page: currentPage,
@@ -74,7 +74,7 @@ export const useStockData = () => {
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
-    console.log('queryParams stockId handleAdvancedSearch', values)
+    // console.log('queryParams stockId handleAdvancedSearch', values)
 
     setAdvancedFilterValues(values);
     setCurrentPage(1);
@@ -107,7 +107,7 @@ export const useStockData = () => {
 
     if (values.warehouse && values.warehouse !== "All Warehouses") {
       queryParams.stockId = values.warehouse;
-      if (values.warehouse === "All-Warehouse") {
+      if (values.warehouse === "All-Warehouse" || values.warehouse === "All Warehouse" ) {
         queryParams.stockId = "";
       }
     } else {
@@ -137,7 +137,6 @@ export const useStockData = () => {
   };
 
   const handleAdvancedClear = async () => {
-    console.log("handleAdvancedClear")
     setAdvancedFilterValues({});
     setCurrentPage(1);
     await handleFetchData({});
@@ -146,11 +145,15 @@ export const useStockData = () => {
 
   const handleSearch = async () => {
     setCurrentPage(1);
-    console.log("handleSearch")
+
+    if(filters.selectedWarehouse === 'All Warehouses'){
+      filters.selectedWarehouse = ""
+    }
+
     await handleFetchData({
       searchTerm: filters.searchTerm,
       search: filters.searchTerm,
-      stockId: filters.selectedWarehouse
+      stockId: filters.selectedWarehouse ,
     });
 
 

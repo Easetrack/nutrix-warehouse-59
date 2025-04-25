@@ -27,6 +27,47 @@ export interface StockUpdateQueryParams {
   [key: string]: string | number | undefined; // Allow dynamic properties for sorting
 }
 
+export interface StockUpdateLotInQueryParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  searchDate?: string;
+  categoryId: string;
+  categoryName: string;
+  typeId: string;
+  typeName: string;
+  subTypeId: string;
+  subTypeName: string;
+  productId: string;
+  barcode: string;
+  productName: string;
+  colorId: string;
+  color: string | null;
+  sizeId: string;
+  size: string | null;
+  unitId: string;
+  unitName: string;
+  lotMaster: string;
+  shelfLifeDays: number;
+  expiredDate: string; // ISO format
+  stockId: string;
+  warehouse: string;
+  zoneId: string;
+  zoneName: string;
+  areaId: string;
+  areaName: string;
+  subAreaId: string;
+  subAreaName: string;
+  qty: number;
+  tagQty: number;
+  nonTagQty: number;
+  image: string;
+  combinedLocation: string;
+  isExpired: string | number;
+  expiredStatus: string;
+  [key: string]: string | number | undefined; // Allow dynamic properties for sorting
+}
+
 export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
   sortByCategory?: "asc" | "desc";
   sortByType?: "asc" | "desc";

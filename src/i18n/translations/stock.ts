@@ -1,67 +1,40 @@
-
 export const stockTranslations = {
-  'stock.input.searchAll': {
-    en: 'Search by product name, product code or barcode...',
-    th: 'ค้นหาด้วยชื่อสินค้า, รหัสสินค้า หรือบาร์โค้ด...'
+  "stock.input.searchAll": {
+    en: "Search by product name, product code or barcode...",
+    th: "ค้นหาด้วยชื่อสินค้า, รหัสสินค้า หรือบาร์โค้ด...",
   },
-  'stock.title': {
-    en: 'Stock Update: Summary',
-    th: 'อัพเดทสต๊อก: สรุป'
+  "stock.title": {
+    en: "Stock Update: Summary",
+    th: "อัพเดทสต๊อก: สรุป",
   },
-  'stock.title.lot': {
-    en: 'Stock Update: Detail by Lot',
-    th: 'อัพเดทสต๊อก: รายละเอียดตามล็อต'
+  "stock.title.lot": {
+    en: "Stock Update: Detail by Lot",
+    th: "อัพเดทสต๊อก: รายละเอียดตามล็อต",
   },
-  'stock.title.lotBatch': {
-    en: 'Stock Update: Detail by Lot Batch',
-    th: 'อัพเดทสต๊อก: รายละเอียดตามล็อต Batch'
+  "stock.title.lotBatch": {
+    en: "Stock Update: Detail by Lot Batch",
+    th: "อัพเดทสต๊อก: รายละเอียดตามล็อต Batch",
   },
-  'stock.table.no': {
-    en: 'No.',
-    th: 'ลำดับ'
-  },
-  'stock.table.image': {
-    en: 'Image',
-    th: 'รูปภาพ'
-  },
-  'stock.table.itemId': {
-    en: 'Item ID',
-    th: 'รหัสสินค้า'
-  },
-  'stock.table.itemName': {
-    en: 'Item Name',
-    th: 'ชื่อสินค้า'
-  },
-  'stock.table.barcode': {
-    en: 'Barcode',
-    th: 'บาร์โค้ด'
-  },
-  'stock.table.group': {
-    en: 'Group',
-    th: 'กลุ่ม'
-  },
-  'stock.table.lot': {
-    en: 'Lot',
-    th: 'ล็อต'
-  },
-  'stock.table.totalLot': {
-    en: 'Total Lot',
-    th: 'จำนวนล็อตรวม'
-  },
-  'stock.table.totalQty': {
-    en: 'Total Qty',
-    th: 'จำนวนรวม'
-  },
-  'stock.table.uom': {
-    en: 'UoM',
-    th: 'หน่วยนับ'
-  },
-  'stock.table.category': {
-    en: 'Category',
-    th: 'หมวดหมู่'
-  },
-  'stock.table.totalLocation': {
-    en: 'Total Location',
-    th: 'จำนวนตำแหน่งรวม'
-  }
+  "stock.table.no": { en: "No.", th: "ลำดับ" },
+  "stock.table.image": { en: "Image", th: "รูปภาพ" },
+  "stock.table.itemId": { en: "Item ID", th: "รหัสสินค้า" },
+  "stock.table.itemName": { en: "Item Name", th: "ชื่อสินค้า" },
+  "stock.table.barcode": { en: "Barcode", th: "บาร์โค้ด" },
+  "stock.table.group": { en: "Group", th: "กลุ่ม" },
+  "stock.table.subGroup": { en: "Sub Group", th: "กลุ่มย่อย" },
+  "stock.table.tag": { en: "Tag", th: "แท็ก" },
+  "stock.table.non-tag": { en: "Non-Tag", th: "ไม่มีแท็ก" },
+  "stock.table.lot": { en: "Lot", th: "ล็อต" },
+  "stock.table.lotBatch": { en: "Lot Batch", th: "ล็อต Batch" },
+  "stock.table.totalLot": { en: "Total Lot", th: "จำนวนล็อตรวม" },
+  "stock.table.totalQty": { en: "Total Qty", th: "จำนวนรวม" },
+  "stock.table.uom": { en: "UoM", th: "หน่วยนับ" },
+  "stock.table.category": { en: "Category", th: "หมวดหมู่" },
+  "stock.table.totalLocation": { en: "Total Location", th: "จำนวนตำแหน่งรวม" },
+  "stock.table.warehouse": { en: "Warehouse", th: "คลังสินค้า" },
+  "stock.table.zone": { en: "Zone", th: "โซน" },
+  "stock.table.area": { en: "Area", th: "พื้นที่" },
+  "stock.table.subArea": { en: "Sub Area", th: "พื้นที่ย่อย" },
+  "stock.table.shelfLife": { en: "Shelf Life (Days)", th: "อายุสินค้า (วัน)" },
+  "stock.table.expiredDate": { en: "Expired Date", th: "วันหมดอายุ" },
 } as const;

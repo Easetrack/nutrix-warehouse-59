@@ -9,30 +9,34 @@ export interface StockItem {
     productId: string;
     barcode: string;
     productName: string;
-    packagingTypeName: string;
-    packagingTypeId: string;
-    packKgs: number;
-    totalKgs: number;
-    brand: string;
-    styleNo: string;
     colorId: string;
     color: string | null;
     sizeId: string;
     size: string | null;
-    qty: number;
     unitId: string;
     unitName: string;
-    image: string;
-    nonTags: number;
-    tags: number;
-    totalLot: number | null;
-    lotNumber: string;
+    lotBatch: string;
     lotMaster: string;
-    locations: string | null;
-    totalLocation: number;
-}
+    shelfLifeDays: number;
+    expiredDate: string; // ISO format
+    stockId: string;
+    warehouse: string;
+    zoneId: string;
+    zoneName: string;
+    areaId: string;
+    areaName: string;
+    subAreaId: string;
+    subAreaName: string;
+    qty: number;
+    tagQty: number;
+    nonTagQty: number;
+    image: string;
+    combinedLocation: string;
+    isExpired: boolean;
+    expiredStatus: string;
+  }
 
-export interface StockResponse {
+export interface StockLotResponse {
     perPage: number;
     page: number;
     totalCount: number;

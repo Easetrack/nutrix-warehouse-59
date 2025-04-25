@@ -1,7 +1,9 @@
 
 import apiClient from './api-client';
 import { StockResponse } from '@/types/stockupdate/summary';
+import { StockLotResponse } from '@/types/stockupdate/lot';
 import { StockUpdateQueryParams, StockUpdateLotQueryParams } from '@/types/stockupdate/api';
+
 import { format } from 'date-fns';
 
 /**
@@ -54,7 +56,7 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
 /**
  * Fetches stock update data by lot with the given query parameters
  */
-export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): Promise<StockResponse> => {
+export const fetchStockUpdateByLot = async (params: StockUpdateLotQueryParams): Promise<StockLotResponse> => {
   try {
     // Build query params
     const queryParams = buildQueryParams(params);

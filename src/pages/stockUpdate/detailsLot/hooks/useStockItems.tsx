@@ -22,7 +22,6 @@ export const useStockItems = (locationId: string) => {
     setError(null);
 
     try {
-      console.log("Fetching Lot stock data with params:", params);
       const data = await fetchStockUpdateByLot(params);
       const items = data.items || [];
       setStockItems(items);

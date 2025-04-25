@@ -107,7 +107,7 @@ export const useFilterSearch = ({
         searchByUnit: cleanValue(filters.uom || ""),
       };
       
-      console.log('Search initiated with filters:', apiFilters);
+      // console.log('Search initiated with filters:', apiFilters);
       
       // Call the onSearch callback with the current filters
       await onSearch(apiFilters);

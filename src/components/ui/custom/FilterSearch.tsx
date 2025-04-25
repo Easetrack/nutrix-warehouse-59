@@ -42,7 +42,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
 
   // Update initial values when they change from parent
   useEffect(() => {
-    console.log("FilterSearch: initialValues updated", initialValues);
+    // console.log("FilterSearch: initialValues updated", initialValues);
   }, [initialValues]);
 
   const shouldShowInput = (input: 'search' | 'date' | 'selectLocation' | 'selectProduct') =>

@@ -65,29 +65,29 @@ export const useStockData = () => {
     setCurrentPage(1);
     await handleFetchData({ page: 1, perPage: newPerPage });
   };
-  
+
   const handleAdvancedSearch = async (values: FilterValues) => {
     setAdvancedFilterValues(values);
     setCurrentPage(1);
-    
+
     // Create a new object for query params that matches StockUpdateLotQueryParams
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
-    
+
     // Define a list of valid keys that exist in StockUpdateLotQueryParams
     const validKeys = [
-      'page', 'perPage', 'search', 'searchDate', 'expiredDate', 
-      'categoryId', 'typeId', 'subTypeId', 'barcode', 'productId', 
-      'productName', 'unitId', 'serialNo', 'stockId', 'zoneId', 
-      'areaId', 'subAreaId', 'searchByCategory', 'searchByType', 
-      'searchBySubType', 'searchByBarcode', 'searchByProductId', 
+      'page', 'perPage', 'search', 'searchDate', 'expiredDate',
+      'categoryId', 'typeId', 'subTypeId', 'barcode', 'productId',
+      'productName', 'unitId', 'serialNo', 'stockId', 'zoneId',
+      'areaId', 'subAreaId', 'searchByCategory', 'searchByType',
+      'searchBySubType', 'searchByBarcode', 'searchByProductId',
       'searchByProductName', 'searchByUnit', 'searchTerm'
     ];
-    
+
     // Copy primitive values that match between types
     Object.keys(values).forEach(key => {
       const typedKey = key as keyof FilterValues;
       const value = values[typedKey];
-      
+
       if (value !== undefined && value !== null && !(value instanceof Date)) {
         // Only assign if the key is in our valid keys list
         if (validKeys.includes(key)) {
@@ -95,32 +95,41 @@ export const useStockData = () => {
         }
       }
     });
-    
+
+    if (values.warehouse && values.warehouse !== "All Warehouses") {
+      queryParams.stockId = values.warehouse;
+      if (values.warehouse === "All-Warehouse") {
+        queryParams.stockId = "";
+      }
+    } else {
+      queryParams.stockId = ""; // หรือไม่ใส่เลยก็ได้
+    }
+
     // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');
     }
-    
+
     if (values.expiredDate) {
       queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
-    
+
     await handleFetchData(queryParams);
   };
-  
+
   const handleAdvancedClear = async () => {
     setAdvancedFilterValues({});
     setCurrentPage(1);
     await handleFetchData({});
   };
-  
+
   const handleSearch = async () => {
     setCurrentPage(1);
     await handleFetchData({
       searchTerm: filters.searchTerm
     });
   };
-  
+
   const handleClear = async () => {
     filters.setSearchTerm("");
     setCurrentPage(1);

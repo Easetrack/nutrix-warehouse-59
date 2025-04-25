@@ -17,8 +17,10 @@ export const useStockData = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<unknown>(null);
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
-  
+
   const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
+    // console.log("warehouse ที่ส่งมา handleFetchData", params); // 👈 log ได้ตรงนี้
+    console.log('queryParams stockId handleFetchData', params.stockId)
     const queryParams: StockUpdateLotQueryParams = {
       ...params,
       page: currentPage,
@@ -29,6 +31,8 @@ export const useStockData = () => {
       sortDirection
     };
     await stockItems.fetchStockData(queryParams);
+
+
   };
 
   const filters = useStockUpdateFilters(handleFetchData);
@@ -66,29 +70,31 @@ export const useStockData = () => {
     setCurrentPage(1);
     await handleFetchData({ page: 1, perPage: newPerPage });
   };
-  
+
   const handleAdvancedSearch = async (values: FilterValues) => {
+    console.log('queryParams stockId handleAdvancedSearch', values.warehouse)
+
     setAdvancedFilterValues(values);
     setCurrentPage(1);
-    
+
     // Create a new object for query params that matches StockUpdateLotQueryParams
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
-    
+
     // Define a list of valid keys that exist in StockUpdateLotQueryParams
     const validKeys = [
-      'page', 'perPage', 'search', 'searchDate', 'expiredDate', 
-      'categoryId', 'typeId', 'subTypeId', 'barcode', 'productId', 
-      'productName', 'unitId', 'serialNo', 'stockId', 'zoneId', 
-      'areaId', 'subAreaId', 'searchByCategory', 'searchByType', 
-      'searchBySubType', 'searchByBarcode', 'searchByProductId', 
+      'page', 'perPage', 'search', 'searchDate', 'expiredDate',
+      'categoryId', 'typeId', 'subTypeId', 'barcode', 'productId',
+      'productName', 'unitId', 'serialNo', 'stockId', 'zoneId',
+      'areaId', 'subAreaId', 'searchByCategory', 'searchByType',
+      'searchBySubType', 'searchByBarcode', 'searchByProductId',
       'searchByProductName', 'searchByUnit', 'searchTerm'
     ];
-    
+
     // Copy primitive values that match between types
     Object.keys(values).forEach(key => {
       const typedKey = key as keyof FilterValues;
       const value = values[typedKey];
-      
+
       if (value !== undefined && value !== null && !(value instanceof Date)) {
         // Only assign if the key is in our valid keys list
         if (validKeys.includes(key)) {
@@ -96,33 +102,48 @@ export const useStockData = () => {
         }
       }
     });
-    
+
+    if (values.warehouse && values.warehouse !== "All Warehouses") {
+      queryParams.stockId = values.warehouse;
+      if (values.warehouse === "All-Warehouse") {
+        queryParams.stockId = "";
+      }
+    } else {
+      queryParams.stockId = ""; // หรือไม่ใส่เลยก็ได้
+    }
+
     // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');
     }
-    
+
     if (values.expiredDate) {
       queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
-    
+
     await handleFetchData(queryParams);
   };
-  
+
   const handleAdvancedClear = async () => {
+    console.log("handleAdvancedClear")
     setAdvancedFilterValues({});
     setCurrentPage(1);
     await handleFetchData({});
+
   };
-  
+
   const handleSearch = async () => {
     setCurrentPage(1);
+    console.log("handleSearch")
     await handleFetchData({
       searchTerm: filters.searchTerm,
-      search: filters.searchTerm
+      search: filters.searchTerm,
+      stockId: filters.selectedWarehouse
     });
+
+
   };
-  
+
   const handleClear = async () => {
     filters.setSearchTerm("");
     setCurrentPage(1);

@@ -17,6 +17,7 @@ export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Prom
 
   const handleAdvancedSearch = async (values: FilterValues) => {
     try {
+      
       await handleFetchData({
         searchTerm: values.searchTerm,
         warehouse: values.warehouse,

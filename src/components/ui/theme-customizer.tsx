@@ -3,7 +3,7 @@ import { X, Check, Palette } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 import { Switch } from "./switch";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/stores/theme/ThemeContext";
 import { cn } from "@/lib/utils";
 
 interface ColorButtonProps {

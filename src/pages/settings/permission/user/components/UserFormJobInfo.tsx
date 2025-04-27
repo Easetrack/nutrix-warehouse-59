@@ -4,8 +4,8 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UseFormReturn } from 'react-hook-form';
-import { UserFormData } from '../../types';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { UserFormData } from '@/pages/settings/permission/types/types';
+import { useLanguage } from '@/stores/language/LanguageContext';
 
 interface UserFormJobInfoProps {
   form: UseFormReturn<UserFormData>;

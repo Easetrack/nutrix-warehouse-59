@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog';
 import { useUserContext } from '../context';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 
 const UserDialogs: React.FC = () => {
   const { 

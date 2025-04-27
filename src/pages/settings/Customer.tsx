@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 
 const CustomerSettings = () => {
   const { t } = useLanguage();

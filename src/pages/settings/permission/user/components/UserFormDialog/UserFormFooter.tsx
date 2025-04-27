@@ -3,7 +3,7 @@ import React from 'react';
 import { DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 
 interface UserFormFooterProps {
   onCancel: () => void;

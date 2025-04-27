@@ -2,7 +2,7 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 
 interface DeleteConfirmationDialogProps {
   open: boolean;

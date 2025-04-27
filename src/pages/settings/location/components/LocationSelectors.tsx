@@ -2,7 +2,7 @@
 import React from "react";
 import { FilterSelect } from "@/components/ui/custom/filter/FilterSelect";
 import { useLocationOptions } from "@/modules/location/hooks/useLocationOptions";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface LocationSelectorsProps {
   selectedWarehouse: string;

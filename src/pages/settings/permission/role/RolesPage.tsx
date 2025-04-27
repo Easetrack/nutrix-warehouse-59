@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/common/hooks/use-toast';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { mockModules } from '../mockData';
+import { useLanguage } from '@/stores/language/LanguageContext';
+import { mockModules } from '@/pages/settings/permission/types/mockData';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog';
 import RoleHeader from './components/RoleHeader';
 import RoleSearch from './components/RoleSearch';
 import RoleList from './components/RoleList';
 import AssignPermissionDialog from './components/AssignPermissionDialog';
-import { Role } from './types';
+import { Role } from '@/pages/settings/permission/role/types/types';
 
 // Mock data
 const mockRoles: Role[] = [

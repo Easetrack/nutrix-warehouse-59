@@ -14,7 +14,7 @@ import SelectWarehouse from "./pages/SelectWarehouse";
 import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./app/dashboard/layout";
 
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/stores/auth/AuthContext";
 
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";

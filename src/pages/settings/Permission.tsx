@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import UsersPage from './permission/user/UsersPage';
 import RolesPage from './permission/role/RolesPage';
 import PermissionsPage from './permission/permission/PermissionsPage';

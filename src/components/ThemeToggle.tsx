@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Repeat } from "lucide-react";
 import { useCompany } from "@/contexts/CompanyContext";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/stores/theme/ThemeContext";
 
 const ThemeToggle = () => {
   const { isAltTheme, toggleTheme: toggleCompanyTheme } = useCompany();

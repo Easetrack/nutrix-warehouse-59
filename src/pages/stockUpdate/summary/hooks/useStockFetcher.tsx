@@ -4,7 +4,7 @@ import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
-import { StockQueryParams } from "./types";
+import { StockQueryParams } from "@/pages/stockUpdate/summary/types/types";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();

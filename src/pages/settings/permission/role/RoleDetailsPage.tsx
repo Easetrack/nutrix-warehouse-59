@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import RoleDetailsHeader from './components/RoleDetailsHeader';
 import { Button } from '@/components/ui/button';
 

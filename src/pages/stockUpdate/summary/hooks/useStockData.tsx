@@ -8,7 +8,7 @@ import { useStockAuth } from "./useStockAuth";
 import { StockItem } from "@/common/types/stockupdate/summary";
 import { useStockFilterOperations } from "./useStockFilterOperations";
 import { useStockPaginationOperations } from "./useStockPaginationOperations";
-import { AdvancedSearchValues } from "./types";
+import { AdvancedSearchValues } from "@/pages/stockUpdate/summary/types/types";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();

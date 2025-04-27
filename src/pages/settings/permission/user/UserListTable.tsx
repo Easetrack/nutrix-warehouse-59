@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Eye, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { User } from '../types';
+import { useLanguage } from '@/stores/language/LanguageContext';
+import { User } from '@/pages/settings/permission/types/types';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,

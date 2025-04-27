@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
 import { ProductFilterValues } from '@/common/types/filter';
 import { useFilterOptions } from '@/common/hooks/useFilterOptions';
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface FilterProductSelectsProps {
   values: ProductFilterValues;

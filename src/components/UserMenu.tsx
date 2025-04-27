@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { useToast } from '@/components/ui/use-toast';
 import UserProfileDialog from './UserProfileDialog';
 import { User, LogOut, Globe, Settings, Bell, UserCog } from 'lucide-react';

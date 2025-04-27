@@ -1,6 +1,6 @@
 
 import { format } from "date-fns";
-import { StockQueryParams } from "../summary/hooks/types";
+import { StockQueryParams } from "@/pages/stockUpdate/summary/types/types";
 
 export const useQueryBuilder = () => {
   const buildQueryParams = ({

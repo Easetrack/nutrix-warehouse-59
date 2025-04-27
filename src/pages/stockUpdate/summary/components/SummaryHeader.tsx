@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FilterSearch } from "@/components/ui/custom/FilterSearch";
 import type { FilterValues } from '@/types/filter';
 import { useToast } from "@/common/hooks/use-toast";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface SummaryHeaderProps {
   searchTerm: string;

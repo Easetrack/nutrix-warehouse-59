@@ -2,7 +2,7 @@
 import React from 'react';
 import { Search, RotateCcw, Loader } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface FilterActionsProps {
   onClear: () => void;

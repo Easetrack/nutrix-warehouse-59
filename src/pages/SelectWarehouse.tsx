@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useTheme } from "@/stores/theme/ThemeContext";
 import { getAuthTokens } from "@/common/utils/auth";
 import { useWarehouseSelection } from "@/common/hooks/useWarehouseSelection";
 import { WarehouseHeader } from "@/components/warehouse/WarehouseHeader";

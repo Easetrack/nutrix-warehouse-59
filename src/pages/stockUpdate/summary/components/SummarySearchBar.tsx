@@ -1,7 +1,7 @@
 
 import React, { KeyboardEvent, useState } from "react";
 import { Search, RefreshCcw, Loader, RotateCcw } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 import { Button } from '@/components/ui/button';
 
 interface SummarySearchBarProps {

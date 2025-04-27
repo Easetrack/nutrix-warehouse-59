@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LocationSelectors } from "./LocationSelectors";
 import { LocationType } from "@/modules/location/types";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface LocationFormProps {
   onSubmit: (e: React.FormEvent) => void;

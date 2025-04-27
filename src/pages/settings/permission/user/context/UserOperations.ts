@@ -1,4 +1,4 @@
-import { User, Module, UserFormData } from '../../types';
+import { User, Module, UserFormData } from '@/pages/settings/permission/types/types';
 import { SetStateAction, Dispatch } from 'react';
 
 interface UserOperationsProps {

@@ -2,7 +2,7 @@
 import React from "react";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SortIndicator } from "./SortIndicator";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 interface TableHeadersProps {
   sortColumn: string | null;
   sortDirection: "asc" | "desc";

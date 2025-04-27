@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { LocationForm } from "./components/LocationForm";
 import { LocationType } from "@/modules/location/types";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface LocationAddEditModalProps {
   show: boolean;

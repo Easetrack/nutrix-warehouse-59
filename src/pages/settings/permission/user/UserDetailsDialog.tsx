@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { Edit } from 'lucide-react';
-import { User } from '../types';
+import { User } from '@/pages/settings/permission/types/types';
 
 interface UserDetailsDialogProps {
   open: boolean;

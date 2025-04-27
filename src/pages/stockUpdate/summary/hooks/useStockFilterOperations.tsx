@@ -1,5 +1,5 @@
 
-import { AdvancedSearchValues, StockQueryParams } from "./types";
+import { AdvancedSearchValues, StockQueryParams } from "@/pages/stockUpdate/summary/types/types";
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { useFilterState } from "./useFilterState";

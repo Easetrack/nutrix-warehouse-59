@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/features/auth/components/LoginForm';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useTheme } from '@/stores/theme/ThemeContext';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();

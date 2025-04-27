@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { User } from '../../types';
+import { User } from '@/pages/settings/permission/types/types';
 
 interface UserDetailsHeaderProps {
   user: User;

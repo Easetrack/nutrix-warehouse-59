@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { ArrowLeft, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { User, Mail, Phone, Building, Bell, Settings, Check } from 'lucide-react';
 
 interface UserProfileDialogProps {

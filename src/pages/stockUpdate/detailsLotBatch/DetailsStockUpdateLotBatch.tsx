@@ -9,7 +9,7 @@ import { SearchBar } from "./components/SearchBar";
 import { LoadingState } from "./components/LoadingState";
 import { ErrorState } from "./components/ErrorState";
 import { ContentWrapper } from "./components/ContentWrapper";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 const DetailsStockUpdateLotBatch = () => {
   const { toast } = useToast();

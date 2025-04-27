@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];

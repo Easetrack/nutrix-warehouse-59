@@ -1,6 +1,6 @@
 
 import { createContext, useContext } from 'react';
-import { UserContextProps } from './UserContextTypes';
+import { UserContextProps } from '@/pages/settings/permission/user/context/types/UserContextTypes';
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 

@@ -1,7 +1,7 @@
 
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
-import { StockQueryParams } from "./types";
+import { StockQueryParams } from "@/pages/stockUpdate/summary/types/types";
 
 interface QueryBuilderProps {
   currentPage: number;

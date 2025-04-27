@@ -2,7 +2,7 @@
 import React from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { UseFormReturn } from 'react-hook-form';
-import { Module, UserFormData } from '../../../types';
+import { Module, UserFormData } from '@/pages/settings/permission/types/types';
 import UserFormHeader from './UserFormHeader';
 import UserFormContent from './UserFormContent';
 import UserFormFooter from './UserFormFooter';

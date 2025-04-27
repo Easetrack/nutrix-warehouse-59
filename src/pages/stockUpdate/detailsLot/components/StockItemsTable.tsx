@@ -12,7 +12,7 @@ import {
 import { TableHeaders } from "./table/TableHeaders";
 import { TableRows } from "./table/TableRows";
 import { StockItem } from "@/common/types/stockupdate/lot";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];

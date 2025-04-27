@@ -4,10 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/stores/language/LanguageContext';
 import { useToast } from '@/common/hooks/use-toast';
 import RoleEditHeader from './components/RoleEditHeader';
-import { Role } from './types';
+import { Role } from '@/pages/settings/permission/role/types/types';
 
 // Mock role data - in a real app, you would fetch this from an API
 const getRoleById = (id: string): Role => {

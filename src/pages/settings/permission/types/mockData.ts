@@ -1,5 +1,5 @@
 
-import { User, Module } from './types';
+import { User, Module } from '@/pages/settings/permission/types/types';
 
 // Mock users data for authentication and user management
 export const mockUsers: User[] = [

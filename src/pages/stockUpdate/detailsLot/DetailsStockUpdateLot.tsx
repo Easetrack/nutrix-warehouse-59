@@ -11,7 +11,7 @@ import { useStockData } from "./hooks/useStockData";
 import { StockHeader } from "./components/StockHeader";
 import { SearchBar } from "./components/SearchBar";
 import { StockPagination } from "@/components/ui/StockPagination";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 const DetailsStockUpdateLot = () => {
   const { toast } = useToast();

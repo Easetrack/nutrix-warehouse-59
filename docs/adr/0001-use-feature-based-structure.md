@@ -41,3 +41,11 @@ src/
 ### Negative
 - May require some initial setup time
 - Developers need to understand and follow the structure
+
+## Implementation Notes
+
+We have begun implementation of this structure with the `features/` directory while gradually migrating from our previous structure. The modules directory maintains a similar approach with more specific domain boundaries.
+
+## References
+
+- [MIGRATION_PLAN.md](../../MIGRATION_PLAN.md) - Details the step-by-step process for migrating to this structure

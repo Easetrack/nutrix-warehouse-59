@@ -27,3 +27,12 @@ We will use Zustand as our primary state management solution instead of alternat
 ### Negative
 - Less ecosystem/tooling compared to Redux
 - May need additional patterns for complex state logic
+
+## Implementation Notes
+
+Zustand will be used for global state management alongside React Context for specific use cases like authentication and theming. This hybrid approach allows us to use the best tool for each specific state management need.
+
+## References
+
+- [Zustand Documentation](https://github.com/pmndrs/zustand)
+- [React Context API](https://reactjs.org/docs/context.html)

@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { ThemeProvider } from "@/stores/theme/ThemeContext.tsx";
 import { LanguageProvider } from "@/stores/language/LanguageContext.tsx";
 import { Toaster } from "sonner";
-import "./index.css";
+import "@/core/theme/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

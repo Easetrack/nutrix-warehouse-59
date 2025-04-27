@@ -1,4 +1,3 @@
-
 # WMS WebApp - ระบบจัดการคลังสินค้า
 
 ![WMS Logo](public/placeholder.svg)
@@ -22,11 +21,13 @@ For more information, please refer to these documentation files:
 ## ฟีเจอร์หลัก (Core Features)
 
 1. **การจัดการสต็อก (Stock Management)**
+
    - การดูข้อมูลสต็อก (Stock viewing)
    - การอัปเดตสต็อก (Stock updates)
    - การติดตามล็อต (Lot tracking)
 
 2. **การจัดการคลังสินค้า (Warehouse Management)**
+
    - การจัดการโซน (Zone management)
    - การจัดการพื้นที่ (Area management)
    - การติดตามความจุ (Capacity tracking)
@@ -39,6 +40,7 @@ For more information, please refer to these documentation files:
 ## การเริ่มต้นใช้งาน (Getting Started)
 
 1. **ติดตั้ง Dependencies**
+
 ```bash
 npm install
 # หรือ
@@ -46,6 +48,7 @@ pnpm install
 ```
 
 2. **เริ่มต้น Development Server**
+
 ```bash
 npm run dev
 # หรือ
@@ -53,6 +56,7 @@ pnpm dev
 ```
 
 3. **การ Build สำหรับ Production**
+
 ```bash
 npm run build
 # หรือ

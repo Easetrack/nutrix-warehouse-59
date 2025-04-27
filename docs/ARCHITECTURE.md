@@ -1,4 +1,3 @@
-
 # WMS WebApp - สถาปัตยกรรมโปรเจค (Project Architecture)
 
 เอกสารนี้อธิบายสถาปัตยกรรมและโครงสร้างของ WMS WebApp
@@ -6,6 +5,100 @@
 ## 1. โครงสร้างโปรเจค (Project Structure)
 
 แอปพลิเคชันใช้การจัดระเบียบตามฟีเจอร์โดยมีการแยกส่วนที่เกี่ยวข้องอย่างชัดเจน:
+
+### (Project Structure) Dreame
+```
+src/
+├── app/                      # Next.js app router (ถ้าใช้ Next.js)
+│   ├── (auth)/               # Auth related routes
+│   ├── (main)/               # Main app routes (ต้อง login)
+│   ├── api/                  # API routes
+│   └── ...
+│
+├── assets/                   # ไฟล์ static
+│   ├── images/               # ภาพทั้งหมด
+│   ├── icons/                # SVG icons
+│   ├── fonts/                # Font files
+│   └── styles/               # Global styles
+│
+├── common/                   # ไฟล์ที่ใช้ร่วมกันทั่วโปรเจค
+│   ├── hooks/                # Global hooks
+│   │   ├── use-auth.ts       # Auth hook
+│   │   ├── use-toast.ts      # Toast notification
+│   │   └── ...
+│   ├── utils/                # Utility functions
+│   │   ├── api.ts            # API helpers
+│   │   ├── formatters.ts     # Data formatting
+│   │   └── ...
+│   └── types/                # Global types/interfaces
+│       ├── api.ts            # API response types
+│       ├── auth.ts           # Auth related types
+│       └── ...
+│
+├── core/                     # ระบบหลักของแอป
+│   ├── auth/                 # Authentication system
+│   │   ├── components/       # Auth components
+│   │   ├── hooks/            # Auth hooks
+│   │   ├── providers/        # Auth providers
+│   │   └── services/        # Auth services
+│   ├── i18n/                 # Internationalization
+│   │   ├── locales/          # Translation files
+│   │   └── provider.tsx      # I18n provider
+│   └── theme/                # Theme management
+│       ├── components/       # Theme components
+│       ├── hooks/            # Theme hooks
+│       └── provider.tsx      # Theme provider
+│
+├── features/                 # Feature modules (แต่ละ feature แยกชัดเจน)
+│   ├── dashboard/            # Dashboard feature
+│   │   ├── components/       # Components เฉพาะ dashboard
+│   │   ├── hooks/            # Hooks เฉพาะ dashboard
+│   │   ├── services/         # Services เฉพาะ dashboard
+│   │   ├── types/            # Types เฉพาะ dashboard
+│   │   └── index.ts          # Public exports
+│   │
+│   ├── inventory/            # Inventory management
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── ...
+│   │
+│   ├── settings/             # System settings
+│   │   ├── user-management/  # User management
+│   │   ├── role-management/  # Role management
+│   │   └── ...
+│   │
+│   └── reports/              # Reporting feature
+│       ├── components/
+│       ├── hooks/
+│       ├── services/
+│       └── ...
+│
+├── services/                 # API services
+│   ├── api/                  # API clients
+│   │   ├── axios-client.ts   # Axios instance
+│   │   └── ...
+│   ├── inventory/            # Inventory services
+│   ├── auth/                 # Auth services
+│   └── ...
+│
+├── stores/                   # State management (Zustand/Jotai)
+│   ├── auth.store.ts         # Auth state
+│   ├── ui.store.ts           # UI state
+│   └── ...
+│
+├── testing/                  # Test utilities
+│   ├── mocks/                # Mock data
+│   ├── utils/                # Test utils
+│   └── ...
+│
+└── types/                    # Global type definitions
+    ├── index.d.ts            # Global types
+    └── ...
+```
+
+### (Project Structure) Reale(Now)
 
 ```
 src/
@@ -18,7 +111,7 @@ src/
 │   └── ...          # Components อื่นๆ ที่นำกลับมาใช้ใหม่ได้
 ├── modules/         # โมดูลตามฟีเจอร์
 │   ├── location/    # การจัดการตำแหน่งในคลัง
-│   ├── inventory/   # การจัดการสินค้าคงคลัง  
+│   ├── inventory/   # การจัดการสินค้าคงคลัง
 │   └── auth/        # การจัดการการเข้าสู่ระบบ
 ├── pages/           # หน้าต่างๆ แยกตามฟีเจอร์
 │   ├── stockUpdate/ # การอัปเดตสต็อก
@@ -41,29 +134,36 @@ src/
 ## 2. พื้นฐานทางเทคนิค (Technical Foundation)
 
 ### Frontend Framework
+
 - **React**: ใช้เป็น UI Library หลัก
 - **TypeScript**: ใช้ในการเขียนโค้ดทั้งหมด เพื่อความปลอดภัยของ type
 
 ### การทำ Styling
+
 - **Tailwind CSS**: ใช้สำหรับการจัดการ style ของ components
 - **shadcn/ui**: ใช้เป็นพื้นฐานสำหรับ UI components
 
 ### การจัดการ State
+
 - **React Context API**: สำหรับการจัดการ global state
 - **React Query**: สำหรับการจัดการ server state และการเชื่อมต่อกับ API
 
 ### Routing
+
 - **React Router**: สำหรับการจัดการ routes และ navigation
 
 ## 3. แนวทางการออกแบบสถาปัตยกรรม (Architectural Approach)
 
 ### Feature-based Structure
+
 โปรเจคใช้โครงสร้างแบบ feature-based ซึ่งจะแยกโค้ดตามฟีเจอร์ ไม่ใช่ตามประเภทของไฟล์ ทำให้ส่วนที่เกี่ยวข้องกันอยู่ใกล้กันมากขึ้น
 
 ### Module-based Organization
+
 ภายในแต่ละฟีเจอร์ จะมีการแยกโมดูลย่อยๆ ตามหน้าที่ เช่น components, hooks, types ทำให้การค้นหาและการบำรุงรักษาโค้ดทำได้ง่ายขึ้น
 
 ### Context for Global State
+
 ใช้ React Context API สำหรับการจัดการ global state ที่ต้องการเข้าถึงจากหลายๆ ส่วนของแอปพลิเคชัน เช่น การยืนยันตัวตน การตั้งค่าภาษา
 
 ## 4. Architectural Decision Records (ADRs)

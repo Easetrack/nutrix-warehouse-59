@@ -1,7 +1,7 @@
 
 import React from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { StockItem } from "@/common/types/stockupdate/lot";
+import { StockItem } from "@/common/types/stockupdate/lotBatch";
 import { format, parseISO } from 'date-fns';
 
 interface TableRowsProps {
@@ -68,4 +68,4 @@ export const TableRows: React.FC<TableRowsProps> = ({
       ))}
     </TableBody>
   );
-};
+}

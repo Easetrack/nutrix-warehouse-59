@@ -38,15 +38,15 @@ export interface StockItem {
     combinedLocation: string;
     isExpired: boolean;
     expiredStatus: string;
-    // Adding fields from lotBatch.ts for compatibility
-    packagingTypeName?: string;
-    packagingTypeId?: string;
-    packKgs?: number;
-    totalKgs?: number;
-    totalLot?: number | null;
-    lotNumber?: string;
-    locations?: string | null;
-    totalLocation?: number;
+    // Making lotBatch properties required in this interface too
+    packagingTypeName: string;
+    packagingTypeId: string;
+    packKgs: number;
+    totalKgs: number;
+    totalLot: number | null;
+    lotNumber: string;
+    locations: string | null;
+    totalLocation: number;
 }
 
 export interface StockLotResponse {

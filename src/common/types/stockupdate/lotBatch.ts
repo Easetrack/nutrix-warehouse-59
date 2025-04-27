@@ -31,22 +31,22 @@ export interface StockItem {
     lotBatch: string;
     locations: string | null;
     totalLocation: number;
-    // Adding fields from lot.ts for compatibility
-    shelfLifeDays?: number;
-    expiredDate?: string;
-    stockId?: string;
-    warehouse?: string;
-    zoneId?: string;
-    zoneName?: string;
-    areaId?: string;
-    areaName?: string;
-    subAreaId?: string;
-    subAreaName?: string;
-    tagQty?: number;
-    nonTagQty?: number;
-    combinedLocation?: string;
-    isExpired?: boolean;
-    expiredStatus?: string;
+    // Making lot properties required in this interface too
+    shelfLifeDays: number;
+    expiredDate: string;
+    stockId: string;
+    warehouse: string;
+    zoneId: string;
+    zoneName: string;
+    areaId: string;
+    areaName: string;
+    subAreaId: string;
+    subAreaName: string;
+    tagQty: number;
+    nonTagQty: number;
+    combinedLocation: string;
+    isExpired: boolean;
+    expiredStatus: string;
 }
 
 export interface StockResponse {

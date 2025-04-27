@@ -31,13 +31,22 @@ export interface StockItem {
     tagQty: number;
     nonTagQty: number;
     image: string;
-    brand?: string;
-    styleNo?: string;
-    tags?: number;
-    nonTags?: number;
+    brand: string;
+    styleNo: string;
+    tags: number;
+    nonTags: number;
     combinedLocation: string;
     isExpired: boolean;
     expiredStatus: string;
+    // Adding fields from lotBatch.ts for compatibility
+    packagingTypeName?: string;
+    packagingTypeId?: string;
+    packKgs?: number;
+    totalKgs?: number;
+    totalLot?: number | null;
+    lotNumber?: string;
+    locations?: string | null;
+    totalLocation?: number;
 }
 
 export interface StockLotResponse {

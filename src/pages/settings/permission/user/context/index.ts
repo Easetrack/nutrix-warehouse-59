@@ -1,4 +1,4 @@
 
 export * from './UserContext';
-export * from './UserContextProvider';
+export { UserProvider } from './UserProvider';
 export type { UserContextProps } from './types/UserContextTypes';

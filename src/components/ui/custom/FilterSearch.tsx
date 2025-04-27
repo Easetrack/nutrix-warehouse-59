@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -12,7 +11,7 @@ import { FilterSearchProps, FilterValues } from '@/common/types/filter';
 import { DatePicker } from '@/components/ui/date-picker'
 
 // Export the FilterValues type for backward compatibility
-export type { FilterValues } from '@/types/filter';
+export type { FilterValues } from '@/common/types/filter';
 
 export const FilterSearch: React.FC<FilterSearchProps> = ({
   onSearch,

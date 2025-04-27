@@ -31,10 +31,14 @@ export interface StockItem {
     tagQty: number;
     nonTagQty: number;
     image: string;
+    brand?: string;
+    styleNo?: string;
+    tags?: number;
+    nonTags?: number;
     combinedLocation: string;
     isExpired: boolean;
     expiredStatus: string;
-  }
+}
 
 export interface StockLotResponse {
     perPage: number;

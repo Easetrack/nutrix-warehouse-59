@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { FilterSearch } from './FilterSearch';
-import type { FilterValues } from '@/types/filter';
+import type { FilterValues } from '@/common/types/filter';
 
 // Re-export the FilterSearch component as FilterSearchTime for backward compatibility
 export { FilterSearch };

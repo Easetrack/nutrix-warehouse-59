@@ -13,4 +13,4 @@ export const useFilterOptions = () => {
   };
 };
 
-export type { FilterOption } from '@/types/filterOptions';
+export type { FilterOption } from '../types/filterOptions';

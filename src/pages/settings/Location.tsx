@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Plus } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import WarehouseSummaryCards from "./location/WarehouseSummaryCards";
 import LocationActionBar from "./location/LocationActionBar";
 import LocationTable from "./location/LocationTable";

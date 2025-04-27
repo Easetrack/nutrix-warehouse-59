@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Save, Store, Boxes, Users, Database, Settings as SettingsIcon, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 
 const SystemTab: React.FC = () => {
   const { toast } = useToast();

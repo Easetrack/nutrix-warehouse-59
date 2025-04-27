@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 
 export const useQueryParams = () => {
   const [searchTerm, setSearchTerm] = useState("");

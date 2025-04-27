@@ -22,7 +22,7 @@ import {
   Copy,
   Trash2,
 } from 'lucide-react';
-import { PermissionItem } from '@/types/settingType/permission/permission';
+import { PermissionItem } from '@/common/types/settingType/permission/permission';
 
 interface PermissionTableProps {
   permissions: PermissionItem[];

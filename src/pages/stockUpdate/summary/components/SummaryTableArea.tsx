@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StockItemsTable } from "./StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
 import { StockItemDetailsDialog } from "./StockItemDetailsDialog";
-import { StockItem } from "@/types/stockupdate/summary";
+import { StockItem } from "@/common/types/stockupdate/summary";
 
 interface SummaryTableAreaProps {
   filteredItems: StockItem[];

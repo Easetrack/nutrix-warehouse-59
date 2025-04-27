@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loading } from "@/components/ui/custom/loading";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import { StockItemsTable } from "./components/StockItemsTable";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
 import { useStockData } from "./hooks/useStockData";

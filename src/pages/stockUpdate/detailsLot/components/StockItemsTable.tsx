@@ -11,7 +11,7 @@ import {
 
 import { TableHeaders } from "./table/TableHeaders";
 import { TableRows } from "./table/TableRows";
-import { StockItem } from "@/types/stockupdate/lot";
+import { StockItem } from "@/common/types/stockupdate/lot";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockItemsTableProps {

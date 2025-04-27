@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { StockItem } from "@/types/stockupdate/summary";
+import { StockItem } from "@/common/types/stockupdate/summary";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StockItemsTableProps {

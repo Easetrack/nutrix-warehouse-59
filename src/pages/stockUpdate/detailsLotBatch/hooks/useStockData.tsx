@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useStockAuth } from "../../hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
 import { useStockUpdateFilters } from "../../hooks/useStockUpdateFilters";
-import { FilterValues } from "@/types/filter";
-import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { FilterValues } from "@/common/types/filter";
+import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 
 export const useStockData = () => {

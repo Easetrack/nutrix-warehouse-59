@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { fetchWarehouses, fetchZones, fetchAreas, fetchSubAreas } from '../api/locationApi';
-import { FilterOption } from '@/types/filterOptions';
+import { FilterOption } from '@/common/types/filterOptions';
 import { WarehouseResponse, ZoneResponse, AreaResponse, SubAreaResponse } from '../types/api';
 
 export const useLocationOptions = () => {

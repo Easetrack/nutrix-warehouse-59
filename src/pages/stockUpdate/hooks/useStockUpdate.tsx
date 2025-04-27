@@ -1,5 +1,5 @@
 
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import { useStockUpdateAuth } from "./useStockUpdateAuth";
 import { useStockUpdateFilters } from "./useStockUpdateFilters";
 import { useStockUpdatePagination } from "./useStockUpdatePagination";

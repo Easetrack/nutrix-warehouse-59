@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import LowStockItemsCard from '../alerts/LowStockItemsCard';
 import ExpiringItemsCard from '../alerts/ExpiringItemsCard';
 import SystemNotificationsCard from '../alerts/SystemNotificationsCard';
-import { NotificationType } from '@/types/dashboard';
+import { NotificationType } from '@/common/types/dashboard';
 
 const containerVariants = {
   hidden: { opacity: 0 },

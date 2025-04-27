@@ -2,7 +2,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { User, Module } from '../../types';
 import { mockUsers, mockModules } from '../../mockData';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import UserContext from './UserContext';
 import { createUserOperations } from './UserOperations';

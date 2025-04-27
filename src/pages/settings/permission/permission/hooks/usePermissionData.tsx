@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { authenticatedFetch } from '@/utils/auth';
-import { PermissionItem } from '@/types/settingType/permission/permission';
+import { authenticatedFetch } from '@/common/utils/auth';
+import { PermissionItem } from '@/common/types/settingType/permission/permission';
 
 export const usePermissionData = () => {
   const { toast } = useToast();

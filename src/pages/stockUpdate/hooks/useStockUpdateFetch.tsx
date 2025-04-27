@@ -1,8 +1,8 @@
 
 import { useState, useCallback } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { StockItem, StockResponse } from "@/types/stock";
-import { authenticatedFetch } from "@/utils/auth";
+import { useToast } from "@/common/hooks/use-toast";
+import { StockItem, StockResponse } from "@/common/types/stock";
+import { authenticatedFetch } from "@/common/utils/auth";
 
 export const useStockUpdateFetch = ({
   filters,

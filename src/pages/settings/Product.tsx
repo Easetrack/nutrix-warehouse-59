@@ -6,7 +6,7 @@ import ProductDialog from "./product/ProductDialog";
 import ProductDeleteDialog from "./product/ProductDeleteDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 
 import { Product } from "./product/types"; // Assuming you have a Product type defined in your types folder
 

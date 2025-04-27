@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/common/types/stock";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;

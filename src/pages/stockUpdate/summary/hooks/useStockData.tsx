@@ -5,7 +5,7 @@ import { usePagination } from "./usePagination";
 import { useStockFetcher } from "./useStockFetcher";
 import { useItemSelection } from "./useItemSelection";
 import { useStockAuth } from "./useStockAuth";
-import { StockItem } from "@/types/stockupdate/summary";
+import { StockItem } from "@/common/types/stockupdate/summary";
 import { useStockFilterOperations } from "./useStockFilterOperations";
 import { useStockPaginationOperations } from "./useStockPaginationOperations";
 import { AdvancedSearchValues } from "./types";

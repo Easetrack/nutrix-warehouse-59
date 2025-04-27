@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { FilterValues, FilterSearchProps } from "@/types/filter";
+import { FilterValues, FilterSearchProps } from "@/common/types/filter";
 
 // Default localStorage key (fallback)
 const DEFAULT_FILTER_LOCALSTORAGE_KEY = "filterSearchValues";

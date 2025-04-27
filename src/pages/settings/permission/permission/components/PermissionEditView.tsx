@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft } from 'lucide-react';
-import { PermissionItem } from '@/types/settingType/permission/permission';
+import { PermissionItem } from '@/common/types/settingType/permission/permission';
 
 interface PermissionEditViewProps {
   selectedPermission: PermissionItem;

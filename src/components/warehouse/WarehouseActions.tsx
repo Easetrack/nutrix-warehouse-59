@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Location } from "@/utils/auth";
+import { Location } from "@/common/utils/auth";
 
 interface WarehouseActionsProps {
   selectedWarehouse: Location | null;

@@ -5,7 +5,7 @@ import { usePagination } from "./usePagination";
 import { useStockFetcher } from "./useStockFetcher";
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockAuth } from "./useStockAuth";
-import { StockUpdateQueryParams } from "@/types/stockupdate/api";
+import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();

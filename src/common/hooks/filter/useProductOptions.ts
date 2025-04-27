@@ -5,9 +5,9 @@ import {
   fetchTypes,
   fetchSubTypes,
   fetchUnits,
-} from '@/services/product';
-import { useToast } from '@/hooks/use-toast';
-import type { FilterOption } from '@/types/filterOptions';
+} from '@/services/srp/product/product';
+import { useToast } from "@/common/hooks/use-toast";
+import type { FilterOption } from "@/common/types/filterOptions";
 
 export const useProductOptions = () => {
   const { toast } = useToast();

@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { NotificationType } from '@/types/dashboard';
+import { NotificationType } from '@/common/types/dashboard';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },

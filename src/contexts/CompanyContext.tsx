@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { fetchCompanyData, CompanyData } from '../utils/companyApi';
+import { fetchCompanyData, CompanyData } from '@/common/utils/companyApi';
 
 interface CompanyContextType {
   isAltTheme: boolean;

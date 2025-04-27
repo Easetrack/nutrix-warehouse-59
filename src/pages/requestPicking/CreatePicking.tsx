@@ -7,7 +7,7 @@ import { PickingRequestSection } from './create/PickingRequestSection';
 import { NewItemSection } from './create/NewItemSection';
 import { ItemsTable } from './create/ItemsTable';
 import { ConfirmationDialog } from './create/ConfirmationDialog';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 
 interface Customer {
   id: string;

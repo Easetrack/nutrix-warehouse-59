@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { refreshAccessToken, logout } from "@/utils/auth";
+import { refreshAccessToken, logout } from "@/common/utils/auth";
 
 const apiClient = axios.create({
   baseURL: "https://webapiorg.easetrackwms.com/api/v1",

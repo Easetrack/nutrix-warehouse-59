@@ -1,8 +1,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
-import { LocationFilterValues } from '@/types/filter';
-import { useFilterOptions } from '@/hooks/useFilterOptions';
+import { LocationFilterValues } from '@/common/types/filter';
+import { useFilterOptions } from '@/common/hooks/useFilterOptions';
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterLocationSelectsProps {

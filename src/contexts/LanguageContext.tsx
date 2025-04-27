@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Language, LanguageContextType } from '../i18n/types';
-import { translations } from '../i18n/translations';
+import { Language, LanguageContextType } from '@/core/i18n/types';
+import { translations } from '@/core/i18n/translations';
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 

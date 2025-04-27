@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { FilterValues } from "@/types/filter";
+import { useToast } from "@/common/hooks/use-toast";
+import { FilterValues } from "@/common/types/filter";
 
 export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Promise<void>) => {
   const { toast } = useToast();

@@ -8,8 +8,8 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
-import AuthService from '@/services/auth.service';
+import { useToast } from '@/common/hooks/use-toast';
+import AuthService from '@/services/auth/auth.service';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),

@@ -7,7 +7,7 @@ import {
   fetchTypes,
   fetchSubTypes,
   fetchUnits,
-} from "@/services/product";
+} from "@/services/srp/product/product";
 import ProductDialogForm from "./ProductDialogForm";
 
 type Product = {

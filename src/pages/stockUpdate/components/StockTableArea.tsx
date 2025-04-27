@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ArrowUpDown, Eye } from "lucide-react";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/common/types/stock";
 
 interface StockTableAreaProps {
   filteredItems: StockItem[];

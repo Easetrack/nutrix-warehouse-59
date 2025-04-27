@@ -1,5 +1,5 @@
 
-import { FilterValues } from "@/types/filter";
+import { FilterValues } from "@/common/types/filter";
 
 interface SearchHandlerProps {
   setCurrentPage: (page: number) => void;

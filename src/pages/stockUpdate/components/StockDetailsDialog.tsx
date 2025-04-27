@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/common/types/stock";
 
 interface StockDetailsDialogProps {
   isOpen: boolean;

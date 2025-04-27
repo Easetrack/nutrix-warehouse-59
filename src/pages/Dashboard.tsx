@@ -5,11 +5,11 @@ import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 import { useCompany } from '@/contexts/CompanyContext';
 import { Loading } from "@/components/ui/custom/loading";
-import { fetchProductSummary, fetchProductExpireSummary, fetchStockMaxMinSummary } from '@/utils/dashboardApi';
-import { NotificationItem } from '@/types/dashboard';
+import { fetchProductSummary, fetchProductExpireSummary, fetchStockMaxMinSummary } from '@/common/utils/dashboardApi';
+import { NotificationItem } from '@/common/types/dashboard';
 
 // Dashboard components
 import DashboardHeader from '@/components/dashboard/DashboardHeader';

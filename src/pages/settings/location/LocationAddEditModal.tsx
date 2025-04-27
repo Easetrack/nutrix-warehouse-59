@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import { LocationForm } from "./components/LocationForm";
 import { LocationType } from "@/modules/location/types";
 import { useLanguage } from "@/contexts/LanguageContext";

@@ -7,8 +7,8 @@ import { FilterSearchInput } from './filter/FilterSearchInput';
 import { FilterActions } from './filter/FilterActions';
 import { FilterLocationSelects } from './filter/FilterLocationSelects';
 import { FilterProductSelects } from './filter/FilterProductSelects';
-import { useFilterSearch } from '@/hooks/useFilterSearch';
-import { FilterSearchProps, FilterValues } from '@/types/filter';
+import { useFilterSearch } from '@/common/hooks/useFilterSearch';
+import { FilterSearchProps, FilterValues } from '@/common/types/filter';
 import { DatePicker } from '@/components/ui/date-picker'
 
 // Export the FilterValues type for backward compatibility

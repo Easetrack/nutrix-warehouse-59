@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Location } from "@/utils/auth";
+import { Location } from "@/common/utils/auth";
 
 interface WarehouseCardProps {
   location: Location;

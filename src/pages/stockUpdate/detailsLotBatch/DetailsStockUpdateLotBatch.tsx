@@ -1,7 +1,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
 import { useStockData } from "./hooks/useStockData";
 import { StockHeader } from "./components/StockHeader";

@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { PermissionItem } from '@/types/settingType/permission/permission';
+import { PermissionItem } from '@/common/types/settingType/permission/permission';
 
 interface PermissionDetailsViewProps {
   selectedPermission: PermissionItem;

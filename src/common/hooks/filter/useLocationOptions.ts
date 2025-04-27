@@ -5,9 +5,9 @@ import {
   fetchZones,
   fetchAreas,
   fetchSubAreas,
-} from "@/services/location";
-import { useToast } from "@/hooks/use-toast";
-import type { FilterOption } from "@/types/filterOptions";
+} from "@/services/srp/location/location";
+import { useToast } from "@/common/hooks/use-toast";
+import type { FilterOption } from "@/common/types/filterOptions";
 
 export const useLocationOptions = () => {
   const { toast } = useToast();

@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { StockItem } from "@/types/stock";
-import { fetchStockUpdateSummary } from "@/services/stockUpdate";
-import { StockUpdateQueryParams } from "@/types/stockupdate/api";
+import { useToast } from "@/common/hooks/use-toast";
+import { StockItem } from "@/common/types/stock";
+import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
+import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();

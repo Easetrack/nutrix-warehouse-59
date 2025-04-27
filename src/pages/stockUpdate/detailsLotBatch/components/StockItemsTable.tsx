@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Table } from "@/components/ui/table";
-import { StockItem } from "@/types/stockupdate/lotBatch";
+import { StockItem } from "@/common/types/stockupdate/lotBatch";
 import { TableHeaders } from "./table/TableHeaders";
 import { TableRows } from "./table/TableRows";
 

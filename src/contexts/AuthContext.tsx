@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuthTokens } from "@/utils/auth";
+import { getAuthTokens } from "@/common/utils/auth";
 
 type AuthContextType = {
     isAuthenticated: boolean;

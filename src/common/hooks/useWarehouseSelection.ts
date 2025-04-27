@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
-import { Location, fetchLocations, logout } from "@/utils/auth";
-import apiClient from "@/services/api-client";
+import { useToast } from "@/common/hooks/use-toast";
+import { Location, fetchLocations, logout } from "@/common/utils/auth";
+import apiClient from "@/services/api/api-client";
 import { useQuery } from '@tanstack/react-query';
 
 export const useWarehouseSelection = () => {

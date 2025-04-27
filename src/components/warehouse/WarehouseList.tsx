@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Warehouse } from "lucide-react";
-import { Location } from "@/utils/auth";
+import { Location } from "@/common/utils/auth";
 import { WarehouseCard } from "./WarehouseCard";
 
 interface WarehouseListProps {

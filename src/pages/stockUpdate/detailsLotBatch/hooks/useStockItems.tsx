@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { StockItem } from "@/types/stockupdate/lotBatch";
-import { useToast } from "@/hooks/use-toast";
-import { fetchStockUpdateByLotBatch } from "@/services/stockUpdate";
-import { StockUpdateLotQueryParams } from "@/types/stockupdate/api";
+import { StockItem } from "@/common/types/stockupdate/lotBatch";
+import { useToast } from "@/common/hooks/use-toast";
+import { fetchStockUpdateByLotBatch } from "@/services/srp/inventory/stockUpdate";
+import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 
 export const useStockItems = (locationId: string) => {
   const { toast } = useToast();

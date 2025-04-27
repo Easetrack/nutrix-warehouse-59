@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { StockItem } from "@/types/stockupdate/summary";
+import { StockItem } from "@/common/types/stockupdate/summary";
 import { useStockData } from "./hooks/useStockData";
 import { SummaryHeader } from "./components/SummaryHeader";
 import { SummarySearchBar } from "./components/SummarySearchBar";

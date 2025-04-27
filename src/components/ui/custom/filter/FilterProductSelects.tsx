@@ -1,8 +1,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import { FilterSelect } from './FilterSelect';
-import { ProductFilterValues } from '@/types/filter';
-import { useFilterOptions } from '@/hooks/useFilterOptions';
+import { ProductFilterValues } from '@/common/types/filter';
+import { useFilterOptions } from '@/common/hooks/useFilterOptions';
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface FilterProductSelectsProps {

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, MoreHorizontal, Edit, Copy, Trash2, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Role } from '../types';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 import { 
   Table, 
   TableBody, 

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { StockItemsTable } from "./StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
-import { StockItem } from "@/types/stockupdate/lotBatch";
+import { StockItem } from "@/common/types/stockupdate/lotBatch";
 
 interface ContentWrapperProps {
   filteredItems: StockItem[];

@@ -1,5 +1,5 @@
 
-import { StockUpdateQueryParams } from "@/types/stockupdate/api";
+import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 import { StockQueryParams } from "./types";
 

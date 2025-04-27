@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUser } from '@/hooks/use-user'
+import { useUser } from '@/common/hooks/use-user'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   LayoutDashboard,
@@ -23,7 +23,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCompany } from '@/contexts/CompanyContext';
 import ThemeToggle from '@/components/ThemeToggle';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Location } from '@/utils/auth';
+import { Location } from '@/common/utils/auth';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 interface SidebarNavProps {

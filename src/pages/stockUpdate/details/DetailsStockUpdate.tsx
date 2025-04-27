@@ -44,11 +44,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/common/hooks/use-toast';
 
 import { Loading } from "@/components/ui/custom/loading";
-import { StockItem, StockResponse } from "@/types/stock";
-import { authenticatedFetch } from "@/utils/auth";
+import { StockItem, StockResponse } from "@/common/types/stock";
+import { authenticatedFetch } from "@/common/utils/auth";
 
 // Mock data for additional filters
 const warehouses = [

@@ -5,7 +5,7 @@ import { Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FilterSearch } from "@/components/ui/custom/FilterSearch";
 import type { FilterValues } from '@/types/filter';
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/common/hooks/use-toast";
 
 interface StockHeaderProps {
   title: string;

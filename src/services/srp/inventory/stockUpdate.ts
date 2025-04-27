@@ -1,8 +1,8 @@
 
-import apiClient from './api-client';
-import { StockResponse } from '@/types/stockupdate/summary';
-import { StockLotResponse } from '@/types/stockupdate/lot';
-import { StockUpdateQueryParams, StockUpdateLotQueryParams } from '@/types/stockupdate/api';
+import apiClient from '@/services/api/api-client';
+import { StockResponse } from '@/common/types/stockupdate/summary';
+import { StockLotResponse } from '@/common/types/stockupdate/lot';
+import { StockUpdateQueryParams, StockUpdateLotQueryParams } from '@/common/types/stockupdate/api';
 
 import { format } from 'date-fns';
 

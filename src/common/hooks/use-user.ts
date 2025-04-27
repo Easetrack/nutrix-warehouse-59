@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import apiClient from '@/services/api-client'
-import { authenticatedFetch } from '@/utils/auth';
+import apiClient from '@/services/api/api-client'
+import { authenticatedFetch } from '@/common/utils/auth';
 
 interface UserData {
   username: string

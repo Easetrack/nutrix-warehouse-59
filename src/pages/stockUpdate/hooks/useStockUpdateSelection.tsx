@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { StockItem } from "@/types/stock";
+import { StockItem } from "@/common/types/stock";
 
 export const useStockUpdateSelection = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { StatusBadge } from './StatusBadge';
-import '@/styles/table.css';
+import '@/core/theme/styles/table.css';
 
 interface PickingRequest {
   id: number;

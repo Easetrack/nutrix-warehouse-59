@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
-import { ThemeProvider } from "./contexts/ThemeContext.tsx";
-import { LanguageProvider } from "./contexts/LanguageContext.tsx";
+import { ThemeProvider } from "@/stores/theme/ThemeContext.tsx";
+import { LanguageProvider } from "@/stores/language/LanguageContext.tsx";
 import { Toaster } from "sonner";
 import "./index.css";
 

@@ -144,9 +144,9 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 <TableRow
                   key={`${item.productId}-${item.barcode}-${item.unitId}`}
                   // className="cursor-pointer"
-                  // onClick={() => handleViewDetail && handleViewDetail(item)}
+                  onClick={() => handleViewDetail && handleViewDetail(item)}
                 >
-                  <TableCell className="text-center">{index + 1}</TableCell>
+                  <TableCell className="text-center">{index + 1} </TableCell>
                   <TableCell>
                     <img
                       src={item.image || "/placeholder.svg"}

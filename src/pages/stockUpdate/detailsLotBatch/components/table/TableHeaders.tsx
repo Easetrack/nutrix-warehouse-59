@@ -18,8 +18,8 @@ export const TableHeaders: React.FC<TableHeadersProps> = ({
   const { t } = useLanguage();
 
   const headers = [
-    { id: "productId", label: t('stock.table.itemId'), width: "w-25" },
-    { id: "productName", label: t('stock.table.image'), width: "w-50" },
+    { id: "productId", label: t('stock.table.productId'), width: "w-25" },
+    { id: "productName", label: t('stock.table.productName'), width: "w-50" },
     { id: "lotNumber", label: t('stock.table.lot'), width: "w-30" },
     { id: "lotBatch", label: t('stock.table.lotBatch'), width: "w-30" },
     { id: "Barcode", label: t('stock.table.barcode'), width: "w-30" },

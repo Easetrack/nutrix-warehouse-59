@@ -19,6 +19,8 @@ export const stockTranslations = {
   "stock.table.image": { en: "Image", th: "รูปภาพ" },
   "stock.table.itemId": { en: "Item ID", th: "รหัสสินค้า" },
   "stock.table.itemName": { en: "Item Name", th: "ชื่อสินค้า" },
+  "stock.table.productId": { en: "Product ID", th: "รหัสสินค้า" },
+  "stock.table.productName": { en: "Product Name", th: "ชื่อสินค้า" },
   "stock.table.barcode": { en: "Barcode", th: "บาร์โค้ด" },
   "stock.table.group": { en: "Group", th: "กลุ่ม" },
   "stock.table.subGroup": { en: "Sub Group", th: "กลุ่มย่อย" },

@@ -7,6 +7,7 @@ import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockAuth } from "./useStockAuth";
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
+import { convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
@@ -38,20 +39,36 @@ export const useStockData = () => {
   const handleFetchData = async (params?: Partial<StockUpdateQueryParams>) => {
     if (!locationId) return;
 
-    const queryParams = buildQueryParams({
-      currentPage,
-      perPage,
-      ...filterState,
-      ...params,
-      // Ensure dates are properly formatted
-      searchDate: filterState.searchDate ? format(filterState.searchDate, 'MM-dd-yyyy') : undefined,
-      expiredDate: filterState.expiredDate ? format(filterState.expiredDate, 'MM-dd-yyyy') : undefined,
-    });
-
-    const result = await fetchStockData(queryParams);
-    if (result) {
-      setTotalPages(result.totalPages);
-      setTotalCount(result.totalCount);
+    try {
+      // Create base query parameters
+      const baseParams = {
+        currentPage,
+        perPage,
+        ...filterState,
+        ...params,
+      };
+      
+      // Process date fields separately to avoid type issues
+      const processedParams: Record<string, string | number | null | undefined> = {
+        ...baseParams,
+        // Ensure dates are properly formatted as strings
+        searchDate: filterState.searchDate ? format(filterState.searchDate, 'MM-dd-yyyy') : undefined,
+        expiredDate: filterState.expiredDate ? format(filterState.expiredDate, 'MM-dd-yyyy') : undefined
+      };
+      
+      // Convert to API format
+      const apiParams = convertToStockUpdateQueryParams(processedParams);
+      
+      const result = await fetchStockData(apiParams);
+      if (result) {
+        setTotalPages(result.totalPages);
+        setTotalCount(result.totalCount);
+      }
+      
+      return result;
+    } catch (error) {
+      console.error("Error in handleFetchData:", error);
+      return null;
     }
   };
 

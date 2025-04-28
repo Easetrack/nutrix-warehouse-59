@@ -4,7 +4,6 @@ import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
 import { StockQueryParams, convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
-import { format } from "date-fns";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();
@@ -20,8 +19,11 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching data with params:", params);
       
+      // Process the params to make sure all dates are strings
+      const processedParams: Record<string, string | number | null | undefined> = { ...params };
+      
       // Convert our params to the format the API expects
-      const apiParams = convertToStockUpdateQueryParams(params);
+      const apiParams = convertToStockUpdateQueryParams(processedParams);
       console.log("Converted API params:", apiParams);
       
       const data = await fetchStockUpdateSummary(apiParams);

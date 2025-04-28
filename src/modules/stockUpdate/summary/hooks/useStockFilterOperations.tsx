@@ -2,7 +2,8 @@
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
-import { StockFilterState } from "@/modules/stockUpdate/summary/types/types";
+import { StockFilterState, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
+import { format } from "date-fns";
 
 export const useStockFilterOperations = (
   fetchStockData: ReturnType<typeof useStockFetcher>["fetchStockData"],
@@ -29,8 +30,9 @@ export const useStockFilterOperations = (
       currentPage: 1,
       perPage: 10,
       ...currentFilters,
-      searchDate: currentFilters.searchDate,
-      expiredDate: currentFilters.expiredDate
+      // Convert Date objects to strings for API
+      searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
+      expiredDate: currentFilters.expiredDate ? format(currentFilters.expiredDate, 'MM-dd-yyyy') : null
     });
     
     return await fetchStockData(params);
@@ -46,7 +48,7 @@ export const useStockFilterOperations = (
       selectedWarehouse: "All Warehouses",
       selectedZone: "All Zones",
       selectedArea: "All Areas",
-      selectedSubArea: "All Sub Areas",
+      selectedSubArea: "All SubAreas",
       searchDate: null,
       expiredDate: null,
       sortColumn: null,
@@ -65,14 +67,18 @@ export const useStockFilterOperations = (
   const handleAdvancedSearch = async (values: FilterValues) => {
     setCurrentPage(1);
     
+    // Process date fields to string format for API
+    const processedValues = {
+      ...values,
+      date: values.date ? format(values.date, 'MM-dd-yyyy') : null,
+      expiredDate: values.expiredDate ? format(values.expiredDate, 'MM-dd-yyyy') : null
+    };
+    
     // Create a combined params object that includes current page and perPage
     const advancedParams = buildQueryParams({
       currentPage: 1,
       perPage: 10,
-      ...values,
-      // Ensure date fields are passed correctly
-      date: values.date,
-      expiredDate: values.expiredDate
+      ...processedValues
     });
     
     return await fetchStockData(advancedParams);

@@ -1,6 +1,7 @@
 
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
+import { format } from "date-fns";
 
 export const useStockPaginationOperations = (
   fetchStockData: ReturnType<typeof useStockFetcher>["fetchStockData"],
@@ -26,8 +27,9 @@ export const useStockPaginationOperations = (
       currentPage: page,
       perPage,
       ...currentFilters,
-      searchDate: currentFilters.searchDate,
-      expiredDate: currentFilters.expiredDate
+      // Convert Date objects to strings for API
+      searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
+      expiredDate: currentFilters.expiredDate ? format(currentFilters.expiredDate, 'MM-dd-yyyy') : null
     });
     
     const result = await fetchStockData(params);

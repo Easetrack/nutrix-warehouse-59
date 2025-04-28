@@ -1,6 +1,6 @@
 
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
-import { StockQueryParams, convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams, convertToStockUpdateQueryParams, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
 import { format } from "date-fns";
 
 export const useQueryBuilder = () => {
@@ -20,23 +20,37 @@ export const useQueryBuilder = () => {
     };
 
     // Handle date conversion for special date fields
-    if (filters.searchDate instanceof Date) {
-      queryParams.searchDate = format(filters.searchDate, 'MM-dd-yyyy');
+    if (filters.searchDate) {
+      // Check if it's already a string
+      if (typeof filters.searchDate === 'string') {
+        queryParams.searchDate = filters.searchDate;
+      } else if (filters.searchDate instanceof Date) {
+        // Use format function to convert Date to string
+        queryParams.searchDate = format(filters.searchDate, 'MM-dd-yyyy');
+      }
     } else {
-      queryParams.searchDate = filters.searchDate;
+      queryParams.searchDate = null;
     }
 
-    if (filters.expiredDate instanceof Date) {
-      queryParams.expiredDate = format(filters.expiredDate, 'MM-dd-yyyy');
+    if (filters.expiredDate) {
+      // Check if it's already a string
+      if (typeof filters.expiredDate === 'string') {
+        queryParams.expiredDate = filters.expiredDate;
+      } else if (filters.expiredDate instanceof Date) {
+        // Use format function to convert Date to string
+        queryParams.expiredDate = format(filters.expiredDate, 'MM-dd-yyyy');
+      }
     } else {
-      queryParams.expiredDate = filters.expiredDate;
+      queryParams.expiredDate = null;
     }
 
     // Add any additional dynamic properties from the filters
     Object.entries(filters).forEach(([key, value]) => {
       if (!queryParams.hasOwnProperty(key) && value !== undefined) {
-        // Type assertion to safely assign to the index signature
-        (queryParams as any)[key] = value;
+        // Only add string or number values to avoid type errors
+        if (typeof value === 'string' || typeof value === 'number' || value === null) {
+          (queryParams as any)[key] = value;
+        }
       }
     });
 

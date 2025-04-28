@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
-import { LocationForm } from "./components/LocationForm";
+import { LocationForm } from "@/modules/settings/location/components/LocationForm";
 import { LocationType } from "@/modules/location/types";
 import { useLanguage } from "@/stores/language/LanguageContext";
 

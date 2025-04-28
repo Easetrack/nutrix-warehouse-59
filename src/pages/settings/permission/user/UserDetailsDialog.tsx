@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { Edit } from 'lucide-react';
-import { User } from '@/pages/settings/permission/types/types';
+import { User } from '@/modules/settings/permission/types/types';
 
 interface UserDetailsDialogProps {
   open: boolean;

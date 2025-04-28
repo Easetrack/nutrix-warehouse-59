@@ -1,7 +1,7 @@
 import React from 'react';
-import { PickingList } from './requestPicking/PickingList';
-import { PickingFilters } from './requestPicking/PickingFilters';
-import { PickingHeader } from './requestPicking/PickingHeader';
+import { PickingList } from '@/modules/requestPicking/PickingList';
+import { PickingFilters } from '@/modules/requestPicking/PickingFilters';
+import { PickingHeader } from '@/modules/requestPicking/PickingHeader';
 
 const RequestPicking = () => {
   const handleSearch = () => {

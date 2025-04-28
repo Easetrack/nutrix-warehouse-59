@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Module } from '@/pages/settings/permission/types/types';
+import { Module } from '@/modules/settings/permission/types/types';
 import { useToast } from '@/common/hooks/use-toast';
 import { 
   Table, 

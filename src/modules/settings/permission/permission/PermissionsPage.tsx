@@ -1,14 +1,14 @@
 
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import DeleteConfirmationDialog from "../DeleteConfirmationDialog";
-import { usePermissionData } from "./hooks/usePermissionData";
-import PermissionHeader from "./components/PermissionHeader";
-import PermissionSearchBar from "./components/PermissionSearchBar";
-import PermissionTable from "./components/PermissionTable";
-import PermissionAddForm from "./components/PermissionAddForm";
-import PermissionDetailsView from "./components/PermissionDetailsView";
-import PermissionEditView from "./components/PermissionEditView";
+import DeleteConfirmationDialog from "@/modules/settings/permission/DeleteConfirmationDialog";
+import { usePermissionData } from "@/modules/settings/permission/permission/hooks/usePermissionData";
+import PermissionHeader from "@/modules/settings/permission/permission/components/PermissionHeader";
+import PermissionSearchBar from "@/modules/settings/permission/permission/components/PermissionSearchBar";
+import PermissionTable from "@/modules/settings/permission/permission/components/PermissionTable";
+import PermissionAddForm from "@/modules/settings/permission/permission/components/PermissionAddForm";
+import PermissionDetailsView from "@/modules/settings/permission/permission/components/PermissionDetailsView";
+import PermissionEditView from "@/modules/settings/permission/permission/components/PermissionEditView";
 
 export default function PermissionsPage() {
   const {

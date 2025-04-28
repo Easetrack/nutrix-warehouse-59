@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, ReactNode } from 'react';
-import { User, Module } from '@/pages/settings/permission/types/types';
-import { mockUsers, mockModules } from '@/pages/settings/permission/types/mockData';
+import { User, Module } from '@/modules/settings/permission/types/types';
+import { mockUsers, mockModules } from '@/modules/settings/permission/types/mockData';
 import { useToast } from '@/common/hooks/use-toast';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import UserContext from './UserContext';

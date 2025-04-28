@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLanguage } from '@/stores/language/LanguageContext';
-import RoleDetailsHeader from './components/RoleDetailsHeader';
+import RoleDetailsHeader from '@/modules/settings/permission/role/components/RoleDetailsHeader';
 import { Button } from '@/components/ui/button';
 
 // Mock role data - in a real app, you would fetch this from an API

@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from "react";
 import { Search, RotateCcw, Plus } from "lucide-react";
-import ProductSummaryCard from "./product/ProductSummaryCard";
-import ProductTable from "./product/ProductTable";
-import ProductDialog from "./product/ProductDialog";
-import ProductDeleteDialog from "./product/ProductDeleteDialog";
+import ProductSummaryCard from "@/modules/settings/product/ProductSummaryCard";
+import ProductTable from "@/modules/settings/product/ProductTable";
+import ProductDialog from "@/modules/settings/product/ProductDialog";
+import ProductDeleteDialog from "@/modules/settings/product/ProductDeleteDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/common/hooks/use-toast";
 
-import { Product } from "./product/types"; // Assuming you have a Product type defined in your types folder
+import { Product } from "@/modules/settings/product/types/types"; // Assuming you have a Product type defined in your types folder
 
 const initialProducts = [
   { id: "PROD-001", name: "Premium Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 125, uom: "Kg" },

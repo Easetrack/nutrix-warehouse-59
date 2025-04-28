@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { User, UserFormData } from '@/pages/settings/permission/types/types';
+import { User, UserFormData } from '@/modules/settings/permission/types/types';
 import UserEditHeader from './components/UserEditHeader';
 import UserEditForm from './components/UserEditForm';
 

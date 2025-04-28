@@ -16,7 +16,7 @@ import SettingsLayout from "./app/settings/layout";
 
 // Pages
 import LoginPage from "./app/login/page";
-import RoleRoutes from "./pages/settings/permission/role/components/RoleRoutes";
+import RoleRoutes from "@/modules/settings/permission/role/components/RoleRoutes";
 
 // Lazy loaded pages to improve performance
 const Index = lazy(() => import("./pages/Index"));

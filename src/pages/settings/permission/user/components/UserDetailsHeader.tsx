@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { User } from '@/pages/settings/permission/types/types';
+import { User } from '@/modules/settings/permission/types/types';
 
 interface UserDetailsHeaderProps {
   user: User;

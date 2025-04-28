@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import DeleteConfirmationDialog from '../../DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@/modules/settings/permission/DeleteConfirmationDialog';
 import { useUserContext } from '../context';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/stores/language/LanguageContext';

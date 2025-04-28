@@ -16,7 +16,7 @@ import DashboardLayout from "./app/dashboard/layout";
 
 import { AuthProvider } from "@/stores/auth/AuthContext";
 
-import Settings from "./pages/Settings";
+// import Settings from "@/pages/Settings/Settings";
 import NotFound from "./pages/NotFound";
 
 // import StockUpdate from "@/modules/stockUpdate";
@@ -27,27 +27,27 @@ import SummaryStockUpdateDetailsLot from "@/modules/stockUpdate/detailsLot/Detai
 import SummaryStockUpdateDetailsLotBatch from "@/modules/stockUpdate/detailsLotBatch/DetailsStockUpdateLotBatch";
 // New pages
 import Receiving from "./pages/Receiving";
-import RequestPicking from "./pages/RequestPicking";
-import CreatePicking from "./pages/requestPicking/CreatePicking";
+import RequestPicking from "@/pages/requestPicking/RequestPicking";
+import CreatePicking from "@/modules/requestPicking/CreatePicking";
 import PackingPTW from "./pages/PackingPTW";
 
 // Settings subpages
-import ProductSettings from "./pages/settings/Product";
-import LocationSettings from "./pages/settings/Location";
-import DepartmentSettings from "./pages/settings/Department";
-import CustomerSettings from "./pages/settings/Customer";
-import VendorSettings from "./pages/settings/Vendor";
-import TransactionModelSettings from "./pages/settings/TransactionModel";
-import LotModelSettings from "./pages/settings/LotModel";
-import PermissionSettings from "./pages/settings/Permission";
+import ProductSettings from "@/modules/settings/Product";
+import LocationSettings from "@/modules/settings/Location";
+// import DepartmentSettings from "@/modules/settings/Department";
+// import CustomerSettings from "@/modules/settings/Customer";
+// import VendorSettings from "@/modules/settings/Vendor";
+// import TransactionModelSettings from "@/modules/settings/TransactionModel";
+// import LotModelSettings from "@/modules/settings/LotModel";
+// import PermissionSettings from "@/modules/settings/Permission";
 
 // Permission subpages
 import UsersPage from "./pages/settings/permission/user/UsersPage";
-import RolesPage from "./pages/settings/permission/role/RolesPage";
-import PermissionsPage from "./pages/settings/permission/permission/PermissionsPage";
+import RolesPage from "@/modules/settings/permission/role/RolesPage";
+import PermissionsPage from "@/modules/settings/permission/permission/PermissionsPage";
 
 // Role routes import
-import RoleRoutes from "./pages/settings/permission/role/components/RoleRoutes";
+import RoleRoutes from "@/modules/settings/permission/role/components/RoleRoutes";
 
 import { useEffect } from "react";
 import { useCompany } from "@/contexts/CompanyContext";

@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, MoreHorizontal, Edit, Copy, Trash2, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Role } from '@/pages/settings/permission/role/types/types';
+import { Role } from '@/modules/settings/permission/role/types/types';
 import { useToast } from '@/common/hooks/use-toast';
 import { 
   Table, 

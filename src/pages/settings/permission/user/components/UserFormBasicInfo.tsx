@@ -3,7 +3,7 @@ import React from 'react';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { UseFormReturn } from 'react-hook-form';
-import { UserFormData } from '@/pages/settings/permission/types/types';
+import { UserFormData } from '@/modules/settings/permission/types/types';
 
 interface UserFormBasicInfoProps {
   form: UseFormReturn<UserFormData>;

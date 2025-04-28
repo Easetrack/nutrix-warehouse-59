@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Form } from '@/components/ui/form';
-import { UserFormData } from '@/pages/settings/permission/types/types';
+import { UserFormData } from '@/modules/settings/permission/types/types';
 import { UseFormReturn } from 'react-hook-form';
 import UserFormAvatar from '../UserFormAvatar';
 import UserFormBasicInfo from '../UserFormBasicInfo';

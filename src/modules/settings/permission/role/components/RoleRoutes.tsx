@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import RoleDetailsPage from '../RoleDetailsPage';
-import RoleEditPage from '../RoleEditPage';
-import RolesPage from '../RolesPage';
+import RoleDetailsPage from '@/modules/settings/permission/role/RoleDetailsPage';
+import RoleEditPage from '@/modules/settings/permission/role/RoleEditPage';
+import RolesPage from '@/modules/settings/permission/role/RolesPage';
 
 const RoleRoutes: React.FC = () => {
   return (

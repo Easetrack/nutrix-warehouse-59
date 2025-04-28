@@ -1,5 +1,5 @@
 
-import { User, Module, UserFormData } from '@/pages/settings/permission/types/types';
+import { User, Module, UserFormData } from '@/modules/settings/permission/types/types';
 
 export interface UserContextProps {
   users: User[];

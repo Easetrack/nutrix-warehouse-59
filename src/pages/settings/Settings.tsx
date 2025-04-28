@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Loading } from "@/components/ui/custom/loading";
-import SettingsHeader from "./settings/components/SettingsHeader";
-import SettingsTabs from "./settings/components/SettingsTabs";
-import ProfileTab from "./settings/components/profile/ProfileTab";
-import NotificationsTab from "./settings/components/notifications/NotificationsTab";
-import SecurityTab from "./settings/components/security/SecurityTab";
-import SystemTab from "./settings/components/system/SystemTab";
+import SettingsHeader from "@/modules/settings/components/SettingsHeader";
+import SettingsTabs from "@/modules/settings/components/SettingsTabs";
+import ProfileTab from "@/modules/settings/components/profile/ProfileTab";
+import NotificationsTab from "@/modules/settings/components/notifications/NotificationsTab";
+import SecurityTab from "@/modules/settings/components/security/SecurityTab";
+import SystemTab from "@/modules/settings/components/system/SystemTab";
 
 const Settings = () => {
   const navigate = useNavigate();

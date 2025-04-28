@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, RotateCcw, Save, Check, Edit, X } from 'lucide-react';
-import { CustomerSection } from './create/CustomerSection';
-import { PickingRequestSection } from './create/PickingRequestSection';
-import { NewItemSection } from './create/NewItemSection';
-import { ItemsTable } from './create/ItemsTable';
-import { ConfirmationDialog } from './create/ConfirmationDialog';
+import { CustomerSection } from '@/modules/requestPicking/create/CustomerSection';
+import { PickingRequestSection } from '@/modules/requestPicking/create/PickingRequestSection';
+import { NewItemSection } from '@/modules/requestPicking/create/NewItemSection';
+import { ItemsTable } from '@/modules/requestPicking/create/ItemsTable';
+import { ConfirmationDialog } from '@/modules/requestPicking/create/ConfirmationDialog';
 import { useToast } from '@/common/hooks/use-toast';
 
 interface Customer {

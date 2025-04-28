@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { UseFormReturn } from 'react-hook-form';
-import { UserFormData } from '@/pages/settings/permission/types/types';
+import { UserFormData } from '@/modules/settings/permission/types/types';
 
 interface UserFormAvatarProps {
   form: UseFormReturn<UserFormData>;

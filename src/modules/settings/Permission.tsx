@@ -2,10 +2,10 @@
 import React from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { useLanguage } from '@/stores/language/LanguageContext';
-import UsersPage from './permission/user/UsersPage';
-import RolesPage from './permission/role/RolesPage';
-import PermissionsPage from './permission/permission/PermissionsPage';
-import PermissionNav from './permission/permission/PermissionNav';
+import UsersPage from '@/pages/settings/permission/user/UsersPage';
+import RolesPage from '@/modules/settings/permission/role/RolesPage';
+import PermissionsPage from '@/modules/settings/permission/permission/PermissionsPage';
+import PermissionNav from '@/modules/settings/permission/permission/PermissionNav';
 
 const PermissionSettings: React.FC = () => {
   const { t } = useLanguage();

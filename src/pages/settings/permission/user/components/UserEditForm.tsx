@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
-import { UserFormData } from '@/pages/settings/permission/types/types';
+import { UserFormData } from '@/modules/settings/permission/types/types';
 import UserAvatarSection from './UserAvatarSection';
 import UserBasicInfoSection from './form/UserBasicInfoSection';
 import UserCredentialsSection from './form/UserCredentialsSection';

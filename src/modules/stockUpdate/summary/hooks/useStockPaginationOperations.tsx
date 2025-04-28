@@ -23,14 +23,18 @@ export const useStockPaginationOperations = (
 
   const handlePageChange = async (page: number, perPage: number) => {
     console.log(`Changing page to ${page} with ${perPage} items per page`);
-    const params = buildQueryParams({
+    
+    // Create a copy of filters with dates converted to strings
+    const processedFilters = {
+      ...currentFilters,
       currentPage: page,
       perPage,
-      ...currentFilters,
-      // Convert Date objects to strings for API
+      // Convert dates to strings
       searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
       expiredDate: currentFilters.expiredDate ? format(currentFilters.expiredDate, 'MM-dd-yyyy') : null
-    });
+    };
+    
+    const params = buildQueryParams(processedFilters);
     
     const result = await fetchStockData(params);
     console.log("Page change result:", result);

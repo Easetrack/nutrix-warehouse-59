@@ -2,7 +2,7 @@
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
-import { StockFilterState, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
 import { format } from "date-fns";
 
 export const useStockFilterOperations = (
@@ -26,15 +26,18 @@ export const useStockFilterOperations = (
 
   const handleSearch = async () => {
     setCurrentPage(1);
-    const params = buildQueryParams({
+    
+    // Create a copy of filters with dates converted to strings
+    const processedFilters = {
+      ...currentFilters,
       currentPage: 1,
       perPage: 10,
-      ...currentFilters,
-      // Convert Date objects to strings for API
+      // Convert dates to strings using format from date-fns
       searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
       expiredDate: currentFilters.expiredDate ? format(currentFilters.expiredDate, 'MM-dd-yyyy') : null
-    });
+    };
     
+    const params = buildQueryParams(processedFilters);
     return await fetchStockData(params);
   };
 
@@ -52,15 +55,12 @@ export const useStockFilterOperations = (
       searchDate: null,
       expiredDate: null,
       sortColumn: null,
-      sortDirection: "asc" as "asc" | "desc"
+      sortDirection: "asc" as "asc" | "desc",
+      currentPage: 1,
+      perPage: 10
     };
     
-    const params = buildQueryParams({
-      currentPage: 1,
-      perPage: 10,
-      ...clearedFilters
-    });
-    
+    const params = buildQueryParams(clearedFilters);
     return await fetchStockData(params);
   };
 
@@ -70,6 +70,9 @@ export const useStockFilterOperations = (
     // Process date fields to string format for API
     const processedValues = {
       ...values,
+      currentPage: 1,
+      perPage: 10,
+      // Convert dates to strings using format
       date: values.date ? format(values.date, 'MM-dd-yyyy') : null,
       expiredDate: values.expiredDate ? format(values.expiredDate, 'MM-dd-yyyy') : null
     };

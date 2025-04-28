@@ -24,7 +24,7 @@ export const useQueryBuilder = () => {
       // Check if it's already a string
       if (typeof filters.searchDate === 'string') {
         queryParams.searchDate = filters.searchDate;
-      } else if (filters.searchDate instanceof Date) {
+      } else if (filters.searchDate) {
         // Use format function to convert Date to string
         queryParams.searchDate = format(filters.searchDate, 'MM-dd-yyyy');
       }
@@ -36,7 +36,7 @@ export const useQueryBuilder = () => {
       // Check if it's already a string
       if (typeof filters.expiredDate === 'string') {
         queryParams.expiredDate = filters.expiredDate;
-      } else if (filters.expiredDate instanceof Date) {
+      } else if (filters.expiredDate) {
         // Use format function to convert Date to string
         queryParams.expiredDate = format(filters.expiredDate, 'MM-dd-yyyy');
       }

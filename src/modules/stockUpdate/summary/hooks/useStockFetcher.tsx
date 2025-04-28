@@ -20,7 +20,14 @@ export const useStockFetcher = () => {
       console.log("Fetching data with params:", params);
       
       // Process the params to make sure all dates are strings
-      const processedParams: Record<string, string | number | null | undefined> = { ...params };
+      const processedParams: Record<string, string | number | null | undefined> = {};
+      
+      // Copy only string and number values, excluding functions and non-primitive types
+      Object.entries(params).forEach(([key, value]) => {
+        if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
+          processedParams[key] = value;
+        }
+      });
       
       // Convert our params to the format the API expects
       const apiParams = convertToStockUpdateQueryParams(processedParams);

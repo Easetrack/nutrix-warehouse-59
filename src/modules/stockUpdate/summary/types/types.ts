@@ -52,22 +52,26 @@ export const formatDateToString = (date: Date | null): string | null => {
 };
 
 // Add compatibility function to convert between types
-export const convertToStockUpdateQueryParams = (params: StockQueryParams): any => {
-  const { currentPage, perPage, searchTerm, ...rest } = params;
-  
+export const convertToStockUpdateQueryParams = (params: Record<string, string | number | null | undefined>): Record<string, string | number | null | undefined> => {
   // Create a new object for the converted params
-  const convertedParams: Record<string, string | number | undefined> = {
-    page: currentPage,
-    perPage,
-    search: searchTerm,
-    ...rest
-  };
+  const convertedParams: Record<string, string | number | null | undefined> = {};
+  
+  // Map between StockQueryParams and StockUpdateQueryParams
+  if (params.currentPage !== undefined) convertedParams.page = params.currentPage;
+  if (params.perPage !== undefined) convertedParams.perPage = params.perPage;
+  if (params.searchTerm !== undefined) convertedParams.search = params.searchTerm;
 
-  // Delete the properties we don't want to pass
-  delete convertedParams.searchDate;
-  delete convertedParams.expiredDate;
+  // Copy all other properties that are valid types (string, number)
+  Object.entries(params).forEach(([key, value]) => {
+    // Skip properties we've already handled and function properties
+    if (key !== 'currentPage' && key !== 'searchTerm' && value !== undefined) {
+      if (typeof value === 'string' || typeof value === 'number' || value === null) {
+        convertedParams[key] = value;
+      }
+    }
+  });
 
-  // Add formatted date strings if they exist
+  // Handle date fields separately
   if (params.searchDate) {
     convertedParams.searchDate = params.searchDate;
   }

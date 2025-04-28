@@ -41,23 +41,41 @@ export const useStockData = () => {
 
     try {
       // Create base query parameters
-      const baseParams = {
+      const baseParams: Record<string, string | number | null | undefined> = {
         currentPage,
         perPage,
-        ...filterState,
-        ...params,
+        // Only include primitive values from filterState
+        searchTerm: filterState.searchTerm,
+        selectedCategory: filterState.selectedCategory,
+        selectedUoM: filterState.selectedUoM,
+        selectedWarehouse: filterState.selectedWarehouse,
+        selectedZone: filterState.selectedZone,
+        selectedArea: filterState.selectedArea,
+        selectedSubArea: filterState.selectedSubArea,
+        sortColumn: filterState.sortColumn,
+        sortDirection: filterState.sortDirection,
       };
+      
+      // Add any additional params
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
+            baseParams[key] = value;
+          }
+        });
+      }
       
       // Process date fields separately to avoid type issues
-      const processedParams: Record<string, string | number | null | undefined> = {
-        ...baseParams,
-        // Ensure dates are properly formatted as strings
-        searchDate: filterState.searchDate ? format(filterState.searchDate, 'MM-dd-yyyy') : undefined,
-        expiredDate: filterState.expiredDate ? format(filterState.expiredDate, 'MM-dd-yyyy') : undefined
-      };
+      if (filterState.searchDate) {
+        baseParams.searchDate = format(filterState.searchDate, 'MM-dd-yyyy');
+      }
+      
+      if (filterState.expiredDate) {
+        baseParams.expiredDate = format(filterState.expiredDate, 'MM-dd-yyyy');
+      }
       
       // Convert to API format
-      const apiParams = convertToStockUpdateQueryParams(processedParams);
+      const apiParams = convertToStockUpdateQueryParams(baseParams);
       
       const result = await fetchStockData(apiParams);
       if (result) {

@@ -1,8 +1,8 @@
 
 import { useState, useEffect } from "react";
-import { useStockAuth } from "../../hooks/useStockAuth";
+import { useStockAuth } from "@/modules/stockUpdate/hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
-import { useStockUpdateFilters } from "../../hooks/useStockUpdateFilters";
+import { useStockUpdateFilters } from "@/modules/stockUpdate/hooks/useStockUpdateFilters";
 import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";

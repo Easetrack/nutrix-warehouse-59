@@ -2,13 +2,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useToast } from "@/common/hooks/use-toast";
-import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
-import { useStockData } from "./hooks/useStockData";
-import { StockHeader } from "./components/StockHeader";
-import { SearchBar } from "./components/SearchBar";
-import { LoadingState } from "./components/LoadingState";
-import { ErrorState } from "./components/ErrorState";
-import { ContentWrapper } from "./components/ContentWrapper";
+import { StockItemDetailsDialog } from "@/modules/stockUpdate/detailsLotBatch/components/StockItemDetailsDialog";
+import { useStockData } from "@/modules/stockUpdate/detailsLotBatch/hooks/useStockData";
+import { StockHeader } from "@/modules/stockUpdate/detailsLotBatch/components/StockHeader";
+import { SearchBar } from "@/modules/stockUpdate/detailsLotBatch/components/SearchBar";
+import { LoadingState } from "@/modules/stockUpdate/detailsLotBatch/components/LoadingState";
+import { ErrorState } from "@/modules/stockUpdate/detailsLotBatch/components/ErrorState";
+import { ContentWrapper } from "@/modules/stockUpdate/detailsLotBatch/components/ContentWrapper";
 import { useLanguage } from "@/stores/language/LanguageContext";
 
 const DetailsStockUpdateLotBatch = () => {

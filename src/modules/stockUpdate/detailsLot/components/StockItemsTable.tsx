@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { TableHeaders } from "./table/TableHeaders";
-import { TableRows } from "./table/TableRows";
+import { TableHeaders } from "@/modules/stockUpdate/detailsLot/components/table/TableHeaders";
+import { TableRows } from "@/modules/stockUpdate/detailsLot/components/table/TableRows";
 import { StockItem } from "@/common/types/stockupdate/lot";
 import { useLanguage } from "@/stores/language/LanguageContext";
 

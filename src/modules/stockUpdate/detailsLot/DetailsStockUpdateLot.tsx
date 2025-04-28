@@ -5,11 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loading } from "@/components/ui/custom/loading";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/common/hooks/use-toast";
-import { StockItemsTable } from "./components/StockItemsTable";
-import { StockItemDetailsDialog } from "./components/StockItemDetailsDialog";
-import { useStockData } from "./hooks/useStockData";
-import { StockHeader } from "./components/StockHeader";
-import { SearchBar } from "./components/SearchBar";
+import { StockItemsTable } from "@/modules/stockUpdate/detailsLot/components/StockItemsTable";
+import { StockItemDetailsDialog } from "@/modules/stockUpdate/detailsLot/components/StockItemDetailsDialog";
+import { useStockData } from "@/modules/stockUpdate/detailsLot/hooks/useStockData";
+import { StockHeader } from "@/modules/stockUpdate/detailsLot/components/StockHeader";
+import { SearchBar } from "@/modules/stockUpdate/detailsLot/components/SearchBar";
 import { StockPagination } from "@/components/ui/StockPagination";
 import { useLanguage } from "@/stores/language/LanguageContext";
 

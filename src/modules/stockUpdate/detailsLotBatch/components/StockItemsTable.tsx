@@ -2,8 +2,8 @@
 import React from "react";
 import { Table } from "@/components/ui/table";
 import { StockItem } from "@/common/types/stockupdate/lotBatch";
-import { TableHeaders } from "./table/TableHeaders";
-import { TableRows } from "./table/TableRows";
+import { TableHeaders } from "@/modules/stockUpdate/detailsLotBatch/components/table/TableHeaders";
+import { TableRows } from "@/modules/stockUpdate/detailsLotBatch/components/table/TableRows";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];

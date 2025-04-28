@@ -19,12 +19,12 @@ import { AuthProvider } from "@/stores/auth/AuthContext";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
-import StockUpdate from "./pages/StockUpdate";
+// import StockUpdate from "@/modules/stockUpdate";
 // Permission subpages
 import SummaryStockUpdate from "@/modules/stockUpdate/summary/SummaryStockUpdate";
-import SummaryStockUpdateDetail from "./pages/stockUpdate/details/DetailsStockUpdate";
-import SummaryStockUpdateDetailsLot from "./pages/stockUpdate/detailsLot/DetailsStockUpdateLot";
-import SummaryStockUpdateDetailsLotBatch from "./pages/stockUpdate/detailsLotBatch/DetailsStockUpdateLotBatch";
+import SummaryStockUpdateDetail from "@/modules/stockUpdate/details/DetailsStockUpdate";
+import SummaryStockUpdateDetailsLot from "@/modules/stockUpdate/detailsLot/DetailsStockUpdateLot";
+import SummaryStockUpdateDetailsLotBatch from "@/modules/stockUpdate/detailsLotBatch/DetailsStockUpdateLotBatch";
 // New pages
 import Receiving from "./pages/Receiving";
 import RequestPicking from "./pages/RequestPicking";

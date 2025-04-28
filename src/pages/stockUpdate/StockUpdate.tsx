@@ -2,10 +2,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Loading } from "@/components/ui/custom/loading";
-import { useStockUpdate } from "./stockUpdate/hooks/useStockUpdate";
-import { StockFilterBar } from "./stockUpdate/components/StockFilterBar";
-import { StockTableArea } from "./stockUpdate/components/StockTableArea";
-import { StockDetailsDialog } from "./stockUpdate/components/StockDetailsDialog";
+import { useStockUpdate } from "@/modules/stockUpdate/hooks/useStockUpdate";
+import { StockFilterBar } from "@/modules/stockUpdate/components/StockFilterBar";
+import { StockTableArea } from "@/modules/stockUpdate/components/StockTableArea";
+import { StockDetailsDialog } from "@/modules/stockUpdate/components/StockDetailsDialog";
 
 const StockUpdate = () => {
   const stock = useStockUpdate();

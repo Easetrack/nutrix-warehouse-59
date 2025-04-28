@@ -101,6 +101,15 @@ const SummaryStockUpdate = () => {
     );
   }
 
+  // For debugging
+  console.log("SummaryStockUpdate rendering with:", {
+    currentPage,
+    totalPages,
+    totalCount,
+    perPage,
+    filteredItemsLength: filteredItems.length
+  });
+
   return (
     <motion.div
       initial="hidden"

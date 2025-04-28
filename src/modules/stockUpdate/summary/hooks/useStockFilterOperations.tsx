@@ -1,8 +1,8 @@
 
-import { AdvancedSearchValues, StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
 import { useQueryBuilder } from "./useQueryBuilder";
+import { StockFilterState } from "@/modules/stockUpdate/summary/types/types";
 import { useStockFetcher } from "./useStockFetcher";
-import { useFilterState } from "./useFilterState";
+import { FilterValues } from "@/common/types/filter";
 
 export const useStockFilterOperations = (
   fetchStockData: ReturnType<typeof useStockFetcher>["fetchStockData"],
@@ -23,31 +23,6 @@ export const useStockFilterOperations = (
 ) => {
   const { buildQueryParams } = useQueryBuilder();
 
-  const {
-    searchTerm,
-    setSearchTerm,
-    selectedWarehouse,
-    setSelectedWarehouse,
-    selectedZone,
-    setSelectedZone,
-    selectedArea,
-    setSelectedArea,
-    selectedSubArea,
-    setSelectedSubArea,
-    selectedCategory,
-    setSelectedCategory,
-    selectedUoM,
-    setSelectedUoM,
-    sortColumn,
-    setSortColumn,
-    sortDirection,
-    setSortDirection,
-    searchDate,
-    setSearchDate,
-    expiredDate,
-    setExpiredDate,
-  } = useFilterState();
-
   const handleSearch = async () => {
     setCurrentPage(1);
     const params = buildQueryParams({
@@ -55,47 +30,51 @@ export const useStockFilterOperations = (
       perPage: 10,
       ...currentFilters
     });
-    await fetchStockData(params);
+    
+    const result = await fetchStockData(params);
+    console.log("Search result:", result);
+    return result;
   };
 
   const handleClear = async () => {
-    const clearedParams = buildQueryParams({
-      currentPage: 1,
-      perPage: 10,
+    setCurrentPage(1);
+    const clearedFilters = {
+      ...currentFilters,
       searchTerm: "",
       selectedCategory: "All Categories",
       selectedUoM: "All UoM",
-      selectedWarehouse: "All Warehouse",
+      selectedWarehouse: "All Warehouses",
       selectedZone: "All Zones",
       selectedArea: "All Areas",
-      selectedSubArea: "All SubAreas",
+      selectedSubArea: "All Sub Areas",
       searchDate: null,
       expiredDate: null,
       sortColumn: null,
       sortDirection: "asc"
-    });
-    setSearchTerm("");
-    console.log("Cleared Params:", searchTerm);
-    await fetchStockData(clearedParams);
-  };
-
-  const handleAdvancedSearch = async (values: AdvancedSearchValues) => {
+    };
+    
     const params = buildQueryParams({
       currentPage: 1,
       perPage: 10,
-      searchTerm: values.searchTerm || "",
-      selectedCategory: values.category || "All Categories",
-      selectedUoM: values.uom || "All UoM",
-      selectedWarehouse: values.warehouse || "",
-      selectedZone: values.zone || "All Zones",
-      selectedArea: values.area || "All Areas",
-      selectedSubArea: values.subArea || "All SubAreas",
-      searchDate: values.date,
-      expiredDate: values.expiredDate,
-      sortColumn: currentFilters.sortColumn,
-      sortDirection: currentFilters.sortDirection
+      ...clearedFilters
     });
-    await fetchStockData(params);
+    
+    const result = await fetchStockData(params);
+    console.log("Clear result:", result);
+    return result;
+  };
+
+  const handleAdvancedSearch = async (values: FilterValues) => {
+    setCurrentPage(1);
+    const advancedParams = buildQueryParams({
+      currentPage: 1,
+      perPage: 10,
+      ...values
+    });
+    
+    const result = await fetchStockData(advancedParams);
+    console.log("Advanced search result:", result);
+    return result;
   };
 
   return {

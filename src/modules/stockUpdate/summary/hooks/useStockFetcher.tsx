@@ -31,6 +31,14 @@ export const useStockFetcher = () => {
       const items = data.items || [];
       setStockItems(items);
       setFilteredItems(items);
+      
+      console.log("API Response:", {
+        items: items.length,
+        totalPages: data.totalPages,
+        totalCount: data.totalCount,
+        perPage: data.perPage
+      });
+      
       return {
         items,
         totalPages: data.totalPages || 1,

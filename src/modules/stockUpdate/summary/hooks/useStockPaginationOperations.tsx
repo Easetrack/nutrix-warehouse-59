@@ -21,12 +21,15 @@ export const useStockPaginationOperations = (
   const { buildQueryParams } = useQueryBuilder();
 
   const handlePageChange = async (page: number, perPage: number) => {
+    console.log(`Changing page to ${page} with ${perPage} items per page`);
     const params = buildQueryParams({
       currentPage: page,
       perPage,
       ...currentFilters
     });
-    await fetchStockData(params);
+    const result = await fetchStockData(params);
+    console.log("Page change result:", result);
+    return result;
   };
 
   return {

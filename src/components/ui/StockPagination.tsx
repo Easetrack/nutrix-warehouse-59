@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/stores/language/LanguageContext";
@@ -28,6 +28,17 @@ export const StockPagination: React.FC<StockPaginationProps> = ({
   onPerPageChange,
 }) => {
   const { t } = useLanguage();
+
+  // For debugging
+  useEffect(() => {
+    console.log("StockPagination props:", {
+      currentPage,
+      totalPages,
+      totalCount,
+      itemsLength,
+      perPage
+    });
+  }, [currentPage, totalPages, totalCount, itemsLength, perPage]);
 
   return (
     <nav className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2" aria-label="Pagination">

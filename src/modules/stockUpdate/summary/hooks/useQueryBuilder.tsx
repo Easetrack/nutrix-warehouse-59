@@ -1,111 +1,73 @@
 
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
-import { format } from "date-fns";
 import { StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
-
-interface QueryBuilderProps {
-  currentPage: number;
-  perPage: number;
-  searchTerm: string;
-  selectedCategory: string;
-  selectedUoM: string;
-  selectedWarehouse: string;
-  selectedZone: string;
-  selectedArea: string;
-  selectedSubArea: string;
-  searchDate?: Date | null;
-  expiredDate?: Date | null;
-  sortColumn?: string | null;
-  sortDirection?: "asc" | "desc";
-}
+import { format } from "date-fns";
 
 export const useQueryBuilder = () => {
-  const buildQueryParams = ({
-    currentPage,
-    perPage,
-    searchTerm,
-    selectedCategory,
-    selectedUoM,
-    selectedWarehouse,
-    selectedZone,
-    selectedArea,
-    selectedSubArea,
-    searchDate,
-    expiredDate,
-    sortColumn,
-    sortDirection,
-  }: QueryBuilderProps): StockQueryParams => {
-    // Initialize with required params
-    const params: StockQueryParams = {
-      currentPage: currentPage,
-      perPage: perPage,
+  const buildQueryParams = (filters: StockQueryParams): StockUpdateQueryParams => {
+    const queryParams: StockUpdateQueryParams = {
+      page: filters.currentPage,
+      perPage: filters.perPage,
     };
 
-    // Add search params if provided
-    if (searchTerm?.trim()) {
-      params.searchTerm = searchTerm.trim();
-      params.searchByProductName = searchTerm.trim();
-      params.searchByBarcode = searchTerm.trim();
-      params.searchByProductId = searchTerm.trim();
+    // Add search term if available
+    if (filters.searchTerm) {
+      queryParams.search = filters.searchTerm;
     }
 
-    // Add category filter if selected
-    if (selectedCategory && selectedCategory !== "All Categories") {
-      params.categoryId = selectedCategory;
+    // Add sort parameters if set
+    if (filters.sortColumn) {
+      queryParams.sortColumn = filters.sortColumn;
+      queryParams.sortDirection = filters.sortDirection;
     }
 
-    // Add UoM filter if selected
-    if (selectedUoM && selectedUoM !== "All UoM") {
-      params.unitId = selectedUoM;
+    // Add category filter if not "All Categories"
+    if (filters.selectedCategory && filters.selectedCategory !== "All Categories") {
+      queryParams.categoryId = filters.selectedCategory;
     }
 
-    // Add zone filter if selected
-
-    if (selectedWarehouse && selectedWarehouse !== "All Warehouse" && selectedWarehouse !== "All-Warehouse") {
-      params.stockId = selectedWarehouse;
-      if (params.stockId === "All Warehouses") {
-        params.stockId = "";
+    // Add warehouse filter if not "All Warehouses"
+    if (filters.selectedWarehouse && filters.selectedWarehouse !== "All Warehouses") {
+      queryParams.stockId = filters.selectedWarehouse;
+      if (filters.selectedWarehouse === "All-Warehouse") {
+        queryParams.stockId = "";
       }
-    } else if (selectedWarehouse && selectedWarehouse === "All-Warehouse" ||
-      selectedWarehouse && selectedWarehouse === "All Warehouse"
-    ) {
-      params.stockId = "";
-    } else {
-      params.stockId = "";
     }
 
-    // Add zone filter if selected
-    if (selectedZone && selectedZone !== "All Zones") {
-      params.zoneId = selectedZone;
+    // Add zone filter if not "All Zones"
+    if (filters.selectedZone && filters.selectedZone !== "All Zones") {
+      queryParams.zoneId = filters.selectedZone;
     }
 
-    // Add area filter if selected
-    if (selectedArea && selectedArea !== "All Areas") {
-      params.areaId = selectedArea;
+    // Add area filter if not "All Areas"
+    if (filters.selectedArea && filters.selectedArea !== "All Areas") {
+      queryParams.areaId = filters.selectedArea;
     }
 
-    // Add sub-area filter if selected
-    if (selectedSubArea && selectedSubArea !== "All SubAreas") {
-      params.subAreaId = selectedSubArea;
+    // Add sub-area filter if not "All Sub Areas"
+    if (filters.selectedSubArea && filters.selectedSubArea !== "All Sub Areas") {
+      queryParams.subAreaId = filters.selectedSubArea;
     }
 
-    // Add date filters if provided
-    if (searchDate) {
-      params.searchDate = format(searchDate, 'MM-dd-yyyy');
+    // Add UoM filter if not "All UoM"
+    if (filters.selectedUoM && filters.selectedUoM !== "All UoM") {
+      queryParams.unitId = filters.selectedUoM;
     }
 
-    if (expiredDate) {
-      params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
+    // Handle date conversion for special date fields
+    if (filters.searchDate) {
+      queryParams.searchDate = format(filters.searchDate, 'MM-dd-yyyy');
     }
 
-    // Add sorting if provided
-    if (sortColumn) {
-      const sortParam = `sortBy${sortColumn[0]?.toUpperCase()}${sortColumn?.slice(1)}`;
-      params[sortParam] = sortDirection || "asc";
+    if (filters.expiredDate) {
+      queryParams.expiredDate = format(filters.expiredDate, 'MM-dd-yyyy');
     }
 
-    return params;
+    console.log("Built query params:", queryParams);
+    return queryParams;
   };
 
-  return { buildQueryParams };
+  return {
+    buildQueryParams,
+  };
 };

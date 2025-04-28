@@ -22,7 +22,21 @@ export const usePagination = () => {
   const handlePerPageChange = (newPerPage: number) => {
     setPerPage(newPerPage);
     setCurrentPage(1);
+    
+    // Recalculate totalPages based on new perPage value and totalCount
+    if (totalCount > 0) {
+      const newTotalPages = Math.ceil(totalCount / newPerPage);
+      setTotalPages(Math.max(1, newTotalPages));
+    }
   };
+
+  // For debugging
+  console.log("usePagination values:", {
+    currentPage,
+    totalPages,
+    totalCount,
+    perPage
+  });
 
   return {
     currentPage,

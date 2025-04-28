@@ -1,6 +1,5 @@
 
 import { useQueryBuilder } from "./useQueryBuilder";
-import { StockFilterState } from "@/modules/stockUpdate/summary/types/types";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
 
@@ -28,12 +27,12 @@ export const useStockFilterOperations = (
     const params = buildQueryParams({
       currentPage: 1,
       perPage: 10,
-      ...currentFilters
+      ...currentFilters,
+      searchDate: currentFilters.searchDate ? currentFilters.searchDate : null,
+      expiredDate: currentFilters.expiredDate ? currentFilters.expiredDate : null
     });
     
-    const result = await fetchStockData(params);
-    console.log("Search result:", result);
-    return result;
+    return await fetchStockData(params);
   };
 
   const handleClear = async () => {
@@ -50,7 +49,7 @@ export const useStockFilterOperations = (
       searchDate: null,
       expiredDate: null,
       sortColumn: null,
-      sortDirection: "asc"
+      sortDirection: "asc" as "asc" | "desc"
     };
     
     const params = buildQueryParams({
@@ -59,9 +58,7 @@ export const useStockFilterOperations = (
       ...clearedFilters
     });
     
-    const result = await fetchStockData(params);
-    console.log("Clear result:", result);
-    return result;
+    return await fetchStockData(params);
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
@@ -69,12 +66,13 @@ export const useStockFilterOperations = (
     const advancedParams = buildQueryParams({
       currentPage: 1,
       perPage: 10,
-      ...values
+      ...values,
+      // Ensure date fields are passed correctly
+      date: values.date,
+      expiredDate: values.expiredDate
     });
     
-    const result = await fetchStockData(advancedParams);
-    console.log("Advanced search result:", result);
-    return result;
+    return await fetchStockData(advancedParams);
   };
 
   return {

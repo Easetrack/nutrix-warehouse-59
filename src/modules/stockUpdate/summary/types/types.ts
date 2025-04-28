@@ -1,19 +1,20 @@
 
-// สร้างในไฟล์ types/ หรือข้างบนของ hook นี้ก็ได้
+// Stock query parameters interface
 export interface StockQueryParams {
     currentPage: number;
     perPage: number;
     searchTerm?: string;
     selectedCategory?: string;
     selectedUoM?: string;
+    selectedWarehouse?: string;
     selectedZone?: string;
     selectedArea?: string;
     selectedSubArea?: string;
-    searchDate?: string | null;
-    expiredDate?: string | null;
+    searchDate?: Date | string | null;
+    expiredDate?: Date | string | null;
     sortColumn?: string | null;
     sortDirection?: 'asc' | 'desc';
-    [key: string]: string | number | null | undefined; // Add index signature for dynamic properties
+    [key: string]: string | number | Date | null | undefined; // Add index signature for dynamic properties
 }
 
 export interface AdvancedSearchValues {
@@ -28,4 +29,18 @@ export interface AdvancedSearchValues {
   uom?: string;
   date?: Date | null;
   expiredDate?: Date | null;
+}
+
+export interface StockFilterState {
+  searchTerm: string;
+  selectedCategory: string;
+  selectedUoM: string;
+  selectedWarehouse: string;
+  selectedZone: string;
+  selectedArea: string;
+  selectedSubArea: string;
+  searchDate: Date | null;
+  expiredDate: Date | null;
+  sortColumn: string | null;
+  sortDirection: "asc" | "desc";
 }

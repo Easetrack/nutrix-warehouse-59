@@ -10,6 +10,7 @@ import { SummarySearchBar } from "@/modules/stockUpdate/summary/components/Summa
 import { SummaryTableArea } from "@/modules/stockUpdate/summary/components/SummaryTableArea";
 import { Loading } from "@/components/ui/custom/loading";
 import { Button } from "@/components/ui/button";
+import { FilterValues } from "@/common/types/filter";
 
 const SummaryStockUpdate = () => {
   const { toast } = useToast();
@@ -51,10 +52,23 @@ const SummaryStockUpdate = () => {
     setSortColumn,
     setSortDirection,
     // Add handlers we created in the hook
-    handleSearch,
-    handleClear,
-    handleAdvancedSearch
+    handleSearch: originalHandleSearch,
+    handleClear: originalHandleClear,
+    handleAdvancedSearch: originalHandleAdvancedSearch
   } = useStockData();
+
+  // Create wrapper functions with the expected void return type
+  const handleSearch = async () => {
+    await originalHandleSearch();
+  };
+
+  const handleClear = async () => {
+    await originalHandleClear();
+  };
+
+  const handleAdvancedSearch = async (values: FilterValues) => {
+    await originalHandleAdvancedSearch(values);
+  };
 
   const handleViewDetail = (item: StockItem) => {
     setSelectedItem(item);

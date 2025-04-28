@@ -25,7 +25,9 @@ export const useStockPaginationOperations = (
     const params = buildQueryParams({
       currentPage: page,
       perPage,
-      ...currentFilters
+      ...currentFilters,
+      searchDate: currentFilters.searchDate ? currentFilters.searchDate : null,
+      expiredDate: currentFilters.expiredDate ? currentFilters.expiredDate : null
     });
     const result = await fetchStockData(params);
     console.log("Page change result:", result);

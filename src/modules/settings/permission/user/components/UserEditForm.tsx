@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { UserFormData } from '@/modules/settings/permission/types/types';
 import UserAvatarSection from './UserAvatarSection';
-import UserBasicInfoSection from './form/UserBasicInfoSection';
-import UserCredentialsSection from './form/UserCredentialsSection';
-import UserRoleSection from './form/UserRoleSection';
-import UserDepartmentPositionSection from './form/UserDepartmentPositionSection';
-import UserMetadataSection from './form/UserMetadataSection';
+import UserBasicInfoSection from '@/modules/settings/permission/user/components/form/UserBasicInfoSection';
+import UserCredentialsSection from '@/modules/settings/permission/user/components/form/UserCredentialsSection';
+import UserRoleSection from '@/modules/settings/permission/user/components/form/UserRoleSection';
+import UserDepartmentPositionSection from '@/modules/settings/permission/user/components/form/UserDepartmentPositionSection';
+import UserMetadataSection from '@/modules/settings/permission/user/components/form/UserMetadataSection';
 
 interface UserEditFormProps {
   user?: UserFormData;

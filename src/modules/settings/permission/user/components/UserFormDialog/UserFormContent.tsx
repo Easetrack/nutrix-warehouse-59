@@ -3,11 +3,11 @@ import React from 'react';
 import { Form } from '@/components/ui/form';
 import { UserFormData } from '@/modules/settings/permission/types/types';
 import { UseFormReturn } from 'react-hook-form';
-import UserFormAvatar from '../UserFormAvatar';
-import UserFormBasicInfo from '../UserFormBasicInfo';
-import UserFormCredentials from '../UserFormCredentials';
-import UserFormJobInfo from '../UserFormJobInfo';
-import UserFormMetadata from '../UserFormMetadata';
+import UserFormAvatar from '@/modules/settings/permission/user/components/UserFormAvatar';
+import UserFormBasicInfo from '@/modules/settings/permission/user/components/UserFormBasicInfo';
+import UserFormCredentials from '@/modules/settings/permission/user/components/UserFormCredentials';
+import UserFormJobInfo from '@/modules/settings/permission/user/components/UserFormJobInfo';
+import UserFormMetadata from '@/modules/settings/permission/user/components/UserFormMetadata';
 
 interface UserFormContentProps {
   form: UseFormReturn<UserFormData>;

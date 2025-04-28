@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import UserEditPage from '../UserEditPage';
-import UserDetailsPage from '../UserDetailsPage';
-import { useUserContext } from '../context';
-import UserListView from './UserListView';
+import UserEditPage from '@/modules/settings/permission/user/UserEditPage';
+import UserDetailsPage from '@/modules/settings/permission/user/UserDetailsPage';
+import { useUserContext } from '@/modules/settings/permission/user/context';
+import UserListView from '@/modules/settings/permission/user/components/UserListView';
 
 const UserRoutes: React.FC = () => {
   const { selectedUser, handleSaveUser } = useUserContext();

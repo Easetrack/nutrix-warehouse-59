@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from './context';
-import UserDetailsHeader from './components/UserDetailsHeader';
+import { useUserContext } from '@/modules/settings/permission/user/context';
+import UserDetailsHeader from '@/modules/settings/permission/user/components/UserDetailsHeader';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';

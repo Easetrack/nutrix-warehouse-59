@@ -42,8 +42,8 @@ import LocationSettings from "@/modules/settings/Location";
 // import PermissionSettings from "@/modules/settings/Permission";
 
 // Permission subpages
-import UsersPage from "./pages/settings/permission/user/UsersPage";
-import RolesPage from "@/modules/settings/permission/role/RolesPage";
+import UsersPage from "@/modules/settings/permission/user/UsersPage";
+// import RolesPage from "@/modules/settings/permission/role/RolesPage";
 import PermissionsPage from "@/modules/settings/permission/permission/PermissionsPage";
 
 // Role routes import

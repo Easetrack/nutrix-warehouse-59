@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search } from 'lucide-react';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext } from '@/modules/settings/permission/user/context/UserContext';
 import { useLanguage } from '@/stores/language/LanguageContext';
 
 const UserFilterBar: React.FC = () => {

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import ChartCard from '../ChartCard';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -22,6 +22,13 @@ const itemVariants = {
 };
 
 const InventoryTab = () => {
+  const [primaryColor, setPrimaryColor] = useState("#0000FF"); // default สีเผื่อไว้ (เช่น blue)
+
+  useEffect(() => {
+    const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+    setPrimaryColor(`hsl(${primary})`);
+  }, [])
+
   return (
     <motion.div variants={containerVariants} className="grid gap-6 lg:grid-cols-2">
       <motion.div variants={itemVariants} className="lg:col-span-2">
@@ -37,7 +44,7 @@ const InventoryTab = () => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="value" fill="#AB0006" />
+            <Bar dataKey="value" fill={primaryColor} />
           </BarChart>
         </ChartCard>
       </motion.div>
@@ -93,15 +100,15 @@ const InventoryTab = () => {
           ]}>
             <defs>
               <linearGradient id="colorTurnover" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#06D6A0" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#06D6A0" stopOpacity={0}/>
+                <stop offset="5%" stopColor={primaryColor} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={primaryColor} stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
-            <Area type="monotone" dataKey="turnover" stroke="#06D6A0" fillOpacity={1} fill="url(#colorTurnover)" />
+            <Area type="monotone" dataKey="turnover" stroke={primaryColor} fillOpacity={1} fill="url(#colorTurnover)" />
           </AreaChart>
         </ChartCard>
       </motion.div>
@@ -122,7 +129,7 @@ const InventoryTab = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="picking" stroke="#AB0006" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="picking" stroke={primaryColor} activeDot={{ r: 8 }} />
             <Line type="monotone" dataKey="packing" stroke="#FFD166" />
             <Line type="monotone" dataKey="shipping" stroke="#06D6A0" />
           </LineChart>

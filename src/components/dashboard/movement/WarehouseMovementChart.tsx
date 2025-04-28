@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import ChartCard from '../ChartCard';
@@ -21,6 +21,12 @@ interface WarehouseMovementChartProps {
 }
 
 const WarehouseMovementChart = ({ data }: WarehouseMovementChartProps) => {
+  const [primaryColor, setPrimaryColor] = useState("#0000FF"); // default สีเผื่อไว้ (เช่น blue)
+
+  useEffect(() => {
+    const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+    setPrimaryColor(`hsl(${primary})`);
+  }, [])
   return (
     <motion.div variants={itemVariants}>
       <ChartCard title="Warehouse Item Movement">
@@ -39,7 +45,7 @@ const WarehouseMovementChart = ({ data }: WarehouseMovementChartProps) => {
             return [value, name];
           }} />
           <Legend />
-          <Scatter name="Products" data={data} fill="#AB0006" />
+          <Scatter name="Products" data={data} fill={primaryColor} />
         </ScatterChart>
       </ChartCard>
     </motion.div>

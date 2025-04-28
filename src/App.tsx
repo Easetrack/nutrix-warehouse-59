@@ -21,7 +21,7 @@ import NotFound from "./pages/NotFound";
 
 import StockUpdate from "./pages/StockUpdate";
 // Permission subpages
-import SummaryStockUpdate from "./pages/stockUpdate/summary/SummaryStockUpdate";
+import SummaryStockUpdate from "@/modules/stockUpdate/summary/SummaryStockUpdate";
 import SummaryStockUpdateDetail from "./pages/stockUpdate/details/DetailsStockUpdate";
 import SummaryStockUpdateDetailsLot from "./pages/stockUpdate/detailsLot/DetailsStockUpdateLot";
 import SummaryStockUpdateDetailsLotBatch from "./pages/stockUpdate/detailsLotBatch/DetailsStockUpdateLotBatch";

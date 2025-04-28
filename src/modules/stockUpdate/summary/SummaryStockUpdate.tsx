@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { useToast } from "@/common/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { useStockData } from "./hooks/useStockData";
-import { SummaryHeader } from "./components/SummaryHeader";
-import { SummarySearchBar } from "./components/SummarySearchBar";
-import { SummaryTableArea } from "./components/SummaryTableArea";
+import { useStockData } from "@/modules/stockUpdate/summary/hooks/useStockData";
+import { SummaryHeader } from "@/modules/stockUpdate/summary/components/SummaryHeader";
+import { SummarySearchBar } from "@/modules/stockUpdate/summary/components/SummarySearchBar";
+import { SummaryTableArea } from "@/modules/stockUpdate/summary/components/SummaryTableArea";
 import { Loading } from "@/components/ui/custom/loading";
 import { Button } from "@/components/ui/button";
 

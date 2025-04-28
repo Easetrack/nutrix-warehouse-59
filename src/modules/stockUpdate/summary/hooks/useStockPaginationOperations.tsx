@@ -26,9 +26,10 @@ export const useStockPaginationOperations = (
       currentPage: page,
       perPage,
       ...currentFilters,
-      searchDate: currentFilters.searchDate ? currentFilters.searchDate : null,
-      expiredDate: currentFilters.expiredDate ? currentFilters.expiredDate : null
+      searchDate: currentFilters.searchDate,
+      expiredDate: currentFilters.expiredDate
     });
+    
     const result = await fetchStockData(params);
     console.log("Page change result:", result);
     return result;

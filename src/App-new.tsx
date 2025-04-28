@@ -32,12 +32,12 @@ const RequestPicking = lazy(() => import("./pages/requestPicking/RequestPicking"
 const PackingPTW = lazy(() => import("./pages/PackingPTW"));
 const ProductSettings = lazy(() => import("./modules/settings/product/pages/Product"));
 const LocationSettings = lazy(() => import("./modules/settings/location/pages/Location"));
-const DepartmentSettings = lazy(() => import("./pages/Settings"));
+const DepartmentSettings = lazy(() => import("./pages/settings/Settings"));
 const CustomerSettings = lazy(() => import("./modules/settings/Customer"));
 const VendorSettings = lazy(() => import("./modules/settings/Vendor"));
 const TransactionModelSettings = lazy(() => import("./modules/settings/TransactionModel"));
 const LotModelSettings = lazy(() => import("./modules/settings/LotModel"));
-const PermissionSettings = lazy(() => import("./pages/settings/Permission"));
+const PermissionSettings = lazy(() => import("./modules/settings/permission/pagesHide/Permission"));
 const UsersPage = lazy(() => import("./modules/settings/permission/user/pages/UsersPage"));
 const RolesPage = lazy(() => import("./modules/settings/permission/role/RolesPage"));
 const PermissionsPage = lazy(() => import("./modules/settings/permission/permission/PermissionsPage"));
@@ -76,7 +76,7 @@ function App() {
                   } />
                   <Route path="/stock/summary" element={
                     <ProtectedRoute>
-                      <SummaryStockUpdate />
+                      <SummaryStockPage />
                     </ProtectedRoute>
                   } />
                   <Route path="/stock/details" element={
@@ -174,7 +174,7 @@ function App() {
                   <Route element={<DashboardLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/stock" element={<StockUpdate />} />
-                    <Route path="/stock/summary" element={<SummaryStockUpdate />} />
+                    <Route path="/stock/summary" element={<SummaryStockPage />} />
                     <Route path="/stock/details" element={<SummaryStockUpdateDetail />} />
                     <Route path="/receiving" element={<Receiving />} />
                     <Route path="/request-picking" element={<RequestPicking />} />

@@ -59,15 +59,27 @@ const SummaryStockUpdate = () => {
 
   // Create wrapper functions with the expected void return type
   const handleSearch = async () => {
-    await originalHandleSearch();
+    try {
+      await originalHandleSearch();
+    } catch (error) {
+      console.error("Error during search:", error);
+    }
   };
 
   const handleClear = async () => {
-    await originalHandleClear();
+    try {
+      await originalHandleClear();
+    } catch (error) {
+      console.error("Error during clear:", error);
+    }
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
-    await originalHandleAdvancedSearch(values);
+    try {
+      await originalHandleAdvancedSearch(values);
+    } catch (error) {
+      console.error("Error during advanced search:", error);
+    }
   };
 
   const handleViewDetail = (item: StockItem) => {

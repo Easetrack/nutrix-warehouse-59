@@ -2,6 +2,7 @@
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
+import { StockFilterState } from "@/modules/stockUpdate/summary/types/types";
 
 export const useStockFilterOperations = (
   fetchStockData: ReturnType<typeof useStockFetcher>["fetchStockData"],
@@ -28,8 +29,8 @@ export const useStockFilterOperations = (
       currentPage: 1,
       perPage: 10,
       ...currentFilters,
-      searchDate: currentFilters.searchDate ? currentFilters.searchDate : null,
-      expiredDate: currentFilters.expiredDate ? currentFilters.expiredDate : null
+      searchDate: currentFilters.searchDate,
+      expiredDate: currentFilters.expiredDate
     });
     
     return await fetchStockData(params);
@@ -63,6 +64,8 @@ export const useStockFilterOperations = (
 
   const handleAdvancedSearch = async (values: FilterValues) => {
     setCurrentPage(1);
+    
+    // Create a combined params object that includes current page and perPage
     const advancedParams = buildQueryParams({
       currentPage: 1,
       perPage: 10,

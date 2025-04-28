@@ -6,6 +6,7 @@ import { useStockFetcher } from "./useStockFetcher";
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockAuth } from "./useStockAuth";
 import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
+import { format } from "date-fns";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
@@ -42,6 +43,9 @@ export const useStockData = () => {
       perPage,
       ...filterState,
       ...params,
+      // Ensure dates are properly formatted
+      searchDate: filterState.searchDate ? format(filterState.searchDate, 'MM-dd-yyyy') : undefined,
+      expiredDate: filterState.expiredDate ? format(filterState.expiredDate, 'MM-dd-yyyy') : undefined,
     });
 
     const result = await fetchStockData(queryParams);

@@ -10,8 +10,8 @@ export interface StockQueryParams {
     selectedZone?: string;
     selectedArea?: string;
     selectedSubArea?: string;
-    searchDate?: Date | string | null;
-    expiredDate?: Date | string | null;
+    searchDate?: string | null;
+    expiredDate?: string | null;
     sortColumn?: string | null;
     sortDirection?: 'asc' | 'desc';
     [key: string]: string | number | Date | null | undefined; // Add index signature for dynamic properties
@@ -44,3 +44,21 @@ export interface StockFilterState {
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
 }
+
+// Add compatibility function to convert between types
+export const convertToStockUpdateQueryParams = (params: StockQueryParams): any => {
+  const { currentPage, perPage, searchTerm, ...rest } = params;
+  return {
+    page: currentPage,
+    perPage,
+    search: searchTerm,
+    ...rest,
+    // Format Date objects to strings if they exist
+    searchDate: params.searchDate && params.searchDate instanceof Date 
+      ? new Date(params.searchDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')
+      : params.searchDate,
+    expiredDate: params.expiredDate && params.expiredDate instanceof Date 
+      ? new Date(params.expiredDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')
+      : params.expiredDate,
+  };
+};

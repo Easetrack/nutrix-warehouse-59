@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { StockUpdateQueryParams } from "@/common/types/stockupdate/api";
-import { StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams, convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
+import { format } from "date-fns";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();
@@ -19,13 +19,10 @@ export const useStockFetcher = () => {
 
     try {
       console.log("Fetching data with params:", params);
-      // Convert StockQueryParams to StockUpdateQueryParams
-      const apiParams: StockUpdateQueryParams = {
-        page: params.currentPage,
-        perPage: params.perPage,
-        search: params.searchTerm,
-        ...params // Spread the rest of the properties
-      };
+      
+      // Convert our params to the format the API expects
+      const apiParams = convertToStockUpdateQueryParams(params);
+      console.log("Converted API params:", apiParams);
       
       const data = await fetchStockUpdateSummary(apiParams);
       const items = data.items || [];

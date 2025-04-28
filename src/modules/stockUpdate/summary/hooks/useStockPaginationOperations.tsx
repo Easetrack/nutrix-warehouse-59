@@ -27,7 +27,7 @@ export const useStockPaginationOperations = (
     // Create a copy of filters with dates converted to strings
     const processedFilters = {
       ...currentFilters,
-      currentPage: page,
+      currentPage: page, // Ensure we're using the correct page number
       perPage,
       // Convert dates to strings
       searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
@@ -35,6 +35,7 @@ export const useStockPaginationOperations = (
     };
     
     const params = buildQueryParams(processedFilters);
+    console.log("Pagination params:", params);
     
     const result = await fetchStockData(params);
     console.log("Page change result:", result);

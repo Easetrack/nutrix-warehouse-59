@@ -84,6 +84,7 @@ export const useStockData = () => {
       setTotalPages(result.totalPages);
       setTotalCount(result.totalCount);
       setPerPage(result.perPage);
+      // Don't update currentPage here as it will be handled by the individual handlers
     }
     return result;
   };
@@ -112,7 +113,8 @@ export const useStockData = () => {
   const handleNextPage = async () => {
     if (currentPage < totalPages) { // Add safety check
       const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
+      console.log(`Moving to next page: ${nextPage}`);
+      setCurrentPage(nextPage); // Update currentPage BEFORE API call
       await paginationOperations.handlePageChange(nextPage, perPage);
     }
   };
@@ -120,14 +122,16 @@ export const useStockData = () => {
   const handlePreviousPage = async () => {
     if (currentPage > 1) { // Keep the existing safety check
       const prevPage = currentPage - 1;
-      setCurrentPage(prevPage);
+      console.log(`Moving to previous page: ${prevPage}`);
+      setCurrentPage(prevPage); // Update currentPage BEFORE API call
       await paginationOperations.handlePageChange(prevPage, perPage);
     }
   };
 
   const handlePerPageChange = async (newPerPage: number) => {
+    console.log(`Changing perPage to: ${newPerPage}`);
     setPerPage(newPerPage);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to page 1 when changing perPage
     await paginationOperations.handlePageChange(1, newPerPage);
   };
 

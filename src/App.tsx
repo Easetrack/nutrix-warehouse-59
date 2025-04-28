@@ -33,7 +33,7 @@ import PackingPTW from "./pages/PackingPTW";
 
 // Settings subpages
 import ProductSettings from "@/modules/settings/Product";
-import LocationSettings from "@/modules/settings/Location";
+import LocationSettings from "@/features/settings/location/Location";
 // import DepartmentSettings from "@/modules/settings/Department";
 // import CustomerSettings from "@/modules/settings/Customer";
 // import VendorSettings from "@/modules/settings/Vendor";

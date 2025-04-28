@@ -76,6 +76,33 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 </div>
               </TableHead>
               <TableHead
+                className="w-32 cursor-pointer whitespace-nowrap"
+                onClick={() => handleSort("categoryName")}
+              >
+                <div className="flex items-center">
+                  {t('stock.table.category')}
+                  {renderSortIndicator("categoryName")}
+                </div>
+              </TableHead>
+              <TableHead
+                className="w-32 cursor-pointer whitespace-nowrap"
+                onClick={() => handleSort("categoryName")}
+              >
+                <div className="flex items-center">
+                  {t('stock.table.tag')}
+                  {renderSortIndicator("categoryName")}
+                </div>
+              </TableHead>
+              <TableHead
+                className="w-32 cursor-pointer whitespace-nowrap"
+                onClick={() => handleSort("categoryName")}
+              >
+                <div className="flex items-center">
+                  {t('stock.table.non-tag')}
+                  {renderSortIndicator("categoryName")}
+                </div>
+              </TableHead>
+              <TableHead
                 className="w-28 cursor-pointer whitespace-nowrap"
                 onClick={() => handleSort("qty")}
               >
@@ -93,15 +120,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                   {renderSortIndicator("unitName")}
                 </div>
               </TableHead>
-              <TableHead
-                className="w-32 cursor-pointer whitespace-nowrap"
-                onClick={() => handleSort("categoryName")}
-              >
-                <div className="flex items-center">
-                  {t('stock.table.category')}
-                  {renderSortIndicator("categoryName")}
-                </div>
-              </TableHead>
+              
               <TableHead
                 className="w-32 cursor-pointer whitespace-nowrap text-right"
                 onClick={() => handleSort("locations")}
@@ -139,9 +158,11 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                   <TableCell className="font-medium">{item.productId}</TableCell>
                   <TableCell className="max-w-md">{item.productName}</TableCell>
                   <TableCell className="text-right">{item.totalLot.toLocaleString()}</TableCell>
+                  <TableCell>{item.categoryName}</TableCell>
+                  <TableCell>{item.tagQty.toLocaleString()}</TableCell>
+                  <TableCell>{item.nonTagQty.toLocaleString()}</TableCell>
                   <TableCell className="text-right">{item.qty.toLocaleString()}</TableCell>
                   <TableCell>{item.unitName}</TableCell>
-                  <TableCell>{item.categoryName}</TableCell>
                   <TableCell className="text-right">{item.totalLocation.toLocaleString()}</TableCell>
                 </TableRow>
               ))

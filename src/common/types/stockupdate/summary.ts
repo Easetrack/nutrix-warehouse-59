@@ -25,6 +25,8 @@ export interface StockItem {
     image: string;
     nonTags: number;
     tags: number;
+    tagQty: number;
+    nonTagQty: number;
     totalLot: number | null;
     lotNumber: string;
     lotMaster: string;

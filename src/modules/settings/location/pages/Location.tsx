@@ -2,12 +2,12 @@
 import React, { useState, useMemo } from 'react';
 import { Plus } from 'lucide-react';
 import { useToast } from "@/common/hooks/use-toast";
-import WarehouseSummaryCards from "@/modules/settings/location/WarehouseSummaryCards";
-import LocationActionBar from "@/modules/settings/location/LocationActionBar";
-import LocationTable from "@/modules/settings/location/LocationTable";
-import LocationAddEditModal from "@/modules/settings/location/LocationAddEditModal";
-import LocationDeleteDialog from "@/modules/settings/location/LocationDeleteDialog";
-import DeleteSuccessToast from "@/modules/settings/location/DeleteSuccessToast";
+import WarehouseSummaryCards from "@/modules/settings/location/components/WarehouseSummaryCards";
+import LocationActionBar from "@/modules/settings/location/components/LocationActionBar";
+import LocationTable from "@/modules/settings/location/components/LocationTable";
+import LocationAddEditModal from "@/modules/settings/location/components/LocationAddEditModal";
+import LocationDeleteDialog from "@/modules/settings/location/components/LocationDeleteDialog";
+import DeleteSuccessToast from "@/modules/settings/location/components/DeleteSuccessToast";
 
 // Define type for location
 interface LocationType {

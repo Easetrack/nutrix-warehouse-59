@@ -80,7 +80,7 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
             uom: selectedUoM,
           }}
           visibleInputFields={['search', 'selectLocation', 'selectProduct']}
-          visibleLocationFields={['warehouse', 'zone', 'area', 'subArea']}
+          visibleLocationFields={['warehouse', 'zone', 'area']}
           visibleProductFields={['category', 'uom']}
           storageKey="stockUpdate_summary_filters"
           trigger={

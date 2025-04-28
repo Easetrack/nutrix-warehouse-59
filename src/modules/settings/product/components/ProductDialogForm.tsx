@@ -25,10 +25,10 @@ type ProductDialogFormProps = {
     loadingUnits: boolean;
   };
   options: {
-    categoryOptions: any[];
-    typeOptions: any[];
-    subTypeOptions: any[];
-    uomOptions: any[];
+    categoryOptions: unknown[];
+    typeOptions: unknown[];
+    subTypeOptions: unknown[];
+    uomOptions: unknown[];
   };
   onClose: () => void;
   editingProduct: FormType | null | undefined;

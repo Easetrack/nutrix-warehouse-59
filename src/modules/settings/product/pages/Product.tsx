@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { Search, RotateCcw, Plus } from "lucide-react";
-import ProductSummaryCard from "@/modules/settings/product/ProductSummaryCard";
-import ProductTable from "@/modules/settings/product/ProductTable";
-import ProductDialog from "@/modules/settings/product/ProductDialog";
-import ProductDeleteDialog from "@/modules/settings/product/ProductDeleteDialog";
+import ProductSummaryCard from "@/modules/settings/product/components/ProductSummaryCard";
+import ProductTable from "@/modules/settings/product/components/ProductTable";
+import ProductDialog from "@/modules/settings/product/components/ProductDialog";
+import ProductDeleteDialog from "@/modules/settings/product/components/ProductDeleteDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/common/hooks/use-toast";

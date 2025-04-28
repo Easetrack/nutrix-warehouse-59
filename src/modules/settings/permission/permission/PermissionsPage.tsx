@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import DeleteConfirmationDialog from "@/modules/settings/permission/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@/modules/settings/permission/components/DeleteConfirmationDialog";
 import { usePermissionData } from "@/modules/settings/permission/permission/hooks/usePermissionData";
 import PermissionHeader from "@/modules/settings/permission/permission/components/PermissionHeader";
 import PermissionSearchBar from "@/modules/settings/permission/permission/components/PermissionSearchBar";

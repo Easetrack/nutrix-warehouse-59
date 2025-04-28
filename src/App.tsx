@@ -32,8 +32,8 @@ import CreatePicking from "@/modules/requestPicking/CreatePicking";
 import PackingPTW from "./pages/PackingPTW";
 
 // Settings subpages
-import ProductSettings from "@/modules/settings/Product";
-import LocationSettings from "@/features/settings/location/Location";
+import ProductSettings from "@/modules/settings/product/pages/Product";
+import LocationSettings from "@/modules/settings/location/pages/Location";
 // import DepartmentSettings from "@/modules/settings/Department";
 // import CustomerSettings from "@/modules/settings/Customer";
 // import VendorSettings from "@/modules/settings/Vendor";
@@ -42,7 +42,7 @@ import LocationSettings from "@/features/settings/location/Location";
 // import PermissionSettings from "@/modules/settings/Permission";
 
 // Permission subpages
-import UsersPage from "@/modules/settings/permission/user/UsersPage";
+import UsersPage from "@/modules/settings/permission/user/pages/UsersPage";
 // import RolesPage from "@/modules/settings/permission/role/RolesPage";
 import PermissionsPage from "@/modules/settings/permission/permission/PermissionsPage";
 

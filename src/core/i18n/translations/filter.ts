@@ -4,7 +4,7 @@ export const filterTranslations = {
     th: "กรองการค้นหา",
   },
   "filter.input.searchByItemCodeNameOrLot": {
-    en: "Search by item code, name or lot",
+    en: "Search by Product code, name or lot",
     th: "ค้นหาตามรหัสสินค้า ชื่อสินค้า หรือล็อต",
   },
   // Filter input fields
@@ -53,7 +53,7 @@ export const filterTranslations = {
     th: "หมวดหมู่",
   },
   "filter.product.uom": {
-    en: "Unit of Measure",
+    en: "UoM",
     th: "หน่วยนับ",
   },
 } as const;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { useLanguage } from '@/stores/language/LanguageContext';
-import UsersPage from '@/modules/settings/permission/user/UsersPage';
+import UsersPage from '@/modules/settings/permission/user/pages/UsersPage';
 import RolesPage from '@/modules/settings/permission/role/RolesPage';
 import PermissionsPage from '@/modules/settings/permission/permission/PermissionsPage';
 import PermissionNav from '@/modules/settings/permission/permission/PermissionNav';

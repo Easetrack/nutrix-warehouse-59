@@ -95,29 +95,29 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
       hasSubmenu: true,
     },
     // { path: '/receiving', name: t('nav.receiving'), icon: <DownloadCloud size={20} /> },
-    { path: '/request-picking', name: t('nav.requestForPicking'), icon: <FileHeart size={20} /> },
+    // { path: '/request-picking', name: t('nav.requestForPicking'), icon: <FileHeart size={20} /> },
     // { path: '/packing-ptw', name: t('nav.packingPTW'), icon: <Box size={20} /> },
   ];
 
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   const settingsMenuItems = [
-    { path: '/settings/product', name: t('settings.product') },
-    { path: '/settings/location', name: t('settings.location') },
+    // { path: '/settings/product', name: t('settings.product') },
+    // { path: '/settings/location', name: t('settings.location') },
     // { path: '/settings/department', name: t('settings.department') },
     // { path: '/settings/customer', name: t('settings.customer') },
     // { path: '/settings/vendor', name: t('settings.vendor') },
     // { path: '/settings/transaction-model', name: t('settings.transactionModel') },
     // { path: '/settings/lot-model', name: t('settings.lotModel') },
-    {
-      path: '/settings/permission',
-      name: t('settings.permission'),
-      subItems: [
-        { path: '/settings/permission/users', name: t('nav.settings.permission.user') },
-        { path: '/settings/permission/roles', name: t('nav.settings.permission.role') },
-        { path: '/settings/permission/permissions', name: t('nav.settings.permission.permission') }
-      ]
-    },
+    // {
+    //   path: '/settings/permission',
+    //   name: t('settings.permission'),
+    //   subItems: [
+    //     { path: '/settings/permission/users', name: t('nav.settings.permission.user') },
+    //     { path: '/settings/permission/roles', name: t('nav.settings.permission.role') },
+    //     { path: '/settings/permission/permissions', name: t('nav.settings.permission.permission') }
+    //   ]
+    // },
   ];
 
   const changeWarehouse = () => {
@@ -325,7 +325,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
 
           {/* Settings Menu with Submenu */}
           <div className="mt-2">
-            <button
+            {/* <button
               className={`
                 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors
                 ${location.pathname.startsWith('/settings') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}
@@ -344,7 +344,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
                 className={`transition-transform duration-200 ${isSettingsOpen ? 'rotate-180' : ''} ${location.pathname.startsWith('/settings') ? 'text-white' : 'text-gray-500'
                   }`}
               />
-            </button>
+            </button> */}
 
             <AnimatePresence>
               {isSettingsOpen && (

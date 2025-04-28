@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/common/hooks/use-toast';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { mockModules } from '@/modules/settings/permission/types/mockData';
-import DeleteConfirmationDialog from '@/modules/settings/permission/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@/modules/settings/permission/components/DeleteConfirmationDialog';
 import RoleHeader from '@/modules/settings/permission/role/components/RoleHeader';
 import RoleSearch from '@/modules/settings/permission/role/components/RoleSearch';
 import RoleList from '@/modules/settings/permission/role/components/RoleList';

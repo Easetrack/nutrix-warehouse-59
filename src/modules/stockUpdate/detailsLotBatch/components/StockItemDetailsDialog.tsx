@@ -24,126 +24,92 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   
   const item = selectedItem as StockItem;
 
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
+    } catch (error) {
+      return "N/A";
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-3xl">
-        <DialogHeader>
-          <DialogTitle>Product Details</DialogTitle>
+      <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden">
+        <DialogHeader className="bg-blue-50 p-4 border-b">
+          <DialogTitle className="text-lg font-semibold">Product Details</DialogTitle>
+          <p className="text-sm text-gray-500">View Product Information</p>
         </DialogHeader>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+          {/* Left Column - Product Image */}
+          <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md">
             <img
               src={item.image || "/placeholder.svg"}
               alt={item.productName}
-              className="h-48 w-48 rounded-lg object-cover"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+              className="max-h-64 object-contain"
+              onError={(e) => {(e.target as HTMLImageElement).src = "/placeholder.svg"}}
             />
           </div>
-
+          
+          {/* Middle Column - Main Product Info */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-bold text-gray-900">
-                {item.productName}
+              <h3 className="text-3xl font-bold mb-2">
+                {item.qty.toLocaleString()} {item.unitName}
               </h3>
-              <p className="text-sm text-gray-500">
-                {item.productId}
-              </p>
             </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Category</p>
-                <p className="text-sm font-medium">
-                  {item.categoryName}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Type</p>
-                <p className="text-sm font-medium">{item.typeName}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Barcode</p>
-                <p className="text-sm font-medium">{item.barcode}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Quantity</p>
-                <p className="text-sm font-medium">
-                  {item.qty} {item.unitName}
-                </p>
-              </div>
-            </div>
-
+            
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Brand</p>
-                <p className="text-sm font-medium">
-                  {item.brand || "N/A"}
-                </p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Style No</p>
-                <p className="text-sm font-medium">{item.styleNo || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Color</p>
-                <p className="text-sm font-medium">{item.color || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Size</p>
-                <p className="text-sm font-medium">{item.size || "N/A"}</p>
-              </div>
+              <DetailItem label="Product Reference" value={item.productId} />
+              <DetailItem label="Product Barcode" value={item.barcode} />
+              <DetailItem label="Product Name" value={item.productName} />
+              <DetailItem label="User SKU" value={item.sku || "N/A"} />
             </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Tags</p>
-                <p className="text-sm font-medium">{item.tags}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Non-Tags</p>
-                <p className="text-sm font-medium">{item.nonTags}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Lot Number</p>
-                <p className="text-sm font-medium">{item.lotNumber || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Lot Master</p>
-                <p className="text-sm font-medium">{item.lotMaster || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Lot Batch</p>
-                <p className="text-sm font-medium">{item.lotBatch || "N/A"}</p>
-              </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Lot Information</h4>
+              <DetailItem label="Lot Number" value={item.lotNumber || "N/A"} />
+              <DetailItem label="Lot Master" value={item.lotMaster || "N/A"} />
+              <DetailItem label="Lot Batch" value={item.lotBatch || "N/A"} />
+              <DetailItem label="Total Lot" value={item.totalLot || "N/A"} />
+            </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Product Details</h4>
+              <DetailItem label="Size" value={item.size || "N/A"} />
+              <DetailItem label="Color" value={item.color || "N/A"} />
+              <DetailItem label="Style" value={item.styleNo || "N/A"} />
+              <DetailItem label="Brand" value={item.brand || "N/A"} />
+              <DetailItem label="Tags" value={item.tagQty || "N/A"} />
+              <DetailItem label="Non-Tags" value={item.nonTagQty || "N/A"} />
             </div>
           </div>
-
-          <div className="md:col-span-2">
-            <div className="space-y-2 rounded-lg bg-background p-4">
-              <h4 className="font-medium text-gray-900">Stock Information</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Category</span>
-                  <span>{item.categoryName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Type</span>
-                  <span>{item.typeName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Sub Type</span>
-                  <span>{item.subTypeName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Total Lot</span>
-                  <span>{item.totalLot || "N/A"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Total Locations</span>
-                  <span>{item.totalLocation || "N/A"}</span>
-                </div>
-              </div>
+          
+          {/* Right Column - Location and Dates */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold">Inventory Information</h4>
+              <DetailItem label="Creation Date" value={formatDate(item.createdAt || "")} />
+              <DetailItem label="Expiration Date" value={formatDate(item.expiredDate || "")} />
+              <DetailItem label="Shelf Life" value={`${item.shelfLifeDays || "N/A"} days`} />
+              <DetailItem label="Status" value={item.status || "Active"} />
+              <DetailItem label="Total Locations" value={item.totalLocation || "N/A"} />
+            </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Location</h4>
+              <DetailItem label="Warehouse" value={item.warehouse || "N/A"} />
+              <DetailItem label="Zone" value={item.zoneName || "N/A"} />
+              <DetailItem label="Area" value={item.areaName || "N/A"} />
+              <DetailItem label="Sub Area" value={item.subAreaName || "N/A"} />
+            </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Product Group</h4>
+              <DetailItem label="Category" value={item.categoryName || "N/A"} />
+              <DetailItem label="Type" value={item.typeName || "N/A"} />
+              <DetailItem label="Sub Type" value={item.subTypeName || "N/A"} />
             </div>
           </div>
         </div>
@@ -151,3 +117,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     </Dialog>
   );
 };
+
+const DetailItem = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="grid grid-cols-2 gap-2">
+    <p className="text-xs text-gray-500">{label}:</p>
+    <p className="text-sm font-medium overflow-hidden text-ellipsis">{value}</p>
+  </div>
+);

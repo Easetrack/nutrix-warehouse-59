@@ -72,7 +72,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     { label: "Zone", value: "Area" },
     { label: "Area", value: "Sub Area" },
   ];
-  
+
   // Group information
   const groupDetails = [
     { label: "Category", value: selectedItem.categoryName || "Unclassified" },
@@ -95,7 +95,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <div className="col-span-12 md:col-span-4">
                 <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
               </div>
-              
+
               {/* Middle Column - Basic Product Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Product Details" details={productInfoDetails} />
@@ -105,7 +105,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   </h2>
                 </div>
               </div>
-              
+
               {/* Right Column - Additional Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Inventory Details" details={inventoryDetails} />
@@ -115,12 +115,12 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Product Specs" details={productSpecDetails} />
               </div>
-              
+
               {/* Location Info - Bottom Middle */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Location Details" details={locationDetails} />
               </div>
-              
+
               {/* Group Info - Bottom Right */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Group Details" details={groupDetails} />

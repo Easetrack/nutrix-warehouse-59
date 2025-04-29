@@ -20,6 +20,10 @@ export const filterTranslations = {
     en: "Date",
     th: "วันที่",
   },
+  "filter.input.expiredDate": {
+    en: "Expired Date",
+    th: "วันหมดอายุ",
+  },
   "filter.input.selectLocation": {
     en: "Location",
     th: "สถานที่",

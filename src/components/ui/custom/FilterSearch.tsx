@@ -9,7 +9,7 @@ import { FilterProductSelects } from './filter/FilterProductSelects';
 import { useFilterSearch } from '@/common/hooks/useFilterSearch';
 import { FilterSearchProps, FilterValues } from '@/common/types/filter';
 import { DatePicker } from '@/components/ui/date-picker'
-
+import { useLanguage } from "@/stores/language/LanguageContext";
 // Export the FilterValues type for backward compatibility
 export type { FilterValues } from '@/common/types/filter';
 
@@ -55,6 +55,8 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
     }
   };
 
+  const { t } = useLanguage();
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -75,7 +77,7 @@ export const FilterSearch: React.FC<FilterSearchProps> = ({
             <DatePicker
               selected={filters.date ?? undefined}
               onSelect={(date) => handleSelectChange(date as never, 'date')}
-              placeholder="เลือกวันที่"
+              placeholder={t('filter.input.expiredDate')}
               className="w-full"
             />
           )}

@@ -1,0 +1,23 @@
+
+import React from "react";
+
+interface ProductImageSectionProps {
+  image: string;
+  productName: string;
+}
+
+export const ProductImageSection: React.FC<ProductImageSectionProps> = ({
+  image,
+  productName,
+}) => {
+  return (
+    <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md">
+      <img
+        src={image || "/placeholder.svg"}
+        alt={productName}
+        className="max-h-64 object-contain"
+        onError={(e) => {(e.target as HTMLImageElement).src = "/placeholder.svg"}}
+      />
+    </div>
+  );
+};

@@ -7,7 +7,7 @@ export const ProductImageSection: React.FC<ProductImageSectionProps> = ({
   productName,
 }) => {
   return (
-    <div className="w-full h-44 bg-gray-100 flex items-center justify-center border border-gray-200 rounded-md">
+    <div className="w-full aspect-square bg-gray-100 flex items-center justify-center border border-gray-200 rounded-md overflow-hidden">
       <img
         src={image || "/placeholder.svg"}
         alt={productName}

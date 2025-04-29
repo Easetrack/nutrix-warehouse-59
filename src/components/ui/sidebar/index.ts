@@ -50,4 +50,4 @@ export {
 } from "./sidebar-submenu";
 
 // Export types
-export type { SidebarContext, SidebarState } from "./types";
+export type { SidebarContextType, SidebarState } from "./types";

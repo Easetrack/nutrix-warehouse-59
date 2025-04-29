@@ -19,10 +19,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   selectedItem,
 }) => {
   const { t } = useLanguage();
-  const { 
-    lotDetails, 
-    isLoading, 
-    error, 
+  const {
+    lotDetails,
+    isLoading,
+    error,
     currentPage,
     totalPages,
     totalCount,
@@ -30,11 +30,11 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     handlePageChange,
     handlePerPageChange
   } = useLotDetails(isOpen, selectedItem);
-  
+
   if (!selectedItem) return null;
 
-  console.log("StockItemDetailsDialog rendering with:", { 
-    isOpen, 
+  console.log("StockItemDetailsDialog rendering with:", {
+    isOpen,
     selectedItem: selectedItem?.productName,
     lotDetailsCount: lotDetails?.length
   });
@@ -73,7 +73,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     { label: "Zone", value: "Area" },
     { label: "Area", value: "Sub Area" },
   ];
-  
+
   // Group information
   const groupDetails = [
     { label: "Category", value: selectedItem.categoryName || "Unclassified" },
@@ -86,50 +86,57 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
       <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
         <DialogHeaderSection />
 
+
+
         <div className="flex-grow overflow-y-auto">
           <ScrollArea className="h-full">
             {/* Main Content Area */}
             <div className="grid grid-cols-12 gap-4 p-6">
               {/* Left Column - Product Image */}
-              <div className="col-span-12 md:col-span-4">
+              <div className="col-span-12 md:col-span-4 row-span-3">
                 <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
+
+                <div className="mt-4">
+                  <div className="flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4 rounded-md h-48 shadow-sm hover:shadow-md transition-all duration-300">
+                    <h2 className="text-3xl font-bold">
+                      {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
+                    </h2>
+                  </div>
+                </div>
               </div>
-              
+
               {/* Middle Column - Basic Product Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Product Details" details={productInfoDetails} />
-                <div className="mt-4">
-                  <h2 className="text-3xl font-bold">
-                    {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
-                  </h2>
-                </div>
               </div>
-              
+
               {/* Right Column - Additional Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Inventory Details" details={inventoryDetails} />
               </div>
 
               {/* Product Specs - Bottom Left */}
-              <div className="col-span-12 md:col-span-4">
+              <div className="col-span-12 md:col-span-4 row-span-2">
                 <DetailGroup title="Product Specs" details={productSpecDetails} />
               </div>
-              
+
               {/* Location Info - Bottom Middle */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Location Details" details={locationDetails} />
               </div>
-              
+
               {/* Group Info - Bottom Right */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Group Details" details={groupDetails} />
               </div>
             </div>
 
+
+
             {/* Product List Table with Pagination */}
             <div className="border-t pt-4 pb-6">
               <h3 className="text-lg font-semibold px-6 mb-2">Product List</h3>
-              <LotDetailsTable 
+              <LotDetailsTable
                 lotDetails={lotDetails}
                 isLoading={isLoading}
                 error={error}

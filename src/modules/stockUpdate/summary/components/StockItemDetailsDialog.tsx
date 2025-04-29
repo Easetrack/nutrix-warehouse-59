@@ -3,8 +3,8 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
-  ScrollArea,
 } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLanguage } from "@/stores/language/LanguageContext";
 import { DialogHeaderSection } from "./details/DialogHeaderSection";
 import { ProductImageSection } from "./details/ProductImageSection";

@@ -9,9 +9,10 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarFooter,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 
-// Import our new components
+// Import our components
 import SidebarHeaderContent from './sidebar/SidebarHeader';
 import WarehouseSelector from './sidebar/WarehouseSelector';
 import SidebarMenuItems from './sidebar/SidebarMenuItems';
@@ -43,10 +44,10 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
-        <Sidebar>
+        <Sidebar variant="floating">
           <SidebarHeader>
             <SidebarHeaderContent />
-            <div className="px-4 py-2">
+            <div className="px-2 py-2">
               <WarehouseSelector
                 selectedWarehouse={selectedWarehouse}
                 isWarehouseMenuOpen={isWarehouseMenuOpen}
@@ -70,10 +71,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
             <SidebarTrigger />
           </div>
           
-          {/* Desktop sidebar rail/trigger */}
-          <div className="hidden md:block">
-            <SidebarTrigger />
-          </div>
+          {/* Desktop sidebar rail */}
+          <SidebarRail className="hidden md:flex" />
           
           <div className="min-h-screen bg-background px-4 py-4 lg:px-8 lg:py-6">
             {children}

@@ -46,13 +46,13 @@ const SidebarMenuItems: React.FC = () => {
     <SidebarMenu>
       {mainMenuItems.map((item) => (
         item.hasSubmenu ? (
-          <SidebarMenuItem key={item.id}>
+          <SidebarMenuItem key={item.id} className="mb-1">
             <SidebarMenuButton
               onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
               isActive={location.pathname.startsWith(`/${item.id}`)}
               tooltip={item.name}
             >
-              {item.icon}
+              <span className="text-primary/80">{item.icon}</span>
               <span>{item.name}</span>
               <ChevronDown
                 className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
@@ -85,14 +85,14 @@ const SidebarMenuItems: React.FC = () => {
             </AnimatePresence>
           </SidebarMenuItem>
         ) : (
-          <SidebarMenuItem key={item.path}>
+          <SidebarMenuItem key={item.path} className="mb-1">
             <SidebarMenuButton
               asChild
               isActive={location.pathname === item.path}
               tooltip={item.name}
             >
               <NavLink to={item.path || ""}>
-                {item.icon}
+                <span className="text-primary/80">{item.icon}</span>
                 <span>{item.name}</span>
               </NavLink>
             </SidebarMenuButton>

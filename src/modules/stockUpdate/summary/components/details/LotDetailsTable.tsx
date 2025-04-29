@@ -1,6 +1,5 @@
 
 import React from "react";
-import { format, parseISO } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LotDetailsTableProps } from "../../types/dialogTypes";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,60 +21,57 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   const perPageOptions = [5, 10, 20, 50];
   
   return (
-    <div className="p-6 pt-0">
-      <h3 className="text-lg font-semibold mb-4">Stock Update: Detail by Lot</h3>
+    <div className="px-6 pb-6">
       <div className="border rounded-md overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Lot Number</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Warehouse</TableHead>
-              <TableHead>Zone</TableHead>
-              <TableHead>Area</TableHead>
-              <TableHead>Sub Area</TableHead>
-              <TableHead>Shelf Life (Days)</TableHead>
-              <TableHead>Expiry Date</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead className="w-12">No.</TableHead>
+              <TableHead className="w-16">Image</TableHead>
+              <TableHead>Product Code</TableHead>
+              <TableHead>Product Name</TableHead>
+              <TableHead>Lot</TableHead>
+              <TableHead>Barcode</TableHead>
+              <TableHead>Categories</TableHead>
+              <TableHead>Group</TableHead>
+              <TableHead>Sub Group</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-4">Loading lot details...</TableCell>
+                <TableCell colSpan={9} className="text-center py-4">Loading product details...</TableCell>
               </TableRow>
             ) : error ? (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-4 text-red-500">{error}</TableCell>
+                <TableCell colSpan={9} className="text-center py-4 text-red-500">{error}</TableCell>
               </TableRow>
             ) : lotDetails.length > 0 ? (
-              lotDetails.map((lot, index) => (
+              lotDetails.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell>{lot.lotNumber || "N/A"}</TableCell>
-                  <TableCell>{lot.qty.toLocaleString()}</TableCell>
-                  <TableCell>{lot.combinedLocation || "N/A"}</TableCell>
-                  <TableCell>{lot.warehouse || "N/A"}</TableCell>
-                  <TableCell>{lot.zoneName || "N/A"}</TableCell>
-                  <TableCell>{lot.areaName || "N/A"}</TableCell>
-                  <TableCell>{lot.subAreaName || "N/A"}</TableCell>
-                  <TableCell className={lot.shelfLifeDays <= 0 ? 'text-red-500' : ''}>
-                    {lot.shelfLifeDays}
-                  </TableCell>
-                  <TableCell>{lot.expiredDate ? format(parseISO(lot.expiredDate), 'dd/MM/yyyy') : '-'}</TableCell>
+                  <TableCell>{(currentPage - 1) * perPage + index + 1}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      !lot.isExpired ? 'bg-green-100 text-green-800' : 
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {lot.isExpired ? 'Expired' : 'Active'}
-                    </span>
+                    <div className="w-12 h-12 flex items-center justify-center">
+                      <img 
+                        src={item.image || "/placeholder.svg"} 
+                        alt={item.productName} 
+                        className="max-w-full max-h-full object-contain"
+                        onError={(e) => {(e.target as HTMLImageElement).src = "/placeholder.svg"}}
+                      />
+                    </div>
                   </TableCell>
+                  <TableCell>{item.productId}</TableCell>
+                  <TableCell>{item.productName}</TableCell>
+                  <TableCell>{item.lotNumber || "N/A"}</TableCell>
+                  <TableCell>{item.barcode}</TableCell>
+                  <TableCell>{item.categoryName || "Raw Material"}</TableCell>
+                  <TableCell>{"Raw Material"}</TableCell>
+                  <TableCell>{"Raw Material"}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-4">No lot details available</TableCell>
+                <TableCell colSpan={9} className="text-center py-4">No product details available</TableCell>
               </TableRow>
             )}
           </TableBody>

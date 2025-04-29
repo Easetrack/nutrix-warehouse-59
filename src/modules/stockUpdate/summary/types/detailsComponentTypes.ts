@@ -26,4 +26,17 @@ export interface LotDetailsTableProps {
   lotDetails: StockItem[];
   isLoading: boolean;
   error: string | null;
+  currentPage: number;
+  totalPages: number;
+  perPage: number;
+  onPageChange: (page: number) => void;
+  onPerPageChange: (perPage: number) => void;
+}
+
+export interface DetailGroupProps {
+  title: string;
+  details: {
+    label: string;
+    value: React.ReactNode;
+  }[];
 }

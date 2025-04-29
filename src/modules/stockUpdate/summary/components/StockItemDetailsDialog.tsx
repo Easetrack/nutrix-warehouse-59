@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { StockItem } from "@/common/types/stock";
+import { StockItem } from "@/common/types/stockupdate/summary";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;
@@ -21,106 +21,107 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 }) => {
   if (!selectedItem) return null;
 
+  const formatDate = (dateString?: string) => {
+    try {
+      if (!dateString) return "N/A";
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
+    } catch (error) {
+      return "N/A";
+    }
+  };
+
+  // Access properties safely
+  const sku = "N/A";
+  const model = "N/A";
+  const weight = "N/A";
+  const width = "N/A";
+  const height = "N/A";
+  const label = "N/A";
+  
+  // Use empty string as default for createdAt since it might not exist
+  const creationDate = "N/A";
+  const expirationDate = "N/A";
+  const batch = "N/A";
+  const status = "Active";
+  const warehouse = "N/A";
+  const zoneName = "N/A";
+  const areaName = "N/A";
+  const subAreaName = "N/A";
+  const groupName = "N/A"; 
+  const subGroupName = "N/A";
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-3xl">
-        <DialogHeader>
-          <DialogTitle>Product Details</DialogTitle>
+      <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden">
+        <DialogHeader className="bg-blue-50 p-4 border-b">
+          <DialogTitle className="text-lg font-semibold">Product Details</DialogTitle>
+          <p className="text-sm text-gray-500">View Product Information</p>
         </DialogHeader>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+          {/* Left Column - Product Image */}
+          <div className="flex items-center justify-center bg-gray-100 p-4 rounded-md">
             <img
               src={selectedItem.image || "/placeholder.svg"}
               alt={selectedItem.productName}
-              className="h-48 w-48 rounded-lg object-cover"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+              className="max-h-64 object-contain"
+              onError={(e) => {(e.target as HTMLImageElement).src = "/placeholder.svg"}}
             />
           </div>
-
+          
+          {/* Middle Column - Main Product Info */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-bold text-gray-900">
-                {selectedItem.productName}
+              <h3 className="text-3xl font-bold mb-2">
+                {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
               </h3>
-              <p className="text-sm text-gray-500">
-                {selectedItem.productId}
-              </p>
             </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Category</p>
-                <p className="text-sm font-medium">
-                  {selectedItem.categoryName}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Type</p>
-                <p className="text-sm font-medium">{selectedItem.typeName}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Barcode</p>
-                <p className="text-sm font-medium">{selectedItem.barcode}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-gray-500">Quantity</p>
-                <p className="text-sm font-medium">
-                  {selectedItem.qty} {selectedItem.unitName}
-                </p>
-              </div>
-            </div>
-
+            
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Brand</p>
-                <p className="text-sm font-medium">
-                  {selectedItem.brand || "N/A"}
-                </p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Style No</p>
-                <p className="text-sm font-medium">{selectedItem.styleNo || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Color</p>
-                <p className="text-sm font-medium">{selectedItem.color || "N/A"}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Size</p>
-                <p className="text-sm font-medium">{selectedItem.size || "N/A"}</p>
-              </div>
+              <DetailItem label="Product Reference" value={selectedItem.productId} />
+              <DetailItem label="Product Barcode" value={selectedItem.barcode} />
+              <DetailItem label="Product Name" value={selectedItem.productName} />
+              <DetailItem label="User SKU" value={sku} />
             </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Tags</p>
-                <p className="text-sm font-medium">{selectedItem.tags}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-xs text-gray-500">Non-Tags</p>
-                <p className="text-sm font-medium">{selectedItem.nonTags}</p>
-              </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Product Details</h4>
+              <DetailItem label="Size" value={selectedItem.size || "N/A"} />
+              <DetailItem label="Color" value={selectedItem.color || "N/A"} />
+              <DetailItem label="Style" value={selectedItem.styleNo || "N/A"} />
+              <DetailItem label="Product Model" value={model} />
+              <DetailItem label="Weight" value={weight} />
+              <DetailItem label="Brand" value={selectedItem.brand || "N/A"} />
+              <DetailItem label="Width" value={width} />
+              <DetailItem label="Height" value={height} />
+              <DetailItem label="Label" value={label} />
             </div>
           </div>
-
-          <div className="md:col-span-2">
-            <div className="space-y-2 rounded-lg bg-background p-4">
-              <h4 className="font-medium text-gray-900">Stock Information</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Category</span>
-                  <span>{selectedItem.categoryName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Type</span>
-                  <span>{selectedItem.typeName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Sub Type</span>
-                  <span>{selectedItem.subTypeName}</span>
-                </div>
-              </div>
+          
+          {/* Right Column - Location and Dates */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold">Inventory Information</h4>
+              <DetailItem label="Creation Date" value={creationDate} />
+              <DetailItem label="Expiration Date" value={expirationDate} />
+              <DetailItem label="Batch" value={batch} />
+              <DetailItem label="Status" value={status} />
+            </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Location</h4>
+              <DetailItem label="Warehouse" value={warehouse} />
+              <DetailItem label="Zone" value={zoneName} />
+              <DetailItem label="Area" value={areaName} />
+              <DetailItem label="Sub Area" value={subAreaName} />
+            </div>
+            
+            <div className="space-y-2 mt-4">
+              <h4 className="text-sm font-semibold">Product Group</h4>
+              <DetailItem label="Category" value={selectedItem.categoryName || "N/A"} />
+              <DetailItem label="Group" value={groupName} />
+              <DetailItem label="Sub Group" value={subGroupName} />
             </div>
           </div>
         </div>
@@ -128,3 +129,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     </Dialog>
   );
 };
+
+const DetailItem = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="grid grid-cols-2 gap-2">
+    <p className="text-xs text-gray-500">{label}:</p>
+    <p className="text-sm font-medium overflow-hidden text-ellipsis">{value}</p>
+  </div>
+);

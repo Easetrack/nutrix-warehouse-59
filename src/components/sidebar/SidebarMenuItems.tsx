@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, Package, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/stores/language/LanguageContext';
+import { useSidebar } from '@/components/ui/sidebar';
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -25,7 +26,16 @@ interface MenuItem {
 const SidebarMenuItems: React.FC = () => {
   const location = useLocation();
   const { t } = useLanguage();
+  const { state } = useSidebar();
   const [isStockMenuOpen, setIsStockMenuOpen] = useState(false);
+  const isCollapsed = state === "collapsed";
+
+  // Effect to auto-open submenu if we're on a path that's in the submenu
+  useEffect(() => {
+    if (location.pathname.startsWith('/stock/')) {
+      setIsStockMenuOpen(true);
+    }
+  }, [location.pathname]);
 
   const mainMenuItems: MenuItem[] = [
     { path: '/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
@@ -49,17 +59,19 @@ const SidebarMenuItems: React.FC = () => {
           <SidebarMenuItem key={item.id} className="mb-1">
             <SidebarMenuButton
               onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-              isActive={location.pathname.startsWith(`/${item.id}`)}
+              isActive={location.pathname.startsWith(`/stock`)}
               tooltip={item.name}
             >
               <span className="text-primary/80">{item.icon}</span>
               <span>{item.name}</span>
-              <ChevronDown
-                className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
-              />
+              {!isCollapsed && (
+                <ChevronDown
+                  className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
+                />
+              )}
             </SidebarMenuButton>
             <AnimatePresence>
-              {isStockMenuOpen && (
+              {isStockMenuOpen && !isCollapsed && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}

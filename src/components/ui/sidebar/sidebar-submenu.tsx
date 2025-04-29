@@ -2,22 +2,28 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
+import { useSidebar } from "./sidebar-context";
 
 export const SidebarMenuSub = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    data-sidebar="menu-sub"
-    className={cn(
-      "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1.5 border-l border-sidebar-border px-2.5 py-1",
-      "group-data-[collapsible=icon]:hidden",
-      className
-    )}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+  
+  return (
+    <ul
+      ref={ref}
+      data-sidebar="menu-sub"
+      className={cn(
+        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1.5 border-l border-sidebar-border px-2.5 py-1",
+        isCollapsed && "hidden",
+        className
+      )}
+      {...props}
+    />
+  );
+});
 SidebarMenuSub.displayName = "SidebarMenuSub";
 
 export const SidebarMenuSubItem = React.forwardRef<
@@ -35,6 +41,13 @@ export const SidebarMenuSubButton = React.forwardRef<
   }
 >(({ asChild = false, size = "md", isActive, className, ...props }, ref) => {
   const Comp = asChild ? Slot : "a";
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+
+  // Don't render the button if the sidebar is collapsed
+  if (isCollapsed) {
+    return null;
+  }
 
   return (
     <Comp
@@ -47,7 +60,6 @@ export const SidebarMenuSubButton = React.forwardRef<
         "data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium data-[active=true]:translate-x-1",
         size === "sm" && "text-xs h-7",
         size === "md" && "text-sm",
-        "group-data-[collapsible=icon]:hidden",
         className
       )}
       {...props}

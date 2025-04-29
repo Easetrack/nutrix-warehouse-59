@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import type { SidebarContext as SidebarContextType, SidebarProviderProps } from "./types";
+import type { SidebarContextType, SidebarProviderProps } from "./types";
 import { useIsMobile } from "@/common/hooks/use-mobile";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
-const SIDEBAR_WIDTH_ICON = "3rem";
+const SIDEBAR_WIDTH_ICON = "4.5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 const SidebarContext = React.createContext<SidebarContextType | null>(null);
@@ -44,7 +44,24 @@ export const SidebarProvider = React.forwardRef<
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen);
+    const [_open, _setOpen] = React.useState(() => {
+      // Try to get the sidebar state from cookie
+      try {
+        const cookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
+        
+        if (cookie) {
+          const value = cookie.split("=")[1];
+          return value === "true";
+        }
+      } catch (e) {
+        console.error("Error reading sidebar cookie:", e);
+      }
+      
+      return defaultOpen;
+    });
+    
     const open = openProp ?? _open;
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {

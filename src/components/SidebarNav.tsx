@@ -42,9 +42,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
   }, []);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full">
-        <Sidebar variant="floating">
+        <Sidebar variant="floating" collapsible={isMobile ? "offcanvas" : "icon"}>
           <SidebarHeader>
             <SidebarHeaderContent />
             <div className="px-2 py-2">
@@ -66,10 +66,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
         </Sidebar>
 
         <div className="flex-1 overflow-auto">
-          {/* Mobile sidebar trigger */}
-          <div className="p-4 md:hidden">
-            <SidebarTrigger />
-          </div>
+          {/* Mobile sidebar trigger - this is now handled in Sidebar component */}
           
           {/* Desktop sidebar rail */}
           <SidebarRail className="hidden md:flex" />

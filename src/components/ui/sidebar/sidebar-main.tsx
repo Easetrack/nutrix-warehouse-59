@@ -3,6 +3,8 @@ import * as React from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useSidebar, SIDEBAR_WIDTH_MOBILE } from "./sidebar-context";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface SidebarProps extends React.ComponentProps<"div"> {
   side?: "left" | "right";
@@ -22,7 +24,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const { isMobile, state, open, setOpen, openMobile, setOpenMobile, toggleSidebar } = useSidebar();
 
     if (collapsible === "none") {
       return (
@@ -41,21 +43,38 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
 
     if (isMobile) {
       return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-          <SheetContent
-            data-sidebar="sidebar"
-            data-mobile="true"
-            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground shadow-lg [&>button]:hidden"
-            style={
-              {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-              } as React.CSSProperties
-            }
-            side={side}
+        <>
+          <Button 
+            variant="outline"
+            size="icon"
+            onClick={toggleSidebar}
+            className="fixed bottom-4 right-4 z-40 rounded-full shadow-lg md:hidden bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            <div className="flex h-full w-full flex-col">{children}</div>
-          </SheetContent>
-        </Sheet>
+            <Menu size={20} />
+            <span className="sr-only">Toggle Sidebar</span>
+          </Button>
+          
+          <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+            <SheetContent
+              data-sidebar="sidebar"
+              data-mobile="true"
+              className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground shadow-lg flex flex-col"
+              style={
+                {
+                  "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                } as React.CSSProperties
+              }
+              side={side}
+            >
+              <div className="absolute top-4 right-4">
+                <Button variant="ghost" size="icon" onClick={() => setOpenMobile(false)} className="rounded-full">
+                  <X size={18} />
+                </Button>
+              </div>
+              <div className="flex h-full w-full flex-col pt-10">{children}</div>
+            </SheetContent>
+          </Sheet>
+        </>
       );
     }
 
@@ -64,14 +83,14 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         ref={ref}
         className="group peer hidden md:block text-sidebar-foreground"
         data-state={state}
-        data-collapsible={state === "collapsed" ? collapsible : ""}
+        data-collapsible={collapsible}
         data-variant={variant}
         data-side={side}
       >
         {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
-            "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
+            "duration-300 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
             "group-data-[collapsible=offcanvas]:w-0",
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
@@ -81,14 +100,14 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         />
         <div
           className={cn(
-            "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
+            "duration-300 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-all ease-linear md:flex",
             side === "left"
-              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
+              ? "left-0 group-data-[state=collapsed]:left-[calc(var(--sidebar-width-icon)*-1)] group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
             // Adjust the padding for floating and inset variants.
             variant === "floating" || variant === "inset"
-              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]",
+              ? "p-2 group-data-[state=collapsed]:w-[var(--sidebar-width-icon)]"
+              : "group-data-[state=collapsed]:w-[--sidebar-width-icon]",
             className
           )}
           {...props}
@@ -105,9 +124,34 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                      group-data-[side=left]:rounded-r-xl 
                      group-data-[side=right]:rounded-l-xl"
           >
+            <div className="absolute top-3 right-3 z-10">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={toggleSidebar}
+                className="rounded-full hover:bg-sidebar-accent"
+              >
+                {open ? <X size={16} /> : <Menu size={16} />}
+              </Button>
+            </div>
             {children}
           </div>
         </div>
+        {/* This is the toggle button that appears on the edge of the sidebar when collapsed */}
+        <Button 
+          variant="outline"
+          size="icon"
+          onClick={toggleSidebar}
+          className={cn(
+            "fixed z-30 top-5 hidden md:flex items-center justify-center h-8 w-8 rounded-full shadow-md bg-background border",
+            side === "left" 
+              ? "group-data-[state=collapsed]:left-[calc(var(--sidebar-width-icon)_-_1rem)] left-[calc(var(--sidebar-width)_-_1rem)]" 
+              : "group-data-[state=collapsed]:right-[calc(var(--sidebar-width-icon)_-_1rem)] right-[calc(var(--sidebar-width)_-_1rem)]"
+          )}
+        >
+          <Menu size={16} />
+          <span className="sr-only">Toggle Sidebar</span>
+        </Button>
       </div>
     );
   }

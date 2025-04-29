@@ -11,7 +11,6 @@ import { ProductImageSection } from "./details/ProductImageSection";
 import { LotDetailsTable } from "./details/LotDetailsTable";
 import { useLotDetails } from "../hooks/useLotDetails";
 import { StockItemDetailsDialogProps } from "../types/dialogTypes";
-import { DetailGroup } from "./shared/DetailGroup";
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   isOpen,
@@ -73,7 +72,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     { label: "Zone", value: "Area" },
     { label: "Area", value: "Sub Area" },
   ];
-
+  
   // Group information
   const groupDetails = [
     { label: "Category", value: selectedItem.categoryName || "Unclassified" },
@@ -93,38 +92,35 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
             {/* Main Content Area */}
             <div className="grid grid-cols-12 gap-4 p-6">
               {/* Left Column - Product Image */}
-              <div className="col-span-12 md:col-span-4 row-span-3">
+              <div className="col-span-12 md:col-span-4">
                 <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
-
-                <div className="mt-4">
-                  <div className="flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4 rounded-md h-48 shadow-sm hover:shadow-md transition-all duration-300">
-                    <h2 className="text-3xl font-bold">
-                      {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
-                    </h2>
-                  </div>
-                </div>
               </div>
-
+              
               {/* Middle Column - Basic Product Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Product Details" details={productInfoDetails} />
+                <div className="mt-4">
+                  <h2 className="text-3xl font-bold">
+                    {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
+                  </h2>
+                </div>
               </div>
-
+              
               {/* Right Column - Additional Info */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Inventory Details" details={inventoryDetails} />
               </div>
 
               {/* Product Specs - Bottom Left */}
-              <div className="col-span-12 md:col-span-4 row-span-2">
+              <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Product Specs" details={productSpecDetails} />
               </div>
-
+              
               {/* Location Info - Bottom Middle */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Location Details" details={locationDetails} />
               </div>
-
+              
               {/* Group Info - Bottom Right */}
               <div className="col-span-12 md:col-span-4">
                 <DetailGroup title="Group Details" details={groupDetails} />

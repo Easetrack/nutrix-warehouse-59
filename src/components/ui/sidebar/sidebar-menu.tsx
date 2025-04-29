@@ -9,6 +9,9 @@ export {
   SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   sidebarMenuButtonVariants,
   type SidebarMenuButtonProps,
 } from "./menu";

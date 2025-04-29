@@ -6,3 +6,4 @@ export type { SidebarMenuButtonProps } from "./menu-button";
 export { SidebarMenuAction } from "./menu-action";
 export { SidebarMenuBadge } from "./menu-badge";
 export { SidebarMenuSkeleton } from "./menu-skeleton";
+export { SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton } from "./menu-sub";

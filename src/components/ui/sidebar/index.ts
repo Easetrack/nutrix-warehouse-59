@@ -22,7 +22,7 @@ export {
   SidebarSeparator,
   SidebarInput,
   SidebarInset
-} from "./sidebar-sections";
+} from "./sections";
 
 // Export sidebar group components
 export {

@@ -1,10 +1,7 @@
 
 import React from "react";
-import { DetailItem } from "../StockItemDetailsDialog";
-
-interface ProductMetaSectionProps {
-  categoryName?: string;
-}
+import { DetailItem } from "../shared/DetailItem";
+import { ProductMetaSectionProps } from "../../types/detailsComponentTypes";
 
 export const ProductMetaSection: React.FC<ProductMetaSectionProps> = ({
   categoryName,

@@ -1,10 +1,6 @@
 
 import React from "react";
-
-interface ProductImageSectionProps {
-  image: string;
-  productName: string;
-}
+import { ProductImageSectionProps } from "../../types/detailsComponentTypes";
 
 export const ProductImageSection: React.FC<ProductImageSectionProps> = ({
   image,

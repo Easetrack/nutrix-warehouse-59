@@ -1,18 +1,7 @@
 
 import React from "react";
-import { DetailItem } from "../StockItemDetailsDialog";
-
-interface ProductInfoSectionProps {
-  qty: number;
-  unitName: string;
-  productId: string;
-  barcode: string;
-  productName: string;
-  size?: string;
-  color?: string;
-  styleNo?: string;
-  brand?: string;
-}
+import { DetailItem } from "../shared/DetailItem";
+import { ProductInfoSectionProps } from "../../types/detailsComponentTypes";
 
 export const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({
   qty,

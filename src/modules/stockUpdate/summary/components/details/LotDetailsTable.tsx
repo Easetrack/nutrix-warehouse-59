@@ -2,13 +2,7 @@
 import React from "react";
 import { format, parseISO } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { StockItem } from "@/common/types/stockupdate/lot";
-
-interface LotDetailsTableProps {
-  lotDetails: StockItem[];
-  isLoading: boolean;
-  error: string | null;
-}
+import { LotDetailsTableProps } from "../../types/detailsComponentTypes";
 
 export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   lotDetails,

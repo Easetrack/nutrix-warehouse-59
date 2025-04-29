@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/ui/dialog";
-import { StockItem } from "@/common/types/stockupdate/summary";
 import { useLanguage } from "@/stores/language/LanguageContext";
 import { DialogHeaderSection } from "./details/DialogHeaderSection";
 import { ProductImageSection } from "./details/ProductImageSection";
@@ -12,19 +11,7 @@ import { ProductInfoSection } from "./details/ProductInfoSection";
 import { ProductMetaSection } from "./details/ProductMetaSection";
 import { LotDetailsTable } from "./details/LotDetailsTable";
 import { useLotDetails } from "../hooks/useLotDetails";
-
-interface StockItemDetailsDialogProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-  selectedItem: StockItem | null;
-}
-
-export const DetailItem = ({ label, value }: { label: string; value: React.ReactNode }) => (
-  <div className="grid grid-cols-2 gap-2">
-    <p className="text-xs text-gray-500">{label}:</p>
-    <p className="text-sm font-medium overflow-hidden text-ellipsis">{value}</p>
-  </div>
-);
+import { StockItemDetailsDialogProps } from "../types/dialogTypes";
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   isOpen,

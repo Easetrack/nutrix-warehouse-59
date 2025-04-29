@@ -5,7 +5,7 @@ export const usePagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(5); // Default to 5 for the dialog
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -29,14 +29,6 @@ export const usePagination = () => {
       setTotalPages(Math.max(1, newTotalPages));
     }
   };
-
-  // For debugging
-  console.log("usePagination values:", {
-    currentPage,
-    totalPages,
-    totalCount,
-    perPage
-  });
 
   return {
     currentPage,

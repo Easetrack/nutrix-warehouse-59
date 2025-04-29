@@ -19,7 +19,16 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   selectedItem,
 }) => {
   const { t } = useLanguage();
-  const { lotDetails, isLoading, error } = useLotDetails(isOpen, selectedItem);
+  const { 
+    lotDetails, 
+    isLoading, 
+    error, 
+    currentPage,
+    totalPages,
+    perPage,
+    handlePageChange,
+    handlePerPageChange
+  } = useLotDetails(isOpen, selectedItem);
   
   if (!selectedItem) return null;
 
@@ -49,11 +58,16 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <ProductMetaSection categoryName={selectedItem.categoryName} />
         </div>
 
-        {/* Stock Update: Detail by Lot Table */}
+        {/* Stock Update: Detail by Lot Table with Pagination */}
         <LotDetailsTable 
-          lotDetails={lotDetails} 
-          isLoading={isLoading} 
-          error={error} 
+          lotDetails={lotDetails}
+          isLoading={isLoading}
+          error={error}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          perPage={perPage}
+          onPageChange={handlePageChange}
+          onPerPageChange={handlePerPageChange}
         />
       </DialogContent>
     </Dialog>

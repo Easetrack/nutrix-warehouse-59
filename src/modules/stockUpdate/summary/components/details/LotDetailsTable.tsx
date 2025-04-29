@@ -4,7 +4,6 @@ import { LotDetailsTableProps } from "../../types/dialogTypes";
 import { useLanguage } from "@/stores/language/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   lotDetails,
@@ -35,8 +34,8 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
 
   return (
     <div className="px-6">
-      <div className="rounded-md border overflow-hidden">
-        <ScrollArea className="max-h-[400px]">
+      <div className="rounded-md border">
+        <div className="max-h-[400px] overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
@@ -84,7 +83,7 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
               ))}
             </tbody>
           </table>
-        </ScrollArea>
+        </div>
       </div>
       
       {/* Pagination Controls */}

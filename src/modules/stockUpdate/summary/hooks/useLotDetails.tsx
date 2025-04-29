@@ -32,6 +32,8 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
       setError(null);
       
       try {
+        console.log("Fetching lot details for:", selectedItem.productId, "page:", currentPage, "perPage:", perPage);
+        
         const params = {
           search: selectedItem.productId,
           productId: selectedItem.productId,
@@ -40,6 +42,8 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
         };
         
         const response = await fetchStockUpdateByLot(params);
+        console.log("API response for lot details:", response);
+        
         if (response && response.items) {
           setLotDetails(response.items);
           setTotalPages(response.totalPages || 1);

@@ -32,6 +32,12 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   
   if (!selectedItem) return null;
 
+  console.log("StockItemDetailsDialog rendering with:", { 
+    isOpen, 
+    selectedItem: selectedItem?.productName,
+    lotDetailsCount: lotDetails?.length
+  });
+
   // Product basic information
   const productInfoDetails = [
     { label: "Product Code", value: selectedItem.productId },

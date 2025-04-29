@@ -19,23 +19,25 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   const { t } = useLanguage();
   
   if (isLoading) {
-    return <div className="text-center py-4">Loading...</div>;
+    return <div className="text-center py-4">Loading lot details...</div>;
   }
   
   if (error) {
     return <div className="text-center text-red-500 py-4">{error}</div>;
   }
   
-  if (!lotDetails.length) {
-    return <div className="text-center text-gray-500 py-4">No lot details available</div>;
+  if (!lotDetails || lotDetails.length === 0) {
+    return <div className="text-center text-gray-500 py-4">No lot details available for this product</div>;
   }
+
+  console.log("Rendering LotDetailsTable with data:", lotDetails);
 
   return (
     <div className="px-6">
       <div className="rounded-md border overflow-hidden">
         <ScrollArea className="max-h-[300px]">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
                 <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lot No.</th>
                 <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
@@ -54,8 +56,10 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900">{item.expiredDate || 'N/A'}</td>
                   <td className="px-3 py-2 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Active
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      item.isExpired ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                    }`}>
+                      {item.isExpired ? 'Expired' : 'Active'}
                     </span>
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900">{item.qty} {item.unitName}</td>

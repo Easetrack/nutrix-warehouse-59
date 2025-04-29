@@ -48,7 +48,6 @@ const SidebarUserFooter: React.FC = () => {
           <>
             <div className="flex items-center gap-3 mb-3">
               <Avatar className="h-10 w-10 border-2 border-primary/20">
-                <AvatarImage src={user?.avatarUrl} />
                 <AvatarFallback className="bg-primary/10 text-primary">
                   {getAvatarFallback() || <User size={16} />}
                 </AvatarFallback>

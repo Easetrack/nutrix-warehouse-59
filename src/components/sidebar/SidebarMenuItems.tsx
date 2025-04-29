@@ -88,31 +88,53 @@ const SidebarMenuItems: React.FC = () => {
           <SidebarMenuItem className="mb-1">
             {item.hasSubmenu ? (
               <>
-                <Tooltip delayDuration={0} disabled={!isCollapsed}>
-                  <TooltipTrigger asChild>
-                    <SidebarMenuButton
-                      onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-                      isActive={location.pathname.startsWith(`/stock`)}
-                    >
-                      <span className="text-primary/80">{item.icon}</span>
-                      <span>{item.name}</span>
-                      {!isCollapsed && (
-                        <ChevronDown
-                          className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
-                        />
-                      )}
-                    </SidebarMenuButton>
-                  </TooltipTrigger>
-                  {isCollapsed && (
+                {isCollapsed ? (
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <SidebarMenuButton
+                        onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
+                        isActive={location.pathname.startsWith(`/stock`)}
+                      >
+                        <span className="text-primary/80">{item.icon}</span>
+                        {!isCollapsed && <span>{item.name}</span>}
+                      </SidebarMenuButton>
+                    </TooltipTrigger>
                     <TooltipContent side="right" className="font-medium">
                       {item.name}
                     </TooltipContent>
-                  )}
-                </Tooltip>
+                  </Tooltip>
+                ) : (
+                  <SidebarMenuButton
+                    onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
+                    isActive={location.pathname.startsWith(`/stock`)}
+                  >
+                    <span className="text-primary/80">{item.icon}</span>
+                    <span>{item.name}</span>
+                    <ChevronDown
+                      className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
+                    />
+                  </SidebarMenuButton>
+                )}
               </>
             ) : (
-              <Tooltip delayDuration={0} disabled={!isCollapsed}>
-                <TooltipTrigger asChild>
+              <>
+                {isCollapsed ? (
+                  <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={location.pathname === item.path}
+                      >
+                        <NavLink to={item.path || ""}>
+                          <span className="text-primary/80">{item.icon}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="font-medium">
+                      {item.name}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
                   <SidebarMenuButton
                     asChild
                     isActive={location.pathname === item.path}
@@ -122,13 +144,8 @@ const SidebarMenuItems: React.FC = () => {
                       <span>{item.name}</span>
                     </NavLink>
                   </SidebarMenuButton>
-                </TooltipTrigger>
-                {isCollapsed && (
-                  <TooltipContent side="right" className="font-medium">
-                    {item.name}
-                  </TooltipContent>
                 )}
-              </Tooltip>
+              </>
             )}
           </SidebarMenuItem>
           

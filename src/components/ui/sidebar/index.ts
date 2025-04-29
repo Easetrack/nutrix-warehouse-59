@@ -11,8 +11,8 @@ export {
 // Export the main sidebar component
 export { Sidebar } from "./sidebar-main";
 
-// Export sidebar trigger and rail
-export { SidebarTrigger, SidebarRail } from "./sidebar-trigger";
+// Export sidebar trigger
+export { SidebarTrigger } from "./sidebar-trigger";
 
 // Export sidebar sections
 export { 

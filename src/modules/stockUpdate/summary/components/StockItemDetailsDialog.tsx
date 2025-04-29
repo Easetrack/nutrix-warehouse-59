@@ -11,7 +11,6 @@ import { ProductImageSection } from "./details/ProductImageSection";
 import { LotDetailsTable } from "./details/LotDetailsTable";
 import { useLotDetails } from "../hooks/useLotDetails";
 import { StockItemDetailsDialogProps } from "../types/dialogTypes";
-import { DetailGroup } from "./shared/DetailGroup";
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   isOpen,
@@ -39,48 +38,6 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     lotDetailsCount: lotDetails?.length
   });
 
-  // Product basic information
-  const productInfoDetails = [
-    { label: "Product Code", value: selectedItem.productId },
-    { label: "Product Name", value: selectedItem.productName },
-    { label: "Product Barcode", value: selectedItem.barcode },
-    { label: "Unit", value: selectedItem.unitName },
-  ];
-
-  // Product specifics
-  const productSpecDetails = [
-    { label: "Color", value: selectedItem.color || "N/A" },
-    { label: "Size", value: selectedItem.size || "N/A" },
-    { label: "Style No.", value: selectedItem.styleNo || "N/A" },
-    { label: "Brand", value: selectedItem.brand || "N/A" },
-    { label: "Model", value: "MDLT-1" },
-    { label: "Height", value: "5" },
-    { label: "Width", value: "3" },
-    { label: "UPC", value: "N/A" },
-  ];
-
-  // Inventory information
-  const inventoryDetails = [
-    { label: "Registration Date", value: "15/03/2025" },
-    { label: "Expiration Date", value: "15/03/2026" },
-    { label: "Batch", value: "1 batch" },
-    { label: "Status", value: "Active stock expire date" },
-  ];
-
-  // Location information
-  const locationDetails = [
-    { label: "Warehouse", value: "Default" },
-    { label: "Zone", value: "Area" },
-    { label: "Area", value: "Sub Area" },
-  ];
-  
-  // Group information
-  const groupDetails = [
-    { label: "Category", value: selectedItem.categoryName || "Unclassified" },
-    { label: "Group", value: "Raw Material" },
-    { label: "Sub Group", value: "A-1-2" },
-  ];
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
@@ -88,41 +45,156 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 
         <div className="flex-grow overflow-y-auto">
           <ScrollArea className="h-full">
-            {/* Main Content Area */}
-            <div className="grid grid-cols-12 gap-4 p-6">
-              {/* Left Column - Product Image */}
-              <div className="col-span-12 md:col-span-4">
-                <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
-              </div>
-              
-              {/* Middle Column - Basic Product Info */}
-              <div className="col-span-12 md:col-span-4">
-                <DetailGroup title="Product Details" details={productInfoDetails} />
-                <div className="mt-4">
-                  <h2 className="text-3xl font-bold">
-                    {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
-                  </h2>
-                </div>
-              </div>
-              
-              {/* Right Column - Additional Info */}
-              <div className="col-span-12 md:col-span-4">
-                <DetailGroup title="Inventory Details" details={inventoryDetails} />
-              </div>
+            {/* Main Content Area - Product Details */}
+            <div className="p-6">
+              <div className="bg-white rounded-lg overflow-hidden">
+                <div className="flex flex-col md:flex-row">
+                  {/* Left Column - Product Image */}
+                  <div className="w-full md:w-1/4 p-4">
+                    <ProductImageSection 
+                      image={selectedItem.image} 
+                      productName={selectedItem.productName} 
+                    />
+                  </div>
+                  
+                  {/* Right Column - Product Information */}
+                  <div className="w-full md:w-3/4 p-4">
+                    <h2 className="text-xl font-bold mb-4">Product Details</h2>
+                    <p className="text-sm text-gray-500 mb-4">View Product Information</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* Product Information Column */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2">Product Information</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Product Code:</p>
+                            <p className="text-xs">{selectedItem.productId}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Product Name:</p>
+                            <p className="text-xs">{selectedItem.productName}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Product Barcode:</p>
+                            <p className="text-xs">{selectedItem.barcode}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Lot# No:</p>
+                            <p className="text-xs">-</p>
+                          </div>
+                        </div>
+                      </div>
 
-              {/* Product Specs - Bottom Left */}
-              <div className="col-span-12 md:col-span-4">
-                <DetailGroup title="Product Specs" details={productSpecDetails} />
-              </div>
-              
-              {/* Location Info - Bottom Middle */}
-              <div className="col-span-12 md:col-span-4">
-                <DetailGroup title="Location Details" details={locationDetails} />
-              </div>
-              
-              {/* Group Info - Bottom Right */}
-              <div className="col-span-12 md:col-span-4">
-                <DetailGroup title="Group Details" details={groupDetails} />
+                      {/* Notification of Expirable Date */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2">Notification of Expirable Date</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Expired Date:</p>
+                            <p className="text-xs">12/10/2025</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Warehouse:</p>
+                            <p className="text-xs">Default</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Details:</p>
+                            <p className="text-xs">details about expire date</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Location */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2">Location</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Warehouse:</p>
+                            <p className="text-xs">ที่เก็บสินค้าชั่วคราว</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Zone:</p>
+                            <p className="text-xs">ชั้นเก็บสินค้า 1</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Area:</p>
+                            <p className="text-xs">ชั้น 1-2</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Sub Area:</p>
+                            <p className="text-xs text-gray-500">-</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Product Details */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2">Product Details</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Size:</p>
+                            <p className="text-xs">{selectedItem.size || "N/A"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Color:</p>
+                            <p className="text-xs">{selectedItem.color || "red"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Style:</p>
+                            <p className="text-xs">{selectedItem.styleNo || "STYLE NO-65B"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Serial Number:</p>
+                            <p className="text-xs">{selectedItem.barcode || "N/A"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Brand:</p>
+                            <p className="text-xs">{selectedItem.brand || "ABCD-1"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Width:</p>
+                            <p className="text-xs">25</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Height:</p>
+                            <p className="text-xs">9.0</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Unit:</p>
+                            <p className="text-xs">{selectedItem.unitName}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Product Quantity Display */}
+                      <div className="md:col-span-1 flex items-center justify-center">
+                        <div className="bg-gray-100 p-6 rounded-lg w-full h-32 flex flex-col items-center justify-center">
+                          <span className="text-3xl font-bold">{selectedItem.qty.toLocaleString()} Kg.</span>
+                        </div>
+                      </div>
+
+                      {/* Product Types */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2">Product Types</h3>
+                        <div className="space-y-1">
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Category:</p>
+                            <p className="text-xs">{selectedItem.categoryName || "ที่เก็บสินค้าชั่วคราว"}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Group:</p>
+                            <p className="text-xs">Raw Material</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1">
+                            <p className="text-xs text-gray-500">Sub Group:</p>
+                            <p className="text-xs">ชั้น 1-2</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

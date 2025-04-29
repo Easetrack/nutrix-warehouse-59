@@ -86,6 +86,34 @@
     @apply bg-background text-foreground transition-colors duration-300;
   }
   
+  /* Enhanced sidebar collapsed mode */
+  [data-state="collapsed"] [data-sidebar="header"] img {
+    @apply mx-auto transition-all duration-300;
+  }
+  
+  [data-state="collapsed"] [data-sidebar="content"] {
+    @apply px-2 items-center;
+  }
+  
+  [data-state="collapsed"] [data-sidebar="footer"] {
+    @apply items-center px-2;
+  }
+  
+  /* Sidebar menu item styling */
+  [data-sidebar="menu"] [role="menuitem"] > a,
+  [data-sidebar="menu"] [role="menuitem"] > button {
+    @apply rounded-md transition-colors duration-200;
+  }
+  
+  [data-sidebar="menu"] [role="menuitem"] > a:hover,
+  [data-sidebar="menu"] [role="menuitem"] > button:hover {
+    @apply bg-sidebar-accent/70;
+  }
+  
+  [data-sidebar="menu"] [role="menuitem"] [data-active="true"] {
+    @apply bg-primary/10 text-primary font-medium;
+  }
+  
   /* Layout styling */
   .layout-vertical .sidebar {
     @apply w-64 fixed left-0 top-0 h-full bg-sidebar border-r border-sidebar-border;

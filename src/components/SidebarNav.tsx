@@ -5,11 +5,9 @@ import { useIsMobile } from '@/common/hooks/use-mobile';
 import {
   Sidebar,
   SidebarProvider,
-  SidebarTrigger,
   SidebarContent,
   SidebarHeader,
   SidebarFooter,
-  SidebarRail,
 } from '@/components/ui/sidebar';
 
 // Import our components
@@ -66,11 +64,6 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
         </Sidebar>
 
         <div className="flex-1 overflow-auto">
-          {/* Mobile sidebar trigger - this is now handled in Sidebar component */}
-          
-          {/* Desktop sidebar rail */}
-          <SidebarRail className="hidden md:flex" />
-          
           <div className="min-h-screen bg-background px-4 py-4 lg:px-8 lg:py-6">
             {children}
           </div>

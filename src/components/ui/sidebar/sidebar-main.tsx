@@ -122,36 +122,23 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                      group-data-[side=left]:border-r 
                      group-data-[side=right]:border-l
                      group-data-[side=left]:rounded-r-xl 
-                     group-data-[side=right]:rounded-l-xl"
+                     group-data-[side=right]:rounded-l-xl
+                     relative overflow-hidden"
           >
-            <div className="absolute top-3 right-3 z-10">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={toggleSidebar}
-                className="rounded-full hover:bg-sidebar-accent"
-              >
-                {open ? <X size={16} /> : <Menu size={16} />}
-              </Button>
-            </div>
+            {/* Single toggle button that sticks to the edge of the sidebar */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={toggleSidebar} 
+              className="absolute top-3 right-3 z-20 h-8 w-8 rounded-full hover:bg-sidebar-accent"
+              aria-label="Toggle Sidebar"
+            >
+              {open ? <X size={16} /> : <Menu size={16} />}
+            </Button>
+            
             {children}
           </div>
         </div>
-        {/* This is the toggle button that appears on the edge of the sidebar when collapsed */}
-        <Button 
-          variant="outline"
-          size="icon"
-          onClick={toggleSidebar}
-          className={cn(
-            "fixed z-30 top-5 hidden md:flex items-center justify-center h-8 w-8 rounded-full shadow-md bg-background border",
-            side === "left" 
-              ? "group-data-[state=collapsed]:left-[calc(var(--sidebar-width-icon)_-_1rem)] left-[calc(var(--sidebar-width)_-_1rem)]" 
-              : "group-data-[state=collapsed]:right-[calc(var(--sidebar-width-icon)_-_1rem)] right-[calc(var(--sidebar-width)_-_1rem)]"
-          )}
-        >
-          <Menu size={16} />
-          <span className="sr-only">Toggle Sidebar</span>
-        </Button>
       </div>
     );
   }

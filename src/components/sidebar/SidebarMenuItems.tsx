@@ -13,6 +13,7 @@ import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface MenuItem {
   path?: string;
@@ -52,64 +53,120 @@ const SidebarMenuItems: React.FC = () => {
     },
   ];
 
+  // Render submenu items as separate icons when sidebar is collapsed
+  const renderCollapsedSubmenu = (item: MenuItem) => {
+    return (
+      <>
+        {item.submenuItems?.map((subItem) => (
+          <SidebarMenuItem key={subItem.path} className="mb-1">
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === subItem.path}
+                >
+                  <NavLink to={subItem.path} className="flex justify-center">
+                    <span className="w-2 h-2 rounded-full bg-primary/80" />
+                  </NavLink>
+                </SidebarMenuButton>
+              </TooltipTrigger>
+              <TooltipContent side="right" className="font-medium">
+                {subItem.name}
+              </TooltipContent>
+            </Tooltip>
+          </SidebarMenuItem>
+        ))}
+      </>
+    );
+  };
+
   return (
     <SidebarMenu>
       {mainMenuItems.map((item) => (
-        item.hasSubmenu ? (
-          <SidebarMenuItem key={item.id} className="mb-1">
-            <SidebarMenuButton
-              onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-              isActive={location.pathname.startsWith(`/stock`)}
-              tooltip={item.name}
-            >
-              <span className="text-primary/80">{item.icon}</span>
-              <span>{item.name}</span>
-              {!isCollapsed && (
-                <ChevronDown
-                  className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
-                />
-              )}
-            </SidebarMenuButton>
-            <AnimatePresence>
-              {isStockMenuOpen && !isCollapsed && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <SidebarMenuSub>
-                    {item.submenuItems?.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.path}>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={location.pathname === subItem.path}
-                        >
-                          <NavLink to={subItem.path}>
-                            {subItem.name}
-                          </NavLink>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                </motion.div>
-              )}
-            </AnimatePresence>
+        <React.Fragment key={item.path || item.id}>
+          {/* Main menu item */}
+          <SidebarMenuItem className="mb-1">
+            {item.hasSubmenu ? (
+              <>
+                <Tooltip delayDuration={0} disabled={!isCollapsed}>
+                  <TooltipTrigger asChild>
+                    <SidebarMenuButton
+                      onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
+                      isActive={location.pathname.startsWith(`/stock`)}
+                    >
+                      <span className="text-primary/80">{item.icon}</span>
+                      <span>{item.name}</span>
+                      {!isCollapsed && (
+                        <ChevronDown
+                          className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
+                        />
+                      )}
+                    </SidebarMenuButton>
+                  </TooltipTrigger>
+                  {isCollapsed && (
+                    <TooltipContent side="right" className="font-medium">
+                      {item.name}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </>
+            ) : (
+              <Tooltip delayDuration={0} disabled={!isCollapsed}>
+                <TooltipTrigger asChild>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === item.path}
+                  >
+                    <NavLink to={item.path || ""}>
+                      <span className="text-primary/80">{item.icon}</span>
+                      <span>{item.name}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </TooltipTrigger>
+                {isCollapsed && (
+                  <TooltipContent side="right" className="font-medium">
+                    {item.name}
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            )}
           </SidebarMenuItem>
-        ) : (
-          <SidebarMenuItem key={item.path} className="mb-1">
-            <SidebarMenuButton
-              asChild
-              isActive={location.pathname === item.path}
-              tooltip={item.name}
-            >
-              <NavLink to={item.path || ""}>
-                <span className="text-primary/80">{item.icon}</span>
-                <span>{item.name}</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        )
+          
+          {/* Submenu items */}
+          {item.hasSubmenu && (
+            <>
+              {isCollapsed ? (
+                renderCollapsedSubmenu(item)
+              ) : (
+                <AnimatePresence>
+                  {isStockMenuOpen && !isCollapsed && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <SidebarMenuSub>
+                        {item.submenuItems?.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.path}>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={location.pathname === subItem.path}
+                            >
+                              <NavLink to={subItem.path}>
+                                {subItem.name}
+                              </NavLink>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              )}
+            </>
+          )}
+        </React.Fragment>
       ))}
     </SidebarMenu>
   );

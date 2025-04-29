@@ -50,87 +50,86 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
             <div className="p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Left Column - Product Image */}
-                <div className="w-full md:w-1/4">
+                <div className="w-full md:w-1/3">
                   <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
                 </div>
-                
+
                 {/* Right Column - Product Details */}
-                <div className="w-full md:w-3/4">
-                  {/* Quantity Display */}
-                  <div className="mb-6">
-                    <h2 className="text-4xl font-bold">
-                      {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
-                    </h2>
+
+                {/* Product Details Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-gray-200 rounded-md">
+                  {/* Product Information */}
+                  <div className="col-span-1 ma-2 p-2">
+                    <DetailGroup
+                      title="Product Information"
+                      details={[
+                        { label: "Product Code", value: selectedItem.productId },
+                        { label: "Product Name", value: selectedItem.productName },
+                        { label: "Product Barcode", value: selectedItem.barcode },
+                        { label: "Lot Number", value: selectedItem.lotNumber || "N/A" },
+                        { label: "Size", value: selectedItem.size || "N/A" },
+                        { label: "Color", value: selectedItem.color || "N/A" },
+                        { label: "Model", value: selectedItem.styleNo || "N/A" },
+                        { label: "Brand", value: selectedItem.brand || "N/A" },
+                      ]}
+                    />
+
+                    {/* Quantity Display */}
+                    <div className="mt-3 py-5 bg-gray-200 p-2 rounded-md shadow-sm hover:shadow 
+                  transition-all duration-300">
+                      <h2 className="text-4xl font-bold">
+                        {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
+                      </h2>
+                    </div>
                   </div>
-                  
-                  {/* Product Details Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Product Information */}
-                    <div className="col-span-1">
-                      <DetailGroup 
-                        title="Product Information" 
+
+                  {/* Notification & Expiration Info */}
+                  <div className="col-span-1 ma-2 p-2">
+                    <DetailGroup
+                      title="Notification of Expiration Date"
+                      details={[
+                        { label: "Expired Date", value: "12/12/2023" },
+                        { label: "Batch", value: "1 batch" },
+                        { label: "Status", value: "Active stock expire date" },
+                      ]}
+                    />
+
+                    {/* Additional Product Specs */}
+                    <div className="p-2">
+                      <DetailGroup
+                        title="Product Specs"
                         details={[
-                          { label: "Product Code", value: selectedItem.productId },
-                          { label: "Product Name", value: selectedItem.productName },
-                          { label: "Product Barcode", value: selectedItem.barcode },
-                          { label: "Lot Number", value: selectedItem.lotNumber || "N/A" },
-                          { label: "Size", value: selectedItem.size || "N/A" },
-                          { label: "Color", value: selectedItem.color || "N/A" },
-                          { label: "Model", value: selectedItem.styleNo || "N/A" },
-                          { label: "Brand", value: selectedItem.brand || "N/A" },
-                        ]} 
+                          { label: "Serial Number", value: "Serial#" },
+                          { label: "Weight", value: "10" },
+                          { label: "Length", value: "10" },
+                          { label: "Height", value: "5" },
+                          { label: "Width", value: "3" },
+                        ]}
                       />
                     </div>
-                    
-                    {/* Notification & Expiration Info */}
-                    <div className="col-span-1">
-                      <DetailGroup 
-                        title="Notification of Expiration Date" 
+                  </div>
+
+                  {/* Location & Categories */}
+                  <div className="col-span-1 ma-2 p-2">
+                    <DetailGroup
+                      title="Location"
+                      details={[
+                        { label: "Warehouse", value: "AdminHub" },
+                        { label: "Zone", value: "AdminHub 1" },
+                        { label: "Area", value: "Area A" },
+                        { label: "Sub Area", value: "Sub Area B" },
+                      ]}
+                    />
+
+                    <div className="mt-6">
+                      <DetailGroup
+                        title="Product Types"
                         details={[
-                          { label: "Expired Date", value: "12/12/2023" },
-                          { label: "Batch", value: "1 batch" },
-                          { label: "Status", value: "Active stock expire date" },
-                        ]} 
+                          { label: "Category", value: selectedItem.categoryName || "AdminHub" },
+                          { label: "Group", value: "AdminHub 1" },
+                          { label: "Sub Group", value: "AB 1-2" },
+                        ]}
                       />
-                      
-                      {/* Additional Product Specs */}
-                      <div className="mt-6">
-                        <DetailGroup 
-                          title="Product Specs" 
-                          details={[
-                            { label: "UPC / SKU", value: selectedItem.barcode },
-                            { label: "Serial Number", value: "Serial#" },
-                            { label: "Weight", value: "10" },
-                            { label: "Length", value: "10" },
-                            { label: "Height", value: "5" },
-                            { label: "Width", value: "3" },
-                          ]} 
-                        />
-                      </div>
-                    </div>
-                    
-                    {/* Location & Categories */}
-                    <div className="col-span-1">
-                      <DetailGroup 
-                        title="Location" 
-                        details={[
-                          { label: "Warehouse", value: "AdminHub" },
-                          { label: "Zone", value: "AdminHub 1" },
-                          { label: "Area", value: "Area A" },
-                          { label: "Sub Area", value: "Sub Area B" },
-                        ]} 
-                      />
-                      
-                      <div className="mt-6">
-                        <DetailGroup 
-                          title="Product Types" 
-                          details={[
-                            { label: "Category", value: selectedItem.categoryName || "AdminHub" },
-                            { label: "Group", value: "AdminHub 1" },
-                            { label: "Sub Group", value: "AB 1-2" },
-                          ]} 
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>

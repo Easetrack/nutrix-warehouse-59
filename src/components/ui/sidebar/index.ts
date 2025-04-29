@@ -40,7 +40,7 @@ export {
   SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuSkeleton
-} from "./sidebar-menu";
+} from "./menu";
 
 // Export sidebar submenu components
 export {
@@ -51,3 +51,4 @@ export {
 
 // Export types
 export type { SidebarContextType, SidebarState } from "./types";
+export type { SidebarMenuButtonProps } from "./menu";

@@ -38,7 +38,9 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   const width = "N/A";
   const height = "N/A";
   const label = "N/A";
-  const createdAt = selectedItem.createdAt || "";
+  
+  // Use empty string as default for createdAt since it might not exist
+  const creationDate = "N/A";
   const expirationDate = "N/A";
   const batch = "N/A";
   const status = "Active";
@@ -101,8 +103,8 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(createdAt)} />
-              <DetailItem label="Expiration Date" value={formatDate(expirationDate)} />
+              <DetailItem label="Creation Date" value={creationDate} />
+              <DetailItem label="Expiration Date" value={expirationDate} />
               <DetailItem label="Batch" value={batch} />
               <DetailItem label="Status" value={status} />
             </div>

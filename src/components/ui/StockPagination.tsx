@@ -40,11 +40,15 @@ export const StockPagination: React.FC<StockPaginationProps> = ({
     });
   }, [currentPage, totalPages, totalCount, itemsLength, perPage]);
 
+  // Calculate start and end items being shown
+  const startItem = (currentPage - 1) * perPage + 1;
+  const endItem = Math.min(currentPage * perPage, totalCount);
+
   return (
     <nav className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2" aria-label="Pagination">
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground min-w-max">
-          {t('pagination.showing')} {currentPage * perPage} {t('pagination.of')} {totalCount} {t('pagination.items')}
+          {t('pagination.showing')} {totalCount > 0 ? `${startItem}-${endItem}` : '0'} {t('pagination.of')} {totalCount} {t('pagination.items')}
         </span>
         <div className="flex items-center ml-2">
           <label htmlFor="per-page" className="mr-2 text-sm text-muted-foreground">

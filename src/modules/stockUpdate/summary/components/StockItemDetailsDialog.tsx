@@ -7,6 +7,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { StockItem } from "@/common/types/stockupdate/summary";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;
@@ -19,6 +21,8 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   setIsOpen,
   selectedItem,
 }) => {
+  const { t } = useLanguage();
+  
   if (!selectedItem) return null;
 
   const formatDate = (dateString?: string) => {
@@ -50,6 +54,31 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   const subAreaName = "N/A";
   const groupName = "N/A"; 
   const subGroupName = "N/A";
+
+  // Mock data for lot details - in a real implementation, this would come from an API
+  const lotDetails = [
+    {
+      lotNumber: "LOT-001",
+      quantity: 25,
+      location: "Zone A-1",
+      expiryDate: "2025-06-15",
+      status: "Active"
+    },
+    {
+      lotNumber: "LOT-002",
+      quantity: 18,
+      location: "Zone B-3",
+      expiryDate: "2025-07-20",
+      status: "Active"
+    },
+    {
+      lotNumber: "LOT-003",
+      quantity: 7,
+      location: "Zone A-2",
+      expiryDate: "2025-05-10",
+      status: "Expiring Soon"
+    }
+  ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -123,6 +152,49 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Group" value={groupName} />
               <DetailItem label="Sub Group" value={subGroupName} />
             </div>
+          </div>
+        </div>
+
+        {/* Stock Update: Detail by Lot Table */}
+        <div className="p-6 pt-0">
+          <h3 className="text-lg font-semibold mb-4">Stock Update: Detail by Lot</h3>
+          <div className="border rounded-md overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Lot Number</TableHead>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Expiry Date</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {lotDetails.length > 0 ? (
+                  lotDetails.map((lot, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{lot.lotNumber}</TableCell>
+                      <TableCell>{lot.quantity}</TableCell>
+                      <TableCell>{lot.location}</TableCell>
+                      <TableCell>{formatDate(lot.expiryDate)}</TableCell>
+                      <TableCell>
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          lot.status === 'Active' ? 'bg-green-100 text-green-800' : 
+                          lot.status === 'Expiring Soon' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {lot.status}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-4">No lot details available</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </DialogContent>

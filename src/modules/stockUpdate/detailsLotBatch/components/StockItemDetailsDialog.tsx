@@ -91,8 +91,8 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(item.createdAt)} />
-              <DetailItem label="Expiration Date" value={formatDate(item.expiredDate)} />
+              <DetailItem label="Creation Date" value={formatDate(item?.createdAt as string | undefined)} />
+              <DetailItem label="Expiration Date" value={formatDate(item?.expiredDate)} />
               <DetailItem label="Shelf Life" value={`${item.shelfLifeDays || "N/A"} days`} />
               <DetailItem label="Status" value={item.expiredStatus || "Active"} />
               <DetailItem label="Total Locations" value={item.totalLocation || "N/A"} />

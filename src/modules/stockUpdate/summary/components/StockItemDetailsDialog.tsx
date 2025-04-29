@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +9,9 @@ import {
 import { StockItem } from "@/common/types/stockupdate/summary";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useLanguage } from "@/stores/language/LanguageContext";
+import { format, parseISO } from 'date-fns';
+import { fetchStockUpdateByLot } from "@/services/srp/inventory/stockUpdate";
+import { StockItem as LotStockItem } from "@/common/types/stockupdate/lot";
 
 interface StockItemDetailsDialogProps {
   isOpen: boolean;
@@ -22,6 +25,43 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   selectedItem,
 }) => {
   const { t } = useLanguage();
+  const [lotDetails, setLotDetails] = useState<LotStockItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Fetch lot details when the dialog is opened and we have a selected item
+    const fetchLotDetails = async () => {
+      if (isOpen && selectedItem) {
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+          const params = {
+            search: selectedItem.productId,
+            productId: selectedItem.productId,
+            page: 1,
+            perPage: 50
+          };
+          
+          const response = await fetchStockUpdateByLot(params);
+          if (response && response.items) {
+            setLotDetails(response.items);
+          } else {
+            setLotDetails([]);
+          }
+        } catch (err) {
+          console.error("Error fetching lot details:", err);
+          setError("Failed to load lot details");
+          setLotDetails([]);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchLotDetails();
+  }, [isOpen, selectedItem]);
   
   if (!selectedItem) return null;
 
@@ -54,31 +94,6 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   const subAreaName = "N/A";
   const groupName = "N/A"; 
   const subGroupName = "N/A";
-
-  // Mock data for lot details - in a real implementation, this would come from an API
-  const lotDetails = [
-    {
-      lotNumber: "LOT-001",
-      quantity: 25,
-      location: "Zone A-1",
-      expiryDate: "2025-06-15",
-      status: "Active"
-    },
-    {
-      lotNumber: "LOT-002",
-      quantity: 18,
-      location: "Zone B-3",
-      expiryDate: "2025-07-20",
-      status: "Active"
-    },
-    {
-      lotNumber: "LOT-003",
-      quantity: 7,
-      location: "Zone A-2",
-      expiryDate: "2025-05-10",
-      status: "Expiring Soon"
-    }
-  ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -165,32 +180,51 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   <TableHead>Lot Number</TableHead>
                   <TableHead>Quantity</TableHead>
                   <TableHead>Location</TableHead>
+                  <TableHead>Warehouse</TableHead>
+                  <TableHead>Zone</TableHead>
+                  <TableHead>Area</TableHead>
+                  <TableHead>Sub Area</TableHead>
+                  <TableHead>Shelf Life (Days)</TableHead>
                   <TableHead>Expiry Date</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {lotDetails.length > 0 ? (
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={10} className="text-center py-4">Loading lot details...</TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell colSpan={10} className="text-center py-4 text-red-500">{error}</TableCell>
+                  </TableRow>
+                ) : lotDetails.length > 0 ? (
                   lotDetails.map((lot, index) => (
                     <TableRow key={index}>
-                      <TableCell>{lot.lotNumber}</TableCell>
-                      <TableCell>{lot.quantity}</TableCell>
-                      <TableCell>{lot.location}</TableCell>
-                      <TableCell>{formatDate(lot.expiryDate)}</TableCell>
+                      <TableCell>{lot.lotNumber || "N/A"}</TableCell>
+                      <TableCell>{lot.qty.toLocaleString()}</TableCell>
+                      <TableCell>{lot.combinedLocation || "N/A"}</TableCell>
+                      <TableCell>{lot.warehouse || "N/A"}</TableCell>
+                      <TableCell>{lot.zoneName || "N/A"}</TableCell>
+                      <TableCell>{lot.areaName || "N/A"}</TableCell>
+                      <TableCell>{lot.subAreaName || "N/A"}</TableCell>
+                      <TableCell className={lot.shelfLifeDays <= 0 ? 'text-red-500' : ''}>
+                        {lot.shelfLifeDays}
+                      </TableCell>
+                      <TableCell>{lot.expiredDate ? format(parseISO(lot.expiredDate), 'dd/MM/yyyy') : '-'}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs ${
-                          lot.status === 'Active' ? 'bg-green-100 text-green-800' : 
-                          lot.status === 'Expiring Soon' ? 'bg-yellow-100 text-yellow-800' : 
+                          !lot.isExpired ? 'bg-green-100 text-green-800' : 
                           'bg-red-100 text-red-800'
                         }`}>
-                          {lot.status}
+                          {lot.isExpired ? 'Expired' : 'Active'}
                         </span>
                       </TableCell>
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center py-4">No lot details available</TableCell>
+                    <TableCell colSpan={10} className="text-center py-4">No lot details available</TableCell>
                   </TableRow>
                 )}
               </TableBody>

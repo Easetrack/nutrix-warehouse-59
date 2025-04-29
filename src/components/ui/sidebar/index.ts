@@ -1,0 +1,53 @@
+
+// Export the context and hooks
+export {
+  SidebarProvider,
+  useSidebar,
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_MOBILE,
+  SIDEBAR_WIDTH_ICON
+} from "./sidebar-context";
+
+// Export the main sidebar component
+export { Sidebar } from "./sidebar-main";
+
+// Export sidebar trigger and rail
+export { SidebarTrigger, SidebarRail } from "./sidebar-trigger";
+
+// Export sidebar sections
+export { 
+  SidebarHeader, 
+  SidebarFooter, 
+  SidebarContent,
+  SidebarSeparator,
+  SidebarInput,
+  SidebarInset
+} from "./sidebar-sections";
+
+// Export sidebar group components
+export {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupAction,
+  SidebarGroupContent
+} from "./sidebar-group";
+
+// Export sidebar menu components
+export {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuSkeleton
+} from "./sidebar-menu";
+
+// Export sidebar submenu components
+export {
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton
+} from "./sidebar-submenu";
+
+// Export types
+export type { SidebarContext, SidebarState } from "./types";

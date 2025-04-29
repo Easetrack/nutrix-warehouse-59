@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "@radix-ui/react-slot";
@@ -55,10 +54,12 @@ const sidebarMenuButtonVariants = cva(
   }
 );
 
+type TooltipContentProps = React.ComponentProps<typeof TooltipContent>;
+
 interface SidebarMenuButtonProps extends React.ComponentProps<"button"> {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: string | TooltipContentProps;
   variant?: VariantProps<typeof sidebarMenuButtonVariants>["variant"];
   size?: VariantProps<typeof sidebarMenuButtonVariants>["size"];
 }
@@ -120,7 +121,9 @@ export const SidebarMenuButton = React.forwardRef<
       return button;
     }
 
-    const tooltipContent = typeof tooltip === "string" ? tooltip : { ...tooltip };
+    const tooltipContent = typeof tooltip === "string" 
+      ? { children: tooltip } 
+      : tooltip;
 
     return (
       <Tooltip>

@@ -23,8 +23,9 @@ export const StockDetailsDialog: React.FC<StockDetailsDialogProps> = ({
     return null;
   }
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | undefined) => {
     try {
+      if (!dateString) return "N/A";
       const date = new Date(dateString);
       return date.toLocaleDateString();
     } catch (error) {
@@ -63,7 +64,7 @@ export const StockDetailsDialog: React.FC<StockDetailsDialogProps> = ({
               <DetailItem label="Product Reference" value={selectedItem.productId} />
               <DetailItem label="Product Barcode" value={selectedItem.barcode} />
               <DetailItem label="Product Name" value={selectedItem.productName} />
-              <DetailItem label="User SKU" value={selectedItem.sku || "N/A"} />
+              <DetailItem label="User SKU" value={"N/A"} />
             </div>
             
             <div className="space-y-2 mt-4">
@@ -71,12 +72,12 @@ export const StockDetailsDialog: React.FC<StockDetailsDialogProps> = ({
               <DetailItem label="Size" value={selectedItem.size || "N/A"} />
               <DetailItem label="Color" value={selectedItem.color || "N/A"} />
               <DetailItem label="Style" value={selectedItem.styleNo || "N/A"} />
-              <DetailItem label="Product Model" value={selectedItem.model || "N/A"} />
-              <DetailItem label="Weight" value={`${selectedItem.weight || "N/A"} KG`} />
+              <DetailItem label="Product Model" value={"N/A"} />
+              <DetailItem label="Weight" value={"N/A"} />
               <DetailItem label="Brand" value={selectedItem.brand || "N/A"} />
-              <DetailItem label="Width" value={`${selectedItem.width || "N/A"} cm`} />
-              <DetailItem label="Height" value={`${selectedItem.height || "N/A"} cm`} />
-              <DetailItem label="Label" value={selectedItem.label || "N/A"} />
+              <DetailItem label="Width" value={"N/A"} />
+              <DetailItem label="Height" value={"N/A"} />
+              <DetailItem label="Label" value={"N/A"} />
             </div>
           </div>
           
@@ -84,18 +85,18 @@ export const StockDetailsDialog: React.FC<StockDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(selectedItem.createdAt || "")} />
-              <DetailItem label="Expiration Date" value={formatDate(selectedItem.expirationDate || "")} />
-              <DetailItem label="Batch" value={selectedItem.batch || "N/A"} />
-              <DetailItem label="Status" value={selectedItem.status || "Active"} />
+              <DetailItem label="Creation Date" value={"N/A"} />
+              <DetailItem label="Expiration Date" value={"N/A"} />
+              <DetailItem label="Batch" value={"N/A"} />
+              <DetailItem label="Status" value={"Active"} />
             </div>
             
             <div className="space-y-2 mt-4">
               <h4 className="text-sm font-semibold">Location</h4>
-              <DetailItem label="Warehouse" value={selectedItem.warehouse || "N/A"} />
-              <DetailItem label="Zone" value={selectedItem.zoneName || "N/A"} />
-              <DetailItem label="Area" value={selectedItem.areaName || "N/A"} />
-              <DetailItem label="Sub Area" value={selectedItem.subAreaName || "N/A"} />
+              <DetailItem label="Warehouse" value={"N/A"} />
+              <DetailItem label="Zone" value={"N/A"} />
+              <DetailItem label="Area" value={"N/A"} />
+              <DetailItem label="Sub Area" value={"N/A"} />
             </div>
             
             <div className="space-y-2 mt-4">

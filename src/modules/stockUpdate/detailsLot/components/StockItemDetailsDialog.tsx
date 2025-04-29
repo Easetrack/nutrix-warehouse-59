@@ -24,8 +24,9 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   
   const item = selectedItem as StockItem;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
     try {
+      if (!dateString) return "N/A";
       const date = new Date(dateString);
       return date.toLocaleDateString();
     } catch (error) {
@@ -64,7 +65,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Product Reference" value={item.productId} />
               <DetailItem label="Product Barcode" value={item.barcode} />
               <DetailItem label="Product Name" value={item.productName} />
-              <DetailItem label="User SKU" value={item.sku || "N/A"} />
+              <DetailItem label="User SKU" value={"N/A"} />
               <DetailItem label="Lot Number" value={item.lotNumber || "N/A"} />
             </div>
             
@@ -73,7 +74,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Size" value={item.size || "N/A"} />
               <DetailItem label="Color" value={item.color || "N/A"} />
               <DetailItem label="Style" value={item.styleNo || "N/A"} />
-              <DetailItem label="Product Model" value={item.model || "N/A"} />
+              <DetailItem label="Product Model" value={"N/A"} />
               <DetailItem label="Brand" value={item.brand || "N/A"} />
               <DetailItem label="Tags" value={item.tags || "N/A"} />
               <DetailItem label="Non-Tags" value={item.nonTags || "N/A"} />
@@ -84,10 +85,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(item.createdAt || "")} />
-              <DetailItem label="Expiration Date" value={formatDate(item.expirationDate || "")} />
-              <DetailItem label="Batch" value={item.batch || "N/A"} />
-              <DetailItem label="Status" value={item.status || "Active"} />
+              <DetailItem label="Creation Date" value={formatDate(item.createdAt)} />
+              <DetailItem label="Expiration Date" value={formatDate(item.expiredDate)} />
+              <DetailItem label="Batch" value={"N/A"} />
+              <DetailItem label="Status" value={"Active"} />
               <DetailItem label="Total Locations" value={item.totalLocation || "N/A"} />
             </div>
             

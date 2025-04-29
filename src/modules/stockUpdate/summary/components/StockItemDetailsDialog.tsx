@@ -21,14 +21,33 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 }) => {
   if (!selectedItem) return null;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
     try {
+      if (!dateString) return "N/A";
       const date = new Date(dateString);
       return date.toLocaleDateString();
     } catch (error) {
       return "N/A";
     }
   };
+
+  // Access properties safely
+  const sku = "N/A";
+  const model = "N/A";
+  const weight = "N/A";
+  const width = "N/A";
+  const height = "N/A";
+  const label = "N/A";
+  const createdAt = selectedItem.createdAt || "";
+  const expirationDate = "N/A";
+  const batch = "N/A";
+  const status = "Active";
+  const warehouse = "N/A";
+  const zoneName = "N/A";
+  const areaName = "N/A";
+  const subAreaName = "N/A";
+  const groupName = "N/A"; 
+  const subGroupName = "N/A";
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -61,7 +80,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Product Reference" value={selectedItem.productId} />
               <DetailItem label="Product Barcode" value={selectedItem.barcode} />
               <DetailItem label="Product Name" value={selectedItem.productName} />
-              <DetailItem label="User SKU" value={selectedItem.sku || "N/A"} />
+              <DetailItem label="User SKU" value={sku} />
             </div>
             
             <div className="space-y-2 mt-4">
@@ -69,12 +88,12 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Size" value={selectedItem.size || "N/A"} />
               <DetailItem label="Color" value={selectedItem.color || "N/A"} />
               <DetailItem label="Style" value={selectedItem.styleNo || "N/A"} />
-              <DetailItem label="Product Model" value={selectedItem.model || "N/A"} />
-              <DetailItem label="Weight" value={`${selectedItem.weight || "N/A"} KG`} />
+              <DetailItem label="Product Model" value={model} />
+              <DetailItem label="Weight" value={weight} />
               <DetailItem label="Brand" value={selectedItem.brand || "N/A"} />
-              <DetailItem label="Width" value={`${selectedItem.width || "N/A"} cm`} />
-              <DetailItem label="Height" value={`${selectedItem.height || "N/A"} cm`} />
-              <DetailItem label="Label" value={selectedItem.label || "N/A"} />
+              <DetailItem label="Width" value={width} />
+              <DetailItem label="Height" value={height} />
+              <DetailItem label="Label" value={label} />
             </div>
           </div>
           
@@ -82,25 +101,25 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(selectedItem.createdAt || "")} />
-              <DetailItem label="Expiration Date" value={formatDate(selectedItem.expirationDate || "")} />
-              <DetailItem label="Batch" value={selectedItem.batch || "N/A"} />
-              <DetailItem label="Status" value={selectedItem.status || "Active"} />
+              <DetailItem label="Creation Date" value={formatDate(createdAt)} />
+              <DetailItem label="Expiration Date" value={formatDate(expirationDate)} />
+              <DetailItem label="Batch" value={batch} />
+              <DetailItem label="Status" value={status} />
             </div>
             
             <div className="space-y-2 mt-4">
               <h4 className="text-sm font-semibold">Location</h4>
-              <DetailItem label="Warehouse" value={selectedItem.warehouse || "N/A"} />
-              <DetailItem label="Zone" value={selectedItem.zoneName || "N/A"} />
-              <DetailItem label="Area" value={selectedItem.areaName || "N/A"} />
-              <DetailItem label="Sub Area" value={selectedItem.subAreaName || "N/A"} />
+              <DetailItem label="Warehouse" value={warehouse} />
+              <DetailItem label="Zone" value={zoneName} />
+              <DetailItem label="Area" value={areaName} />
+              <DetailItem label="Sub Area" value={subAreaName} />
             </div>
             
             <div className="space-y-2 mt-4">
               <h4 className="text-sm font-semibold">Product Group</h4>
               <DetailItem label="Category" value={selectedItem.categoryName || "N/A"} />
-              <DetailItem label="Group" value={selectedItem.groupName || "N/A"} />
-              <DetailItem label="Sub Group" value={selectedItem.subGroupName || "N/A"} />
+              <DetailItem label="Group" value={groupName} />
+              <DetailItem label="Sub Group" value={subGroupName} />
             </div>
           </div>
         </div>

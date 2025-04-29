@@ -24,8 +24,9 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   
   const item = selectedItem as StockItem;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
     try {
+      if (!dateString) return "N/A";
       const date = new Date(dateString);
       return date.toLocaleDateString();
     } catch (error) {
@@ -64,7 +65,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               <DetailItem label="Product Reference" value={item.productId} />
               <DetailItem label="Product Barcode" value={item.barcode} />
               <DetailItem label="Product Name" value={item.productName} />
-              <DetailItem label="User SKU" value={item.sku || "N/A"} />
+              <DetailItem label="User SKU" value={"N/A"} />
             </div>
             
             <div className="space-y-2 mt-4">
@@ -90,10 +91,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <h4 className="text-sm font-semibold">Inventory Information</h4>
-              <DetailItem label="Creation Date" value={formatDate(item.createdAt || "")} />
-              <DetailItem label="Expiration Date" value={formatDate(item.expiredDate || "")} />
+              <DetailItem label="Creation Date" value={formatDate(item.createdAt)} />
+              <DetailItem label="Expiration Date" value={formatDate(item.expiredDate)} />
               <DetailItem label="Shelf Life" value={`${item.shelfLifeDays || "N/A"} days`} />
-              <DetailItem label="Status" value={item.status || "Active"} />
+              <DetailItem label="Status" value={item.expiredStatus || "Active"} />
               <DetailItem label="Total Locations" value={item.totalLocation || "N/A"} />
             </div>
             

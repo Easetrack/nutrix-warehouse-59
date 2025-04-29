@@ -11,6 +11,7 @@ import { ProductImageSection } from "./details/ProductImageSection";
 import { LotDetailsTable } from "./details/LotDetailsTable";
 import { useLotDetails } from "../hooks/useLotDetails";
 import { StockItemDetailsDialogProps } from "../types/dialogTypes";
+import { DetailGroup } from "./shared/DetailGroup";
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   isOpen,
@@ -85,8 +86,6 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
       <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
         <DialogHeaderSection />
 
-
-
         <div className="flex-grow overflow-y-auto">
           <ScrollArea className="h-full">
             {/* Main Content Area */}
@@ -126,8 +125,6 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                 <DetailGroup title="Group Details" details={groupDetails} />
               </div>
             </div>
-
-
 
             {/* Product List Table with Pagination */}
             <div className="border-t pt-4 pb-6">

@@ -87,7 +87,16 @@ export const SidebarMenuButton = React.forwardRef<
         )}
         {...props}
       >
-        {isCollapsed ? icon : children}
+        {isCollapsed ? (
+          <span className="flex items-center justify-center">
+            {icon && React.cloneElement(icon as React.ReactElement, { 
+              size: 22, // Slightly larger icon for collapsed mode
+              className: cn((icon as React.ReactElement).props.className, "text-primary") 
+            })}
+          </span>
+        ) : (
+          children
+        )}
       </Comp>
     );
 

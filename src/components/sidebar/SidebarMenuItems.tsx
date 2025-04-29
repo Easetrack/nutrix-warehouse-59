@@ -56,7 +56,7 @@ const SidebarMenuItems: React.FC = () => {
   // Render submenu items as separate icons when sidebar is collapsed
   const renderCollapsedSubmenu = (item: MenuItem) => {
     return (
-      <>
+      <div className="pt-1 pl-2">
         {item.submenuItems?.map((subItem) => (
           <SidebarMenuItem key={subItem.path} className="mb-1">
             <Tooltip delayDuration={0}>
@@ -64,9 +64,11 @@ const SidebarMenuItems: React.FC = () => {
                 <SidebarMenuButton
                   asChild
                   isActive={location.pathname === subItem.path}
+                  className="py-1.5"
                 >
-                  <NavLink to={subItem.path} className="flex justify-center">
-                    <span className="w-2 h-2 rounded-full bg-primary/80" />
+                  <NavLink to={subItem.path} className="flex justify-center items-center">
+                    <div className="w-2 h-2 rounded-full bg-primary/80" />
+                    <span className="ml-1 text-xs sr-only">{subItem.name}</span>
                   </NavLink>
                 </SidebarMenuButton>
               </TooltipTrigger>
@@ -76,7 +78,7 @@ const SidebarMenuItems: React.FC = () => {
             </Tooltip>
           </SidebarMenuItem>
         ))}
-      </>
+      </div>
     );
   };
 
@@ -85,7 +87,7 @@ const SidebarMenuItems: React.FC = () => {
       {mainMenuItems.map((item) => (
         <React.Fragment key={item.path || item.id}>
           {/* Main menu item */}
-          <SidebarMenuItem className="mb-1">
+          <SidebarMenuItem className="mb-1.5">
             {item.hasSubmenu ? (
               <>
                 {isCollapsed ? (

@@ -25,6 +25,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
     error, 
     currentPage,
     totalPages,
+    totalCount,
     perPage,
     handlePageChange,
     handlePerPageChange
@@ -82,7 +83,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
         <DialogHeaderSection />
 
         <ScrollArea className="flex-grow">
@@ -133,6 +134,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
               error={error}
               currentPage={currentPage}
               totalPages={totalPages}
+              totalCount={totalCount}
               perPage={perPage}
               onPageChange={handlePageChange}
               onPerPageChange={handlePerPageChange}

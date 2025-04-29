@@ -9,6 +9,7 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
   const [lotDetails, setLotDetails] = useState<StockItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
   
   // Use pagination hook
   const {
@@ -16,8 +17,7 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
     setCurrentPage,
     totalPages,
     setTotalPages,
-    totalCount,
-    setTotalCount,
+    setTotalCount: setTotalCountFromPagination,
     perPage,
     setPerPage,
     handleNextPage,
@@ -47,10 +47,12 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
         if (response && response.items) {
           setLotDetails(response.items);
           setTotalPages(response.totalPages || 1);
+          setTotalCountFromPagination(response.totalCount || 0);
           setTotalCount(response.totalCount || 0);
         } else {
           setLotDetails([]);
           setTotalPages(1);
+          setTotalCountFromPagination(0);
           setTotalCount(0);
         }
       } catch (err) {
@@ -79,6 +81,7 @@ export const useLotDetails = (isOpen: boolean, selectedItem: SummaryStockItem | 
     error,
     currentPage,
     totalPages,
+    totalCount,
     perPage,
     handlePageChange,
     handlePerPageChange

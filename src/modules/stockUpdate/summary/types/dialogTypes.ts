@@ -19,6 +19,7 @@ export interface LotDetailsTableProps {
   error: string | null;
   currentPage: number;
   totalPages: number;
+  totalCount: number;
   perPage: number;
   onPageChange: (page: number) => void;
   onPerPageChange: (perPage: number) => void;

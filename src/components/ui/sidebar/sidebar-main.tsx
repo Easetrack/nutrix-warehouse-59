@@ -91,19 +91,16 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         <div
           className={cn(
             "duration-300 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
-            "group-data-[collapsible=offcanvas]:w-0",
-            "group-data-[side=right]:rotate-180",
-            variant === "floating" || variant === "inset"
-              ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
+            "group-data-[state=collapsed]:w-[--sidebar-width-icon]",
+            "group-data-[side=right]:rotate-180"
           )}
         />
         <div
           className={cn(
             "duration-300 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-all ease-linear md:flex",
             side === "left"
-              ? "left-0 group-data-[state=collapsed]:left-[calc(var(--sidebar-width-icon)*-1)] group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-              : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+              ? "left-0 group-data-[state=collapsed]:w-[--sidebar-width-icon]"
+              : "right-0 group-data-[state=collapsed]:w-[--sidebar-width-icon]",
             // Adjust the padding for floating and inset variants.
             variant === "floating" || variant === "inset"
               ? "p-2 group-data-[state=collapsed]:w-[var(--sidebar-width-icon)]"

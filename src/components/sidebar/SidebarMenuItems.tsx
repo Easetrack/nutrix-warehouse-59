@@ -96,7 +96,6 @@ const SidebarMenuItems: React.FC = () => {
                         isActive={location.pathname.startsWith(`/stock`)}
                       >
                         <span className="text-primary/80">{item.icon}</span>
-                        {!isCollapsed && <span>{item.name}</span>}
                       </SidebarMenuButton>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="font-medium">
@@ -153,7 +152,7 @@ const SidebarMenuItems: React.FC = () => {
           {item.hasSubmenu && (
             <>
               {isCollapsed ? (
-                renderCollapsedSubmenu(item)
+                isStockMenuOpen && renderCollapsedSubmenu(item)
               ) : (
                 <AnimatePresence>
                   {isStockMenuOpen && !isCollapsed && (

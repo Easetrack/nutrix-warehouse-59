@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export type SidebarState = "expanded" | "collapsed";
 
-export type SidebarContext = {
+export interface SidebarContextType {
   state: SidebarState;
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -11,7 +11,7 @@ export type SidebarContext = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
-};
+}
 
 export interface SidebarProviderProps {
   defaultOpen?: boolean;

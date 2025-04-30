@@ -13,6 +13,7 @@ import { LotDetailsTable } from "./details/LotDetailsTable";
 import { useLotDetails } from "../hooks/useLotDetails";
 import { StockItemDetailsDialogProps } from "../types/dialogTypes";
 import { DetailGroup } from "./shared/DetailGroup";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
   isOpen,
@@ -131,20 +132,18 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
             </div>
 
             {/* Product List Table with Pagination */}
-            <div className="border-t pt-3 sm:pt-4 pb-4 sm:pb-6">
-              <h3 className="text-lg font-semibold px-3 sm:px-6 mb-2">Product List</h3>
-              <LotDetailsTable
-                lotDetails={lotDetails}
-                isLoading={isLoading}
-                error={error}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalCount={totalCount}
-                perPage={perPage}
-                onPageChange={handlePageChange}
-                onPerPageChange={handlePerPageChange}
-              />
-            </div>
+            <h3 className="text-lg font-semibold px-3 sm:px-6 mb-2">Product List</h3>
+            <LotDetailsTable
+              lotDetails={lotDetails}
+              isLoading={isLoading}
+              error={error}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalCount={totalCount}
+              perPage={perPage}
+              onPageChange={handlePageChange}
+              onPerPageChange={handlePerPageChange}
+            />
           </ScrollArea>
         </div>
       </DialogContent>

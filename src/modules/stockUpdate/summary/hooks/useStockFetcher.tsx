@@ -24,8 +24,15 @@ export const useStockFetcher = () => {
       
       // Copy only string and number values, excluding functions and non-primitive types
       Object.entries(params).forEach(([key, value]) => {
+        if (key === "sortOptions") {
+          // Skip sortOptions as it's handled separately
+          return;
+        }
         if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
           processedParams[key] = value;
+        } else if (value instanceof Date) {
+          // Convert Date objects to string
+          processedParams[key] = value.toISOString().split('T')[0];
         }
       });
       

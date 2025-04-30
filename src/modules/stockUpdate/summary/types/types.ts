@@ -33,7 +33,8 @@ export interface StockQueryParams {
   searchByUnit?: string;
   sortColumn?: string;
   sortDirection?: "asc" | "desc";
-  [key: string]: string | number | Date | undefined | null;
+  sortOptions?: SortOption[]; // Added to support multiple sort options
+  [key: string]: string | number | Date | undefined | null | SortOption[];
 }
 
 export const convertToStockUpdateQueryParams = (params: Record<string, any>) => {
@@ -51,6 +52,12 @@ export const convertToStockUpdateQueryParams = (params: Record<string, any>) => 
   });
   
   return queryParams;
+};
+
+// Add the missing formatDateToString function
+export const formatDateToString = (date: Date | null | undefined): string | null => {
+  if (!date) return null;
+  return date instanceof Date ? date.toISOString().split('T')[0] : null;
 };
 
 export type AdvancedSearchValues = {

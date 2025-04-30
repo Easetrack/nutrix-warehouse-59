@@ -32,7 +32,7 @@ export const useSortHandler = (fetchDataCallback: () => void) => {
       setSortDirection(newDirection);
     } else {
       // Add new sort column at the beginning (primary sort)
-      const newSortOptions = [
+      const newSortOptions: SortOption[] = [
         { column, direction: "asc" },
         ...sortOptions
       ];

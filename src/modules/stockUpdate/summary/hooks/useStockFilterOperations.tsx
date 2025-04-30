@@ -2,7 +2,7 @@
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
-import { StockQueryParams, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
 import { format } from "date-fns";
 
 export const useStockFilterOperations = (

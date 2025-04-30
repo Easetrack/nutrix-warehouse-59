@@ -3,17 +3,20 @@ import React from "react";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SortIndicator } from "@/modules/stockUpdate/components/table/SortIndicator";
 import { useLanguage } from "@/stores/language/LanguageContext";
+import { SortOption } from "@/modules/stockUpdate/summary/types/types";
 
 interface TableHeadersProps {
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
+  sortOptions?: SortOption[]; // Added to match the SortIndicator props
 }
 
 export const TableHeaders: React.FC<TableHeadersProps> = ({
   sortColumn,
   sortDirection,
   handleSort,
+  sortOptions = [], // Default to empty array
 }) => {
   const { t } = useLanguage();
 
@@ -55,6 +58,7 @@ export const TableHeaders: React.FC<TableHeadersProps> = ({
                 column={header.id}
                 sortColumn={sortColumn}
                 sortDirection={sortDirection}
+                sortOptions={sortOptions}
               />
             </div>
           </TableHead>

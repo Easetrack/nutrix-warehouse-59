@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { FilterValues } from "@/common/types/filter";
+import { useLanguage } from "@/stores/language/LanguageContext";
+
 
 export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Promise<void>) => {
   const { toast } = useToast();
@@ -15,9 +17,11 @@ export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Prom
   const [searchDate, setSearchDate] = useState<Date | null>(null);
   const [expiredDate, setExpiredDate] = useState<Date | null>(null);
 
+  const { t } = useLanguage();
+
   const handleAdvancedSearch = async (values: FilterValues) => {
     try {
-      
+
       await handleFetchData({
         searchTerm: values.searchTerm,
         warehouse: values.warehouse,
@@ -32,13 +36,13 @@ export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Prom
 
       toast({
         title: "การค้นหา",
-        description: "ทำการค้นหาข้อมูลเรียบร้อยแล้ว",
+        description: `${t('alert.filter.searchFilter"')}`,
       });
     } catch (error) {
       console.error("Error during advanced search:", error);
       toast({
         title: "เกิดข้อผิดพลาด",
-        description: "ไม่สามารถค้นหาข้อมูลได้ กรุณาลองใหม่อีกครั้ง",
+        description: `${t('alert.filter.AnErrorOccurred"')}`,
         variant: "destructive",
       });
     }

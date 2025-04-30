@@ -53,7 +53,7 @@ export const filterTranslations = {
 
   // Product fields
   "filter.product.category": {
-    en: "Category",
+    en: "Categories",
     th: "หมวดหมู่",
   },
   "filter.product.uom": {

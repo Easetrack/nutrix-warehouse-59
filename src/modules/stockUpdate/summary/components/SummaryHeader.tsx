@@ -40,14 +40,14 @@ export const SummaryHeader: React.FC<SummaryHeaderProps> = ({
     try {
       await onAdvancedSearch(filters);
       toast({
-        title: "การค้นหา",
-        description: "ทำการค้นหาข้อมูลเรียบร้อยแล้ว",
+        title: `${t('alert.filter.searchFilterTitle')}`,
+        description: `${t('alert.filter.searchFilter')}`,
       });
     } catch (error) {
       console.error("Error during advanced search:", error);
       toast({
-        title: "เกิดข้อผิดพลาด",
-        description: "ไม่สามารถค้นหาข้อมูลได้ กรุณาลองใหม่อีกครั้ง",
+        title: `${t('alert.filter.AnErrorOccurredTitle')}`,
+        description: `${t('alert.filter.AnErrorOccurred')}`,
         variant: "destructive",
       });
     }

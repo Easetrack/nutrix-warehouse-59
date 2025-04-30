@@ -30,12 +30,10 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
     return <div className="text-center text-gray-500 py-4">No lot details available for this product</div>;
   }
 
-  console.log("Rendering LotDetailsTable with data:", lotDetails);
-
   return (
     <div className="px-2 sm:px-6">
-      <div className="rounded-md border overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="rounded-md border overflow-x-auto">
+        <div className="min-w-full">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>

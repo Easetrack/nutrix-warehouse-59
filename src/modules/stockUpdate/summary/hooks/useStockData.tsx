@@ -79,7 +79,12 @@ export const useStockData = () => {
 
   // Updated handleFetchData to properly update pagination state
   const handleFetchData = async (params: any) => {
-    const result = await fetchStockData(params);
+    const result = await fetchStockData({
+      ...params,
+      sortColumn,
+      sortDirection
+    });
+    
     if (result) {
       setTotalPages(result.totalPages);
       setTotalCount(result.totalCount);
@@ -135,13 +140,18 @@ export const useStockData = () => {
     await paginationOperations.handlePageChange(1, newPerPage);
   };
 
-  // For debugging
-  console.log("useStockData values:", {
-    currentPage,
-    totalPages,
-    totalCount,
-    perPage
-  });
+  // Improved sorting handler to apply both client and server side sorting
+  const handleSort = async (column: string) => {
+    console.log(`Sorting by column: ${column}`);
+    const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(column);
+    setSortDirection(newDirection);
+    
+    await handleFetchData({
+      sortColumn: column,
+      sortDirection: newDirection
+    });
+  };
 
   return {
     stockItems,
@@ -177,12 +187,7 @@ export const useStockData = () => {
     setSearchDate,
     setExpiredDate,
     // Handlers
-    handleSort: (column: string) => {
-      const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
-      setSortColumn(column);
-      setSortDirection(newDirection);
-      filterOperations.handleSearch();
-    },
+    handleSort,
     handleSelectAll,
     handleSelectItem,
     handleSearch: filterOperations.handleSearch,

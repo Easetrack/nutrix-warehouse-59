@@ -1,8 +1,9 @@
 
 import React from "react";
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { SortIndicator } from "./SortIndicator";
+import { SortIndicator } from "@/modules/stockUpdate/components/table/SortIndicator";
 import { useLanguage } from "@/stores/language/LanguageContext";
+
 interface TableHeadersProps {
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
@@ -14,36 +15,34 @@ export const TableHeaders: React.FC<TableHeadersProps> = ({
   sortDirection,
   handleSort,
 }) => {
-
   const { t } = useLanguage();
 
   const headers = [
     { id: "productId", label: t('stock.table.productId'), width: "w-25" },
     { id: "productName", label: t('stock.table.productName'), width: "w-50" },
-    { id: "lotNumber", label: t('stock.table.lot'), width: "w-30" },
+    { id: "lotMaster", label: t('stock.table.lot'), width: "w-30" },
     { id: "lotBatch", label: t('stock.table.lotBatch'), width: "w-30" },
-    { id: "Barcode", label: t('stock.table.barcode'), width: "w-30" },
-    { id: "categories", label: t('stock.table.category'), width: "w-28" },
-    { id: "Group", label: t('stock.table.group'), width: "" },
-    { id: "Sub Group", label: t('stock.table.subGroup'), width: "" },
-    { id: "Tag", label: t('stock.table.tag'), width: "" },
-    { id: "Non-Tag", label: t('stock.table.non-tag'), width: "" },
-    { id: "Total Qty", label: t('stock.table.totalQty'), width: "" },
-    { id: "UoM", label: t('stock.table.uom'), width: "" },
-    { id: "Warehouse", label: t('stock.table.warehouse'), width: "" },
-    { id: "Zone", label: t('stock.table.zone'), width: "" },
-    { id: "Area", label: t('stock.table.area'), width: "" },
-    { id: "Sub Area", label: t('stock.table.subArea'), width: "" },
-    { id: "Shelf Life (Days)", label: t('stock.table.shelfLife'), width: "" },
-    { id: "Expired Date", label: t('stock.table.expiredDate'), width: "" },
-    
+    { id: "barcode", label: t('stock.table.barcode'), width: "w-30" },
+    { id: "categoryName", label: t('stock.table.category'), width: "w-28" },
+    { id: "typeName", label: t('stock.table.group'), width: "" },
+    { id: "subTypeName", label: t('stock.table.subGroup'), width: "" },
+    { id: "tagQty", label: t('stock.table.tag'), width: "" },
+    { id: "nonTagQty", label: t('stock.table.non-tag'), width: "" },
+    { id: "qty", label: t('stock.table.totalQty'), width: "" },
+    { id: "unitName", label: t('stock.table.uom'), width: "" },
+    { id: "warehouse", label: t('stock.table.warehouse'), width: "" },
+    { id: "zoneName", label: t('stock.table.zone'), width: "" },
+    { id: "areaName", label: t('stock.table.area'), width: "" },
+    { id: "subAreaName", label: t('stock.table.subArea'), width: "" },
+    { id: "shelfLifeDays", label: t('stock.table.shelfLife'), width: "" },
+    { id: "expiredDate", label: t('stock.table.expiredDate'), width: "" },
   ];
 
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-10">No.</TableHead>
-        <TableHead className="w-16">Image</TableHead>
+        <TableHead className="w-10">{t('stock.table.no')}</TableHead>
+        <TableHead className="w-16">{t('stock.table.image')}</TableHead>
         {headers.map((header) => (
           <TableHead
             key={header.id}

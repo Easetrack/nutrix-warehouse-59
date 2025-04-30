@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useStockAuth } from "@/modules/stockUpdate/hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
@@ -19,22 +18,21 @@ export const useStockData = () => {
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
 
   const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
-    // console.log("warehouse ที่ส่งมา handleFetchData", params); // 👈 log ได้ตรงนี้
-    // console.log('queryParams stockId handleFetchData', params)
     const queryParams: StockUpdateLotQueryParams = {
       ...params,
-      page: currentPage,
-      perPage: perPage,
+      page: params.page || currentPage,
+      perPage: params.perPage || perPage,
       search: params.searchTerm ? String(params.searchTerm) : "",
       stockId: params.stockId,
       categoryId: params.searchByCategory,
       unitId: params.searchByUnit,
-      sortColumn,
-      sortDirection
+      // Always include current sort settings unless explicitly overridden
+      sortColumn: params.sortColumn || sortColumn,
+      sortDirection: params.sortDirection || sortDirection
     };
+    
+    console.log("Fetching data with params:", queryParams);
     await stockItems.fetchStockData(queryParams);
-
-
   };
 
   const filters = useStockUpdateFilters(handleFetchData);
@@ -50,9 +48,15 @@ export const useStockData = () => {
 
   const handleSort = async (column: string) => {
     const newDirection = sortColumn === column && sortDirection === "asc" ? "desc" : "asc";
+    console.log(`Sorting by ${column} (${newDirection})`);
     setSortColumn(column);
     setSortDirection(newDirection);
-    await handleFetchData({ sortColumn: column, sortDirection: newDirection });
+    
+    // Directly pass sort parameters to API call
+    await handleFetchData({ 
+      sortColumn: column, 
+      sortDirection: newDirection 
+    });
   };
 
   const handleNextPage = async () => {
@@ -74,12 +78,9 @@ export const useStockData = () => {
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
-    // console.log('queryParams stockId handleAdvancedSearch', values)
-
     setAdvancedFilterValues(values);
     setCurrentPage(1);
 
-    // Create a new object for query params that matches StockUpdateLotQueryParams
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
 
     // Define a list of valid keys that exist in StockUpdateLotQueryParams
@@ -111,7 +112,7 @@ export const useStockData = () => {
         queryParams.stockId = "";
       }
     } else {
-      queryParams.stockId = ""; // หรือไม่ใส่เลยก็ได้
+      queryParams.stockId = ""; 
     }
 
     // Add category filter if selected
@@ -133,6 +134,10 @@ export const useStockData = () => {
       queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
 
+    // Always include current sort settings
+    queryParams.sortColumn = sortColumn;
+    queryParams.sortDirection = sortDirection;
+
     await handleFetchData(queryParams);
   };
 
@@ -140,23 +145,21 @@ export const useStockData = () => {
     setAdvancedFilterValues({});
     setCurrentPage(1);
     await handleFetchData({});
-
   };
 
   const handleSearch = async () => {
     setCurrentPage(1);
 
+    let warehouseParam = filters.selectedWarehouse;
     if(filters.selectedWarehouse === 'All Warehouses'){
-      filters.selectedWarehouse = ""
+      warehouseParam = "";
     }
 
     await handleFetchData({
       searchTerm: filters.searchTerm,
       search: filters.searchTerm,
-      stockId: filters.selectedWarehouse ,
+      stockId: warehouseParam,
     });
-
-
   };
 
   const handleClear = async () => {

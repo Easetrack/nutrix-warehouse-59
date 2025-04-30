@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { StockQueryParams, convertToStockUpdateQueryParams, SortOption } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams, convertToStockUpdateQueryParams, SortOption, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();

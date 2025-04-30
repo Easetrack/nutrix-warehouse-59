@@ -45,10 +45,10 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
       <DialogContent className="sm:max-w-[90vw] p-0 gap-0 overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
         <DialogHeader className="bg-blue-50 p-2 sm:p-3 md:p-4 border-b">
           <DialogTitle className="text-base sm:text-lg md:text-xl font-semibold">
-            {t('stock.details.title', 'Product Details')}
+            {t('stock.details.title')}
           </DialogTitle>
           <p className="text-xs sm:text-sm text-gray-500">
-            {t('stock.details.subtitle', 'View Product Information')}
+            {t('stock.details.subtitle')}
           </p>
         </DialogHeader>
 
@@ -74,46 +74,46 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                 </div>
                 
                 <div className="space-y-2 border rounded-md p-2 sm:p-3">
-                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productInformation', 'Product Information')}</h4>
-                  <DetailItem label={t('stock.details.productCode', 'Product Code')} value={item.productId} />
-                  <DetailItem label={t('stock.details.productBarcode', 'Product Barcode')} value={item.barcode} />
-                  <DetailItem label={t('stock.details.productName', 'Product Name')} value={item.productName} />
-                  <DetailItem label={t('stock.details.lotNumber', 'Lot Number')} value={item.lotNumber || "N/A"} />
+                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productInformation')}</h4>
+                  <DetailItem label={t('stock.details.productCode')} value={item.productId} />
+                  <DetailItem label={t('stock.details.productBarcode')} value={item.barcode} />
+                  <DetailItem label={t('stock.details.productName')} value={item.productName} />
+                  <DetailItem label={t('stock.details.lotNumber')} value={item.lotNumber || "N/A"} />
                 </div>
                 
                 <div className="space-y-2 border rounded-md p-2 sm:p-3 mt-3">
-                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productDetails', 'Product Details')}</h4>
-                  <DetailItem label={t('stock.details.size', 'Size')} value={item.size || "N/A"} />
-                  <DetailItem label={t('stock.details.color', 'Color')} value={item.color || "N/A"} />
-                  <DetailItem label={t('stock.details.style', 'Style')} value={item.styleNo || "N/A"} />
-                  <DetailItem label={t('stock.details.brand', 'Brand')} value={item.brand || "N/A"} />
-                  <DetailItem label={t('stock.details.tags', 'Tags')} value={item.tags || "N/A"} />
-                  <DetailItem label={t('stock.details.nonTags', 'Non-Tags')} value={item.nonTags || "N/A"} />
+                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productDetails')}</h4>
+                  <DetailItem label={t('stock.details.size')} value={item.size || "N/A"} />
+                  <DetailItem label={t('stock.details.color')} value={item.color || "N/A"} />
+                  <DetailItem label={t('stock.details.style')} value={item.styleNo || "N/A"} />
+                  <DetailItem label={t('stock.details.brand')} value={item.brand || "N/A"} />
+                  <DetailItem label={t('stock.details.tags')} value={item.tags || "N/A"} />
+                  <DetailItem label={t('stock.details.nonTags')} value={item.nonTags || "N/A"} />
                 </div>
               </div>
               
               {/* Right Column - Additional Information */}
               <div className="md:col-span-1">
                 <div className="space-y-2 border rounded-md p-2 sm:p-3">
-                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.inventoryInformation', 'Inventory Information')}</h4>
-                  <DetailItem label={t('stock.details.expirationDate', 'Expiration Date')} value={formatDate(item?.expiredDate)} />
-                  <DetailItem label={t('stock.details.status', 'Status')} value={"Active"} />
-                  <DetailItem label={t('stock.details.totalLocations', 'Total Locations')} value={item.totalLocation || "N/A"} />
+                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.inventoryInformation')}</h4>
+                  <DetailItem label={t('stock.details.expirationDate')} value={formatDate(item?.expiredDate)} />
+                  <DetailItem label={t('stock.details.status')} value={"Active"} />
+                  <DetailItem label={t('stock.details.totalLocations')} value={item.totalLocation || "N/A"} />
                 </div>
                 
                 <div className="space-y-2 border rounded-md p-2 sm:p-3 mt-3">
-                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.location', 'Location')}</h4>
-                  <DetailItem label={t('stock.details.warehouse', 'Warehouse')} value={item.warehouse || "N/A"} />
-                  <DetailItem label={t('stock.details.zone', 'Zone')} value={item.zoneName || "N/A"} />
-                  <DetailItem label={t('stock.details.area', 'Area')} value={item.areaName || "N/A"} />
-                  <DetailItem label={t('stock.details.subArea', 'Sub Area')} value={item.subAreaName || "N/A"} />
+                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.location')}</h4>
+                  <DetailItem label={t('stock.details.warehouse')} value={item.warehouse || "N/A"} />
+                  <DetailItem label={t('stock.details.zone')} value={item.zoneName || "N/A"} />
+                  <DetailItem label={t('stock.details.area')} value={item.areaName || "N/A"} />
+                  <DetailItem label={t('stock.details.subArea')} value={item.subAreaName || "N/A"} />
                 </div>
                 
                 <div className="space-y-2 border rounded-md p-2 sm:p-3 mt-3">
-                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productGroup', 'Product Group')}</h4>
-                  <DetailItem label={t('stock.details.category', 'Category')} value={item.categoryName || "N/A"} />
-                  <DetailItem label={t('stock.details.type', 'Type')} value={item.typeName || "N/A"} />
-                  <DetailItem label={t('stock.details.subType', 'Sub Type')} value={item.subTypeName || "N/A"} />
+                  <h4 className="text-sm font-semibold pb-1 border-b">{t('stock.details.productGroup')}</h4>
+                  <DetailItem label={t('stock.details.category')} value={item.categoryName || "N/A"} />
+                  <DetailItem label={t('stock.details.type')} value={item.typeName || "N/A"} />
+                  <DetailItem label={t('stock.details.subType')} value={item.subTypeName || "N/A"} />
                 </div>
               </div>
             </div>

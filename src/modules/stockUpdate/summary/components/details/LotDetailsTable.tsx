@@ -20,7 +20,7 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   const { t } = useLanguage();
 
   if (isLoading) {
-    return <div className="text-center py-4">{t('common.loading', 'Loading lot details...')}</div>;
+    return <div className="text-center py-4">{t('common.loading')}</div>;
   }
 
   if (error) {
@@ -28,7 +28,7 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
   }
 
   if (!lotDetails || lotDetails.length === 0) {
-    return <div className="text-center text-gray-500 py-4">{t('stock.details.noLotDetails', 'No lot details available for this product')}</div>;
+    return <div className="text-center text-gray-500 py-4">{t('stock.details.noLotDetails')}</div>;
   }
 
   // Determine which columns to show on mobile
@@ -43,19 +43,19 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr>
                   {/* Always visible columns */}
-                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12 sm:w-16">{t('stock.table.image', 'Image')}</th>
-                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20 sm:w-24">{t('stock.table.code', 'Code')}</th>
-                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28 sm:w-32">{t('stock.table.name', 'Name')}</th>
-                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16 sm:w-20">{t('stock.table.qty', 'Qty')}</th>
+                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12 sm:w-16">{t('stock.table.image')}</th>
+                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20 sm:w-24">{t('stock.table.code')}</th>
+                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-28 sm:w-32">{t('stock.table.name')}</th>
+                  <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16 sm:w-20">{t('stock.table.qty')}</th>
                   
                   {/* Columns hidden on mobile */}
-                  <th className="hidden sm:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.lot', 'Lot')}</th>
-                  <th className="hidden sm:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.barcode', 'Barcode')}</th>
-                  <th className="hidden md:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.category', 'Category')}</th>
-                  <th className="hidden md:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.group', 'Group')}</th>
-                  <th className="hidden lg:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.subGroup', 'Sub Group')}</th>
-                  <th className="hidden lg:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.warehouse', 'Warehouse')}</th>
-                  <th className="hidden xl:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.zone', 'Zone')}</th>
+                  <th className="hidden sm:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.lot')}</th>
+                  <th className="hidden sm:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.barcode')}</th>
+                  <th className="hidden md:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.category')}</th>
+                  <th className="hidden md:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.group')}</th>
+                  <th className="hidden lg:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.subGroup')}</th>
+                  <th className="hidden lg:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.warehouse')}</th>
+                  <th className="hidden xl:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.zone')}</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -92,10 +92,10 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
       {/* Pagination Controls - Responsive version */}
       <div className="mt-2 sm:mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div className="flex items-center text-xs sm:text-sm text-gray-700">
-          <span className="whitespace-nowrap">{t('pagination.showing', 'Showing')} {((currentPage - 1) * perPage) + 1}-{Math.min(currentPage * perPage, totalCount)} {t('pagination.of', 'of')} {totalCount}</span>
+          <span className="whitespace-nowrap">{t('pagination.showing')} {((currentPage - 1) * perPage) + 1}-{Math.min(currentPage * perPage, totalCount)} {t('pagination.of')} {totalCount}</span>
           <span className="mx-2 hidden sm:inline">|</span>
           <div className="flex items-center ml-auto sm:ml-0">
-            <span className="whitespace-nowrap mr-1">{t('pagination.perPage', 'Per page')}</span>
+            <span className="whitespace-nowrap mr-1">{t('pagination.perPage')}</span>
             <select
               value={perPage}
               onChange={(e) => onPerPageChange(Number(e.target.value))}
@@ -117,11 +117,11 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
             className="text-xs flex items-center gap-1 h-7 px-2"
           >
             <ChevronLeft className="h-3 w-3" />
-            <span className="hidden sm:inline">{t('pagination.previous', 'Previous')}</span>
+            <span className="hidden sm:inline">{t('pagination.previous')}</span>
           </Button>
 
           <span className="text-xs text-gray-700 whitespace-nowrap">
-            {t('pagination.page', 'Page')} {currentPage} {t('pagination.of', 'of')} {totalPages || 1}
+            {t('pagination.page')} {currentPage} {t('pagination.of')} {totalPages || 1}
           </span>
 
           <Button
@@ -131,7 +131,7 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
             disabled={currentPage >= totalPages}
             className="text-xs flex items-center gap-1 h-7 px-2"
           >
-            <span className="hidden sm:inline">{t('pagination.next', 'Next')}</span>
+            <span className="hidden sm:inline">{t('pagination.next')}</span>
             <ChevronRight className="h-3 w-3" />
           </Button>
         </div>

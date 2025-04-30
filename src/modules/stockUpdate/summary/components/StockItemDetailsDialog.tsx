@@ -56,16 +56,16 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   {/* Product Information */}
                   <div className="p-2 sm:p-3 md:p-4">
                     <DetailGroup
-                      title={t('stock.details.productInformation', 'Product Information')}
+                      title={t('stock.details.productInformation')}
                       details={[
-                        { label: t('stock.details.productCode', 'Product Code'), value: selectedItem.productId },
-                        { label: t('stock.details.productName', 'Product Name'), value: selectedItem.productName },
-                        { label: t('stock.details.productBarcode', 'Product Barcode'), value: selectedItem.barcode },
-                        { label: t('stock.details.lotNumber', 'Lot Number'), value: selectedItem.lotNumber || "N/A" },
-                        { label: t('stock.details.size', 'Size'), value: selectedItem.size || "N/A" },
-                        { label: t('stock.details.color', 'Color'), value: selectedItem.color || "N/A" },
-                        { label: t('stock.details.model', 'Model'), value: selectedItem.styleNo || "N/A" },
-                        { label: t('stock.details.brand', 'Brand'), value: selectedItem.brand || "N/A" },
+                        { label: t('stock.details.productCode'), value: selectedItem.productId },
+                        { label: t('stock.details.productName'), value: selectedItem.productName },
+                        { label: t('stock.details.productBarcode'), value: selectedItem.barcode },
+                        { label: t('stock.details.lotNumber'), value: selectedItem.lotNumber || "N/A" },
+                        { label: t('stock.details.size'), value: selectedItem.size || "N/A" },
+                        { label: t('stock.details.color'), value: selectedItem.color || "N/A" },
+                        { label: t('stock.details.model'), value: selectedItem.styleNo || "N/A" },
+                        { label: t('stock.details.brand'), value: selectedItem.brand || "N/A" },
                       ]}
                     />
 
@@ -81,24 +81,24 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   {/* Notification & Expiration Info */}
                   <div className="p-2 sm:p-3 md:p-4">
                     <DetailGroup
-                      title={t('stock.details.expirationNotice', 'Notification of Expiration Date')}
+                      title={t('stock.details.expirationNotice')}
                       details={[
-                        { label: t('stock.details.expiredDate', 'Expired Date'), value: "12/12/2023" },
-                        { label: t('stock.details.batch', 'Batch'), value: "1 batch" },
-                        { label: t('stock.details.status', 'Status'), value: "Active stock expire date" },
+                        { label: t('stock.details.expiredDate'), value: "12/12/2023" },
+                        { label: t('stock.details.batch'), value: "1 batch" },
+                        { label: t('stock.details.status'), value: "Active stock expire date" },
                       ]}
                     />
 
                     {/* Additional Product Specs */}
                     <div className="mt-4">
                       <DetailGroup
-                        title={t('stock.details.productSpecs', 'Product Specs')}
+                        title={t('stock.details.productSpecs')}
                         details={[
-                          { label: t('stock.details.serialNumber', 'Serial Number'), value: "Serial#" },
-                          { label: t('stock.details.weight', 'Weight'), value: "10" },
-                          { label: t('stock.details.length', 'Length'), value: "10" },
-                          { label: t('stock.details.height', 'Height'), value: "5" },
-                          { label: t('stock.details.width', 'Width'), value: "3" },
+                          { label: t('stock.details.serialNumber'), value: "Serial#" },
+                          { label: t('stock.details.weight'), value: "10" },
+                          { label: t('stock.details.length'), value: "10" },
+                          { label: t('stock.details.height'), value: "5" },
+                          { label: t('stock.details.width'), value: "3" },
                         ]}
                       />
                     </div>
@@ -107,22 +107,22 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   {/* Location & Categories */}
                   <div className="p-2 sm:p-3 md:p-4">
                     <DetailGroup
-                      title={t('stock.details.location', 'Location')}
+                      title={t('stock.details.location')}
                       details={[
-                        { label: t('stock.details.warehouse', 'Warehouse'), value: "AdminHub" },
-                        { label: t('stock.details.zone', 'Zone'), value: "AdminHub 1" },
-                        { label: t('stock.details.area', 'Area'), value: "Area A" },
-                        { label: t('stock.details.subArea', 'Sub Area'), value: "Sub Area B" },
+                        { label: t('stock.details.warehouse'), value: "AdminHub" },
+                        { label: t('stock.details.zone'), value: "AdminHub 1" },
+                        { label: t('stock.details.area'), value: "Area A" },
+                        { label: t('stock.details.subArea'), value: "Sub Area B" },
                       ]}
                     />
 
                     <div className="mt-4">
                       <DetailGroup
-                        title={t('stock.details.productTypes', 'Product Types')}
+                        title={t('stock.details.productTypes')}
                         details={[
-                          { label: t('stock.details.category', 'Category'), value: selectedItem.categoryName || "AdminHub" },
-                          { label: t('stock.details.group', 'Group'), value: "AdminHub 1" },
-                          { label: t('stock.details.subGroup', 'Sub Group'), value: "AB 1-2" },
+                          { label: t('stock.details.category'), value: selectedItem.categoryName || "AdminHub" },
+                          { label: t('stock.details.group'), value: "AdminHub 1" },
+                          { label: t('stock.details.subGroup'), value: "AB 1-2" },
                         ]}
                       />
                     </div>
@@ -133,7 +133,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 
             {/* Product List Table with Pagination */}
             <div className="px-2 sm:px-4 md:px-6 pb-4">
-              <h3 className="text-lg font-semibold mb-2">{t('stock.details.productList', 'Product List')}</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('stock.details.productList')}</h3>
               <LotDetailsTable
                 lotDetails={lotDetails}
                 isLoading={isLoading}

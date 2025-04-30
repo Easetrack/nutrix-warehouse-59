@@ -9,10 +9,10 @@ export const DialogHeaderSection: React.FC = () => {
   return (
     <DialogHeader className="bg-blue-50 p-2 sm:p-3 md:p-4 border-b">
       <DialogTitle className="text-base sm:text-lg md:text-xl font-semibold">
-        {t('stock.details.title', 'Product Details')}
+        {t('stock.details.title')}
       </DialogTitle>
       <p className="text-xs sm:text-sm text-gray-500">
-        {t('stock.details.subtitle', 'View Product Information')}
+        {t('stock.details.subtitle')}
       </p>
     </DialogHeader>
   );

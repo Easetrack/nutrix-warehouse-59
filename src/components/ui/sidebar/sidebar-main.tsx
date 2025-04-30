@@ -122,7 +122,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                      group-data-[side=right]:rounded-l-xl
                      relative overflow-hidden"
           >
-            {/* Single toggle button that sticks to the edge of the sidebar */}
+            {/* Single toggle button positioned at the top of sidebar */}
             <Button 
               variant="ghost" 
               size="icon"

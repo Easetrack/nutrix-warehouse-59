@@ -87,7 +87,7 @@ const SidebarMenuItems: React.FC = () => {
       {mainMenuItems.map((item) => (
         <React.Fragment key={item.path || item.id}>
           {/* Main menu item */}
-          <SidebarMenuItem className="mb-1.5">
+          <SidebarMenuItem className="mb-4">
             {item.hasSubmenu ? (
               <>
                 {isCollapsed ? (

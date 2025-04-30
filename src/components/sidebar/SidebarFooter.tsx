@@ -8,11 +8,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/components/ui/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const SidebarUserFooter: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { data: user, isLoading } = useUser();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   const handleSignOut = () => {
     localStorage.removeItem('accessToken');
@@ -28,6 +32,55 @@ const SidebarUserFooter: React.FC = () => {
     if (!user) return '';
     return `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase();
   };
+
+  if (isCollapsed) {
+    return (
+      <div className="flex flex-col items-center gap-4 px-1 py-3">
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <div className="cursor-pointer">
+              <ThemeToggle />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">{t('common.themeToggle')}</TooltipContent>
+        </Tooltip>
+
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <div className="cursor-pointer">
+              {isLoading ? (
+                <Skeleton className="h-8 w-8 rounded-full" />
+              ) : (
+                <Avatar className="h-8 w-8 border-2 border-primary/20">
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    {getAvatarFallback() || <User size={16} />}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            {user ? `${user.firstName} ${user.lastName}` : t('common.profile')}
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={handleSignOut}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-destructive hover:bg-destructive/10 rounded-full"
+            >
+              <LogOut size={16} />
+              <span className="sr-only">{t('action.signOut')}</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="right">{t('action.signOut')}</TooltipContent>
+        </Tooltip>
+      </div>
+    );
+  }
 
   return (
     <>

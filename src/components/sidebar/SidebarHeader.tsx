@@ -19,7 +19,8 @@ const SidebarHeader: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-2 py-3`}>
+      {/* When collapsed, logo is below toggle button which is positioned absolutely in sidebar-main.tsx */}
+      <div className={`flex items-center ${isCollapsed ? 'justify-center mt-12' : 'justify-between'} px-2 py-3`}>
         <div className={`flex items-center ${isCollapsed ? '' : 'gap-2.5'}`}>
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
             <img

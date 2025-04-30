@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { StockQueryParams, convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams, convertToStockUpdateQueryParams, SortOption } from "@/modules/stockUpdate/summary/types/types";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();
@@ -54,6 +54,7 @@ export const useStockFetcher = () => {
         params.sortOptions.forEach((sortOption) => {
           if (sortOption && typeof sortOption === 'object' && 'column' in sortOption && 'direction' in sortOption) {
             const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
+            // Ensure direction is always a string
             processedParams[sortKey] = sortOption.direction;
             console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
           }

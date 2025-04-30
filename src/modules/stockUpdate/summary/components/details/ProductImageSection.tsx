@@ -4,7 +4,7 @@ import { ProductImageSectionProps } from "../../types/detailsComponentTypes";
 
 export const ProductImageSection: React.FC<ProductImageSectionProps> = ({ image, productName }) => {
   return (
-    <div className="bg-gray-100 rounded-md overflow-hidden flex items-center justify-center p-2 sm:p-4 h-32 sm:h-40 md:h-64">
+    <div className="bg-gray-100 rounded-md overflow-hidden flex items-center justify-center p-2 sm:p-3 md:p-4 h-24 sm:h-32 md:h-40 lg:h-64">
       <img
         src={image || "/placeholder.svg"}
         alt={productName}

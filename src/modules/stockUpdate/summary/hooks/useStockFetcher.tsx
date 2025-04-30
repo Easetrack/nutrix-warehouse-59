@@ -17,7 +17,7 @@ export const useStockFetcher = () => {
     setError(null);
 
     try {
-      console.log("Fetching data with params:", params);
+      console.log("Fetching stock data with params:", params);
       
       // Process the params to make sure all dates are strings
       const processedParams: Record<string, string | number | null | undefined> = {};
@@ -28,6 +28,12 @@ export const useStockFetcher = () => {
           processedParams[key] = value;
         }
       });
+      
+      // Ensure sort parameters are included
+      if (params.sortColumn) {
+        processedParams.sortColumn = params.sortColumn;
+        processedParams.sortDirection = params.sortDirection;
+      }
       
       // Convert our params to the format the API expects
       const apiParams = convertToStockUpdateQueryParams(processedParams);

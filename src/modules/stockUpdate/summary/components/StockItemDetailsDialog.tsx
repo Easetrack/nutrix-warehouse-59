@@ -41,8 +41,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
       <DialogContent className="sm:max-w-[90vw] md:max-w-[98vw] p-0 gap-0 overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
         <DialogHeaderSection />
 
-        <div className="flex-grow overflow-y-auto">
-          <ScrollArea className="h-full">
+        <div className="flex-grow overflow-auto">
             {/* Main Content Area */}
             <div className="p-2 sm:p-4 md:p-6">
               <div className="flex flex-col lg:flex-row gap-2 sm:gap-4 md:gap-6">
@@ -146,7 +145,6 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                 onPerPageChange={handlePerPageChange}
               />
             </div>
-          </ScrollArea>
         </div>
       </DialogContent>
     </Dialog>

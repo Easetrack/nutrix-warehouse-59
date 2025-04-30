@@ -7,6 +7,14 @@ export const stockTranslations = {
     en: "Stock Update: Summary",
     th: "อัพเดทสต๊อก: สรุป",
   },
+  "stock.details.title": {
+    en: "Stock Update: Product Details",
+    th: "อัพเดทสต๊อก: สรุป",
+  },
+  "stock.details.subtitle": {
+    en: "View Product Information",
+    th: "ดูข้อมูลสินค้า",
+  },
   "stock.title.lot": {
     en: "Stock Update: Detail by Lot",
     th: "อัพเดทสต๊อก: รายละเอียดตามล็อต",

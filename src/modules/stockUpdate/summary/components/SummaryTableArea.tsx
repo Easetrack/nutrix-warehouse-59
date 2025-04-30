@@ -5,9 +5,11 @@ import { StockItemsTable } from "./StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
 import { StockItemDetailsDialog } from "./StockItemDetailsDialog";
 import { StockItem } from "@/common/types/stockupdate/summary";
+import { SortOption } from "../types/types";
 
 interface SummaryTableAreaProps {
   filteredItems: StockItem[];
+  sortOptions: SortOption[];
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
@@ -26,6 +28,7 @@ interface SummaryTableAreaProps {
 
 export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
   filteredItems,
+  sortOptions,
   sortColumn,
   sortDirection,
   handleSort,
@@ -46,6 +49,7 @@ export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
       <CardContent className="p-2">
         <StockItemsTable
           filteredItems={filteredItems}
+          sortOptions={sortOptions}
           sortColumn={sortColumn}
           sortDirection={sortDirection}
           handleSort={handleSort}

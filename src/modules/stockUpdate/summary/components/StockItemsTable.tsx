@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Table,
@@ -11,9 +10,11 @@ import {
 import { StockItem } from "@/common/types/stockupdate/summary";
 import { useLanguage } from "@/stores/language/LanguageContext";
 import { SortIndicator } from "@/modules/stockUpdate/components/table/SortIndicator";
+import { SortOption } from "@/modules/stockUpdate/summary/types/types";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
+  sortOptions: SortOption[];
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
@@ -22,6 +23,7 @@ interface StockItemsTableProps {
 
 export const StockItemsTable: React.FC<StockItemsTableProps> = ({
   filteredItems,
+  sortOptions,
   sortColumn,
   sortDirection,
   handleSort,
@@ -65,6 +67,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                     {column.label}
                     <SortIndicator
                       column={column.id}
+                      sortOptions={sortOptions}
                       sortColumn={sortColumn}
                       sortDirection={sortDirection}
                     />

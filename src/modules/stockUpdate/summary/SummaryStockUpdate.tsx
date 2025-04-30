@@ -29,6 +29,7 @@ const SummaryStockUpdate = () => {
     totalCount,
     sortColumn,
     sortDirection,
+    sortOptions,
     handleSort,
     handleNextPage,
     handlePreviousPage,
@@ -51,6 +52,7 @@ const SummaryStockUpdate = () => {
     setSelectedUoM,
     setSortColumn,
     setSortDirection,
+    setSortOptions,
     // Add handlers we created in the hook
     handleSearch: originalHandleSearch,
     handleClear: originalHandleClear,
@@ -133,6 +135,7 @@ const SummaryStockUpdate = () => {
     totalPages,
     totalCount,
     perPage,
+    sortOptions,
     filteredItemsLength: filteredItems.length
   });
 
@@ -168,6 +171,7 @@ const SummaryStockUpdate = () => {
       <motion.div variants={itemVariants}>
         <SummaryTableArea
           filteredItems={filteredItems}
+          sortOptions={sortOptions}
           sortColumn={sortColumn}
           sortDirection={sortDirection}
           handleSort={handleSort}

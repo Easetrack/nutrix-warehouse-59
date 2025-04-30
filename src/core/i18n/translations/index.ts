@@ -9,6 +9,7 @@ import { TranslationKey } from '../types';
 import { paginationTranslations } from './pagiantion';
 import { filterTranslations } from './filter';
 import { permissionTranslations } from './permission';
+import {actionTranslations} from './action'
 
 export const translations: TranslationKey = {
   'app.name': {
@@ -24,5 +25,6 @@ export const translations: TranslationKey = {
   ...paginationTranslations,
   ...filterTranslations,
   ...permissionTranslations,
+  ...actionTranslations,
 };
 

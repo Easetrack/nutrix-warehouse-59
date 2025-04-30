@@ -24,6 +24,18 @@ export interface StockUpdateQueryParams {
   searchByProductId?: string;
   searchByProductName?: string;
   searchByUnit?: string;
+  sortColumn?: string;
+  sortDirection?: "asc" | "desc";
+  // Allow dynamic sort properties like sortByProductId, sortByProductName, etc.
+  sortByProductId?: "asc" | "desc";
+  sortByProductName?: "asc" | "desc";
+  sortByTotalLot?: "asc" | "desc";
+  sortByCategoryName?: "asc" | "desc";
+  sortByTagQty?: "asc" | "desc";
+  sortByNonTagQty?: "asc" | "desc";
+  sortByQty?: "asc" | "desc";
+  sortByUnitName?: "asc" | "desc";
+  sortByTotalLocation?: "asc" | "desc";
   [key: string]: string | number | undefined; // Allow dynamic properties for sorting
 }
 

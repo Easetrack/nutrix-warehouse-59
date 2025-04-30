@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
@@ -31,8 +30,15 @@ export const useStockFetcher = () => {
       
       // Ensure sort parameters are included
       if (params.sortColumn) {
+        // Create the sortBy parameter dynamically based on the column
+        const sortKey = `sortBy${params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1)}`;
+        processedParams[sortKey] = params.sortDirection;
+        
+        // Keep the original sort parameters for reference
         processedParams.sortColumn = params.sortColumn;
         processedParams.sortDirection = params.sortDirection;
+        
+        console.log(`Added sort parameter: ${sortKey}=${params.sortDirection}`);
       }
       
       // Convert our params to the format the API expects

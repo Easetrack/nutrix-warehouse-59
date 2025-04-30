@@ -50,11 +50,13 @@ export const useStockFetcher = () => {
       }
       
       // Handle multiple sort options if present
-      if (params.sortOptions) {
+      if (params.sortOptions && Array.isArray(params.sortOptions)) {
         params.sortOptions.forEach((sortOption) => {
-          const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
-          processedParams[sortKey] = sortOption.direction;
-          console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
+          if (sortOption && typeof sortOption === 'object' && 'column' in sortOption && 'direction' in sortOption) {
+            const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
+            processedParams[sortKey] = sortOption.direction;
+            console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
+          }
         });
       }
       

@@ -67,7 +67,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
               side={side}
             >
               <div className="absolute top-4 right-4">
-                <Button variant="ghost" size="icon" onClick={() => setOpenMobile(false)} className="rounded-full">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => setOpenMobile(false)} 
+                  className="rounded-full"
+                >
                   <X size={18} />
                 </Button>
               </div>
@@ -122,16 +127,30 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                      group-data-[side=right]:rounded-l-xl
                      relative overflow-hidden"
           >
-            {/* Single toggle button positioned at the top of sidebar */}
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={toggleSidebar} 
-              className="absolute top-3 right-3 z-20 h-8 w-8 rounded-full hover:bg-sidebar-accent"
-              aria-label="Toggle Sidebar"
-            >
-              {open ? <X size={16} /> : <Menu size={16} />}
-            </Button>
+            {/* Toggle buttons positioned at the top of sidebar */}
+            <div className="absolute top-3 right-3 z-20 flex gap-1">
+              {/* Close button - always visible */}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setOpen(false)} 
+                className={`h-8 w-8 rounded-full hover:bg-sidebar-accent ${open ? '' : 'hidden'}`}
+                aria-label="Close Sidebar"
+              >
+                <X size={16} />
+              </Button>
+              
+              {/* Open button - only visible when collapsed */}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setOpen(true)} 
+                className={`h-8 w-8 rounded-full hover:bg-sidebar-accent ${open ? 'hidden' : ''}`}
+                aria-label="Open Sidebar"
+              >
+                <Menu size={16} />
+              </Button>
+            </div>
             
             {children}
           </div>

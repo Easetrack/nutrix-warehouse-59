@@ -137,4 +137,8 @@ export const stockTranslations = {
     en: "Brand",
     th: "แบรนด์",
   },
+  "stock.details.total": {
+    en: "Total",
+    th: "รวม",
+  },
 } as const;

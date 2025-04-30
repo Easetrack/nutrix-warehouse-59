@@ -35,14 +35,14 @@ export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Prom
       });
 
       toast({
-        title: "การค้นหา",
-        description: `${t('alert.filter.searchFilter"')}`,
+        title: t('alert.filter.searchFilterTitle'),
+        description: t('alert.filter.searchFilter'),
       });
     } catch (error) {
       console.error("Error during advanced search:", error);
       toast({
-        title: "เกิดข้อผิดพลาด",
-        description: `${t('alert.filter.AnErrorOccurred"')}`,
+        title: t('alert.filter.AnErrorOccurredTitle'),
+        description: t('alert.filter.AnErrorOccurred'),
         variant: "destructive",
       });
     }

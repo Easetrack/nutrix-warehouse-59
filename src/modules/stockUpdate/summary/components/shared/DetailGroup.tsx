@@ -1,17 +1,22 @@
 
 import React from "react";
-import { DetailGroupProps } from "../../types/detailsComponentTypes";
-import { DetailItem } from "./DetailItem";
+import { DetailItemProps } from "../../types/dialogTypes";
 
-export const DetailGroup: React.FC<DetailGroupProps> = ({ title, details }) => {
-  return (
-    <div className="space-y-2">
-      <h4 className="text-sm font-light text-gray-700">{title}</h4>
-      <div className="p-2 rounded-md shadow-sm hover:shadow transition-all duration-300">
-        {details.map((detail, index) => (
-          <DetailItem key={index} label={detail.label} value={detail.value} />
-        ))}
-      </div>
+export interface DetailGroupProps {
+  title: string;
+  details: DetailItemProps[];
+}
+
+export const DetailGroup: React.FC<DetailGroupProps> = ({ title, details }) => (
+  <div className="mb-4">
+    <h4 className="text-sm font-semibold mb-2 text-gray-700">{title}</h4>
+    <div className="space-y-1.5">
+      {details.map((detail, index) => (
+        <div key={index} className="grid grid-cols-[1fr,1.5fr] gap-2 overflow-hidden">
+          <p className="text-xs text-gray-500 truncate">{detail.label}:</p>
+          <p className="text-xs sm:text-sm font-medium overflow-hidden text-ellipsis break-words">{detail.value}</p>
+        </div>
+      ))}
     </div>
-  );
-};
+  </div>
+);

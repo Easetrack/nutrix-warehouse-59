@@ -1,3 +1,4 @@
+
 export const alertTranslations = {
     "alert.filter.searchFilterTitle": {
       en: "Search",
@@ -11,9 +12,8 @@ export const alertTranslations = {
       en: "An error occurred.",
       th: "เกิดข้อผิดพลาด",
     },
-    "alert.input.AnErrorOccurred": {
+    "alert.filter.AnErrorOccurred": {
       en: "Unable to find information. Please try again.",
       th: "ไม่สามารถค้นหาข้อมูลได้ กรุณาลองใหม่อีกครั้ง",
     },
   } as const;
-  

@@ -47,19 +47,18 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
         <div className="flex-grow overflow-y-auto">
           <ScrollArea className="h-full">
             {/* Main Content Area */}
-            <div className="p-6">
-              <div className="flex flex-col md:flex-row gap-6">
+            <div className="p-4 sm:p-6">
+              <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
                 {/* Left Column - Product Image */}
-                <div className="w-full md:w-1/3">
+                <div className="w-full lg:w-1/3">
                   <ProductImageSection image={selectedItem.image} productName={selectedItem.productName} />
                 </div>
 
                 {/* Right Column - Product Details */}
-
                 {/* Product Details Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-gray-200 rounded-md">
+                <div className="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border border-gray-200 rounded-md overflow-hidden">
                   {/* Product Information */}
-                  <div className="col-span-1 ma-2 p-2">
+                  <div className="col-span-1 p-2 sm:p-3">
                     <DetailGroup
                       title="Product Information"
                       details={[
@@ -75,16 +74,16 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                     />
 
                     {/* Quantity Display */}
-                    <div className="mt-3 py-5 bg-gray-200 p-2 rounded-md shadow-sm hover:shadow 
-                  transition-all duration-300">
-                      <h2 className="text-4xl font-bold">
+                    <div className="mt-3 py-3 bg-gray-200 p-2 rounded-md shadow-sm hover:shadow 
+                    transition-all duration-300">
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold break-words">
                         {selectedItem.qty.toLocaleString()} {selectedItem.unitName}
                       </h2>
                     </div>
                   </div>
 
                   {/* Notification & Expiration Info */}
-                  <div className="col-span-1 ma-2 p-2">
+                  <div className="col-span-1 p-2 sm:p-3">
                     <DetailGroup
                       title="Notification of Expiration Date"
                       details={[
@@ -110,7 +109,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   </div>
 
                   {/* Location & Categories */}
-                  <div className="col-span-1 ma-2 p-2">
+                  <div className="col-span-1 p-2 sm:p-3">
                     <DetailGroup
                       title="Location"
                       details={[
@@ -138,7 +137,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 
             {/* Product List Table with Pagination */}
             <div className="border-t pt-4 pb-6">
-              <h3 className="text-lg font-semibold px-6 mb-2">Product List</h3>
+              <h3 className="text-lg font-semibold px-4 sm:px-6 mb-2">Product List</h3>
               <LotDetailsTable
                 lotDetails={lotDetails}
                 isLoading={isLoading}

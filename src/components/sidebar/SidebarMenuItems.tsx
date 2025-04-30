@@ -98,8 +98,7 @@ const SidebarMenuItems: React.FC = () => {
                         onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
                         isActive={location.pathname.startsWith('/stock')}
                       >
-                        {/* Always render the icon */}
-                        <span className="text-primary/80">{item.icon}</span>
+                        {item.icon}
                         <span className="sr-only">{item.name}</span>
                       </SidebarMenuButton>
                     </TooltipTrigger>
@@ -132,6 +131,7 @@ const SidebarMenuItems: React.FC = () => {
                       >
                         <NavLink to={item.path || ""}>
                           <span className="text-primary/80">{item.icon}</span>
+                          <span className="sr-only">{item.name}</span>
                         </NavLink>
                       </SidebarMenuButton>
                     </TooltipTrigger>

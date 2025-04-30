@@ -39,7 +39,7 @@ const SidebarHeader: React.FC = () => {
         
         {/* Language toggle - show in both collapsed and expanded states */}
         {isCollapsed ? (
-          <div className="absolute top-12 right-1/2 transform translate-x-1/2 mt-10">
+          <div className="absolute top-16 right-1/2 transform translate-x-1/2 mt-12">
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <DropdownMenu>

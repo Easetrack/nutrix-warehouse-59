@@ -41,7 +41,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[90vw] md:max-w-[85vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-[90vw] md:max-w-[98vw] p-0 gap-0 overflow-hidden max-h-[90vh] flex flex-col">
         <DialogHeaderSection />
 
         <div className="flex-grow overflow-y-auto">

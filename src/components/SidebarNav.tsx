@@ -45,13 +45,13 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ children }) => {
         <Sidebar variant="floating" collapsible={isMobile ? "offcanvas" : "icon"}>
           <SidebarHeader>
             <SidebarHeaderContent />
-            <div className="px-2 py-2">
-              <WarehouseSelector
-                selectedWarehouse={selectedWarehouse}
-                isWarehouseMenuOpen={isWarehouseMenuOpen}
-                setIsWarehouseMenuOpen={setIsWarehouseMenuOpen}
-              />
-            </div>
+            
+            {/* Wrap the WarehouseSelector in a div only when not collapsed */}
+            <WarehouseSelector
+              selectedWarehouse={selectedWarehouse}
+              isWarehouseMenuOpen={isWarehouseMenuOpen}
+              setIsWarehouseMenuOpen={setIsWarehouseMenuOpen}
+            />
           </SidebarHeader>
 
           <SidebarContent>

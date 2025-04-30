@@ -89,15 +89,18 @@ const SidebarMenuItems: React.FC = () => {
           {/* Main menu item */}
           <SidebarMenuItem className="mb-4">
             {item.hasSubmenu ? (
+              // For menu items with submenu (like Stock Update)
               <>
                 {isCollapsed ? (
                   <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
                       <SidebarMenuButton
                         onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-                        isActive={location.pathname.startsWith(`/stock`)}
+                        isActive={location.pathname.startsWith('/stock')}
                       >
+                        {/* Always render the icon */}
                         <span className="text-primary/80">{item.icon}</span>
+                        <span className="sr-only">{item.name}</span>
                       </SidebarMenuButton>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="font-medium">
@@ -107,7 +110,7 @@ const SidebarMenuItems: React.FC = () => {
                 ) : (
                   <SidebarMenuButton
                     onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-                    isActive={location.pathname.startsWith(`/stock`)}
+                    isActive={location.pathname.startsWith('/stock')}
                   >
                     <span className="text-primary/80">{item.icon}</span>
                     <span>{item.name}</span>
@@ -118,6 +121,7 @@ const SidebarMenuItems: React.FC = () => {
                 )}
               </>
             ) : (
+              // For regular menu items (like Dashboard)
               <>
                 {isCollapsed ? (
                   <Tooltip delayDuration={0}>

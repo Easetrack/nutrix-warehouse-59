@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Store, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { Location } from '@/common/utils/auth';
+import { useSidebar } from '@/components/ui/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface WarehouseSelectorProps {
   selectedWarehouse: Location | null;
@@ -19,10 +21,32 @@ const WarehouseSelector: React.FC<WarehouseSelectorProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
-  const changeWarehouse = () => {
+  const changeWarehouse = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the click from triggering the warehouse menu toggle
     navigate('/select-warehouse');
   };
+
+  // In collapsed mode, clicking anywhere should just navigate to warehouse selection
+  if (isCollapsed) {
+    return (
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <div 
+            className="flex justify-center cursor-pointer mb-2 p-2"
+            onClick={() => navigate('/select-warehouse')}
+          >
+            <Store size={22} className="text-primary" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          {selectedWarehouse?.name || t('warehouse.select')}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
 
   return (
     <div

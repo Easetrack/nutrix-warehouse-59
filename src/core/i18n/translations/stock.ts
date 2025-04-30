@@ -1,4 +1,3 @@
-
 export const stockTranslations = {
   "stock.input.searchAll": {
     en: "Search by product name, product code or barcode...",
@@ -48,14 +47,94 @@ export const stockTranslations = {
   "stock.table.subArea": { en: "Sub Area", th: "พื้นที่ย่อย" },
   "stock.table.shelfLife": { en: "Shelf Life (Days)", th: "อายุสินค้า (วัน)" },
   "stock.table.expiredDate": { en: "Expired Date", th: "วันหมดอายุ" },
-  "stock.details.productInfo": { en: "Product Information", th: "ข้อมูลสินค้า" },
-  "stock.details.productDetails": { en: "Product Details", th: "รายละเอียดสินค้า" },
+  // Details --------
+  "stock.details.productInfo": {
+    en: "Product Information",
+    th: "ข้อมูลสินค้า",
+  },
+  "stock.details.productDetails": {
+    en: "Product Details",
+    th: "รายละเอียดสินค้า",
+  },
   "stock.details.lotInfo": { en: "Lot Information", th: "ข้อมูลล็อต" },
-  "stock.details.inventoryInfo": { en: "Inventory Information", th: "ข้อมูลสต็อก" },
+  "stock.details.inventoryInfo": {
+    en: "Inventory Information",
+    th: "ข้อมูลสต็อก",
+  },
   "stock.details.location": { en: "Location", th: "ตำแหน่ง" },
   "stock.details.productGroup": { en: "Product Group", th: "กลุ่มสินค้า" },
   "stock.details.productList": { en: "Product List", th: "รายการสินค้า" },
-  "stock.details.expirationInfo": { en: "Notification of Expiration Date", th: "แจ้งเตือนวันหมดอายุ" },
-  "stock.details.productSpecs": { en: "Product Specs", th: "ข้อมูลจำเพาะสินค้า" },
+  "stock.details.expirationInfo": {
+    en: "Notification of Expiration Date",
+    th: "แจ้งเตือนวันหมดอายุ",
+  },
+  "stock.details.productSpecs": {
+    en: "Product Specs",
+    th: "ข้อมูลจำเพาะสินค้า",
+  },
   "stock.details.productTypes": { en: "Product Types", th: "ประเภทสินค้า" },
+  "stock.details.expirationNotice": {
+    en: "Expiration Notice",
+    th: "การแจ้งเตือนวันหมดอายุ",
+  },
+  "stock.details.batch": {
+    en: "Batch",
+    th: "แบทช์",
+  },
+  "stock.details.status": {
+    en: "Status",
+    th: "สถานะ",
+  },
+  "stock.details.serialNumber": {
+    en: "Serial Number",
+    th: "หมายเลขซีเรียล",
+  },
+  "stock.details.weight": {
+    en: "Weight",
+    th: "น้ำหนัก",
+  },
+  "stock.details.length": {
+    en: "Length",
+    th: "ความยาว",
+  },
+  "stock.details.height": {
+    en: "Height",
+    th: "ความสูง",
+  },
+  "stock.details.width": {
+    en: "Width",
+    th: "ความกว้าง",
+  },
+  "stock.details.productCode": {
+    en: "Product Code",
+    th: "รหัสสินค้า",
+  },
+  "stock.details.productName": {
+    en: "Product Name",
+    th: "ชื่อสินค้า",
+  },
+  "stock.details.productBarcode": {
+    en: "Barcode",
+    th: "บาร์โค้ด",
+  },
+  "stock.details.lotNumber": {
+    en: "Lot Number",
+    th: "หมายเลขล็อต",
+  },
+  "stock.details.size": {
+    en: "Size",
+    th: "ขนาด",
+  },
+  "stock.details.color": {
+    en: "Color",
+    th: "สี",
+  },
+  "stock.details.model": {
+    en: "Model",
+    th: "รุ่น",
+  },
+  "stock.details.brand": {
+    en: "Brand",
+    th: "แบรนด์",
+  },
 } as const;

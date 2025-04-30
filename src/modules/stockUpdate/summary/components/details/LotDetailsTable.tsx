@@ -39,8 +39,8 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
       <Card className="bg-card">
         <CardContent className="p-0 sm:p-1 md:p-2">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 table-fixed">
-              <thead className="bg-gray-50 sticky top-0 z-10">
+            <table className="min-w-full divide-y table-fixed">
+              <thead className="sticky top-0 z-10">
                 <tr>
                   {/* Always visible columns */}
                   <th className="px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12 sm:w-16">{t('stock.table.image')}</th>
@@ -58,9 +58,9 @@ export const LotDetailsTable: React.FC<LotDetailsTableProps> = ({
                   <th className="hidden xl:table-cell px-1 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('stock.table.zone')}</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className=" divide-y ">
                 {lotDetails.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-50 transition-colors">
+                  <tr key={index} className="hover:bg-secondary transition-colors">
                     <td className="px-1 py-2 whitespace-nowrap">
                       <img
                         src={item.image || "/placeholder.svg"}

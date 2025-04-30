@@ -7,8 +7,8 @@ export const DialogHeaderSection: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <DialogHeader className="bg-blue-50 p-2 sm:p-3 md:p-4 border-b">
-      <DialogTitle className="text-base sm:text-lg md:text-xl font-semibold">
+    <DialogHeader className="bg-muted p-2 sm:p-3 md:p-4 border-b">
+      <DialogTitle className="text-black sm:text-lg md:text-xl font-semibold">
         {t('stock.details.title')}
       </DialogTitle>
       <p className="text-xs sm:text-sm text-gray-500">

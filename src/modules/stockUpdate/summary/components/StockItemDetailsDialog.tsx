@@ -69,7 +69,7 @@ export const StockItemDetailsDialog: React.FC<StockItemDetailsDialogProps> = ({
                   />
 
                   {/* Quantity Display */}
-                  <div className="mt-3 py-2 sm:py-3 bg-gray-200 p-2 rounded-md shadow-sm hover:shadow 
+                  <div className="mt-3 py-2 sm:py-3 bg-secondary p-2 rounded-md shadow-sm hover:shadow 
                     transition-all duration-300">
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold break-words">
                       {selectedItem.qty.toLocaleString()} {selectedItem.unitName}

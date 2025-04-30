@@ -6,6 +6,7 @@ import { useCompany } from '@/contexts/CompanyContext';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useSidebar } from '@/components/ui/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const SidebarHeader: React.FC = () => {
   const { language, setLanguage } = useLanguage();
@@ -35,7 +36,31 @@ const SidebarHeader: React.FC = () => {
             </span>
           )}
         </div>
-        {!isCollapsed && (
+        
+        {/* Language toggle - show in both collapsed and expanded states */}
+        {isCollapsed ? (
+          <div className="absolute top-12 right-1/2 transform translate-x-1/2 mt-10">
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg">
+                      <Globe size={18} className="text-primary" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-40">
+                    <DropdownMenuItem onClick={toggleLanguage} className="cursor-pointer">
+                      {language === 'en' ? 'ภาษาไทย' : 'English'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                {language === 'en' ? 'Switch to Thai' : 'Switch to English'}
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        ) : (
           <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

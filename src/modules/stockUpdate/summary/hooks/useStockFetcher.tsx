@@ -45,7 +45,7 @@ export const useStockFetcher = () => {
         } else if (value instanceof Date) {
           // Format dates to strings before adding to apiParams
           apiParams[key] = format(value, 'MM-dd-yyyy');
-        } 
+        }
         // Skip arrays and other complex types completely
       });
       

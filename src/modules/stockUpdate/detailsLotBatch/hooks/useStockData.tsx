@@ -29,9 +29,9 @@ export const useStockData = () => {
       page: params.page || currentPage,
       perPage: params.perPage || perPage,
       search: params.searchTerm || lastFilterParams.current.searchTerm || "",
-      stockId: params.stockId || lastFilterParams.current.stockId || "",
-      categoryId: params.searchByCategory || lastFilterParams.current.searchByCategory || "",
-      unitId: params.searchByUnit || lastFilterParams.current.searchByUnit || "",
+      stockId: String(params.stockId || lastFilterParams.current.stockId || ""),
+      categoryId: String(params.searchByCategory || lastFilterParams.current.searchByCategory || ""),
+      unitId: String(params.searchByUnit || lastFilterParams.current.searchByUnit || ""),
       sortColumn: params.sortColumn || sortColumn,
       sortDirection: params.sortDirection || sortDirection
     };

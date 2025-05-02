@@ -20,7 +20,7 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Create API-ready parameters object
+      // Create API-ready parameters object with explicit type annotation
       const apiParams: Record<string, string | number> = {};
       
       // Always ensure page and perPage are included (required)
@@ -43,9 +43,8 @@ export const useStockFetcher = () => {
         if (typeof value === 'string' || typeof value === 'number') {
           apiParams[key] = value;
         } else if (value instanceof Date) {
-          // Format dates according to API expectation - convert Date to string
-          const dateStr: string = format(value, 'MM-dd-yyyy');
-          apiParams[key] = dateStr;
+          // Format dates according to API expectation and explicitly assign as string
+          apiParams[key] = format(value, 'MM-dd-yyyy');
         }
         // Skip arrays and other types - they shouldn't be directly added to apiParams
       });

@@ -33,7 +33,10 @@ export const useStockFetcher = () => {
           processedParams[key] = value;
         } else if (value instanceof Date) {
           // Convert Date objects to string using the helper function
-          processedParams[key] = formatDateToString(value);
+          const dateString = formatDateToString(value);
+          if (dateString) {
+            processedParams[key] = dateString;
+          }
         }
       });
       

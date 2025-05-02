@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
@@ -18,7 +19,8 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Create a new object for processed parameters with corrected type annotation
+      // Create a new object for processed parameters with a more flexible type annotation
+      // This allows us to store different types temporarily during processing
       const processedParams: Record<string, string | number | null | undefined> = {};
       
       // Process each parameter

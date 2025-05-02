@@ -4,6 +4,7 @@ import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 
+// Update type to match expected signature in useStockData
 type SetCurrentPageFn = (page: number) => Promise<void>;
 
 export const useAdvancedSearch = (

@@ -49,6 +49,7 @@ export interface StockQueryParams {
   
   // Sort parameters - dynamically generated
   sortColumn?: string;
+  sortDirection?: "asc" | "desc";
   sortOptions?: SortOption[];
   
   // All possible sort keys the API accepts
@@ -73,7 +74,7 @@ export interface StockQueryParams {
 }
 
 export const convertToStockUpdateQueryParams = (params: Record<string, any>) => {
-  const queryParams: Record<string, string> = {};
+  const queryParams: Record<string, string | number> = {};
   
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== '') {
@@ -104,6 +105,9 @@ export const convertToStockUpdateQueryParams = (params: Record<string, any>) => 
 // Format dates in the correct API format
 export const formatDateToString = (date: Date | null | undefined): string | null => {
   if (!date) return null;
+  
+  // Import format from date-fns on the fly to avoid circular dependency issues
+  const { format } = require('date-fns');
   return date instanceof Date ? format(date, 'MM-dd-yyyy') : null;
 };
 
@@ -118,5 +122,3 @@ export type AdvancedSearchValues = {
   searchDate?: string | Date;
   expiredDate?: string | Date;
 };
-
-import { format } from 'date-fns';

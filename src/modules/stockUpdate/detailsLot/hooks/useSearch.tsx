@@ -2,6 +2,7 @@
 import { useState, MutableRefObject } from "react";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 
+// Update type to match expected signature in useStockData
 type SetCurrentPageFn = (page: number) => Promise<void>;
 
 export const useSearch = (

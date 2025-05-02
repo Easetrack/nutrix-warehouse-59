@@ -56,10 +56,9 @@ export const useStockData = () => {
     handleAdvancedSearch: baseAdvancedSearch,
     handleAdvancedClear: baseAdvancedClear 
   } = useAdvancedSearch(
-    // Fix: Convert the function to match expected return type
-    (page: number) => { 
+    // Fix: Use async function that returns void to match expected type
+    async (page: number) => { 
       setCurrentPage(page); 
-      return Promise.resolve(); 
     }, 
     lastFilterParams
   );
@@ -71,10 +70,9 @@ export const useStockData = () => {
     handleSearch: baseSearch, 
     handleClear: baseClear 
   } = useSearch(
-    // Fix: Convert the function to match expected return type
-    (page: number) => {
+    // Fix: Use async function that returns void to match expected type
+    async (page: number) => {
       setCurrentPage(page);
-      return Promise.resolve();
     }, 
     lastFilterParams
   );

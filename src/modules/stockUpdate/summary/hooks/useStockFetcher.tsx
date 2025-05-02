@@ -39,12 +39,13 @@ export const useStockFetcher = () => {
           return;
         }
         
-        // Handle different value types - only add string or number values
+        // Handle different value types
         if (typeof value === 'string' || typeof value === 'number') {
           apiParams[key] = value;
         } else if (value instanceof Date) {
           // Format dates to strings before adding to apiParams
-          apiParams[key] = format(value, 'MM-dd-yyyy');
+          // Explicitly cast the format result to string to satisfy TypeScript
+          apiParams[key] = format(value, 'MM-dd-yyyy') as string;
         }
         // Skip arrays and other types - they shouldn't be directly added to apiParams
       });

@@ -1,68 +1,63 @@
 
-import { useState } from "react";
 import { SortOption } from "../types/types";
 
-export const useSortHandler = (fetchDataCallback: () => void) => {
-  // Track active sort columns with their directions
-  const [sortOptions, setSortOptions] = useState<SortOption[]>([]);
-  
-  // Legacy support for single column sorting
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+export const useSortHandler = (
+  sortState: {
+    sortOptions: SortOption[];
+    setSortOptions: (options: SortOption[]) => void;
+    sortColumn: string | null;
+    setSortColumn: (column: string | null) => void;
+    sortDirection: "asc" | "desc";
+    setSortDirection: (direction: "asc" | "desc") => void;
+  },
+  handleFetchData: (params: any) => Promise<any>
+) => {
+  const { 
+    sortOptions, 
+    setSortOptions, 
+    setSortColumn, 
+    setSortDirection 
+  } = sortState;
 
-  const handleSort = (column: string) => {
+  // Enhanced sorting handler to support multiple columns
+  const handleSort = async (column: string) => {
+    console.log(`Sorting by column: ${column}`);
+    
     // Find if column is already being sorted
     const existingIndex = sortOptions.findIndex(option => option.column === column);
+    let newSortOptions: SortOption[] = [...sortOptions];
     
     if (existingIndex >= 0) {
       // Toggle direction if column is already sorted
       const newDirection = sortOptions[existingIndex].direction === "asc" ? "desc" : "asc";
       
-      // Create new array with updated direction
-      const newSortOptions = [...sortOptions];
-      newSortOptions[existingIndex] = { 
-        column, 
-        direction: newDirection 
-      };
+      // Update existing sort option
+      newSortOptions[existingIndex] = { column, direction: newDirection };
       
-      setSortOptions(newSortOptions);
-      
-      // Update single column state for backward compatibility
+      // Also update single column state for backward compatibility
       setSortColumn(column);
       setSortDirection(newDirection);
     } else {
       // Add new sort column at the beginning (primary sort)
-      const newSortOptions: SortOption[] = [
+      newSortOptions = [
         { column, direction: "asc" },
-        ...sortOptions
+        ...sortOptions.slice(0, 2) // Limit to 3 sort columns max
       ];
-      
-      setSortOptions(newSortOptions);
       
       // Update single column state for backward compatibility
       setSortColumn(column);
       setSortDirection("asc");
     }
     
-    // Trigger data fetch with new sort parameters
-    fetchDataCallback();
-  };
-
-  const clearSorting = () => {
-    setSortOptions([]);
-    setSortColumn(null);
-    setSortDirection("asc");
+    setSortOptions(newSortOptions);
+    
+    await handleFetchData({
+      sortOptions: newSortOptions,
+      sortColumn: column,
+    });
   };
 
   return {
-    sortOptions,
-    setSortOptions,
-    // Legacy support
-    sortColumn,
-    setSortColumn,
-    sortDirection,
-    setSortDirection,
-    handleSort,
-    clearSorting
+    handleSort
   };
 };

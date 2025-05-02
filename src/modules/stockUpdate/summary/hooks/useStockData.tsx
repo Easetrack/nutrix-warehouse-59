@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
-import { useFilterState } from "./useFilterState";
-import { usePagination } from "./usePagination";
+
+import { useEffect } from "react";
 import { useStockFetcher } from "./useStockFetcher";
-import { useItemSelection } from "./useItemSelection";
 import { useStockAuth } from "./useStockAuth";
-import { StockItem } from "@/common/types/stockupdate/summary";
 import { useStockFilterOperations } from "./useStockFilterOperations";
 import { useStockPaginationOperations } from "./useStockPaginationOperations";
-import { AdvancedSearchValues, SortOption } from "@/modules/stockUpdate/summary/types/types";
+import { usePaginationOperations } from "./usePaginationOperations"; 
+import { useSortOperations } from "./useSortOperations";
+import { useSelectionOperations } from "./useSelectionOperations";
+import { usePageNavigation } from "./usePageNavigation";
+import { useSortHandler } from "./useSortHandler";
 
 export const useStockData = () => {
   const { locationId } = useStockAuth();
   
+  // Fetch data
   const {
     stockItems,
     filteredItems,
@@ -20,51 +22,40 @@ export const useStockData = () => {
     fetchStockData
   } = useStockFetcher();
 
+  // Handle pagination state
+  const paginationOperations = usePaginationOperations();
   const {
-    currentPage,
-    setCurrentPage,
-    totalPages,
     setTotalPages,
-    totalCount,
     setTotalCount,
-    perPage,
     setPerPage,
-  } = usePagination();
+  } = paginationOperations;
 
+  // Handle filter state and selection
+  const selectionOperations = useSelectionOperations();
   const {
     searchTerm,
-    setSearchTerm,
-    selectedWarehouse,
-    setSelectedWarehouse,
-    selectedZone,
-    setSelectedZone,
-    selectedArea,
-    setSelectedArea,
-    selectedSubArea,
-    setSelectedSubArea,
     selectedCategory,
-    setSelectedCategory,
     selectedUoM,
-    setSelectedUoM,
-    sortColumn,
-    setSortColumn,
-    sortDirection,
-    setSortDirection,
+    selectedWarehouse,
+    selectedZone,
+    selectedArea,
+    selectedSubArea,
     searchDate,
-    setSearchDate,
     expiredDate,
-    setExpiredDate,
-  } = useFilterState();
-
-  const {
     selectedItems,
     handleSelectAll,
     handleSelectItem
-  } = useItemSelection();
+  } = selectionOperations;
 
-  // Track multiple sort options
-  const [sortOptions, setSortOptions] = useState<SortOption[]>([]);
+  // Handle sort state
+  const sortOperations = useSortOperations();
+  const {
+    sortColumn,
+    sortOptions,
+    handleClearSort
+  } = sortOperations;
 
+  // Current filters object
   const currentFilters = {
     searchTerm,
     selectedCategory,
@@ -95,21 +86,32 @@ export const useStockData = () => {
       setTotalPages(result.totalPages);
       setTotalCount(result.totalCount);
       setPerPage(result.perPage);
-      // Don't update currentPage here as it will be handled by the individual handlers
     }
     return result;
   };
 
+  // Filter operations
   const filterOperations = useStockFilterOperations(
     handleFetchData,
-    setCurrentPage,
+    paginationOperations.setCurrentPage,
     currentFilters
   );
 
-  const paginationOperations = useStockPaginationOperations(
-    handleFetchData,
+  // Pagination operations
+  const stockPaginationOperations = useStockPaginationOperations(
+    fetchStockData,
     currentFilters
   );
+
+  // Page navigation operations
+  const pageNavigation = usePageNavigation(
+    paginationOperations,
+    handleFetchData,
+    stockPaginationOperations
+  );
+
+  // Sort handler
+  const sortHandler = useSortHandler(sortOperations, handleFetchData);
 
   // Initial fetch on component mount
   useEffect(() => {
@@ -121,123 +123,23 @@ export const useStockData = () => {
     initialFetch();
   }, [locationId]);
 
-  const handleNextPage = async () => {
-    if (currentPage < totalPages) { // Add safety check
-      const nextPage = currentPage + 1;
-      console.log(`Moving to next page: ${nextPage}`);
-      setCurrentPage(nextPage); // Update currentPage BEFORE API call
-      await paginationOperations.handlePageChange(nextPage, perPage);
-    }
-  };
-
-  const handlePreviousPage = async () => {
-    if (currentPage > 1) { // Keep the existing safety check
-      const prevPage = currentPage - 1;
-      console.log(`Moving to previous page: ${prevPage}`);
-      setCurrentPage(prevPage); // Update currentPage BEFORE API call
-      await paginationOperations.handlePageChange(prevPage, perPage);
-    }
-  };
-
-  const handlePerPageChange = async (newPerPage: number) => {
-    console.log(`Changing perPage to: ${newPerPage}`);
-    setPerPage(newPerPage);
-    setCurrentPage(1); // Reset to page 1 when changing perPage
-    await paginationOperations.handlePageChange(1, newPerPage);
-  };
-
-  // Enhanced sorting handler to support multiple columns
-  const handleSort = async (column: string) => {
-    console.log(`Sorting by column: ${column}`);
-    
-    // Find if column is already being sorted
-    const existingIndex = sortOptions.findIndex(option => option.column === column);
-    let newSortOptions: SortOption[] = [...sortOptions];
-    
-    if (existingIndex >= 0) {
-      // Toggle direction if column is already sorted
-      const newDirection = sortOptions[existingIndex].direction === "asc" ? "desc" : "asc";
-      
-      // Update existing sort option
-      newSortOptions[existingIndex] = { column, direction: newDirection };
-      
-      // Also update single column state for backward compatibility
-      setSortColumn(column);
-      setSortDirection(newDirection);
-    } else {
-      // Add new sort column
-      newSortOptions = [
-        { column, direction: "asc" },
-        ...sortOptions.slice(0, 2) // Limit to 3 sort columns max
-      ];
-      
-      // Update single column state for backward compatibility
-      setSortColumn(column);
-      setSortDirection("asc");
-    }
-    
-    setSortOptions(newSortOptions);
-    
-    await handleFetchData({
-      sortOptions: newSortOptions,
-      sortColumn: column,
-    });
-  };
-
-  // Clear all sorting
-  const handleClearSort = async () => {
-    setSortOptions([]);
-    setSortColumn(null);
-    setSortDirection("asc");
-    
-    await handleFetchData({});
-  };
-
   return {
     stockItems,
     filteredItems,
     isLoading,
     error,
-    currentPage,
-    totalPages,
-    totalCount,
-    perPage,
-    searchTerm,
-    selectedWarehouse,
-    selectedZone,
-    selectedArea,
-    selectedSubArea,
-    selectedCategory,
-    selectedUoM,
-    sortColumn,
-    sortDirection,
-    sortOptions,
+    ...paginationOperations,
+    ...selectionOperations,
+    ...sortOperations,
     selectedItems,
-    searchDate,
-    expiredDate,
-    // State setters
-    setSearchTerm,
-    setSelectedWarehouse,
-    setSelectedZone,
-    setSelectedArea,
-    setSelectedSubArea,
-    setSelectedCategory,
-    setSelectedUoM,
-    setSortColumn,
-    setSortDirection,
-    setSortOptions,
-    setSearchDate,
-    setExpiredDate,
     // Handlers
-    handleSort,
+    handleSort: sortHandler.handleSort,
     handleClearSort,
     handleSelectAll,
     handleSelectItem,
     handleSearch: filterOperations.handleSearch,
     handleClear: filterOperations.handleClear,
     handleAdvancedSearch: filterOperations.handleAdvancedSearch,
-    handleNextPage,
-    handlePreviousPage,
-    handlePerPageChange,
+    ...pageNavigation,
   };
 };

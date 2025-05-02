@@ -46,6 +46,8 @@ export const useStockFetcher = () => {
           // Format dates according to API expectation - convert to string
           apiParams[key] = format(value, 'MM-dd-yyyy');
         }
+        // Skip arrays like sortOptions as they're handled separately
+        // Do not include any non-string/non-number values in apiParams
       });
       
       // Handle sort parameters - convert sortColumn and sortDirection to API format

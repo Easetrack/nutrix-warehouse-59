@@ -1,5 +1,6 @@
 
 import { useStockPaginationOperations } from "./useStockPaginationOperations";
+import { usePaginationOperations } from "./usePaginationOperations";
 
 export const usePageNavigation = (
   paginationOperations: ReturnType<typeof usePaginationOperations>,

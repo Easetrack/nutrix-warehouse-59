@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { format } from "date-fns"; // Add this import for the date formatting
+import { format } from "date-fns"; // Import format for date formatting
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
@@ -43,7 +43,7 @@ export const useStockFetcher = () => {
         if (typeof value === 'string' || typeof value === 'number') {
           apiParams[key] = value;
         } else if (value instanceof Date) {
-          // Format dates according to API expectation
+          // Format dates according to API expectation - convert to string
           apiParams[key] = format(value, 'MM-dd-yyyy');
         }
       });

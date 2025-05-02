@@ -24,7 +24,7 @@ export interface StockUpdateQueryParams {
   searchByProductId?: string;
   searchByProductName?: string;
   searchByUnit?: string;
-  sortColumn?: string;
+  sortColumn?: string | null;
   sortDirection?: "asc" | "desc";
   // Allow dynamic sort properties like sortByProductId, sortByProductName, etc.
   sortByProductId?: "asc" | "desc";
@@ -36,7 +36,7 @@ export interface StockUpdateQueryParams {
   sortByQty?: "asc" | "desc";
   sortByUnitName?: "asc" | "desc";
   sortByTotalLocation?: "asc" | "desc";
-  [key: string]: string | number | undefined; // Allow dynamic properties for sorting
+  [key: string]: string | number | null | undefined; // Allow dynamic properties for sorting
 }
 
 export interface StockUpdateLotInQueryParams {
@@ -77,7 +77,7 @@ export interface StockUpdateLotInQueryParams {
   combinedLocation: string;
   isExpired: string | number;
   expiredStatus: string;
-  [key: string]: string | number | undefined; // Allow dynamic properties for sorting
+  [key: string]: string | number | null | undefined; // Allow dynamic properties for sorting
 }
 
 export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
@@ -91,4 +91,5 @@ export interface StockUpdateLotQueryParams extends StockUpdateQueryParams {
   sortByQty?: "asc" | "desc";
   sortByTags?: "asc" | "desc";
   sortByNonTags?: "asc" | "desc";
+  searchTerm?: string; // Add searchTerm to the interface to fix the type errors
 }

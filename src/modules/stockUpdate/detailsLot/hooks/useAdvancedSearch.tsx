@@ -1,21 +1,23 @@
 
-import { useState } from "react";
+import { useState, MutableRefObject } from "react";
 import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 
+type SetCurrentPageFn = (page: number) => Promise<void>;
+
 export const useAdvancedSearch = (
-  setCurrentPage: (page: number) => void,
-  lastFilterParams: React.MutableRefObject<Partial<StockUpdateLotQueryParams>>
+  setCurrentPage: SetCurrentPageFn,
+  lastFilterParams: MutableRefObject<Partial<StockUpdateLotQueryParams>>
 ) => {
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
 
   const handleAdvancedSearch = async (
     values: FilterValues,
-    fetchData: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
+    fetchDataFn: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
   ) => {
     setAdvancedFilterValues(values);
-    setCurrentPage(1);
+    await setCurrentPage(1);
 
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
 
@@ -44,7 +46,7 @@ export const useAdvancedSearch = (
 
     if (values.warehouse && values.warehouse !== "All Warehouses") {
       queryParams.stockId = values.warehouse;
-      if (values.warehouse === "All-Warehouse" || values.warehouse === "All Warehouse") {
+      if (values.warehouse === "All-Warehouse") {
         queryParams.stockId = "";
       }
     } else {
@@ -60,7 +62,7 @@ export const useAdvancedSearch = (
     if (values.uom && values.uom !== "All UoM") {
       queryParams.unitId = values.uom;
     }
-    
+
     // Handle date conversion for special date fields
     if (values.date) {
       queryParams.searchDate = format(values.date, 'MM-dd-yyyy');
@@ -73,22 +75,22 @@ export const useAdvancedSearch = (
     // Reset to page 1 with new filters
     queryParams.page = 1;
 
-    await fetchData(queryParams);
+    return fetchDataFn(queryParams);
   };
 
   const handleAdvancedClear = async (
-    fetchData: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
+    fetchDataFn: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
   ) => {
     setAdvancedFilterValues({});
-    setCurrentPage(1);
+    await setCurrentPage(1);
     lastFilterParams.current = {}; // Clear persisted filters
-    await fetchData({});
+    
+    return fetchDataFn({});
   };
 
   return {
     advancedFilterValues,
-    setAdvancedFilterValues,
     handleAdvancedSearch,
-    handleAdvancedClear,
+    handleAdvancedClear
   };
 };

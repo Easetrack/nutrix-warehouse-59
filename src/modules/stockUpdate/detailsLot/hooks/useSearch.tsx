@@ -1,47 +1,40 @@
 
-import { useState } from "react";
+import { useState, MutableRefObject } from "react";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 
+type SetCurrentPageFn = (page: number) => Promise<void>;
+
 export const useSearch = (
-  setCurrentPage: (page: number) => void,
-  lastFilterParams: React.MutableRefObject<Partial<StockUpdateLotQueryParams>>
+  setCurrentPage: SetCurrentPageFn,
+  lastFilterParams: MutableRefObject<Partial<StockUpdateLotQueryParams>>
 ) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
 
   const handleSearch = async (
-    fetchData: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
+    fetchDataFn: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
   ) => {
-    setCurrentPage(1);
-
-    let warehouseParam = selectedWarehouse;
-    if (selectedWarehouse === 'All Warehouses') {
-      warehouseParam = "";
-    }
-
-    await fetchData({
+    await setCurrentPage(1);
+    
+    return fetchDataFn({
       searchTerm: searchTerm,
-      search: searchTerm,
-      stockId: warehouseParam,
       page: 1
     });
   };
 
   const handleClear = async (
-    fetchData: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
+    fetchDataFn: (params: Partial<StockUpdateLotQueryParams>) => Promise<any>
   ) => {
     setSearchTerm("");
-    setCurrentPage(1);
+    await setCurrentPage(1);
     lastFilterParams.current = {}; // Clear persisted filters
-    await fetchData({});
+    
+    return fetchDataFn({});
   };
 
   return {
     searchTerm,
     setSearchTerm,
-    selectedWarehouse,
-    setSelectedWarehouse,
     handleSearch,
-    handleClear,
+    handleClear
   };
 };

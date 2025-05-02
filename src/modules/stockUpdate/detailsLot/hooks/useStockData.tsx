@@ -55,7 +55,14 @@ export const useStockData = () => {
     advancedFilterValues, 
     handleAdvancedSearch: baseAdvancedSearch,
     handleAdvancedClear: baseAdvancedClear 
-  } = useAdvancedSearch(setCurrentPage, lastFilterParams);
+  } = useAdvancedSearch(
+    // Fix: Convert the function to match expected return type
+    (page: number) => { 
+      setCurrentPage(page); 
+      return Promise.resolve(); 
+    }, 
+    lastFilterParams
+  );
 
   // Basic search functionality
   const { 
@@ -63,7 +70,14 @@ export const useStockData = () => {
     setSearchTerm, 
     handleSearch: baseSearch, 
     handleClear: baseClear 
-  } = useSearch(setCurrentPage, lastFilterParams);
+  } = useSearch(
+    // Fix: Convert the function to match expected return type
+    (page: number) => {
+      setCurrentPage(page);
+      return Promise.resolve();
+    }, 
+    lastFilterParams
+  );
 
   // Initialize with the filters
   useEffect(() => {

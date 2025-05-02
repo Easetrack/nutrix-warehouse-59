@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
@@ -29,6 +28,7 @@ export const useStockFetcher = () => {
           return;
         }
         
+        // Handle different types of values
         if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
           processedParams[key] = value;
         } else if (value instanceof Date) {
@@ -38,6 +38,7 @@ export const useStockFetcher = () => {
             processedParams[key] = dateString;
           }
         }
+        // Skip other complex types like arrays
       });
       
       // Handle sortColumn and sortDirection parameters

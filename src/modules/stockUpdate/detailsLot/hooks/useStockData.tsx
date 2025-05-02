@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { useStockAuth } from "@/modules/stockUpdate/hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
 import { useStockUpdateFilters } from "@/modules/stockUpdate/hooks/useStockUpdateFilters";
@@ -16,22 +17,40 @@ export const useStockData = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<unknown>(null);
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});
+  
+  // Ref to store the last applied filter parameters
+  const lastFilterParams = useRef<Partial<StockUpdateLotQueryParams>>({});
 
-  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
+  // The function to convert filter values to API query parameters
+  const prepareQueryParams = (params: Partial<StockUpdateLotQueryParams> = {}): StockUpdateLotQueryParams => {
     const queryParams: StockUpdateLotQueryParams = {
-      ...params,
+      ...lastFilterParams.current, // Include the last saved filter parameters
+      ...params, // Override with any new parameters
       page: params.page || currentPage,
       perPage: params.perPage || perPage,
-      search: params.searchTerm ? String(params.searchTerm) : "",
-      stockId: params.stockId,
-      categoryId: params.searchByCategory,
-      unitId: params.searchByUnit,
-      // Always include current sort settings unless explicitly overridden
+      search: params.searchTerm || lastFilterParams.current.searchTerm || "",
+      stockId: params.stockId || lastFilterParams.current.stockId,
+      categoryId: params.searchByCategory || lastFilterParams.current.searchByCategory,
+      unitId: params.searchByUnit || lastFilterParams.current.searchByUnit,
       sortColumn: params.sortColumn || sortColumn,
       sortDirection: params.sortDirection || sortDirection
     };
+
+    return queryParams;
+  };
+
+  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams> = {}) => {
+    const queryParams = prepareQueryParams(params);
+    
+    // Store current parameters for next navigation
+    if (!params.page) {
+      // Only save filter params when not pagination request
+      lastFilterParams.current = { ...queryParams };
+    }
     
     console.log("Fetching data with params:", queryParams);
+    console.log("Persisted filter params:", lastFilterParams.current);
+    
     await stockItems.fetchStockData(queryParams);
   };
 
@@ -134,9 +153,8 @@ export const useStockData = () => {
       queryParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
 
-    // Always include current sort settings
-    queryParams.sortColumn = sortColumn;
-    queryParams.sortDirection = sortDirection;
+    // Reset to page 1 with new filters
+    queryParams.page = 1;
 
     await handleFetchData(queryParams);
   };
@@ -144,6 +162,7 @@ export const useStockData = () => {
   const handleAdvancedClear = async () => {
     setAdvancedFilterValues({});
     setCurrentPage(1);
+    lastFilterParams.current = {}; // Clear persisted filters
     await handleFetchData({});
   };
 
@@ -159,12 +178,14 @@ export const useStockData = () => {
       searchTerm: filters.searchTerm,
       search: filters.searchTerm,
       stockId: warehouseParam,
+      page: 1
     });
   };
 
   const handleClear = async () => {
     filters.setSearchTerm("");
     setCurrentPage(1);
+    lastFilterParams.current = {}; // Clear persisted filters
     await handleFetchData({});
   };
 

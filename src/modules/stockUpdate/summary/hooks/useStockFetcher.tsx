@@ -43,9 +43,8 @@ export const useStockFetcher = () => {
         if (typeof value === 'string' || typeof value === 'number') {
           apiParams[key] = value;
         } else if (value instanceof Date) {
-          // Format dates to strings before assigning to apiParams
-          const formattedDate: string = format(value, 'MM-dd-yyyy');
-          apiParams[key] = formattedDate;
+          // Format dates to strings before adding to apiParams
+          apiParams[key] = format(value, 'MM-dd-yyyy');
         }
         // Skip arrays and other types - they shouldn't be directly added to apiParams
       });

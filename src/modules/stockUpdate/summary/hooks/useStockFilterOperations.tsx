@@ -19,7 +19,7 @@ export const useStockFilterOperations = (
     searchDate: Date | null;
     expiredDate: Date | null;
     sortColumn: string | null;
-    sortDirection: "asc" | "desc";
+    // sortDirection removed as it's not supported by the API
   }
 ) => {
   const { buildQueryParams } = useQueryBuilder();
@@ -55,7 +55,7 @@ export const useStockFilterOperations = (
       searchDate: null,
       expiredDate: null,
       sortColumn: null,
-      sortDirection: "asc" as "asc" | "desc",
+      // sortDirection: "asc" removed as it's not supported by the API
       currentPage: 1,
       perPage: 10
     };

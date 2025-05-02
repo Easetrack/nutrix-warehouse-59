@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useFilterState } from "./useFilterState";
 import { usePagination } from "./usePagination";
@@ -77,7 +76,6 @@ export const useStockData = () => {
     searchDate,
     expiredDate,
     sortColumn,
-    sortDirection,
     sortOptions
   };
 
@@ -91,7 +89,6 @@ export const useStockData = () => {
     const result = await fetchStockData({
       ...params,
       sortColumn,
-      sortDirection
     });
     
     if (result) {
@@ -184,7 +181,6 @@ export const useStockData = () => {
     await handleFetchData({
       sortOptions: newSortOptions,
       sortColumn: column,
-      sortDirection: newSortOptions.find(opt => opt.column === column)?.direction || "asc"
     });
   };
 

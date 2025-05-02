@@ -24,7 +24,20 @@ export const useStockFetcher = () => {
       // Process each parameter with proper type handling
       Object.entries(params).forEach(([key, value]) => {
         // Skip sortOptions as it's handled separately
-        if (key === "sortOptions" || value === undefined || value === null) {
+        // Skip sortDirection as it's not supported by the API
+        // Skip "All Categories", "All Warehouses", etc. values
+        if (
+          key === "sortOptions" || 
+          key === "sortDirection" || 
+          value === undefined || 
+          value === null ||
+          value === "All Categories" ||
+          value === "All Warehouses" ||
+          value === "All Zones" ||
+          value === "All Areas" ||
+          value === "All SubAreas" ||
+          value === "All UoM"
+        ) {
           return;
         }
         
@@ -42,17 +55,17 @@ export const useStockFetcher = () => {
         // Skip other complex types like SortOption[] arrays
       });
       
-      // Handle sortColumn and sortDirection parameters
-      if (params.sortColumn && params.sortDirection) {
+      // Handle sortColumn parameter - but NOT sortDirection (as it's not supported)
+      if (params.sortColumn) {
         // Create the sortBy parameter dynamically based on the column
         const sortKey = `sortBy${params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1)}`;
-        apiReadyParams[sortKey] = params.sortDirection;
+        // Always use "asc" as default
+        apiReadyParams[sortKey] = "asc";
         
-        // Keep the original sort parameters for reference
+        // Keep the original sort column for reference
         apiReadyParams.sortColumn = params.sortColumn;
-        apiReadyParams.sortDirection = params.sortDirection;
         
-        console.log(`Added sort parameter: ${sortKey}=${params.sortDirection}`);
+        console.log(`Added sort parameter: ${sortKey}=asc`);
       }
       
       // Handle multiple sort options if present
@@ -60,7 +73,7 @@ export const useStockFetcher = () => {
         params.sortOptions.forEach((sortOption) => {
           if (sortOption && typeof sortOption === 'object' && 'column' in sortOption && 'direction' in sortOption) {
             const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
-            // Ensure direction is always a string
+            // Use the direction from sortOption
             apiReadyParams[sortKey] = sortOption.direction;
             console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
           }

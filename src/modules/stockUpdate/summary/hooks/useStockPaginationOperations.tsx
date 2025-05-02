@@ -16,7 +16,7 @@ export const useStockPaginationOperations = (
     searchDate: Date | null;
     expiredDate: Date | null;
     sortColumn: string | null;
-    sortDirection: "asc" | "desc";
+    // sortDirection removed as it's not supported by the API
   }
 ) => {
   const { buildQueryParams } = useQueryBuilder();

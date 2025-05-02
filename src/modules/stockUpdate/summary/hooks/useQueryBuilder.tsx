@@ -1,63 +1,76 @@
 
-import { StockQueryParams, convertToStockUpdateQueryParams } from "@/modules/stockUpdate/summary/types/types";
 import { format } from "date-fns";
+import { StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
 
 export const useQueryBuilder = () => {
-  const buildQueryParams = (filters: Partial<StockQueryParams>): StockQueryParams => {
-    const queryParams: StockQueryParams = {
-      currentPage: filters.currentPage || 1,
-      perPage: filters.perPage || 10,
-      searchTerm: filters.searchTerm,
-      selectedCategory: filters.selectedCategory,
-      selectedUoM: filters.selectedUoM,
-      selectedWarehouse: filters.selectedWarehouse,
-      selectedZone: filters.selectedZone,
-      selectedArea: filters.selectedArea,
-      selectedSubArea: filters.selectedSubArea,
-      sortColumn: filters.sortColumn,
-      sortDirection: filters.sortDirection,
+  const buildQueryParams = ({
+    currentPage,
+    perPage,
+    searchTerm,
+    selectedCategory,
+    selectedUoM,
+    selectedWarehouse,
+    selectedZone,
+    selectedArea,
+    selectedSubArea,
+    searchDate,
+    expiredDate,
+    sortColumn,
+    sortDirection,
+  }: any): StockQueryParams => {
+    const params: StockQueryParams = {
+      currentPage,
+      perPage,
     };
 
-    // Handle date conversion for special date fields
-    if (filters.searchDate) {
-      // Check if it's already a string
-      if (typeof filters.searchDate === 'string') {
-        queryParams.searchDate = filters.searchDate;
-      } else if (filters.searchDate) {
-        // Use format function to convert Date to string
-        queryParams.searchDate = format(filters.searchDate, 'MM-dd-yyyy');
-      }
-    } else {
-      queryParams.searchDate = null;
+    if (searchTerm?.trim()) {
+      params.searchTerm = searchTerm.trim();
+      params.searchByProductName = searchTerm.trim();
+      params.searchByBarcode = searchTerm.trim();
+      params.searchByProductId = searchTerm.trim();
     }
 
-    if (filters.expiredDate) {
-      // Check if it's already a string
-      if (typeof filters.expiredDate === 'string') {
-        queryParams.expiredDate = filters.expiredDate;
-      } else if (filters.expiredDate) {
-        // Use format function to convert Date to string
-        queryParams.expiredDate = format(filters.expiredDate, 'MM-dd-yyyy');
-      }
-    } else {
-      queryParams.expiredDate = null;
+    // Only add category if it's not "All Categories"
+    if (selectedCategory && selectedCategory !== "All Categories") {
+      params.categoryId = selectedCategory;
     }
 
-    // Add any additional dynamic properties from the filters
-    Object.entries(filters).forEach(([key, value]) => {
-      if (!queryParams.hasOwnProperty(key) && value !== undefined) {
-        // Only add string or number values to avoid type errors
-        if (typeof value === 'string' || typeof value === 'number' || value === null) {
-          (queryParams as any)[key] = value;
-        }
-      }
-    });
+    // Only add UoM if it's not "All UoM"
+    if (selectedUoM && selectedUoM !== "All UoM") {
+      params.unitId = selectedUoM;
+    }
 
-    console.log("Built query params:", queryParams);
-    return queryParams;
+    // Only add zone if it's not "All Zones"
+    if (selectedZone && selectedZone !== "All Zones") {
+      params.zoneId = selectedZone;
+    }
+
+    // Only add area if it's not "All Areas"
+    if (selectedArea && selectedArea !== "All Areas") {
+      params.areaId = selectedArea;
+    }
+
+    // Only add subArea if it's not "All SubAreas"
+    if (selectedSubArea && selectedSubArea !== "All SubAreas") {
+      params.subAreaId = selectedSubArea;
+    }
+
+    if (searchDate) {
+      params.searchDate = format(searchDate, 'MM-dd-yyyy');
+    }
+
+    if (expiredDate) {
+      params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
+    }
+
+    // Handle sortColumn without sortDirection (as it's not supported)
+    if (sortColumn) {
+      const sortParam = `sortBy${sortColumn[0]?.toUpperCase()}${sortColumn?.slice(1)}`;
+      params[sortParam] = "asc"; // Default to "asc" if no direction provided
+    }
+
+    return params;
   };
 
-  return {
-    buildQueryParams,
-  };
+  return { buildQueryParams };
 };

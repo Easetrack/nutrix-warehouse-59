@@ -1,6 +1,4 @@
 
-
-
 // Add or modify these types for sorting
 
 export interface SortOption {
@@ -34,7 +32,7 @@ export interface StockQueryParams {
   searchByProductName?: string;
   searchByUnit?: string;
   sortColumn?: string;
-  sortDirection?: "asc" | "desc";
+  // sortDirection is removed as it's not supported by the API
   sortOptions?: SortOption[]; // Added to support multiple sort options
   [key: string]: string | number | Date | SortOption[] | undefined | null; // Updated to include all possible types
 }
@@ -44,6 +42,16 @@ export const convertToStockUpdateQueryParams = (params: Record<string, any>) => 
   
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== '') {
+      // Skip "All Categories", "All Warehouses", etc.
+      if (value === "All Categories" || 
+          value === "All Warehouses" || 
+          value === "All Zones" || 
+          value === "All Areas" || 
+          value === "All SubAreas" || 
+          value === "All UoM") {
+        return;
+      }
+      
       // Handle Date objects
       if (value instanceof Date) {
         queryParams[key] = formatDateToString(value) || '';
@@ -75,4 +83,3 @@ export type AdvancedSearchValues = {
   searchDate?: string | Date;
   expiredDate?: string | Date;
 };
-

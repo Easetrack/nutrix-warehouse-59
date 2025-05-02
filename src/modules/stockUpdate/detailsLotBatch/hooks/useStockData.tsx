@@ -29,9 +29,9 @@ export const useStockData = () => {
       page: params.page || currentPage,
       perPage: params.perPage || perPage,
       search: params.searchTerm || lastFilterParams.current.searchTerm || "",
-      stockId: params.stockId || lastFilterParams.current.stockId,
-      categoryId: params.searchByCategory || lastFilterParams.current.searchByCategory,
-      unitId: params.searchByUnit || lastFilterParams.current.searchByUnit,
+      stockId: params.stockId || lastFilterParams.current.stockId || "",
+      categoryId: params.searchByCategory || lastFilterParams.current.searchByCategory || "",
+      unitId: params.searchByUnit || lastFilterParams.current.searchByUnit || "",
       sortColumn: params.sortColumn || sortColumn,
       sortDirection: params.sortDirection || sortDirection
     };
@@ -39,7 +39,7 @@ export const useStockData = () => {
     return queryParams;
   };
 
-  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams>) => {
+  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams> = {}) => {
     const queryParams = prepareQueryParams(params);
     
     // Store current parameters for next navigation

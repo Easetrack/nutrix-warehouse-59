@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
@@ -19,39 +18,39 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Create a new object for processed parameters with a more flexible type annotation
-      // This allows us to store different types temporarily during processing
-      const processedParams: Record<string, string | number | null | undefined> = {};
+      // Create a new object for directly sending to API
+      const apiReadyParams: Record<string, string | number> = {};
       
-      // Process each parameter
+      // Process each parameter with proper type handling
       Object.entries(params).forEach(([key, value]) => {
-        if (key === "sortOptions") {
-          // Skip sortOptions as it's handled separately
+        // Skip sortOptions as it's handled separately
+        if (key === "sortOptions" || value === undefined || value === null) {
           return;
         }
         
         // Handle different types of values
-        if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
-          processedParams[key] = value;
+        if (typeof value === 'string' || typeof value === 'number') {
+          // String and numbers can be assigned directly
+          apiReadyParams[key] = value;
         } else if (value instanceof Date) {
-          // Convert Date objects to string using the helper function
+          // Convert Date objects to string
           const dateString = formatDateToString(value);
           if (dateString) {
-            processedParams[key] = dateString;
+            apiReadyParams[key] = dateString;
           }
         }
-        // Skip other complex types like arrays
+        // Skip other complex types like SortOption[] arrays
       });
       
       // Handle sortColumn and sortDirection parameters
       if (params.sortColumn && params.sortDirection) {
         // Create the sortBy parameter dynamically based on the column
         const sortKey = `sortBy${params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1)}`;
-        processedParams[sortKey] = params.sortDirection;
+        apiReadyParams[sortKey] = params.sortDirection;
         
         // Keep the original sort parameters for reference
-        processedParams.sortColumn = params.sortColumn;
-        processedParams.sortDirection = params.sortDirection;
+        apiReadyParams.sortColumn = params.sortColumn;
+        apiReadyParams.sortDirection = params.sortDirection;
         
         console.log(`Added sort parameter: ${sortKey}=${params.sortDirection}`);
       }
@@ -62,14 +61,14 @@ export const useStockFetcher = () => {
           if (sortOption && typeof sortOption === 'object' && 'column' in sortOption && 'direction' in sortOption) {
             const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
             // Ensure direction is always a string
-            processedParams[sortKey] = sortOption.direction;
+            apiReadyParams[sortKey] = sortOption.direction;
             console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
           }
         });
       }
       
       // Convert our params to the format the API expects
-      const apiParams = convertToStockUpdateQueryParams(processedParams);
+      const apiParams = convertToStockUpdateQueryParams(apiReadyParams);
       console.log("Converted API params:", apiParams);
       
       const data = await fetchStockUpdateSummary(apiParams);

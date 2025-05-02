@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { format } from "date-fns"; // Add this import for the date formatting
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";

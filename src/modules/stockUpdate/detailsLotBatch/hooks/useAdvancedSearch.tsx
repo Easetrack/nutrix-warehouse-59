@@ -4,11 +4,13 @@ import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 
+// Define type for setCurrentPage function
+type SetCurrentPageFn = (page: number) => void;
 // Define the fetch function type to match handleFetchData
 type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
 
 export const useAdvancedSearch = (
-  setCurrentPage: (page: number) => void,
+  setCurrentPage: SetCurrentPageFn,
   lastFilterParams: MutableRefObject<Partial<StockUpdateLotQueryParams>>
 ) => {
   const [advancedFilterValues, setAdvancedFilterValues] = useState<FilterValues>({});

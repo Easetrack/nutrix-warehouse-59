@@ -29,6 +29,7 @@ export const useStockData = () => {
       page: params.page || currentPage,
       perPage: params.perPage || perPage,
       search: params.searchTerm || lastFilterParams.current.searchTerm || "",
+      // Ensure these are always strings by explicitly converting them
       stockId: String(params.stockId || lastFilterParams.current.stockId || ""),
       categoryId: String(params.searchByCategory || lastFilterParams.current.searchByCategory || ""),
       unitId: String(params.searchByUnit || lastFilterParams.current.searchByUnit || ""),

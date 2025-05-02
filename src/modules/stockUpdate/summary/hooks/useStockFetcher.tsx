@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
@@ -24,7 +25,6 @@ export const useStockFetcher = () => {
       // Process each parameter with proper type handling
       Object.entries(params).forEach(([key, value]) => {
         // Skip sortOptions as it's handled separately
-        // Skip sortDirection as it's not supported by the API
         // Skip "All Categories", "All Warehouses", etc. values
         if (
           key === "sortOptions" || 
@@ -52,7 +52,7 @@ export const useStockFetcher = () => {
             apiReadyParams[key] = dateString;
           }
         }
-        // Skip other complex types like SortOption[] arrays
+        // Skip other complex types
       });
       
       // Handle sortColumn parameter - but NOT sortDirection (as it's not supported)
@@ -61,9 +61,6 @@ export const useStockFetcher = () => {
         const sortKey = `sortBy${params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1)}`;
         // Always use "asc" as default
         apiReadyParams[sortKey] = "asc";
-        
-        // Keep the original sort column for reference
-        apiReadyParams.sortColumn = params.sortColumn;
         
         console.log(`Added sort parameter: ${sortKey}=asc`);
       }
@@ -80,11 +77,9 @@ export const useStockFetcher = () => {
         });
       }
       
-      // Convert our params to the format the API expects
-      const apiParams = convertToStockUpdateQueryParams(apiReadyParams);
-      console.log("Converted API params:", apiParams);
+      console.log("Converted API params:", apiReadyParams);
       
-      const data = await fetchStockUpdateSummary(apiParams);
+      const data = await fetchStockUpdateSummary(apiReadyParams);
       const items = data.items || [];
       setStockItems(items);
       setFilteredItems(items);

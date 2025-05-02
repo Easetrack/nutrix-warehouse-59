@@ -9,12 +9,60 @@ export const useSelectionOperations = () => {
     handleSelectItem
   } = useItemSelection();
 
-  const filterState = useFilterState();
+  // Get all filter state properties
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedWarehouse,
+    setSelectedWarehouse,
+    selectedZone,
+    setSelectedZone,
+    selectedArea,
+    setSelectedArea,
+    selectedSubArea,
+    setSelectedSubArea,
+    selectedCategory,
+    setSelectedCategory,
+    selectedUoM,
+    setSelectedUoM,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate
+  } = useFilterState();
 
   return {
+    // Selection operations
     selectedItems,
     handleSelectAll,
     handleSelectItem,
-    ...filterState
+    
+    // Filter state
+    searchTerm,
+    setSearchTerm,
+    selectedWarehouse,
+    setSelectedWarehouse,
+    selectedZone,
+    setSelectedZone,
+    selectedArea,
+    setSelectedArea,
+    selectedSubArea,
+    setSelectedSubArea,
+    selectedCategory,
+    setSelectedCategory,
+    selectedUoM,
+    setSelectedUoM,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    searchDate,
+    setSearchDate,
+    expiredDate,
+    setExpiredDate
   };
 };

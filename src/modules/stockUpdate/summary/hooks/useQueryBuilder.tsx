@@ -16,7 +16,6 @@ export const useQueryBuilder = () => {
     searchDate,
     expiredDate,
     sortColumn,
-    sortDirection,
   }: any): StockQueryParams => {
     const params: StockQueryParams = {
       currentPage,
@@ -65,7 +64,7 @@ export const useQueryBuilder = () => {
 
     // Handle sortColumn without sortDirection (as it's not supported)
     if (sortColumn) {
-      const sortParam = `sortBy${sortColumn[0]?.toUpperCase()}${sortColumn?.slice(1)}`;
+      const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
       params[sortParam] = "asc"; // Default to "asc" if no direction provided
     }
 

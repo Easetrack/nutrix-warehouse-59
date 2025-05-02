@@ -19,7 +19,6 @@ export const useStockFilterOperations = (
     searchDate: Date | null;
     expiredDate: Date | null;
     sortColumn: string | null;
-    // sortDirection removed as it's not supported by the API
   }
 ) => {
   const { buildQueryParams } = useQueryBuilder();
@@ -27,63 +26,131 @@ export const useStockFilterOperations = (
   const handleSearch = async () => {
     setCurrentPage(1);
     
-    // Create a copy of filters with dates converted to strings
-    const processedFilters = {
-      ...currentFilters,
-      currentPage: 1,
-      perPage: 10,
-      // Convert dates to strings using format from date-fns
-      searchDate: currentFilters.searchDate ? format(currentFilters.searchDate, 'MM-dd-yyyy') : null,
-      expiredDate: currentFilters.expiredDate ? format(currentFilters.expiredDate, 'MM-dd-yyyy') : null
-    };
-    
-    const params = buildQueryParams(processedFilters);
-    return await fetchStockData(params);
-  };
-
-  const handleClear = async () => {
-    setCurrentPage(1);
-    const clearedFilters = {
-      ...currentFilters,
-      searchTerm: "",
-      selectedCategory: "All Categories",
-      selectedUoM: "All UoM",
-      selectedWarehouse: "All Warehouses",
-      selectedZone: "All Zones",
-      selectedArea: "All Areas",
-      selectedSubArea: "All SubAreas",
-      searchDate: null,
-      expiredDate: null,
-      sortColumn: null,
-      // sortDirection: "asc" removed as it's not supported by the API
+    // Create API compatible params without "All" values
+    const apiParams: StockQueryParams = {
       currentPage: 1,
       perPage: 10
     };
     
-    const params = buildQueryParams(clearedFilters);
+    // Only add non-empty values and exclude "All" values
+    if (currentFilters.searchTerm) {
+      apiParams.searchTerm = currentFilters.searchTerm;
+      // Add additional search filters
+      apiParams.searchByProductName = currentFilters.searchTerm;
+      apiParams.searchByBarcode = currentFilters.searchTerm;
+      apiParams.searchByProductId = currentFilters.searchTerm;
+    }
+    
+    // Only add category if it's not "All Categories"
+    if (currentFilters.selectedCategory && currentFilters.selectedCategory !== "All Categories") {
+      apiParams.categoryId = currentFilters.selectedCategory;
+    }
+    
+    // Only add UoM if it's not "All UoM"
+    if (currentFilters.selectedUoM && currentFilters.selectedUoM !== "All UoM") {
+      apiParams.unitId = currentFilters.selectedUoM;
+    }
+    
+    // Only add zone if it's not "All Zones"
+    if (currentFilters.selectedZone && currentFilters.selectedZone !== "All Zones") {
+      apiParams.zoneId = currentFilters.selectedZone;
+    }
+    
+    // Only add area if it's not "All Areas"
+    if (currentFilters.selectedArea && currentFilters.selectedArea !== "All Areas") {
+      apiParams.areaId = currentFilters.selectedArea;
+    }
+    
+    // Only add subArea if it's not "All SubAreas"
+    if (currentFilters.selectedSubArea && currentFilters.selectedSubArea !== "All SubAreas") {
+      apiParams.subAreaId = currentFilters.selectedSubArea;
+    }
+    
+    // Add date parameters if available
+    if (currentFilters.searchDate) {
+      apiParams.searchDate = format(currentFilters.searchDate, 'MM-dd-yyyy');
+    }
+    
+    if (currentFilters.expiredDate) {
+      apiParams.expiredDate = format(currentFilters.expiredDate, 'MM-dd-yyyy');
+    }
+    
+    // Handle sort column without sortDirection (as it's not supported by the API)
+    if (currentFilters.sortColumn) {
+      // Create the sortBy parameter based on the column
+      const sortParam = `sortBy${currentFilters.sortColumn.charAt(0).toUpperCase() + currentFilters.sortColumn.slice(1)}`;
+      apiParams[sortParam] = "asc"; // Default to "asc"
+    }
+    
+    console.log("handleSearch sending params:", apiParams);
+    return await fetchStockData(apiParams);
+  };
+
+  const handleClear = async () => {
+    setCurrentPage(1);
+    // Send minimal params for clearing filters
+    const params = {
+      currentPage: 1,
+      perPage: 10
+    };
+    
+    console.log("handleClear sending params:", params);
     return await fetchStockData(params);
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
     setCurrentPage(1);
     
-    // Process date fields to string format for API
-    const processedValues = {
-      ...values,
+    // Create API compatible params
+    const advancedParams: StockQueryParams = {
       currentPage: 1,
-      perPage: 10,
-      // Convert dates to strings using format
-      date: values.date ? format(values.date, 'MM-dd-yyyy') : null,
-      expiredDate: values.expiredDate ? format(values.expiredDate, 'MM-dd-yyyy') : null
+      perPage: 10
     };
     
-    // Create a combined params object that includes current page and perPage
-    const advancedParams = buildQueryParams({
-      currentPage: 1,
-      perPage: 10,
-      ...processedValues
-    });
+    // Process search term
+    if (values.searchTerm) {
+      advancedParams.searchTerm = values.searchTerm;
+      advancedParams.searchByProductName = values.searchTerm;
+      advancedParams.searchByBarcode = values.searchTerm;
+      advancedParams.searchByProductId = values.searchTerm;
+    }
     
+    // Process warehouse/location filters - skip "All X" values
+    if (values.warehouse && values.warehouse !== "All Warehouses") {
+      advancedParams.warehouse = values.warehouse;
+    }
+    
+    if (values.zone && values.zone !== "All Zones") {
+      advancedParams.zoneId = values.zone;
+    }
+    
+    if (values.area && values.area !== "All Areas") {
+      advancedParams.areaId = values.area;
+    }
+    
+    if (values.subArea && values.subArea !== "All SubAreas") {
+      advancedParams.subAreaId = values.subArea;
+    }
+    
+    // Process product filters
+    if (values.category && values.category !== "All Categories") {
+      advancedParams.categoryId = values.category;
+    }
+    
+    if (values.uom && values.uom !== "All UoM") {
+      advancedParams.unitId = values.uom;
+    }
+    
+    // Process dates
+    if (values.date) {
+      advancedParams.searchDate = format(values.date, 'MM-dd-yyyy');
+    }
+    
+    if (values.expiredDate) {
+      advancedParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
+    }
+    
+    console.log("Advanced search sending params:", advancedParams);
     return await fetchStockData(advancedParams);
   };
 

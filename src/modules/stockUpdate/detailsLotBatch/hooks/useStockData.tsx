@@ -1,21 +1,18 @@
 
 import { useEffect } from "react";
-import { useStockAuth } from "@/modules/stockUpdate/hooks/useStockAuth";
-import { useStockItems } from "./useStockItems";
 import { useStockUpdateFilters } from "@/modules/stockUpdate/hooks/useStockUpdateFilters";
 import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { usePagination } from "./usePagination";
 import { useSortingState } from "./useSortingState";
 import { useDetailState } from "./useDetailState";
-import { useQueryParams } from "./useQueryParams";
 import { useSearch } from "./useSearch";
 import { useAdvancedSearch } from "./useAdvancedSearch";
+import { useFetchHandler } from "./useFetchHandler";
 
 export const useStockData = () => {
-  // Auth and base stock items
-  const { locationId } = useStockAuth();
-  const stockItems = useStockItems(locationId);
+  // Get fetch handler that includes stock items fetching logic
+  const fetchHandler = useFetchHandler();
   
   // State management hooks
   const { sortColumn, sortDirection, handleSort: baseSortHandler } = useSortingState();
@@ -28,23 +25,12 @@ export const useStockData = () => {
     handlePreviousPage: basePrevPage, 
     handlePerPageChange: basePerPageChange 
   } = usePagination();
-  const { lastFilterParams, prepareQueryParams } = useQueryParams(currentPage, perPage, sortColumn, sortDirection);
   const { isDetailOpen, setIsDetailOpen, selectedItem, setSelectedItem } = useDetailState();
+  const { lastFilterParams } = fetchHandler;
 
-  // Handle data fetching with the query parameters
-  const handleFetchData = async (params: Partial<StockUpdateLotQueryParams> = {}) => {
-    const queryParams = prepareQueryParams(params);
-    
-    // Store current parameters for next navigation
-    if (!params.page) {
-      // Only save filter params when not pagination request
-      lastFilterParams.current = { ...queryParams };
-    }
-    
-    console.log("Fetching data with params:", queryParams);
-    console.log("Persisted filter params:", lastFilterParams.current);
-    
-    return await stockItems.fetchStockData(queryParams);
+  // Simplified handler that uses the fetch handler
+  const handleFetchData = (params: Partial<StockUpdateLotQueryParams> = {}) => {
+    return fetchHandler.handleFetchData(params, currentPage, perPage, sortColumn, sortDirection);
   };
 
   // Get search filters
@@ -73,13 +59,10 @@ export const useStockData = () => {
 
   // Initialize with the filters
   useEffect(() => {
-    const initialFetch = async () => {
-      if (locationId) {
-        await handleFetchData({});
-      }
-    };
-    initialFetch();
-  }, [locationId]);
+    if (fetchHandler.locationId) {
+      handleFetchData({});
+    }
+  }, [fetchHandler.locationId]);
 
   // Wrapper functions that use the main handleFetchData function
   const handleSort = async (column: string) => {
@@ -115,7 +98,7 @@ export const useStockData = () => {
   };
 
   return {
-    ...stockItems,
+    ...fetchHandler,
     ...filters,
     sortColumn,
     sortDirection,

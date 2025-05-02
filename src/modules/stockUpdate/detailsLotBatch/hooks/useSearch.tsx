@@ -3,7 +3,7 @@ import { useState, MutableRefObject } from "react";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 
 // Define the fetch function type to match handleFetchData
-type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
+export type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
 
 export const useSearch = (
   setCurrentPage: (page: number) => void,

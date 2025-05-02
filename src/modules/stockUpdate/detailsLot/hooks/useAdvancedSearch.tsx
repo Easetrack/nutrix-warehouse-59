@@ -5,7 +5,7 @@ import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
 import { format } from "date-fns";
 
 // Update the type to accept function that returns any Promise, not just Promise<void>
-type SetCurrentPageFn = (page: number) => Promise<void>;
+type SetCurrentPageFn = (page: number) => void;
 // Define the fetch function type to match handleFetchData in useStockData
 type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
 
@@ -20,7 +20,7 @@ export const useAdvancedSearch = (
     fetchDataFn: FetchDataFn
   ) => {
     setAdvancedFilterValues(values);
-    await setCurrentPage(1);
+    setCurrentPage(1);
 
     const queryParams: Partial<StockUpdateLotQueryParams> = {};
 
@@ -83,7 +83,7 @@ export const useAdvancedSearch = (
 
   const handleAdvancedClear = async (fetchDataFn: FetchDataFn) => {
     setAdvancedFilterValues({});
-    await setCurrentPage(1);
+    setCurrentPage(1);
     lastFilterParams.current = {}; // Clear persisted filters
     
     return fetchDataFn({});

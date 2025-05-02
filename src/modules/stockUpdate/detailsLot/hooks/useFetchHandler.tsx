@@ -59,6 +59,7 @@ export const useFetchHandler = () => {
   return {
     ...stockItems,
     handleFetchData,
-    lastFilterParams
+    lastFilterParams,
+    locationId // explicitly include locationId in the return object
   };
 };

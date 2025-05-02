@@ -42,7 +42,7 @@ export const useStockData = () => {
     handleAdvancedSearch: baseAdvancedSearch,
     handleAdvancedClear: baseAdvancedClear 
   } = useAdvancedSearch(
-    (page) => setCurrentPage(page), 
+    setCurrentPage, 
     lastFilterParams
   );
 
@@ -53,7 +53,7 @@ export const useStockData = () => {
     handleSearch: baseSearch, 
     handleClear: baseClear 
   } = useSearch(
-    (page) => setCurrentPage(page), 
+    setCurrentPage, 
     lastFilterParams
   );
 

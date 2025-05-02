@@ -31,7 +31,7 @@ export const useStockFetcher = () => {
       Object.entries(params).forEach(([key, value]) => {
         // Skip page/perPage (already handled) and special parameters
         if (key === 'page' || key === 'perPage' || key === 'currentPage' || 
-            key === 'sortOptions' || key === 'sortDirection' || 
+            key === 'sortOptions' || key === 'sortColumn' || key === 'sortDirection' || 
             value === undefined || value === null ||
             value === "All Categories" || value === "All UoM" ||
             value === "All Warehouses" || value === "All Zones" || 
@@ -47,6 +47,13 @@ export const useStockFetcher = () => {
           apiParams[key] = format(value, 'MM-dd-yyyy');
         }
       });
+      
+      // Handle sort parameters - convert sortColumn and sortDirection to API format
+      if (params.sortColumn && params.sortDirection) {
+        // Format: sortByColumnName=direction
+        const columnName = params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1);
+        apiParams[`sortBy${columnName}`] = params.sortDirection;
+      }
       
       console.log("API ready parameters:", apiParams);
       

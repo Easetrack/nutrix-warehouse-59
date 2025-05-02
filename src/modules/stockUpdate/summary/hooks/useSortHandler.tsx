@@ -26,35 +26,37 @@ export const useSortHandler = (
     // Find if column is already being sorted
     const existingIndex = sortOptions.findIndex(option => option.column === column);
     let newSortOptions: SortOption[] = [...sortOptions];
+    let newDirection: "asc" | "desc";
     
     if (existingIndex >= 0) {
       // Toggle direction if column is already sorted
-      const newDirection = sortOptions[existingIndex].direction === "asc" ? "desc" : "asc";
+      newDirection = sortOptions[existingIndex].direction === "asc" ? "desc" : "asc";
       
       // Update existing sort option
       newSortOptions[existingIndex] = { column, direction: newDirection };
-      
-      // Also update single column state for backward compatibility
-      setSortColumn(column);
-      setSortDirection(newDirection);
     } else {
       // Add new sort column at the beginning (primary sort)
+      newDirection = "asc";
       newSortOptions = [
-        { column, direction: "asc" },
+        { column, direction: newDirection },
         ...sortOptions.slice(0, 2) // Limit to 3 sort columns max
       ];
-      
-      // Update single column state for backward compatibility
-      setSortColumn(column);
-      setSortDirection("asc");
     }
     
     setSortOptions(newSortOptions);
     
-    await handleFetchData({
-      sortOptions: newSortOptions,
+    // Also update single column state for backward compatibility
+    setSortColumn(column);
+    setSortDirection(newDirection);
+    
+    // Prepare the API parameters for sorting
+    const sortParams: Record<string, any> = {
       sortColumn: column,
-    });
+      sortDirection: newDirection
+    };
+    
+    // Execute data fetch with new sort parameters
+    await handleFetchData(sortParams);
   };
 
   return {

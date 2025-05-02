@@ -16,6 +16,7 @@ export const useQueryBuilder = () => {
     searchDate,
     expiredDate,
     sortColumn,
+    sortDirection,
   }: any): StockQueryParams => {
     // Always include page and perPage (required parameters)
     const params: StockQueryParams = {
@@ -65,11 +66,10 @@ export const useQueryBuilder = () => {
       params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
     }
 
-    // Handle sorting parameters dynamically
-    // Note: API expects parameters like sortByCategory, sortByProductId, etc.
+    // Handle sorting parameters in API format (sortByColumnName=direction)
     if (sortColumn) {
-      const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
-      params[sortParam] = "asc"; // Default to "asc" if no direction provided
+      const sortParamKey = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
+      params[sortParamKey] = sortDirection || "asc";
     }
 
     return params;

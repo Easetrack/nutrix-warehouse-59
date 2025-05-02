@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useStockAuth } from "@/modules/stockUpdate/hooks/useStockAuth";
 import { useStockItems } from "./useStockItems";
@@ -56,7 +55,6 @@ export const useStockData = () => {
     handleAdvancedSearch: baseAdvancedSearch,
     handleAdvancedClear: baseAdvancedClear 
   } = useAdvancedSearch(
-    // Fix: Use async function that returns void to match expected type
     async (page: number) => { 
       setCurrentPage(page); 
     }, 
@@ -70,7 +68,6 @@ export const useStockData = () => {
     handleSearch: baseSearch, 
     handleClear: baseClear 
   } = useSearch(
-    // Fix: Use async function that returns void to match expected type
     async (page: number) => {
       setCurrentPage(page);
     }, 

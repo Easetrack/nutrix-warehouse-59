@@ -29,16 +29,19 @@ export const TableRows: React.FC<TableRowsProps> = ({
     );
   }
 
+  // Calculate the starting index for the current page
+  const startIndex = (currentPage - 1) * perPage + 1;
+
   return (
     <TableBody>
       {filteredItems.map((item, index) => {
         // Calculate the actual index number based on the current page and items per page
-        const displayIndex = (currentPage - 1) * perPage + index + 1;
+        const displayIndex = startIndex + index;
         
         return (
           <TableRow
-            key={`${item.productId}-${item.lotNumber}-${index}`}
-            className="cursor-pointer hover:bg-muted/50"
+            key={`${item.productId}-${item.barcode}-${item.unitId}`}
+            className="cursor-pointer"
             onClick={() => handleViewDetail(item)}
           >
             <TableCell>{displayIndex}</TableCell>
@@ -54,11 +57,13 @@ export const TableRows: React.FC<TableRowsProps> = ({
             </TableCell>
             <TableCell>{item.productId}</TableCell>
             <TableCell>{item.productName}</TableCell>
-            <TableCell>{item.lotMaster}</TableCell>
+            <TableCell>{item.lotNumber}</TableCell>
             <TableCell>{item.barcode}</TableCell>
             <TableCell>{item.categoryName}</TableCell>
             <TableCell>{item.typeName}</TableCell>
             <TableCell>{item.subTypeName}</TableCell>
+            <TableCell>{item.tagQty.toLocaleString()}</TableCell>
+            <TableCell>{item.nonTagQty.toLocaleString()}</TableCell>
             <TableCell>{item.qty.toLocaleString()}</TableCell>
             <TableCell>{item.unitName}</TableCell>
             <TableCell>{item.warehouse}</TableCell>
@@ -74,4 +79,4 @@ export const TableRows: React.FC<TableRowsProps> = ({
       })}
     </TableBody>
   );
-};
+}

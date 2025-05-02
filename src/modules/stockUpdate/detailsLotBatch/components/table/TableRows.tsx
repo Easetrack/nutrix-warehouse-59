@@ -29,11 +29,14 @@ export const TableRows: React.FC<TableRowsProps> = ({
     );
   }
 
+  // Calculate the starting index for the current page
+  const startIndex = (currentPage - 1) * perPage + 1;
+
   return (
     <TableBody>
       {filteredItems.map((item, index) => {
         // Calculate the actual index number based on the current page and items per page
-        const displayIndex = (currentPage - 1) * perPage + index + 1;
+        const displayIndex = startIndex + index;
         
         return (
           <TableRow

@@ -39,6 +39,9 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
     );
   }
 
+  // Calculate the starting index for the current page
+  const startIndex = (currentPage - 1) * perPage + 1;
+
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -48,27 +51,57 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
             <TableHead className="w-[80px]">{t('stock.table.image')}</TableHead>
             <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("productId")}>
               {t('stock.table.code')}
-              <SortIndicator active={sortColumn === "productId"} direction={sortDirection} />
+              <SortIndicator 
+                column="productId"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[180px] cursor-pointer" onClick={() => onSort("productName")}>
               {t('stock.table.name')}
-              <SortIndicator active={sortColumn === "productName"} direction={sortDirection} />
+              <SortIndicator 
+                column="productName"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("categoryName")}>
               {t('stock.table.category')}
-              <SortIndicator active={sortColumn === "categoryName"} direction={sortDirection} />
+              <SortIndicator 
+                column="categoryName"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("typeName")}>
               {t('stock.table.group')}
-              <SortIndicator active={sortColumn === "typeName"} direction={sortDirection} />
+              <SortIndicator 
+                column="typeName"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("subTypeName")}>
               {t('stock.table.subGroup')}
-              <SortIndicator active={sortColumn === "subTypeName"} direction={sortDirection} />
+              <SortIndicator 
+                column="subTypeName"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[80px] cursor-pointer text-right" onClick={() => onSort("qty")}>
               {t('stock.table.qty')}
-              <SortIndicator active={sortColumn === "qty"} direction={sortDirection} />
+              <SortIndicator 
+                column="qty"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                sortOptions={[]} 
+              />
             </TableHead>
             <TableHead className="min-w-[80px]">{t('stock.table.unit')}</TableHead>
             <TableHead className="min-w-[100px]">{t('stock.table.lotCount')}</TableHead>
@@ -77,7 +110,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
         <TableBody>
           {filteredItems.map((item, index) => {
             // Calculate the actual index number based on the current page and items per page
-            const displayIndex = (currentPage - 1) * perPage + index + 1;
+            const displayIndex = startIndex + index;
             
             return (
               <TableRow

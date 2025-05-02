@@ -44,8 +44,7 @@ export const useStockFetcher = () => {
           apiParams[key] = value;
         } else if (value instanceof Date) {
           // Format dates to strings before adding to apiParams
-          // Using string concatenation to ensure TypeScript recognizes it as a string
-          apiParams[key] = "" + format(value, 'MM-dd-yyyy');
+          apiParams[key] = format(value, 'MM-dd-yyyy');
         }
         // Skip arrays and other types - they shouldn't be directly added to apiParams
       });

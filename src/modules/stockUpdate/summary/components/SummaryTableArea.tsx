@@ -1,15 +1,14 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { StockItemsTable } from "./StockItemsTable";
+import { StockItemsTable } from "@/modules/stockUpdate/summary/components/StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
-import { StockItemDetailsDialog } from "./StockItemDetailsDialog";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { SortOption } from "../types/types";
+import { StockItemDetailsDialog } from "@/modules/stockUpdate/summary/components/StockItemDetailsDialog";
 
 interface SummaryTableAreaProps {
   filteredItems: StockItem[];
-  sortOptions: SortOption[];
+  sortOptions: { column: string; direction: "asc" | "desc" }[];
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
@@ -23,12 +22,11 @@ interface SummaryTableAreaProps {
   handlePreviousPage: () => void;
   selectedItem: StockItem | null;
   isDetailOpen: boolean;
-  setIsDetailOpen: (open: boolean) => void;
+  setIsDetailOpen: (isOpen: boolean) => void;
 }
 
 export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
   filteredItems,
-  sortOptions,
   sortColumn,
   sortDirection,
   handleSort,
@@ -45,15 +43,16 @@ export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
   setIsDetailOpen,
 }) => {
   return (
-    <Card className="bg-card">
-      <CardContent className="p-2">
+    <Card>
+      <CardContent className="p-4">
         <StockItemsTable
           filteredItems={filteredItems}
-          sortOptions={sortOptions}
           sortColumn={sortColumn}
           sortDirection={sortDirection}
           handleSort={handleSort}
           handleViewDetail={handleViewDetail}
+          currentPage={currentPage}
+          perPage={perPage}
         />
 
         <StockPagination
@@ -67,11 +66,13 @@ export const SummaryTableArea: React.FC<SummaryTableAreaProps> = ({
           onNextPage={handleNextPage}
         />
 
-        <StockItemDetailsDialog
-          isOpen={isDetailOpen}
-          setIsOpen={setIsDetailOpen}
-          selectedItem={selectedItem}
-        />
+        {selectedItem && (
+          <StockItemDetailsDialog
+            isOpen={isDetailOpen}
+            setIsOpen={setIsDetailOpen}
+            selectedItem={selectedItem}
+          />
+        )}
       </CardContent>
     </Card>
   );

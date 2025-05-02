@@ -2,8 +2,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { StockItemsTable } from "./StockItemsTable";
 import { StockPagination } from "@/components/ui/StockPagination";
+import { StockItemsTable } from "@/modules/stockUpdate/detailsLotBatch/components/StockItemsTable";
 import { StockItem } from "@/common/types/stockupdate/lotBatch";
 
 interface ContentWrapperProps {
@@ -36,7 +36,7 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
   handleNextPage,
 }) => {
   return (
-    <motion.div
+    <motion.div 
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
@@ -44,15 +44,15 @@ export const ContentWrapper: React.FC<ContentWrapperProps> = ({
     >
       <Card>
         <CardContent className="p-2">
-          <div className="rounded-md border">
-            <StockItemsTable
-              filteredItems={filteredItems}
-              sortColumn={sortColumn}
-              sortDirection={sortDirection}
-              handleSort={handleSort}
-              handleViewDetail={handleViewDetail}
-            />
-          </div>
+          <StockItemsTable
+            filteredItems={filteredItems}
+            sortColumn={sortColumn}
+            sortDirection={sortDirection}
+            handleSort={handleSort}
+            handleViewDetail={handleViewDetail}
+            currentPage={currentPage}
+            perPage={perPage}
+          />
 
           <StockPagination
             currentPage={currentPage}

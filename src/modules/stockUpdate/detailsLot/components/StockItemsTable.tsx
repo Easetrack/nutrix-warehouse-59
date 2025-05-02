@@ -1,18 +1,9 @@
-import React from "react";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
-import { TableHeaders } from "@/modules/stockUpdate/detailsLot/components/table/TableHeaders";
-import { TableRows } from "@/modules/stockUpdate/detailsLot/components/table/TableRows";
+import React from "react";
+import { Table } from "@/components/ui/table";
 import { StockItem } from "@/common/types/stockupdate/lot";
-import { useLanguage } from "@/stores/language/LanguageContext";
+import { TableHeaders } from "./table/TableHeaders";
+import { TableRows } from "./table/TableRows";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
@@ -20,6 +11,8 @@ interface StockItemsTableProps {
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
   handleViewDetail: (item: StockItem) => void;
+  currentPage: number;
+  perPage: number;
 }
 
 export const StockItemsTable: React.FC<StockItemsTableProps> = ({
@@ -28,35 +21,26 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
   sortDirection,
   handleSort,
   handleViewDetail,
+  currentPage,
+  perPage,
 }) => {
-  const renderSortIndicator = (column: string) => {
-    if (sortColumn !== column) {
-      return <ArrowUpDown className="ml-1 h-4 w-4" />;
-    }
-    return sortDirection === "asc" ? (
-      <ChevronDown className="ml-1 h-4 w-4" />
-    ) : (
-      <ChevronDown className="ml-1 h-4 w-4 rotate-180" />
-    );
-  };
-
-  const { t } = useLanguage();
-  
   return (
-     <div className="rounded-md border">
-          <div className="w-full overflow-auto">
-            <Table>
-              <TableHeaders
-                sortColumn={sortColumn}
-                sortDirection={sortDirection}
-                handleSort={handleSort}
-              />
-              <TableRows
-                filteredItems={filteredItems}
-                handleViewDetail={handleViewDetail}
-              />
-            </Table>
-          </div>
-        </div>
+    <div className="rounded-md border">
+      <div className="w-full overflow-auto">
+        <Table>
+          <TableHeaders
+            sortColumn={sortColumn}
+            sortDirection={sortDirection}
+            handleSort={handleSort}
+          />
+          <TableRows
+            filteredItems={filteredItems}
+            handleViewDetail={handleViewDetail}
+            currentPage={currentPage}
+            perPage={perPage}
+          />
+        </Table>
+      </div>
+    </div>
   );
 };

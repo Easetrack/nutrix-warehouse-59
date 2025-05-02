@@ -110,6 +110,8 @@ const DetailsStockUpdateLot = () => {
                 sortDirection={sortDirection}
                 handleSort={handleSort}
                 handleViewDetail={handleViewDetail}
+                currentPage={currentPage}
+                perPage={perPage}
               />
             </div>
 

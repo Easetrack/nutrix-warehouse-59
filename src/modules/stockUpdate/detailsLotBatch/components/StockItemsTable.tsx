@@ -11,6 +11,8 @@ interface StockItemsTableProps {
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
   handleViewDetail: (item: StockItem) => void;
+  currentPage: number;
+  perPage: number;
 }
 
 export const StockItemsTable: React.FC<StockItemsTableProps> = ({
@@ -19,6 +21,8 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
   sortDirection,
   handleSort,
   handleViewDetail,
+  currentPage,
+  perPage,
 }) => {
   return (
     <div className="rounded-md border">
@@ -32,6 +36,8 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
           <TableRows
             filteredItems={filteredItems}
             handleViewDetail={handleViewDetail}
+            currentPage={currentPage}
+            perPage={perPage}
           />
         </Table>
       </div>

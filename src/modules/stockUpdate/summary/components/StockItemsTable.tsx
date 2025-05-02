@@ -1,120 +1,114 @@
+
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { useLanguage } from "@/stores/language/LanguageContext";
 import { SortIndicator } from "@/modules/stockUpdate/components/table/SortIndicator";
-import { SortOption } from "@/modules/stockUpdate/summary/types/types";
+import { useLanguage } from "@/stores/language/LanguageContext";
 
 interface StockItemsTableProps {
   filteredItems: StockItem[];
-  sortOptions: SortOption[];
   sortColumn: string | null;
   sortDirection: "asc" | "desc";
   handleSort: (column: string) => void;
   handleViewDetail: (item: StockItem) => void;
+  currentPage: number;
+  perPage: number;
 }
 
 export const StockItemsTable: React.FC<StockItemsTableProps> = ({
   filteredItems,
-  sortOptions,
   sortColumn,
   sortDirection,
   handleSort,
   handleViewDetail,
+  currentPage,
+  perPage,
 }) => {
   const { t } = useLanguage();
-  
-  // Define sortable columns - this helps identify which columns should be sortable
-  const sortableColumns = [
-    { id: "productId", label: t('stock.table.productId') },
-    { id: "productName", label: t('stock.table.productName') },
-    { id: "totalLot", label: t('stock.table.totalLot') },
-    { id: "categoryName", label: t('stock.table.category') },
-    { id: "tagQty", label: t('stock.table.tag') },
-    { id: "nonTagQty", label: t('stock.table.non-tag') },
-    { id: "qty", label: t('stock.table.totalQty') },
-    { id: "unitName", label: t('stock.table.uom') },
-    { id: "totalLocation", label: t('stock.table.totalLocation') }
-  ];
+
+  // Column sort handler
+  const onSort = (column: string) => {
+    handleSort(column);
+  };
+
+  if (filteredItems.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        {t('stock.table.noItemsFound')}
+      </div>
+    );
+  }
 
   return (
-    <div className="rounded-md border">
-      <div className="w-full overflow-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-16 whitespace-nowrap">{t('stock.table.no')}</TableHead>
-              <TableHead className="w-20 whitespace-nowrap">{t('stock.table.image')}</TableHead>
-              
-              {sortableColumns.map(column => (
-                <TableHead
-                  key={column.id}
-                  className={`cursor-pointer whitespace-nowrap ${
-                    column.id === 'totalLocation' ? 'text-right' : ''
-                  }`}
-                  onClick={() => handleSort(column.id)}
-                >
-                  <div className={`flex items-center ${
-                    column.id === 'totalLocation' ? 'justify-end' : ''
-                  }`}>
-                    {column.label}
-                    <SortIndicator
-                      column={column.id}
-                      sortOptions={sortOptions}
-                      sortColumn={sortColumn}
-                      sortDirection={sortDirection}
-                    />
-                  </div>
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          
-          <TableBody>
-            {filteredItems.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={sortableColumns.length + 2} className="h-24 text-center">
-                  {t('common.noResults')}
+    <div className="overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50px]">#</TableHead>
+            <TableHead className="w-[80px]">{t('stock.table.image')}</TableHead>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("productId")}>
+              {t('stock.table.code')}
+              <SortIndicator active={sortColumn === "productId"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[180px] cursor-pointer" onClick={() => onSort("productName")}>
+              {t('stock.table.name')}
+              <SortIndicator active={sortColumn === "productName"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("categoryName")}>
+              {t('stock.table.category')}
+              <SortIndicator active={sortColumn === "categoryName"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("typeName")}>
+              {t('stock.table.group')}
+              <SortIndicator active={sortColumn === "typeName"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("subTypeName")}>
+              {t('stock.table.subGroup')}
+              <SortIndicator active={sortColumn === "subTypeName"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[80px] cursor-pointer text-right" onClick={() => onSort("qty")}>
+              {t('stock.table.qty')}
+              <SortIndicator active={sortColumn === "qty"} direction={sortDirection} />
+            </TableHead>
+            <TableHead className="min-w-[80px]">{t('stock.table.unit')}</TableHead>
+            <TableHead className="min-w-[100px]">{t('stock.table.lotCount')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredItems.map((item, index) => {
+            // Calculate the actual index number based on the current page and items per page
+            const displayIndex = (currentPage - 1) * perPage + index + 1;
+            
+            return (
+              <TableRow
+                key={item.productId}
+                className="cursor-pointer"
+                onClick={() => handleViewDetail(item)}
+              >
+                <TableCell>{displayIndex}</TableCell>
+                <TableCell>
+                  <img
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.productName}
+                    className="h-12 w-12 rounded-md object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/placeholder.svg";
+                    }}
+                  />
                 </TableCell>
+                <TableCell className="font-medium">{item.productId}</TableCell>
+                <TableCell>{item.productName}</TableCell>
+                <TableCell>{item.categoryName}</TableCell>
+                <TableCell>{item.typeName}</TableCell>
+                <TableCell>{item.subTypeName}</TableCell>
+                <TableCell className="text-right font-medium">{item.qty.toLocaleString()}</TableCell>
+                <TableCell>{item.unitName}</TableCell>
+                <TableCell>{item.totalLot || 0}</TableCell>
               </TableRow>
-            ) : (
-              filteredItems.map((item, index) => (
-                <TableRow
-                  key={`${item.productId}-${index}`}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => handleViewDetail(item)}
-                >
-                  <TableCell className="text-center">{index + 1}</TableCell>
-                  <TableCell>
-                    <img
-                      src={item.image || "/placeholder.svg"}
-                      alt={item.productName}
-                      className="h-12 w-12 rounded-md object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
-                    />
-                  </TableCell>
-                  <TableCell className="font-medium">{item.productId}</TableCell>
-                  <TableCell className="max-w-md">{item.productName}</TableCell>
-                  <TableCell className="text-right">{item.totalLot?.toLocaleString()}</TableCell>
-                  <TableCell>{item.categoryName}</TableCell>
-                  <TableCell>{item.tagQty?.toLocaleString()}</TableCell>
-                  <TableCell>{item.nonTagQty?.toLocaleString()}</TableCell>
-                  <TableCell className="text-right">{item.qty?.toLocaleString()}</TableCell>
-                  <TableCell>{item.unitName}</TableCell>
-                  <TableCell className="text-right">{item.totalLocation?.toLocaleString()}</TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 };

@@ -14,17 +14,40 @@ import { format } from 'date-fns';
 const buildQueryParams = (params: Record<string, unknown>): URLSearchParams => {
   const queryParams = new URLSearchParams();
   
+  // Always ensure page and perPage are included
+  queryParams.append('page', String(params.page || 1));
+  queryParams.append('perPage', String(params.perPage || 10));
+  
+  // Add all other parameters
   Object.entries(params).forEach(([key, value]) => {
+    // Skip page/perPage (already handled)
+    if (key === 'page' || key === 'perPage') {
+      return;
+    }
+    
     if (value !== undefined && value !== null && value !== '') {
-      // Handle Date objects by formatting them to strings
+      // Skip "All Categories", "All Warehouses", etc.
+      if (value === "All Categories" || 
+          value === "All Warehouses" || 
+          value === "All Zones" || 
+          value === "All Areas" || 
+          value === "All SubAreas" || 
+          value === "All UoM") {
+        return;
+      }
+      
+      // Handle Date objects
       if (value instanceof Date) {
         queryParams.append(key, format(value, 'MM-dd-yyyy'));
-      } else {
+      } 
+      // Skip arrays or objects
+      else if (typeof value !== 'object') {
         queryParams.append(key, String(value));
       }
     }
   });
-
+  
+  console.log("Final API query params:", queryParams.toString());
   return queryParams;
 };
 
@@ -35,6 +58,8 @@ export const fetchStockUpdateSummary = async (params: StockUpdateQueryParams): P
   try {
     // Build query params - only include non-empty values
     const queryParams = buildQueryParams(params);
+    
+    console.log("Calling Stock Update API with:", queryParams.toString());
 
     // Make API request
     const response = await apiClient.get(`/StockUpdate?${queryParams.toString()}`);

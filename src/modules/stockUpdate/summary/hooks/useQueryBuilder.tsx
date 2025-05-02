@@ -17,43 +17,46 @@ export const useQueryBuilder = () => {
     expiredDate,
     sortColumn,
   }: any): StockQueryParams => {
+    // Always include page and perPage (required parameters)
     const params: StockQueryParams = {
-      currentPage,
+      page: currentPage,
       perPage,
     };
 
+    // Handle search term - apply to multiple fields
     if (searchTerm?.trim()) {
-      params.searchTerm = searchTerm.trim();
+      params.search = searchTerm.trim();
       params.searchByProductName = searchTerm.trim();
       params.searchByBarcode = searchTerm.trim();
       params.searchByProductId = searchTerm.trim();
     }
 
-    // Only add category if it's not "All Categories"
+    // Category handling
     if (selectedCategory && selectedCategory !== "All Categories") {
       params.categoryId = selectedCategory;
+      params.searchByCategory = selectedCategory;
     }
 
-    // Only add UoM if it's not "All UoM"
+    // UoM handling
     if (selectedUoM && selectedUoM !== "All UoM") {
       params.unitId = selectedUoM;
+      params.searchByUnit = selectedUoM;
     }
 
-    // Only add zone if it's not "All Zones"
+    // Location handling
     if (selectedZone && selectedZone !== "All Zones") {
       params.zoneId = selectedZone;
     }
 
-    // Only add area if it's not "All Areas"
     if (selectedArea && selectedArea !== "All Areas") {
       params.areaId = selectedArea;
     }
 
-    // Only add subArea if it's not "All SubAreas"
     if (selectedSubArea && selectedSubArea !== "All SubAreas") {
       params.subAreaId = selectedSubArea;
     }
 
+    // Date handling
     if (searchDate) {
       params.searchDate = format(searchDate, 'MM-dd-yyyy');
     }
@@ -62,7 +65,8 @@ export const useQueryBuilder = () => {
       params.expiredDate = format(expiredDate, 'MM-dd-yyyy');
     }
 
-    // Handle sortColumn without sortDirection (as it's not supported)
+    // Handle sorting parameters dynamically
+    // Note: API expects parameters like sortByCategory, sortByProductId, etc.
     if (sortColumn) {
       const sortParam = `sortBy${sortColumn.charAt(0).toUpperCase() + sortColumn.slice(1)}`;
       params[sortParam] = "asc"; // Default to "asc" if no direction provided

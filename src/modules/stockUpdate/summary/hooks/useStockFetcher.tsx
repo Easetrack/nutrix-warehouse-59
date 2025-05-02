@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from "@/common/hooks/use-toast";
 import { fetchStockUpdateSummary } from "@/services/srp/inventory/stockUpdate";
 import { StockItem } from "@/common/types/stockupdate/summary";
-import { StockQueryParams, convertToStockUpdateQueryParams, SortOption, formatDateToString } from "@/modules/stockUpdate/summary/types/types";
+import { StockQueryParams } from "@/modules/stockUpdate/summary/types/types";
 
 export const useStockFetcher = () => {
   const { toast } = useToast();
@@ -19,67 +19,37 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Create a new object for directly sending to API
-      const apiReadyParams: Record<string, string | number> = {};
+      // Create API-ready parameters object
+      const apiParams: Record<string, string | number> = {};
       
-      // Process each parameter with proper type handling
+      // Always ensure page and perPage are included (required)
+      apiParams.page = params.page || params.currentPage || 1;
+      apiParams.perPage = params.perPage || 10;
+      
+      // Process all other parameters - filter out null/undefined/"All" values
       Object.entries(params).forEach(([key, value]) => {
-        // Skip sortOptions as it's handled separately
-        // Skip "All Categories", "All Warehouses", etc. values
-        if (
-          key === "sortOptions" || 
-          key === "sortDirection" || 
-          value === undefined || 
-          value === null ||
-          value === "All Categories" ||
-          value === "All Warehouses" ||
-          value === "All Zones" ||
-          value === "All Areas" ||
-          value === "All SubAreas" ||
-          value === "All UoM"
-        ) {
+        // Skip page/perPage (already handled) and special parameters
+        if (key === 'page' || key === 'perPage' || key === 'currentPage' || 
+            key === 'sortOptions' || key === 'sortDirection' || 
+            value === undefined || value === null ||
+            value === "All Categories" || value === "All UoM" ||
+            value === "All Warehouses" || value === "All Zones" || 
+            value === "All Areas" || value === "All SubAreas") {
           return;
         }
         
-        // Handle different types of values
+        // Handle different value types
         if (typeof value === 'string' || typeof value === 'number') {
-          // String and numbers can be assigned directly
-          apiReadyParams[key] = value;
+          apiParams[key] = value;
         } else if (value instanceof Date) {
-          // Convert Date objects to string
-          const dateString = formatDateToString(value);
-          if (dateString) {
-            apiReadyParams[key] = dateString;
-          }
+          // Format dates according to API expectation
+          apiParams[key] = format(value, 'MM-dd-yyyy');
         }
-        // Skip other complex types
       });
       
-      // Handle sortColumn parameter - but NOT sortDirection (as it's not supported)
-      if (params.sortColumn) {
-        // Create the sortBy parameter dynamically based on the column
-        const sortKey = `sortBy${params.sortColumn.charAt(0).toUpperCase() + params.sortColumn.slice(1)}`;
-        // Always use "asc" as default
-        apiReadyParams[sortKey] = "asc";
-        
-        console.log(`Added sort parameter: ${sortKey}=asc`);
-      }
+      console.log("API ready parameters:", apiParams);
       
-      // Handle multiple sort options if present
-      if (params.sortOptions && Array.isArray(params.sortOptions)) {
-        params.sortOptions.forEach((sortOption) => {
-          if (sortOption && typeof sortOption === 'object' && 'column' in sortOption && 'direction' in sortOption) {
-            const sortKey = `sortBy${sortOption.column.charAt(0).toUpperCase() + sortOption.column.slice(1)}`;
-            // Use the direction from sortOption
-            apiReadyParams[sortKey] = sortOption.direction;
-            console.log(`Added multi-sort parameter: ${sortKey}=${sortOption.direction}`);
-          }
-        });
-      }
-      
-      console.log("Converted API params:", apiReadyParams);
-      
-      const data = await fetchStockUpdateSummary(apiReadyParams);
+      const data = await fetchStockUpdateSummary(apiParams);
       const items = data.items || [];
       setStockItems(items);
       setFilteredItems(items);

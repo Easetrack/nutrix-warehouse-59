@@ -26,47 +26,46 @@ export const useStockFilterOperations = (
   const handleSearch = async () => {
     setCurrentPage(1);
     
-    // Create API compatible params without "All" values
+    // Create API compatible params with page/perPage and search term
     const apiParams: StockQueryParams = {
-      currentPage: 1,
+      page: 1,
       perPage: 10
     };
     
-    // Only add non-empty values and exclude "All" values
+    // Add search term to multiple fields
     if (currentFilters.searchTerm) {
-      apiParams.searchTerm = currentFilters.searchTerm;
-      // Add additional search filters
+      apiParams.search = currentFilters.searchTerm;
       apiParams.searchByProductName = currentFilters.searchTerm;
       apiParams.searchByBarcode = currentFilters.searchTerm;
       apiParams.searchByProductId = currentFilters.searchTerm;
     }
     
-    // Only add category if it's not "All Categories"
+    // Process category filters
     if (currentFilters.selectedCategory && currentFilters.selectedCategory !== "All Categories") {
       apiParams.categoryId = currentFilters.selectedCategory;
+      apiParams.searchByCategory = currentFilters.selectedCategory;
     }
     
-    // Only add UoM if it's not "All UoM"
+    // Process UoM filters
     if (currentFilters.selectedUoM && currentFilters.selectedUoM !== "All UoM") {
       apiParams.unitId = currentFilters.selectedUoM;
+      apiParams.searchByUnit = currentFilters.selectedUoM;
     }
     
-    // Only add zone if it's not "All Zones"
+    // Process location filters
     if (currentFilters.selectedZone && currentFilters.selectedZone !== "All Zones") {
       apiParams.zoneId = currentFilters.selectedZone;
     }
     
-    // Only add area if it's not "All Areas"
     if (currentFilters.selectedArea && currentFilters.selectedArea !== "All Areas") {
       apiParams.areaId = currentFilters.selectedArea;
     }
     
-    // Only add subArea if it's not "All SubAreas"
     if (currentFilters.selectedSubArea && currentFilters.selectedSubArea !== "All SubAreas") {
       apiParams.subAreaId = currentFilters.selectedSubArea;
     }
     
-    // Add date parameters if available
+    // Process dates
     if (currentFilters.searchDate) {
       apiParams.searchDate = format(currentFilters.searchDate, 'MM-dd-yyyy');
     }
@@ -75,47 +74,47 @@ export const useStockFilterOperations = (
       apiParams.expiredDate = format(currentFilters.expiredDate, 'MM-dd-yyyy');
     }
     
-    // Handle sort column without sortDirection (as it's not supported by the API)
+    // Process sorting
     if (currentFilters.sortColumn) {
-      // Create the sortBy parameter based on the column
       const sortParam = `sortBy${currentFilters.sortColumn.charAt(0).toUpperCase() + currentFilters.sortColumn.slice(1)}`;
       apiParams[sortParam] = "asc"; // Default to "asc"
     }
     
-    console.log("handleSearch sending params:", apiParams);
+    console.log("handleSearch building params:", apiParams);
     return await fetchStockData(apiParams);
   };
 
   const handleClear = async () => {
     setCurrentPage(1);
-    // Send minimal params for clearing filters
+    // Send minimal params for clearing filters - API requires page/perPage
     const params = {
-      currentPage: 1,
+      page: 1,
       perPage: 10
     };
     
-    console.log("handleClear sending params:", params);
+    console.log("handleClear sending minimal params:", params);
     return await fetchStockData(params);
   };
 
   const handleAdvancedSearch = async (values: FilterValues) => {
     setCurrentPage(1);
     
-    // Create API compatible params
+    // Create API compatible params with required page/perPage
     const advancedParams: StockQueryParams = {
-      currentPage: 1,
+      page: 1,
       perPage: 10
     };
     
-    // Process search term
+    // Map all FilterValues to API parameters
+    // Search term
     if (values.searchTerm) {
-      advancedParams.searchTerm = values.searchTerm;
+      advancedParams.search = values.searchTerm;
       advancedParams.searchByProductName = values.searchTerm;
       advancedParams.searchByBarcode = values.searchTerm;
       advancedParams.searchByProductId = values.searchTerm;
     }
     
-    // Process warehouse/location filters - skip "All X" values
+    // Process location parameters
     if (values.warehouse && values.warehouse !== "All Warehouses") {
       advancedParams.warehouse = values.warehouse;
     }
@@ -132,13 +131,49 @@ export const useStockFilterOperations = (
       advancedParams.subAreaId = values.subArea;
     }
     
-    // Process product filters
+    // Process product parameters
     if (values.category && values.category !== "All Categories") {
       advancedParams.categoryId = values.category;
+      advancedParams.searchByCategory = values.category;
+    }
+    
+    if (values.type && values.type !== "All Types") {
+      advancedParams.typeId = values.typeId;
+      advancedParams.searchByType = values.type;
+    }
+    
+    if (values.subType && values.subType !== "All SubTypes") {
+      advancedParams.subTypeId = values.subTypeId;
+      advancedParams.searchBySubType = values.subType;
     }
     
     if (values.uom && values.uom !== "All UoM") {
       advancedParams.unitId = values.uom;
+      advancedParams.searchByUnit = values.uom;
+    }
+    
+    // Additional product fields
+    if (values.barcode) {
+      advancedParams.barcode = values.barcode;
+      advancedParams.searchByBarcode = values.barcode;
+    }
+    
+    if (values.productId) {
+      advancedParams.productId = values.productId;
+      advancedParams.searchByProductId = values.productId;
+    }
+    
+    if (values.productName) {
+      advancedParams.productName = values.productName;
+      advancedParams.searchByProductName = values.productName;
+    }
+    
+    if (values.serialNo) {
+      advancedParams.serialNo = values.serialNo;
+    }
+    
+    if (values.stockId) {
+      advancedParams.stockId = values.stockId;
     }
     
     // Process dates
@@ -150,7 +185,7 @@ export const useStockFilterOperations = (
       advancedParams.expiredDate = format(values.expiredDate, 'MM-dd-yyyy');
     }
     
-    console.log("Advanced search sending params:", advancedParams);
+    console.log("Advanced search building params:", advancedParams);
     return await fetchStockData(advancedParams);
   };
 

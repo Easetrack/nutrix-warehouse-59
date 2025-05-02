@@ -10,8 +10,8 @@ export interface StockQueryParams {
   page?: number;
   perPage?: number;
   search?: string;
-  searchDate?: string | Date;
-  expiredDate?: string | Date;
+  searchDate?: string | Date | null;
+  expiredDate?: string | Date | null;
   categoryId?: string;
   typeId?: string;
   subTypeId?: string;
@@ -34,7 +34,7 @@ export interface StockQueryParams {
   sortColumn?: string;
   sortDirection?: "asc" | "desc";
   sortOptions?: SortOption[]; // Added to support multiple sort options
-  [key: string]: string | number | Date | undefined | null | SortOption[];
+  [key: string]: string | number | Date | SortOption[] | undefined | null; // Updated to include all possible types
 }
 
 export const convertToStockUpdateQueryParams = (params: Record<string, any>) => {
@@ -44,8 +44,10 @@ export const convertToStockUpdateQueryParams = (params: Record<string, any>) => 
     if (value !== undefined && value !== null && value !== '') {
       // Handle Date objects
       if (value instanceof Date) {
-        queryParams[key] = value.toISOString().split('T')[0];
-      } else {
+        queryParams[key] = formatDateToString(value) || '';
+      } 
+      // Skip arrays like sortOptions as they're handled separately
+      else if (!Array.isArray(value)) {
         queryParams[key] = String(value);
       }
     }

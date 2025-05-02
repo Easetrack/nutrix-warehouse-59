@@ -19,20 +19,21 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Process the params to make sure all dates are strings
+      // Create a new object for processed parameters, only including primitives
       const processedParams: Record<string, string | number | null | undefined> = {};
       
-      // Copy only string and number values, excluding functions and non-primitive types
+      // Process each parameter
       Object.entries(params).forEach(([key, value]) => {
         if (key === "sortOptions") {
           // Skip sortOptions as it's handled separately
           return;
         }
+        
         if (typeof value === 'string' || typeof value === 'number' || value === null || value === undefined) {
           processedParams[key] = value;
         } else if (value instanceof Date) {
-          // Convert Date objects to string
-          processedParams[key] = value.toISOString().split('T')[0];
+          // Convert Date objects to string using the helper function
+          processedParams[key] = formatDateToString(value);
         }
       });
       

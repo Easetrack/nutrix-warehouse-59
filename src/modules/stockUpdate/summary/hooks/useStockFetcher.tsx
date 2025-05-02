@@ -19,7 +19,7 @@ export const useStockFetcher = () => {
     try {
       console.log("Fetching stock data with params:", params);
       
-      // Create a new object for processed parameters, only including primitives
+      // Create a new object for processed parameters with corrected type annotation
       const processedParams: Record<string, string | number | null | undefined> = {};
       
       // Process each parameter

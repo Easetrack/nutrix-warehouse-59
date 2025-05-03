@@ -3,12 +3,15 @@ import { useEffect } from "react";
 import { useStockUpdateFilters } from "@/modules/stockUpdate/hooks/useStockUpdateFilters";
 import { FilterValues } from "@/common/types/filter";
 import { StockUpdateLotQueryParams } from "@/common/types/stockupdate/api";
-import { usePagination } from "./usePagination";
-import { useSortingState } from "./useSortingState";
+import { usePagination, FetchDataFn as PaginationFetchDataFn } from "./usePagination";
+import { useSortingState, FetchDataFn as SortingFetchDataFn } from "./useSortingState";
 import { useDetailState } from "./useDetailState";
 import { useSearch } from "./useSearch";
 import { useAdvancedSearch } from "./useAdvancedSearch";
 import { useFetchHandler } from "./useFetchHandler";
+
+// Ensure all FetchDataFn types are compatible
+type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
 
 export const useStockData = () => {
   // Get fetch handler that includes stock items fetching logic
@@ -29,7 +32,7 @@ export const useStockData = () => {
   const { lastFilterParams } = fetchHandler;
 
   // Simplified handler that uses the fetch handler
-  const handleFetchData = (params: Partial<StockUpdateLotQueryParams> = {}) => {
+  const handleFetchData: FetchDataFn = (params: Partial<StockUpdateLotQueryParams> = {}) => {
     return fetchHandler.handleFetchData(params, currentPage, perPage, sortColumn, sortDirection);
   };
 

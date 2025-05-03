@@ -7,7 +7,7 @@ import { format } from "date-fns";
 // Update the type to accept function that returns any Promise, not just Promise<void>
 type SetCurrentPageFn = (page: number) => void;
 // Define the fetch function type to match handleFetchData in useStockData
-type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
+export type FetchDataFn = (params: Partial<StockUpdateLotQueryParams>) => Promise<any>;
 
 export const useAdvancedSearch = (
   setCurrentPage: SetCurrentPageFn,

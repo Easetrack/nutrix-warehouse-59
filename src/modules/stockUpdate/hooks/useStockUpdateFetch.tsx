@@ -34,15 +34,32 @@ export const useStockUpdateFetch = ({
       perPage: perPage.toString(),
     });
 
-    // Process active filters
+    // Process active filters - ensure we're not sending "All X" values
     if (activeFilters.searchTerm)
       ["searchByProductName", "searchByBarcode", "searchByProductId"].forEach(k => queryParams.append(k, activeFilters.searchTerm));
+    
+    // Only include category if it's not "All Categories"
     if (activeFilters.selectedCategory && activeFilters.selectedCategory !== "All Categories")
       queryParams.append('searchByCategory', activeFilters.selectedCategory);
+    
+    // Only include zone if it's not "All Zones"
     if (activeFilters.selectedZone && activeFilters.selectedZone !== "All Zones")
       queryParams.append('zoneId', activeFilters.selectedZone.replace('Zone ', ''));
+    
+    // Only include other filters if they're not default "All X" values
     if (activeFilters.selectedArea && activeFilters.selectedArea !== "All Areas")
       queryParams.append('areaId', activeFilters.selectedArea);
+      
+    if (activeFilters.selectedSubArea && activeFilters.selectedSubArea !== "All SubAreas")
+      queryParams.append('subAreaId', activeFilters.selectedSubArea);
+      
+    if (activeFilters.selectedUoM && activeFilters.selectedUoM !== "All UoM")
+      queryParams.append('unitId', activeFilters.selectedUoM);
+      
+    if (activeFilters.selectedWarehouse && activeFilters.selectedWarehouse !== "All Warehouses")
+      queryParams.append('stockId', activeFilters.selectedWarehouse);
+    
+    // Add sort parameters
     if (sort.sortColumn) {
       const sortParam = `sortBy${sort.sortColumn[0]?.toUpperCase()}${sort.sortColumn?.slice(1)}`;
       queryParams.append(sortParam, sort.sortDirection);

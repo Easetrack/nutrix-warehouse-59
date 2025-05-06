@@ -1,4 +1,3 @@
-
 import { useQueryBuilder } from "./useQueryBuilder";
 import { useStockFetcher } from "./useStockFetcher";
 import { FilterValues } from "@/common/types/filter";
@@ -40,19 +39,23 @@ export const useStockFilterOperations = (
       apiParams.searchByProductId = currentFilters.searchTerm;
     }
     
-    // Process category filters
+    // Process category filters - only include if it's not "All Categories"
     if (currentFilters.selectedCategory && currentFilters.selectedCategory !== "All Categories") {
       apiParams.categoryId = currentFilters.selectedCategory;
       apiParams.searchByCategory = currentFilters.selectedCategory;
     }
     
-    // Process UoM filters
+    // Process UoM filters - only include if it's not "All UoM"
     if (currentFilters.selectedUoM && currentFilters.selectedUoM !== "All UoM") {
       apiParams.unitId = currentFilters.selectedUoM;
       apiParams.searchByUnit = currentFilters.selectedUoM;
     }
     
-    // Process location filters
+    // Process location filters - only include if they're not "All X"
+    if (currentFilters.selectedWarehouse && currentFilters.selectedWarehouse !== "All Warehouses") {
+      apiParams.stockId = currentFilters.selectedWarehouse;
+    }
+    
     if (currentFilters.selectedZone && currentFilters.selectedZone !== "All Zones") {
       apiParams.zoneId = currentFilters.selectedZone;
     }

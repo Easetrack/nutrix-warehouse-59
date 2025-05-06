@@ -32,19 +32,23 @@ export const useQueryBuilder = () => {
       params.searchByProductId = searchTerm.trim();
     }
 
-    // Category handling
+    // Category handling - skip "All Categories" values
     if (selectedCategory && selectedCategory !== "All Categories") {
       params.categoryId = selectedCategory;
       params.searchByCategory = selectedCategory;
     }
 
-    // UoM handling
+    // UoM handling - skip "All UoM" values
     if (selectedUoM && selectedUoM !== "All UoM") {
       params.unitId = selectedUoM;
       params.searchByUnit = selectedUoM;
     }
 
-    // Location handling
+    // Location handling - skip "All X" values
+    if (selectedWarehouse && selectedWarehouse !== "All Warehouses") {
+      params.stockId = selectedWarehouse;
+    }
+    
     if (selectedZone && selectedZone !== "All Zones") {
       params.zoneId = selectedZone;
     }

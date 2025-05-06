@@ -73,7 +73,7 @@ export interface StockQueryParams {
   [key: string]: string | number | Date | SortOption[] | undefined | null;
 }
 
-export const convertToStockUpdateQueryParams = (params: Record<string, any>) => {
+export const convertToStockUpdateQueryParams = (params: Record<string, unknown>) => {
   const queryParams: Record<string, string | number> = {};
   
   Object.entries(params).forEach(([key, value]) => {
@@ -107,6 +107,7 @@ export const formatDateToString = (date: Date | null | undefined): string | null
   if (!date) return null;
   
   // Import format from date-fns on the fly to avoid circular dependency issues
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { format } = require('date-fns');
   return date instanceof Date ? format(date, 'MM-dd-yyyy') : null;
 };

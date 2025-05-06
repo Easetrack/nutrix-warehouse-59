@@ -10,7 +10,7 @@ export const useSortHandler = (
     sortDirection: "asc" | "desc";
     setSortDirection: (direction: "asc" | "desc") => void;
   },
-  handleFetchData: (params: any) => Promise<any>
+  handleFetchData: (params: unknown) => Promise<unknown>
 ) => {
   const { 
     sortOptions, 
@@ -50,7 +50,7 @@ export const useSortHandler = (
     setSortDirection(newDirection);
     
     // Prepare the API parameters for sorting
-    const sortParams: Record<string, any> = {
+    const sortParams: Record<string, unknown> = {
       sortColumn: column,
       sortDirection: newDirection
     };

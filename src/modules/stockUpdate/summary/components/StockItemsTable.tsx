@@ -67,7 +67,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 sortOptions={[]} 
               />
             </TableHead>
-            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("categoryName")}>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("category")}>
               {t('stock.table.category')}
               <SortIndicator 
                 column="categoryName"
@@ -76,7 +76,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 sortOptions={[]} 
               />
             </TableHead>
-            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("typeName")}>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("type")}>
               {t('stock.table.group')}
               <SortIndicator 
                 column="typeName"
@@ -85,7 +85,7 @@ export const StockItemsTable: React.FC<StockItemsTableProps> = ({
                 sortOptions={[]} 
               />
             </TableHead>
-            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("subTypeName")}>
+            <TableHead className="min-w-[100px] cursor-pointer" onClick={() => onSort("subType")}>
               {t('stock.table.subGroup')}
               <SortIndicator 
                 column="subTypeName"

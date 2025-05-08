@@ -50,12 +50,12 @@ export const useStockUpdateFilters = (handleFetchData: (params: unknown) => Prom
 
   const handleClear = async () => {
     setSearchTerm("");
-    setSelectedWarehouse("All Warehouses");
-    setSelectedZone("All Zones");
-    setSelectedArea("All Areas");
-    setSelectedSubArea("All SubAreas");
-    setSelectedCategory("All Categories");
-    setSelectedUoM("All UoM");
+    setSelectedWarehouse("");
+    setSelectedZone("");
+    setSelectedArea("");
+    setSelectedSubArea("");
+    setSelectedCategory("");
+    setSelectedUoM("");
     setSearchDate(null);
     setExpiredDate(null);
 

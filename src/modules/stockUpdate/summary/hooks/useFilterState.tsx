@@ -2,12 +2,12 @@ import { useState } from "react";
 
 export const useFilterState = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState("All Warehouses");
-  const [selectedZone, setSelectedZone] = useState("All Zones");
-  const [selectedArea, setSelectedArea] = useState("All Areas");
-  const [selectedSubArea, setSelectedSubArea] = useState("All SubAreas");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [selectedUoM, setSelectedUoM] = useState("All UoM");
+  const [selectedWarehouse, setSelectedWarehouse] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedSubArea, setSelectedSubArea] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedUoM, setSelectedUoM] = useState("");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [searchDate, setSearchDate] = useState<Date | null>(null);

@@ -33,9 +33,9 @@ export const useStockFetcher = () => {
         if (key === 'page' || key === 'perPage' || key === 'currentPage' || 
             key === 'sortOptions' || key === 'sortColumn' || key === 'sortDirection' || 
             value === undefined || value === null ||
-            value === "All Categories" || value === "All UoM" ||
-            value === "All Warehouses" || value === "All Zones" || 
-            value === "All Areas" || value === "All SubAreas") {
+            value === "" || value === "" ||
+            value === "" || value === "" || 
+            value === "" || value === "") {
           return;
         }
         

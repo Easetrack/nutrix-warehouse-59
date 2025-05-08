@@ -57,12 +57,12 @@ export const useSearchHandler = ({
   const handleClear = async (): Promise<void> => {
     // Reset all filter values
     setSearchTerm("");
-    setSelectedWarehouse("All Warehouses");
-    setSelectedZone("All Zones");
-    setSelectedArea("All Areas");
-    setSelectedSubArea("All SubAreas");
-    setSelectedCategory("All Categories");
-    setSelectedUoM("All UoM");
+    setSelectedWarehouse("");
+    setSelectedZone("");
+    setSelectedArea("");
+    setSelectedSubArea("");
+    setSelectedCategory("");
+    setSelectedUoM("");
     setSortColumn(null);
     setSortDirection("asc");
     

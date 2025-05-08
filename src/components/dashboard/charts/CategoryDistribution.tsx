@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import ChartCard from '../ChartCard';
 
@@ -11,9 +11,19 @@ const categoryData = [
   { name: 'Other', value: 10 },
 ];
 
-const COLORS = ['#AB0006', '#FF6B6B', '#FFD166', '#06D6A0', '#118AB2'];
+
 
 const CategoryDistribution = () => {
+
+  const [primaryColor, setPrimaryColor] = useState("#0000FF"); // default สีเผื่อไว้ (เช่น blue)
+
+  useEffect(() => {
+    const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+    setPrimaryColor(`hsl(${primary})`);
+  }, [])
+
+  const COLORS = [primaryColor, '#FF6B6B', '#FFD166', '#06D6A0', '#118AB2'];
+
   return (
     <ChartCard title="Category Distribution">
       <PieChart>

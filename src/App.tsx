@@ -14,6 +14,12 @@ import SelectWarehouse from "./pages/SelectWarehouse";
 import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./app/dashboard/layout";
 
+// Import Layout Admin
+import { AdminRoutes } from '@/routes/newOrg/admin/admin.routes'
+
+// Import Layout Client
+import { ClientRoutes } from '@/routes/newOrg/client/client.routes'
+
 import { AuthProvider } from "@/stores/auth/AuthContext";
 
 // import Settings from "@/pages/Settings/Settings";
@@ -82,6 +88,9 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/select-warehouse" element={<SelectWarehouse />} />
 
+                {AdminRoutes}
+                {ClientRoutes}
+
                 <Route >
                   <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -130,7 +139,6 @@ function App() {
                     } />
                   </Route>
                 </Route>
-
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

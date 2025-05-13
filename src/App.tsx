@@ -20,7 +20,11 @@ import { AdminRoutes } from '@/routes/newOrg/admin/admin.routes'
 // Import Layout Client
 import { ClientRoutes } from '@/routes/newOrg/client/client.routes'
 
+//----------- Client routes -------------//
+
 import { AuthProvider } from "@/stores/auth/AuthContext";
+
+
 
 // import Settings from "@/pages/Settings/Settings";
 import NotFound from "./pages/NotFound";

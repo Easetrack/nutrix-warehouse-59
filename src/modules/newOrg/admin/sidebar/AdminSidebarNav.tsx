@@ -11,10 +11,10 @@ import {
 } from '@/components/ui/sidebar';
 
 // Import our components
-import SidebarHeaderContent from '@/components/newOrg/admin/sidebarAdmin/SidebarHeader';
-import WarehouseSelector from '@/components/newOrg/admin/sidebarAdmin/WarehouseSelector';
-import SidebarMenuItems from '@/components/newOrg/admin/sidebarAdmin/SidebarMenuItems';
-import SidebarUserFooter from '@/components/newOrg/admin/sidebarAdmin/SidebarFooter';
+import SidebarHeaderContent from '@/modules/newOrg/admin/sidebar/components/SidebarHeader';
+import WarehouseSelector from '@/modules/newOrg/admin/sidebar/components/WarehouseSelector';
+import SidebarMenuItems from '@/modules/newOrg/admin/sidebar/components/SidebarMenuItems';
+import SidebarUserFooter from '@/modules/newOrg/admin/sidebar/components/SidebarFooter';
 
 interface SidebarNavProps {
   children: React.ReactNode;

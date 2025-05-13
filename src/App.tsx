@@ -91,55 +91,6 @@ function App() {
                 {AdminRoutes}
                 {ClientRoutes}
 
-                <Route >
-                  <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                    <Route path="/stock/summary" element={<ProtectedRoute><SummaryStockUpdate /></ProtectedRoute>} />
-                    <Route path="/stock/detailsLot" element={
-                      <ProtectedRoute>
-                        <SummaryStockUpdateDetailsLot />
-                      </ProtectedRoute>
-                    } />
-
-                    <Route path="/stock/detailsLotBatch" element={
-                      <ProtectedRoute>
-                        <SummaryStockUpdateDetailsLotBatch />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/stock/summary" element={<ProtectedRoute><SummaryStockUpdate /></ProtectedRoute>} />
-                    <Route path="/stock/details" element={<ProtectedRoute><SummaryStockUpdateDetail /></ProtectedRoute>} />
-                    <Route path="/receiving" element={<ProtectedRoute><Receiving /></ProtectedRoute>} />
-                    <Route path="/request-picking" element={<ProtectedRoute><RequestPicking /></ProtectedRoute>} />
-                    <Route path="/request-picking/create" element={<ProtectedRoute><CreatePicking /></ProtectedRoute>} />
-                    <Route path="/packing-ptw" element={<ProtectedRoute><PackingPTW /></ProtectedRoute>} />
-                    <Route path="/settings/product" element={
-                      <ProtectedRoute>
-                        <ProductSettings />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/settings/location" element={
-                      <ProtectedRoute>
-                        <LocationSettings />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/settings/permission/users/*" element={
-                      <ProtectedRoute>
-                        <UsersPage />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/settings/permission/roles/*" element={
-                      <ProtectedRoute>
-                        <RoleRoutes />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/settings/permission/permissions" element={
-                      <ProtectedRoute>
-                        <PermissionsPage />
-                      </ProtectedRoute>
-                    } />
-                  </Route>
-                </Route>
-
                 <Route path="*" element={<NotFound />} />
               </Routes>
 

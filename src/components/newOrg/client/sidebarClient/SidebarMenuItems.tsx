@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,45 +14,76 @@ import {
 } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
+interface SubmenuItem {
+  path: string;
+  name: string;
+}
+
 interface MenuItem {
-  path?: string;
-  id?: string;
+  id: string;
   name: string;
   icon: React.ReactNode;
+  path?: string;
   hasSubmenu?: boolean;
-  submenuItems?: { path: string; name: string }[];
+  submenuItems?: SubmenuItem[];
 }
 
 const SidebarMenuItems: React.FC = () => {
   const location = useLocation();
   const { t } = useLanguage();
   const { state } = useSidebar();
-  const [isStockMenuOpen, setIsStockMenuOpen] = useState(false);
-  const isCollapsed = state === "collapsed";
+  const isCollapsed = state === 'collapsed';
 
-  // Effect to auto-open submenu if we're on a path that's in the submenu
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+
+  // Auto open submenu if current path matches any submenu item
   useEffect(() => {
-    if (location.pathname.startsWith('/stock/')) {
-      setIsStockMenuOpen(true);
-    }
+    mainMenuItems.forEach((item) => {
+      if (item.hasSubmenu && item.submenuItems?.some(sub => location.pathname.startsWith(sub.path))) {
+        setOpenMenus(prev => ({ ...prev, [item.id]: true }));
+      }
+    });
   }, [location.pathname]);
 
+  const toggleMenu = (id: string) => {
+    setOpenMenus(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
   const mainMenuItems: MenuItem[] = [
-    { path: '/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
+    {
+      id: 'dashboard',
+      path: './dashboard',
+      name: t('nav.dashboard'),
+      icon: <LayoutDashboard size={20} />
+    },
     {
       id: 'stock',
       name: t('nav.stock'),
       icon: <Package size={20} />,
       hasSubmenu: true,
       submenuItems: [
-        { path: '/stock/summary', name: t('nav.stock.summary') },
-        { path: '/stock/detailsLot', name: t('nav.stock.lot') },
-        { path: '/stock/detailsLotBatch', name: t('nav.stock.lotBatch') }
+        { path: './stock/summary', name: t('nav.stock.summary') },
+        { path: './stock/detailsLot', name: t('nav.stock.lot') },
+        { path: './stock/detailsLotBatch', name: t('nav.stock.lotBatch') },
+      ]
+    },
+    {
+      id: 'settings',
+      name: t('nav.setting'),
+      icon: <Package size={20} />,
+      hasSubmenu: true,
+      submenuItems: [
+        { path: './settings/product', name: t('nav.setting.product') },
+        { path: './settings/location', name: t('nav.setting.location') },
+        { path: './settings/department', name: t('nav.setting.department') },
+        { path: './settings/customer', name: t('nav.setting.customer') },
+        { path: './settings/vendor', name: t('nav.setting.vendor') },
+        { path: './settings/transaction-model', name: t('nav.setting.transaction-model') },
+        { path: './settings/lot-model', name: t('nav.setting.lot-model') },
       ]
     },
   ];
 
-  // Render submenu items as separate icons when sidebar is collapsed
   const renderCollapsedSubmenu = (item: MenuItem) => {
     return (
       <div className="pt-1 pl-2">
@@ -84,19 +114,20 @@ const SidebarMenuItems: React.FC = () => {
 
   return (
     <SidebarMenu>
-      {mainMenuItems.map((item) => (
-        <React.Fragment key={item.path || item.id}>
-          {/* Main menu item */}
-          <SidebarMenuItem className="mb-4">
-            {item.hasSubmenu ? (
-              // For menu items with submenu (like Stock Update)
-              <>
-                {isCollapsed ? (
+      {mainMenuItems.map((item) => {
+        const isActive = location.pathname === item.path;
+        const isOpen = openMenus[item.id];
+
+        return (
+          <React.Fragment key={item.id}>
+            <SidebarMenuItem className="mb-4">
+              {item.hasSubmenu ? (
+                isCollapsed ? (
                   <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
                       <SidebarMenuButton
-                        onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-                        isActive={location.pathname.startsWith('/stock')}
+                        onClick={() => toggleMenu(item.id)}
+                        isActive={isOpen}
                       >
                         {item.icon}
                         <span className="sr-only">{item.name}</span>
@@ -108,28 +139,22 @@ const SidebarMenuItems: React.FC = () => {
                   </Tooltip>
                 ) : (
                   <SidebarMenuButton
-                    onClick={() => setIsStockMenuOpen(!isStockMenuOpen)}
-                    isActive={location.pathname.startsWith('/stock')}
+                    onClick={() => toggleMenu(item.id)}
+                    isActive={isOpen}
                   >
                     <span className="text-primary/80">{item.icon}</span>
                     <span>{item.name}</span>
                     <ChevronDown
-                      className={`ml-auto h-4 w-4 transition-transform ${isStockMenuOpen ? "rotate-180" : ""}`}
+                      className={`ml-auto h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
                     />
                   </SidebarMenuButton>
-                )}
-              </>
-            ) : (
-              // For regular menu items (like Dashboard)
-              <>
-                {isCollapsed ? (
+                )
+              ) : (
+                isCollapsed ? (
                   <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={location.pathname === item.path}
-                      >
-                        <NavLink to={item.path || ""}>
+                      <SidebarMenuButton asChild isActive={isActive}>
+                        <NavLink to={item.path || ''}>
                           <span className="text-primary/80">{item.icon}</span>
                           <span className="sr-only">{item.name}</span>
                         </NavLink>
@@ -140,28 +165,22 @@ const SidebarMenuItems: React.FC = () => {
                     </TooltipContent>
                   </Tooltip>
                 ) : (
-                  <SidebarMenuButton
-                    asChild
-                    isActive={location.pathname === item.path}
-                  >
-                    <NavLink to={item.path || ""}>
+                  <SidebarMenuButton asChild isActive={isActive}>
+                    <NavLink to={item.path || ''}>
                       <span className="text-primary/80">{item.icon}</span>
                       <span>{item.name}</span>
                     </NavLink>
                   </SidebarMenuButton>
-                )}
-              </>
-            )}
-          </SidebarMenuItem>
-          
-          {/* Submenu items */}
-          {item.hasSubmenu && (
-            <>
-              {isCollapsed ? (
-                isStockMenuOpen && renderCollapsedSubmenu(item)
+                )
+              )}
+            </SidebarMenuItem>
+
+            {item.hasSubmenu && (
+              isCollapsed ? (
+                isOpen && renderCollapsedSubmenu(item)
               ) : (
                 <AnimatePresence>
-                  {isStockMenuOpen && !isCollapsed && (
+                  {isOpen && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
@@ -185,11 +204,11 @@ const SidebarMenuItems: React.FC = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              )}
-            </>
-          )}
-        </React.Fragment>
-      ))}
+              )
+            )}
+          </React.Fragment>
+        );
+      })}
     </SidebarMenu>
   );
 };

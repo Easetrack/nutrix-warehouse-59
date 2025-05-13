@@ -39,9 +39,9 @@ const SidebarMenuItems: React.FC = () => {
   }, [location.pathname]);
 
   const mainMenuItems: MenuItem[] = [
-    { path: '/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
-    { path: '/setting', name: t('nav.setting'), icon: <LayoutDashboard size={20} /> },
-    { path: '/manage-permission', name: t('nav.manage-permission'), icon: <LayoutDashboard size={20} /> },
+    { path: './dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
+    { path: './setting', name: t('nav.setting'), icon: <LayoutDashboard size={20} /> },
+    { path: './manage-permission', name: t('nav.manage-permission'), icon: <LayoutDashboard size={20} /> },
     // {
     //   id: 'stock',
     //   name: t('nav.stock'),

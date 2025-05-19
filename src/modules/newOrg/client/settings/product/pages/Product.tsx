@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState } from "react";
 import { Search, RotateCcw, Plus } from "lucide-react";
 import ProductSummaryCard from "@/modules/settings/product/components/ProductSummaryCard";
@@ -8,14 +9,59 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/common/hooks/use-toast";
 
-import { Product } from "@/modules/settings/product/types/types"; // Assuming you have a Product type defined in your types folder
+import { Product } from "@/modules/settings/product/types/types";
 
-const initialProducts = [
-  { id: "PROD-001", name: "Premium Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 125, uom: "Kg" },
-  { id: "PROD-002", name: "Standard Dog Food", category: "Dog Food", group: "Dog Food", subGroup: "Dog Food", stock: 324, uom: "Kg" },
-  { id: "PROD-003", name: "Cat Toy Mouse", category: "Cat Toys", group: "Cat Toys", subGroup: "Cat Toys", stock: 76, uom: "Pc" },
-  { id: "PROD-004", name: "Premium Cat Food", category: "Cat Food", group: "Cat Food", subGroup: "Cat Food", stock: 108, uom: "Kg" },
-  { id: "PROD-005", name: "Dog Bone Toy", category: "Dog Toys", group: "Dog Toys", subGroup: "Dog Toys", stock: 54, uom: "Pc" },
+const initialProducts: Product[] = [
+  { 
+    id: "PROD-001", 
+    name: "Premium Dog Food", 
+    category: "Dog Food", 
+    group: "Dog Food", 
+    subGroup: "Dog Food", 
+    stock: 125, 
+    uom: "Kg",
+    imageUrl: "https://images.unsplash.com/photo-1582560475093-ba66accbc7f0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "PROD-002", 
+    name: "Standard Dog Food", 
+    category: "Dog Food", 
+    group: "Dog Food", 
+    subGroup: "Dog Food", 
+    stock: 324, 
+    uom: "Kg",
+    imageUrl: "https://images.unsplash.com/photo-1602659944992-29911194c4b9?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "PROD-003", 
+    name: "Cat Toy Mouse", 
+    category: "Cat Toys", 
+    group: "Cat Toys", 
+    subGroup: "Cat Toys", 
+    stock: 76, 
+    uom: "Pc",
+    imageUrl: "https://images.unsplash.com/photo-1594136953696-ea8829dd3bf3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "PROD-004", 
+    name: "Premium Cat Food", 
+    category: "Cat Food", 
+    group: "Cat Food", 
+    subGroup: "Cat Food", 
+    stock: 108, 
+    uom: "Kg",
+    imageUrl: "https://images.unsplash.com/photo-1589883661923-6476cb0ae9f2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
+  { 
+    id: "PROD-005", 
+    name: "Dog Bone Toy", 
+    category: "Dog Toys", 
+    group: "Dog Toys", 
+    subGroup: "Dog Toys", 
+    stock: 54, 
+    uom: "Pc",
+    imageUrl: "https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" 
+  },
 ];
 
 const ProductSettings: React.FC = () => {
@@ -23,8 +69,8 @@ const ProductSettings: React.FC = () => {
   const [products, setProducts] = useState(initialProducts);
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product>(null);
-  const [deleteProduct, setDeleteProduct] = useState<Product>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
   const filteredProducts = useMemo(
@@ -60,9 +106,6 @@ const ProductSettings: React.FC = () => {
         .reduce((sum, p) => sum + p.stock, 0),
     [products]
   );
-  const productForEdit = editingProduct
-    ? products.find((p) => p.id === editingProduct.id)
-    : null;
 
   const handleSave = (newProduct: Product) => {
     if (editingProduct) {
@@ -141,23 +184,6 @@ const ProductSettings: React.FC = () => {
           Clear
         </Button>
       </div>
-
-      {/* <div className="flex items-center gap-2 mb-4 mt-6">
-        <div className="flex md:hidden">
-          <Button
-            type="button"
-            variant="success"
-            className="h-10 rounded-lg flex items-center bg-green-600 hover:bg-green-700 text-white font-medium gap-2"
-            onClick={() => {
-              setShowAdd(true);
-              setEditingProduct(null);
-            }}
-          >
-            <Plus className="w-4 h-4" />
-            Add Product
-          </Button>
-        </div>
-      </div> */}
 
       <div className="overflow-auto w-full rounded-xl">
         <ProductTable

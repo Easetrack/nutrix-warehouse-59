@@ -9,16 +9,7 @@ import {
   fetchUnits,
 } from "@/services/srp/product/product";
 import ProductDialogForm from "./ProductDialogForm";
-
-type Product = {
-  id: string;
-  name: string;
-  category: string;
-  group: string;
-  subGroup: string;
-  stock: number;
-  uom: string;
-};
+import { Product } from "../types/types";
 
 type Props = {
   open: boolean;
@@ -27,7 +18,7 @@ type Props = {
   editingProduct?: Product | null;
 };
 
-const defaultForm = {
+const defaultForm: Product = {
   id: "",
   name: "",
   category: "",
@@ -35,6 +26,7 @@ const defaultForm = {
   subGroup: "",
   stock: 0,
   uom: "",
+  imageUrl: "",
 };
 
 const ProductDialog: React.FC<Props> = ({
@@ -43,7 +35,7 @@ const ProductDialog: React.FC<Props> = ({
   onSave,
   editingProduct,
 }) => {
-  const [form, setForm] = useState(defaultForm);
+  const [form, setForm] = useState<Product>(defaultForm);
 
   // fetch categories when form is open
   const { data: categoryOptions = [], isLoading: loadingCategories } = useQuery({
@@ -109,10 +101,17 @@ const ProductDialog: React.FC<Props> = ({
     }));
   };
 
-  const handleSelectChange = (field: keyof typeof form, value: string) => {
+  const handleSelectChange = (field: keyof Product, value: string) => {
     setForm((prev) => ({
       ...prev,
       [field]: value,
+    }));
+  };
+
+  const handleImageChange = (imageUrl: string) => {
+    setForm((prev) => ({
+      ...prev,
+      imageUrl,
     }));
   };
 
@@ -159,6 +158,7 @@ const ProductDialog: React.FC<Props> = ({
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleSelectChange={handleSelectChange}
+          handleImageChange={handleImageChange}
         />
       </DialogContent>
     </Dialog>

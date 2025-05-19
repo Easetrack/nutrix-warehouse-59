@@ -4,16 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import ProductDialogSelects from "./ProductDialogSelects";
+import ImageUploader from "./ImageUploader";
+import { Product } from "../types/types";
 
-type FormType = {
-  id: string;
-  name: string;
-  category: string;
-  group: string;
-  subGroup: string;
-  stock: number;
-  uom: string;
-};
+type FormType = Product;
 
 type ProductDialogFormProps = {
   form: FormType;
@@ -35,6 +29,7 @@ type ProductDialogFormProps = {
   handleSubmit: (e: React.FormEvent) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange: (field: keyof FormType, value: string) => void;
+  handleImageChange: (imageUrl: string) => void;
 };
 
 const ProductDialogForm: React.FC<ProductDialogFormProps> = ({
@@ -47,10 +42,19 @@ const ProductDialogForm: React.FC<ProductDialogFormProps> = ({
   handleSubmit,
   handleChange,
   handleSelectChange,
+  handleImageChange,
 }) => {
   return (
       <form onSubmit={handleSubmit}>
-        <div className="py-4 grid gap-2">
+        <div className="py-4 grid gap-4">
+          {/* Product Image */}
+          <div className="flex justify-center mb-2">
+            <ImageUploader 
+              initialImage={form.imageUrl} 
+              onImageChange={handleImageChange} 
+            />
+          </div>
+
           <Input
             name="id"
             value={form.id}

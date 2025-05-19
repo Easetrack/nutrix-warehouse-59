@@ -3,17 +3,7 @@ import React from "react";
 import { Edit, Trash2, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-
-type Product = {
-  id: string;
-  name: string;
-  category: string;
-  group: string;
-  subGroup: string;
-  stock: number;
-  uom: string;
-  isNew?: boolean; // for "New" badge in demo
-};
+import { Product } from "../types/types";
 
 type Props = {
   products: Product[];
@@ -28,6 +18,7 @@ const ProductTable: React.FC<Props> = ({ products, onEdit, onDelete }) => (
         <tr className="text-gray-500 font-medium text-sm [&>th]:py-3 [&>th]:px-2 text-left">
           <th className="w-16">No.</th>
           <th className="w-32">Product ID</th>
+          <th className="w-16">Image</th>
           <th>Product Name</th>
           <th>Categories</th>
           <th>Group</th>
@@ -40,7 +31,7 @@ const ProductTable: React.FC<Props> = ({ products, onEdit, onDelete }) => (
       <tbody>
         {products.length === 0 ? (
           <tr>
-            <td colSpan={9} className="text-center py-8 text-muted-foreground">No product found.</td>
+            <td colSpan={10} className="text-center py-8 text-muted-foreground">No product found.</td>
           </tr>
         ) : (
           products.map((p, i) => (
@@ -50,6 +41,26 @@ const ProductTable: React.FC<Props> = ({ products, onEdit, onDelete }) => (
             >
               <td className="py-2 px-2">{i + 1}.</td>
               <td className="py-2 px-2">{p.id}</td>
+              <td className="py-2 px-2">
+                <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center overflow-hidden">
+                  {p.imageUrl ? (
+                    <img 
+                      src={p.imageUrl} 
+                      alt={p.name} 
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/placeholder.svg";
+                      }} 
+                    />
+                  ) : (
+                    <img 
+                      src="/placeholder.svg" 
+                      alt="Placeholder" 
+                      className="h-8 w-8 opacity-40" 
+                    />
+                  )}
+                </div>
+              </td>
               <td className="py-2 px-2 flex items-center gap-2">
                 {p.name}
                 {p.isNew && (

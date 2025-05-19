@@ -1,4 +1,5 @@
-// แนะนำให้แยกไปที่ src/types/product.ts หรือไว้ด้านบนไฟล์นี้ก็ได้
+
+// Product model
 export interface Product {
   id: string;
   name: string;
@@ -6,5 +7,7 @@ export interface Product {
   group: string;
   subGroup: string;
   stock: number;
-  uom: string; // หรือจะใช้ string เฉย ๆ ก็ได้ถ้าอยากยืดหยุ่น
+  uom: string;
+  imageUrl?: string; // Add image URL field
+  isNew?: boolean; // for "New" badge in demo
 }

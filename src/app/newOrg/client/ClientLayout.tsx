@@ -1,17 +1,18 @@
+
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import SidebarNavProps from '@/modules/newOrg/client/sidebarClient/ClientSidebarNav'; // สมมุติคุณมี header
+import ClientSidebarNav from '@/modules/newOrg/client/sidebarClient/ClientSidebarNav';
 import { Toaster } from "@/components/ui/toaster";
-import { AuthClientProvider } from "@/modules/newOrg/client/providers/ClientAuthProvider";
+import { AuthProvider } from "@/stores/auth/AuthContext";
 
 const ClientLayout = () => {
     return (
-        <div className="min-h-screen">
-            <AuthClientProvider>
-                <SidebarNavProps >
+        <div className="flex min-h-screen">
+            <AuthProvider>
+                <ClientSidebarNav>
                     <Outlet />
-                </SidebarNavProps>
-            </AuthClientProvider>
+                </ClientSidebarNav>
+            </AuthProvider>
         </div>
     );
 };

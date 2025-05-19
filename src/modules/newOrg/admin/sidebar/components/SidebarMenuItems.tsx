@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Package, ChevronDown } from 'lucide-react';
+import { LayoutDashboard, Settings, UserCog, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { useSidebar } from '@/components/ui/sidebar';
 import {
@@ -39,20 +38,9 @@ const SidebarMenuItems: React.FC = () => {
   }, [location.pathname]);
 
   const mainMenuItems: MenuItem[] = [
-    { path: './dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
-    { path: './setting', name: t('nav.setting'), icon: <LayoutDashboard size={20} /> },
-    { path: './manage-permission', name: t('nav.manage-permission'), icon: <LayoutDashboard size={20} /> },
-    // {
-    //   id: 'stock',
-    //   name: t('nav.stock'),
-    //   icon: <Package size={20} />,
-    //   hasSubmenu: true,
-    //   submenuItems: [
-    //     { path: '/stock/summary', name: t('nav.stock.summary') },
-    //     { path: '/stock/detailsLot', name: t('nav.stock.lot') },
-    //     { path: '/stock/detailsLotBatch', name: t('nav.stock.lotBatch') }
-    //   ]
-    // },
+    { path: '/admin/dashboard', name: t('nav.dashboard'), icon: <LayoutDashboard size={20} /> },
+    { path: '/admin/setting', name: t('nav.setting'), icon: <Settings size={20} /> },
+    { path: '/admin/manage-permission', name: t('nav.manage-permission'), icon: <UserCog size={20} /> },
   ];
 
   // Render submenu items as separate icons when sidebar is collapsed

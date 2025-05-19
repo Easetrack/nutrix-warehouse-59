@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Package, ChevronDown } from 'lucide-react';
+import { LayoutDashboard, Package, Settings, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/stores/language/LanguageContext';
 import { useSidebar } from '@/components/ui/sidebar';
 import {
@@ -52,7 +53,7 @@ const SidebarMenuItems: React.FC = () => {
   const mainMenuItems: MenuItem[] = [
     {
       id: 'dashboard',
-      path: './dashboard',
+      path: '/client/dashboard',
       name: t('nav.dashboard'),
       icon: <LayoutDashboard size={20} />
     },
@@ -62,24 +63,24 @@ const SidebarMenuItems: React.FC = () => {
       icon: <Package size={20} />,
       hasSubmenu: true,
       submenuItems: [
-        { path: './stock/summary', name: t('nav.stock.summary') },
-        { path: './stock/detailsLot', name: t('nav.stock.lot') },
-        { path: './stock/detailsLotBatch', name: t('nav.stock.lotBatch') },
+        { path: '/client/stock/summary', name: t('nav.stock.summary') },
+        { path: '/client/stock/detailsLot', name: t('nav.stock.lot') },
+        { path: '/client/stock/detailsLotBatch', name: t('nav.stock.lotBatch') },
       ]
     },
     {
       id: 'settings',
       name: t('nav.setting'),
-      icon: <Package size={20} />,
+      icon: <Settings size={20} />,
       hasSubmenu: true,
       submenuItems: [
-        { path: './settings/product', name: t('nav.setting.product') },
-        { path: './settings/location', name: t('nav.setting.location') },
-        { path: './settings/department', name: t('nav.setting.department') },
-        { path: './settings/customer', name: t('nav.setting.customer') },
-        { path: './settings/vendor', name: t('nav.setting.vendor') },
-        { path: './settings/transaction-model', name: t('nav.setting.transaction-model') },
-        { path: './settings/lot-model', name: t('nav.setting.lot-model') },
+        { path: '/client/settings/product', name: t('nav.setting.product') },
+        { path: '/client/settings/location', name: t('nav.setting.location') },
+        { path: '/client/settings/department', name: t('nav.setting.department') },
+        { path: '/client/settings/customer', name: t('nav.setting.customer') },
+        { path: '/client/settings/vendor', name: t('nav.setting.vendor') },
+        { path: '/client/settings/transaction-model', name: t('nav.setting.transaction-model') },
+        { path: '/client/settings/lot-model', name: t('nav.setting.lot-model') },
       ]
     },
   ];
